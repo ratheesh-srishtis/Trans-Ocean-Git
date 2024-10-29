@@ -40,7 +40,7 @@ const Content = () => {
   }, []);
 
   return (
-    <div style={{ padding: "20px", flex: 1 }}>
+    
       <Routes>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/quotations" element={<Quotations />} />
@@ -61,7 +61,7 @@ const Content = () => {
           }
         />
       </Routes>
-    </div>
+  
   );
 };
 
