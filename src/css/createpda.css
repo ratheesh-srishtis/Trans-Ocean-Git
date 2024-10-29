@@ -2,11 +2,10 @@
 
 
 
-.main--content {
-    position: relative;
-    background: #EFEFEF;
+.pdacontent {
+    background: #efefef;
     width: 100%;
-    padding: 1rem;
+    padding: 20px;
 }
 
 
@@ -14,10 +13,7 @@
     text-align: start;
 }
 
-.main {
-    background-color: #119856;
-    padding: 50px;
-}
+
 
 .pdadate {
     display: flex;
@@ -37,6 +33,9 @@
     padding: 20px;
     border-radius: 10px;
 }
+.charge{
+    display:flex;
+}
 .pdanumber{
 display: flex;
 align-items: center;
@@ -53,6 +52,7 @@ align-items: center;
     background-color: #ffffff;
 }
 
+
 .draft {
     border-color: #007ac1;
     color: #007ac1;
@@ -61,7 +61,7 @@ align-items: center;
 }
 
 .book {
-    color: #007ac1
+    color: #007ac1;
 }
 
 .radio {
@@ -73,10 +73,11 @@ align-items: center;
     border-radius: 0.5em;
 }
 .vesselradio{
-margin-left:100px;
+margin-left:50px;
+margin-right:10px;
 }
 .vessel{
-margin-right: 150px;
+margin-right: 100px;
 }
 .vesselbox {
     padding-top: 15px;
@@ -87,7 +88,28 @@ margin-right: 150px;
     padding-top: 15px;
     padding-bottom: 15px;
 }
+.rectangle{
+    margin-top:25px;
+    background-color: #007ac1;
+    border: 3px dashed #007ac1;
+    border-radius: 50px;
+    width:1300px;
+    height:2px;
+   display:flex;
+   justify-content:center;
+   align-items: center;
+}
+.voyage{
+    padding-left:48px;
+    
+}
+.voyageblock{
+    width:240px;
+}
+.thirdrow{
+    display:flex;
 
+}
 .addcharge-button {
     background-color: #007ac1;
     width: 100%;
@@ -107,7 +129,24 @@ margin-right: 150px;
 .td {
     padding: 20px;
 }
-
+.grt{
+    padding-left:20px;
+}
+.nrt{
+    padding-left:55px;
+}
+.eta{
+    padding-left:30px;
+}
+.etd{
+    padding-left: 65px;
+}
+.btn:hover {
+    anchor-name: none;
+    color: white;
+    background-color:#007ac1;
+    border-color: #007ac1;
+}
 @media only screen and (max-width: 767px) {
 
     
