@@ -1,0 +1,94 @@
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { loginApi } from "../services.js/apiService";
+// Create the AuthContext
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+const AuthContext = createContext();
+
+export const AuthProvider = ({ children }) => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const [loginResponse, setLoginResponse] = useState(
+    JSON.parse(localStorage.getItem("loginResponse")) || null
+  ); // Initialize with saved loginResponse
+  const [error, setError] = useState(null);
+
+  // Check for token in localStorage on initial load
+  useEffect(() => {
+    const token = localStorage.getItem("transocean_token");
+    if (token) {
+      setIsAuthenticated(true); // Set authentication to true if token is found
+    }
+  }, []);
+
+  const login = async (username, password, rememberMe) => {
+    setLoading(true);
+    try {
+      try {
+        let loginData = {
+          username: username,
+          password: password,
+        };
+        const response = await loginApi(loginData);
+        console.log(response, "login_response");
+        if (response?.status == true) {
+          setLoginResponse(response);
+          localStorage.setItem("transocean_token", response.token);
+          localStorage.setItem("loginResponse", JSON.stringify(response)); // Save response to localStorage
+          toast.success("Logged in successfully!", {
+            position: "top-center",
+            autoClose: 2000,
+          });
+          setIsAuthenticated(true);
+          navigate("/dashboard");
+        } else {
+          toast.error("Login failed. Please try again", {
+            position: "top-center",
+            autoClose: 2000,
+          });
+        }
+      } catch (error) {
+        toast.error("Login failed. Please try again", {
+          position: "top-center",
+          autoClose: 2000,
+        });
+      } finally {
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+      toast.error("Login failed. Please try again", {
+        position: "top-center",
+        autoClose: 2000,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const logout = () => {
+    setIsAuthenticated(false);
+    localStorage.removeItem("transocean_token");
+    localStorage.removeItem("loginResponse"); // Clear login response on logout
+    navigate("/login");
+    toast.success("Logged out successfully!", {
+      position: "top-center",
+      autoClose: 2000,
+    });
+  };
+
+  useEffect(() => {
+    console.log(isAuthenticated, "isAuthenticated");
+  }, [isAuthenticated]);
+
+  return (
+    <AuthContext.Provider
+      value={{ isAuthenticated, login, logout, loading, loginResponse }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = () => useContext(AuthContext);
