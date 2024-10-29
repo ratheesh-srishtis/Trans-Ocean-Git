@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Sidebar from "./components/Sidebar";
-import Content from "./components/Content";
-import Header from "./components/Header";
 import Login from "./auth/Login";
 import PrivateRoute from "./protected/PrivateRoute";
 import { AuthProvider } from "./context/AuthContext";
@@ -10,6 +7,9 @@ import ErrorBoundary from "./error/ErrorBoundary";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getAllPdaValuesApi } from "./services.js/apiService";
+import Sidebar from "./views/Sidebar";
+import Header from "./views/Header";
+import Content from "./views/Content";
 const App = () => {
   // State variables for each select option
   const [vessels, setVessels] = useState([]);
