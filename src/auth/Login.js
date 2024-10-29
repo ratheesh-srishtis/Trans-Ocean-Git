@@ -8,6 +8,7 @@ import { forgotUserPassword } from "../services.js/apiService";
 const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
+  console.log("test");
 
   const Logo = require("../assets/images/LOGO.png");
   const Group = require("../assets/images/Group 1000002969.png");
