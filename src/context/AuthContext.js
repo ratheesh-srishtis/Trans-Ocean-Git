@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginApi } from "../services.js/apiService";
+import { loginApi } from "../services/apiService";
 // Create the AuthContext
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

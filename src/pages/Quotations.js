@@ -135,7 +135,7 @@ const Quotations = () => {
       </div>
 
       {/* Invoice Section */}
-      <div
+      {/* <div
         ref={invoiceRef}
         style={{
           padding: "20px",
@@ -239,7 +239,7 @@ const Quotations = () => {
         <div style={{ textAlign: "right", marginTop: "20px" }}>
           <h3>Total Amount: $323.4</h3>
         </div>
-      </div>
+      </div> */}
 
       <div style={{ textAlign: "center", marginTop: "20px" }}>
         <Button variant="contained" color="primary" onClick={handleGeneratePDF}>

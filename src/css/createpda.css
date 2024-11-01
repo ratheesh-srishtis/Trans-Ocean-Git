@@ -1,153 +1,145 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
-
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 .pdacontent {
-    background: #efefef;
-    width: 100%;
-    padding: 20px;
+  background: #efefef;
+  width: 100%;
+  padding: 20px;
 }
-
 
 .btn {
-    text-align: start;
+  text-align: start;
 }
 
-
-
 .pdadate {
-    display: flex;
+  display: flex;
 }
 
 .btn-color {
-    background-color: #007ac12d;
-    border-color: #007ac1fb;
+  background-color: #007ac12d;
+  border-color: #007ac1fb;
 }
 
 .badge-text {
-    color: #007ac1fb;
+  color: #007ac1fb;
 }
 
 .pda-no {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
 }
-.charge{
-    display:flex;
+.charge {
+  display: flex;
 }
-.pdanumber{
-display: flex;
-align-items: center;
+.pdanumber {
+  display: flex;
+  align-items: center;
 }
-.draft-pda{
-    display:flex;
-    justify-content: center;
-
+.draft-pda {
+  display: flex;
+  justify-content: center;
 }
-.pdafontweight{
-    margin-left:30px;
+.pdafontweight {
+  margin-left: 30px;
 }
 .back {
-    background-color: #ffffff;
+  background-color: #ffffff;
 }
 
-
 .draft {
-    border-color: #007ac1;
-    color: #007ac1;
-    background-color: #007ac11e;
-
+  border-color: #007ac1;
+  color: #007ac1;
+  background-color: #007ac11e;
 }
 
 .book {
-    color: #007ac1;
+  color: #007ac1;
 }
 
 .radio {
-    position: relative;
-    color: #000000;
-    cursor: pointer;
-    border: 1px solid #80808041;
-    padding: 1em 2em;
-    border-radius: 0.5em;
+  position: relative;
+  color: #000000;
+  cursor: pointer;
+  border: 1px solid #80808041;
+  padding: 1em 2em;
+  border-radius: 0.5em;
 }
-.vesselradio{
-margin-left:50px;
-margin-right:10px;
+.vesselradio {
+  margin-left: 50px;
+  margin-right: 10px;
 }
-.vessel{
-margin-right: 100px;
+.vessel {
+  margin-right: 100px;
 }
 .vesselbox {
-    padding-top: 15px;
-    padding-bottom: 15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 .vessel-voyage {
-    padding-top: 15px;
-    padding-bottom: 15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
-.rectangle{
-    margin-top:25px;
-    background-color: #007ac1;
-    border: 3px dashed #007ac1;
-    border-radius: 50px;
-    width:1300px;
-    height:2px;
-   display:flex;
-   justify-content:center;
-   align-items: center;
+.rectangle {
+  margin-top: 25px;
+  background-color: #007ac1;
+  border: 3px dashed #007ac1;
+  border-radius: 50px;
+  width: 1300px;
+  height: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.voyage{
-    padding-left:48px;
-    
+.voyage {
+  padding-left: 48px;
 }
-.voyageblock{
-    width:240px;
+.voyageblock {
+  width: 240px;
 }
-.thirdrow{
-    display:flex;
-
+.thirdrow {
+  display: flex;
 }
 .addcharge-button {
-    background-color: #007ac1;
-    width: 100%;
-    height: 100%;
-    padding-top: 13px;
-    padding-bottom: 13px;
-    margin-top: 30px;
-    text-align: center;
-    color: white;
-    font-size: larger;
+  background-color: #007ac1;
+  width: 100%;
+  height: 100%;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  margin-top: 30px;
+  text-align: center;
+  color: white;
+  font-size: larger;
 }
 
 .typesofcall-row {
-    margin-top: 30px;
+  margin-top: 30px;
 }
 
 .td {
-    padding: 20px;
+  padding: 20px;
 }
-.grt{
-    padding-left:20px;
+.grt {
+  padding-left: 20px;
 }
-.nrt{
-    padding-left:55px;
+.nrt {
+  padding-left: 55px;
 }
-.eta{
-    padding-left:30px;
+.eta {
+  padding-left: 30px;
 }
-.etd{
-    padding-left: 65px;
+.etd {
+  padding-left: 65px;
 }
 .btn:hover {
-    anchor-name: none;
-    color: white;
-    background-color:#007ac1;
-    border-color: #007ac1;
+  anchor-name: none;
+  color: white;
+  background-color: #007ac1;
+  border-color: #007ac1;
+}
+.date-input {
+  width: 240px !important;
+  height: 56px !important;
 }
 @media only screen and (max-width: 767px) {
-
-    
 }

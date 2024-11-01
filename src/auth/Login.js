@@ -4,7 +4,7 @@ import "../css/login.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { forgotUserPassword } from "../services.js/apiService";
+import { forgotUserPassword } from "../services/apiService";
 const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();

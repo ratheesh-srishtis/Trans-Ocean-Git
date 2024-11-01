@@ -1,42 +1,73 @@
+// apiService.js
 import axios from "axios";
 
-// Base URL for your API
-const API_URL = "https://your-backend-api.com";
+const BASE_URL = "https://hybrid.sicsglobal.com/transocean_api";
 
-// Create an axios instance for setting common config
-const api = axios.create({
-  baseURL: API_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
+// Create an instance of axios with default settings
+const axiosInstance = axios.create({
+  baseURL: BASE_URL,
 });
 
-// Login API call
-export const login = async (emailOrUsername, password, rememberMe) => {
-  try {
-    const response = await api.post("/login", {
-      emailOrUsername,
-      password,
-      rememberMe,
-    });
+// Add a request interceptor to include the token in the headers
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("transocean_token");
+    if (token) {
+      config.headers["x-access-token"] = token; // Set the token in the header
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
-    // Return the response data (for example, token or user details)
+// Login API function
+export const loginApi = async (loginData) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/login`, loginData);
+    if (response.data.status) {
+      // Store the token in localStorage if the login is successful
+      localStorage.setItem("transocean_token", response.data.token);
+    }
     return response.data;
   } catch (error) {
-    // Handle error here
-    console.error("Login error:", error.response?.data || error.message);
-    throw error; // Rethrow the error to handle it in the component
+    console.error("Login API Error:", error);
+    throw error;
   }
 };
 
-// Other API calls can be added here
-// Example for future API endpoints:
-// export const fetchUserData = async (userId) => {
-//   try {
-//     const response = await api.get(`/users/${userId}`);
-//     return response.data;
-//   } catch (error) {
-//     console.error('Error fetching user data:', error);
-//     throw error;
-//   }
-// };
+// Get All PDA Values API function
+export const getAllPdaValuesApi = async () => {
+  try {
+    const response = await axiosInstance.post("/getAllPdaValues");
+    return response.data;
+  } catch (error) {
+    console.error("Get All PDA Values API Error:", error);
+    throw error;
+  }
+};
+
+// forgotUserPassword api
+export const forgotUserPassword = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/forgotUserPassword", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+// Add more API functions here as needed
+
+// forgotUserPassword api
+export const getCharges = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/getCharges", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};

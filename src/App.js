@@ -6,7 +6,7 @@ import { AuthProvider } from "./context/AuthContext";
 import ErrorBoundary from "./error/ErrorBoundary";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getAllPdaValuesApi } from "./services.js/apiService";
+import { getAllPdaValuesApi } from "./services/apiService";
 import Sidebar from "./views/Sidebar";
 import Header from "./views/Header";
 import Content from "./views/Content";

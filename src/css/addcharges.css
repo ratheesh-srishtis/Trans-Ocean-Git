@@ -1,0 +1,130 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+.addcharges {
+  padding: 20px;
+}
+
+.headname {
+  font-size: 16px;
+  font-weight: bold;
+  font-style: italic;
+  padding-right: 20px;
+  margin-bottom: 15px;
+}
+
+.Callhead {
+  font-size: 16px;
+  font-weight: bold;
+  padding-right: 20px;
+  margin-bottom: 15px;
+}
+
+.rectangle {
+  margin-top: 15px;
+  background-color: #5c5c5c25;
+  border: 1px solid #cacaca25;
+  border-radius: 50px;
+  width: 1000px;
+  height: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.customerhead {
+  display: flex;
+}
+
+.remarks {
+  height: 50px;
+}
+
+.add-button {
+  background-color: #007ac1;
+  padding: 10px 20px 10px 20px;
+  color: white;
+  font-size: larger;
+}
+
+.firstfooter {
+  display: flex;
+  justify-content: center;
+}
+
+.pvendor {
+  margin-top: 10px;
+}
+
+.btn:hover {
+  color: #007ac1;
+  background-color: #007ac1;
+  border-color: #007ac1;
+}
+
+.tablehead {
+  background-color: #007ac1;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  /* margin-top: 20px; */
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+
+.marinehead {
+  font-size: medium;
+  font-weight: bold;
+}
+
+.subh {
+  margin-bottom: 10px;
+  margin-left: 70px;
+}
+
+.subheadremarks {
+  margin-top: 30px;
+  margin-left: 70px;
+}
+
+.subvalue {
+  margin-left: 10px;
+}
+
+.marineseperation {
+  border: 1px solid rgba(0, 0, 0, 0.158);
+}
+
+.marinetable {
+  border: 1px solid #007ac1;
+  margin-top: 30px;
+  border-radius: 12px;
+  padding-bottom: 30px;
+}
+
+.subhvendor {
+  margin-bottom: 10px;
+  margin-left: 70px;
+}
+
+.tablesep {
+  display: flex;
+}
+
+.cancel-button {
+  border-color: #007ac1;
+  padding: 10px 20px 10px 20px;
+  color: #007ac1;
+  font-size: larger;
+  margin: 20px;
+}
+
+.save-button {
+  background-color: #007ac1;
+  padding: 10px 20px 10px 20px;
+  color: #ffffff;
+  font-size: larger;
+  margin: 20px;
+}
+
+@media only screen and (max-width: 767px) {
+}

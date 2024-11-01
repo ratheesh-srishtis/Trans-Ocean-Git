@@ -7,7 +7,7 @@ import Payments from "../pages/Payments";
 import Soa from "../pages/Soa";
 import CreatePDA from "../pages/CreatePDA";
 import { useAuth } from "../context/AuthContext";
-import { getAllPdaValuesApi } from "../services.js/apiService";
+import { getAllPdaValuesApi } from "../services/apiService";
 const Content = () => {
   const { loginResponse } = useAuth();
 
@@ -40,28 +40,27 @@ const Content = () => {
   }, []);
 
   return (
-    
-      <Routes>
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/quotations" element={<Quotations />} />
-        <Route path="/jobs" element={<Jobs />} />
-        <Route path="/payments" element={<Payments />} />
-        <Route path="/soa" element={<Soa />} />
-        <Route
-          path="/create-pda"
-          element={
-            <CreatePDA
-              vessels={vessels}
-              ports={ports}
-              cargos={cargos}
-              vesselTypes={vesselTypes}
-              services={services}
-              customers={customers}
-            />
-          }
-        />
-      </Routes>
-  
+    <Routes>
+      <Route path="/" element={<Dashboard />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/quotations" element={<Quotations />} />
+      <Route path="/jobs" element={<Jobs />} />
+      <Route path="/payments" element={<Payments />} />
+      <Route path="/soa" element={<Soa />} />
+      <Route
+        path="/create-pda"
+        element={
+          <CreatePDA
+            vessels={vessels}
+            ports={ports}
+            cargos={cargos}
+            vesselTypes={vesselTypes}
+            services={services}
+            customers={customers}
+          />
+        }
+      />
+    </Routes>
   );
 };
 
