@@ -57,6 +57,7 @@ const Content = () => {
             vesselTypes={vesselTypes}
             services={services}
             customers={customers}
+            loginResponse={loginResponse}
           />
         }
       />

@@ -14,69 +14,69 @@ const Dashboard = () => {
 
   return (
     <div>
-      <div class="card-main">
-        <div class="d-flex justify-content-between mb-3">
-          <ul class="nav nav-underline">
-            <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="#">
+      <div className="card-main">
+        <div className="d-flex justify-content-between mb-3">
+          <ul className="nav nav-underline">
+            <li className="nav-item">
+              <a className="nav-link" aria-current="page" href="#">
                 Last 24 hour
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
+            <li className="nav-item">
+              <a className="nav-link" href="#">
                 Last Weeks
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
+            <li className="nav-item">
+              <a className="nav-link" href="#">
                 Last Month
               </a>
             </li>
-            <li class="nav-item">
-              <h6 class="nav-link" href="#">
+            <li className="nav-item">
+              <h6 className="nav-link" href="#">
                 Last Year
               </h6>
             </li>
           </ul>
           <button
             type="button"
-            class="btn btn-primary"
+            className="btn btn-primary"
             onClick={() => handleNavigation()}
           >
             Create New PDA
           </button>
         </div>
-        <div class="row">
-          <div class="col-3">
-            <div class="dashboard_cards received-quot">
-              <img class="img-size" src={img_2} />
-              <h3 class="card_count"> 32</h3>
-              <h5 class="card_title">Received Quotation</h5>
-              <span class="card_subtitle">-5% From Last Week</span>
+        <div className="row">
+          <div className="col-3">
+            <div className="dashboard_cards received-quot">
+              <img className="img-size" src={img_2} />
+              <h3 className="card_count"> 32</h3>
+              <h5 className="card_title">Received Quotation</h5>
+              <span className="card_subtitle">-5% From Last Week</span>
             </div>
           </div>
-          <div class="col-3">
-            <div class="dashboard_cards pending-quot">
-              <img class="img-size" src={img_3} />
-              <h3 class="card_count"> 32</h3>
-              <h5 class="card_title">Received Quotation</h5>
-              <span class="card_subtitle">-5% From Last Week</span>
+          <div className="col-3">
+            <div className="dashboard_cards pending-quot">
+              <img className="img-size" src={img_3} />
+              <h3 className="card_count"> 32</h3>
+              <h5 className="card_title">Received Quotation</h5>
+              <span className="card_subtitle">-5% From Last Week</span>
             </div>
           </div>
-          <div class="col-3">
-            <div class="dashboard_cards approved-quot">
-              <img class="img-size" src={img_4} />
-              <h3 class="card_count"> 32</h3>
-              <h5 class="card_title">Received Quotation</h5>
-              <span class="card_subtitle">-5% From Last Week</span>
+          <div className="col-3">
+            <div className="dashboard_cards approved-quot">
+              <img className="img-size" src={img_4} />
+              <h3 className="card_count"> 32</h3>
+              <h5 className="card_title">Received Quotation</h5>
+              <span className="card_subtitle">-5% From Last Week</span>
             </div>
           </div>
-          <div class="col-3">
-            <div class="dashboard_cards ops">
-              <img class="img-size" src={img_1} />
-              <h3 class="card_count"> 32</h3>
-              <h5 class="card_title">Received Quotation</h5>
-              <span class="card_subtitle">-5% From Last Week</span>
+          <div className="col-3">
+            <div className="dashboard_cards ops">
+              <img className="img-size" src={img_1} />
+              <h3 className="card_count"> 32</h3>
+              <h5 className="card_title">Received Quotation</h5>
+              <span className="card_subtitle">-5% From Last Week</span>
             </div>
           </div>
         </div>

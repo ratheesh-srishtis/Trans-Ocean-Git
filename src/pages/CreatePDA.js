@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "../css/createpda.css";
-import { getCharges } from "../services/apiService";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_green.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ResponsiveDialog from "./ResponsiveDialog";
+import ChargesTable from "./ChargesTable";
+import { savePda, changeQuotationStatus } from "../services/apiService";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const CreatePDA = ({
   vessels,
   ports,
@@ -13,16 +16,23 @@ const CreatePDA = ({
   vesselTypes,
   services,
   customers,
+  loginResponse,
 }) => {
   const Group = require("../assets/images/Group 1000002975.png");
   const [selectedVessel, setSelectedVessel] = useState(null);
   const [selectedPort, setSelectedPort] = useState(null);
   const [selectedCargo, setSelectedCargo] = useState(null);
   const [selectedVesselType, setSelectedVesselType] = useState(null);
-  const [selectedService, setSelectedService] = useState(null);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [eta, setEta] = useState("");
   const [etd, setEtd] = useState("");
+  const [status, setStatus] = useState(1);
+  const [chargesArray, setChargesArray] = useState([]);
+  const [isEditcharge, setIsEditcharge] = useState(false);
+  const [editCharge, setEditCharge] = useState(null);
+  const [editIndex, setEditIndex] = useState(null);
+  const [pdaResponse, setPdaResponse] = useState(null);
+
   const [formData, setFormData] = useState({
     vessel: null,
     port: null,
@@ -54,22 +64,8 @@ const CreatePDA = ({
   console.log(ports, "ports");
   console.log(cargos, "cargos");
   console.log(vesselTypes, "vesselTypes");
-  console.log(services, "services");
   console.log(customers, "customers");
-  useEffect(() => {
-    const fetchCharges = async () => {
-      try {
-        const response = await getCharges({
-          serviceid: "671a61633b3ccd8450292ef7",
-        });
-        console.log("Fetched Charges:", response);
-      } catch (error) {
-        console.error("Error fetching PDA values:", error);
-      }
-    };
-
-    fetchCharges();
-  }, []);
+  console.log(loginResponse, "loginResponse");
 
   // Handle select change
   const handleSelectChange = (event) => {
@@ -87,8 +83,6 @@ const CreatePDA = ({
       case "vesselType":
         setSelectedVesselType(vesselTypes.find((type) => type._id === value));
         break;
-      case "service":
-        setSelectedService(services.find((service) => service._id === value));
         break;
       case "customer":
         setSelectedCustomer(
@@ -122,60 +116,6 @@ const CreatePDA = ({
       setEtd(formattedDate);
     }
   };
-  const submitPda = (date) => {
-    let pdaPayload = {
-      isvessels: isVessels,
-      isservices: isServices,
-      vesselid: "671a62f13b3ccd845029310b",
-      portid: "671a5f6c3b3ccd8450292c58",
-      cargoid: "671a5c283b3ccd845029259e",
-      vesseltypeid: "671a60013b3ccd8450292d23",
-      customerid: "671a5d713b3ccd8450292985",
-      userid: "671a40963b3ccd845028dc0c",
-      vesselvoyagenumber: "fed454",
-      imonumber: 5507891,
-      loa: 300.54,
-      grt: 30363,
-      nrt: 17963,
-      eta: "2024-10-25",
-      etd: "2024-10-31",
-      status: 1,
-      charges: [
-        {
-          serviceid: "671a61633b3ccd8450292ef7",
-          chargeid: "6720d9923b3ccd8450308bce",
-          subchargeid: "6720db4c3b3ccd8450308e9c",
-          quantity: "per day",
-          customerid: "671a5d713b3ccd8450292985",
-          customeramount: 200,
-          customervat: 50,
-          customerusd: 25,
-          vendorid: "671a5f6c3b3ccd8450292c58",
-          vendoramount: 200,
-          vendorvat: 50,
-          vendorusd: 25,
-          isPrivateVendor: false,
-          remark: "ndshhsdk djkshusdg",
-        },
-        {
-          serviceid: "671a61633b3ccd8450292ef7",
-          chargeid: "6720d9923b3ccd8450308bce",
-          subchargeid: "6720db7c3b3ccd8450308edc",
-          quantity: "per day",
-          customerid: "671a5d713b3ccd8450292985",
-          customeramount: 200,
-          customervat: 50,
-          customerusd: 25,
-          vendorid: "671a5f6c3b3ccd8450292c58",
-          vendoramount: 200,
-          vendorvat: 50,
-          vendorusd: 25,
-          isPrivateVendor: false,
-          remark: "assaas djkoooishusdg",
-        },
-      ],
-    };
-  };
 
   const formatDateTime = (date) => {
     const year = date.getUTCFullYear();
@@ -194,7 +134,6 @@ const CreatePDA = ({
     console.log(selectedVessel, "selectedVessel");
     console.log(selectedCargo, "selectedCargo");
     console.log(selectedVesselType, "selectedVesselType");
-    console.log(selectedService, "selectedService");
     console.log(selectedCustomer, "selectedCustomer");
     console.log(isVessels, "isVessels");
     console.log(isServices, "isServices");
@@ -205,7 +144,6 @@ const CreatePDA = ({
     selectedPort,
     selectedVessel,
     selectedCargo,
-    selectedService,
     selectedVesselType,
     selectedCustomer,
     isVessels,
@@ -225,62 +163,201 @@ const CreatePDA = ({
     setOpen(false);
   };
 
-  const handleSubmit = (formData) => {
-    console.log("Form Data Submitted: ", formData);
+  const handleSubmit = (chargesArray) => {
+    console.log("chargesArray Submitted: ", chargesArray);
     // Here you can add logic to handle form submission
+    setChargesArray(chargesArray);
+    handleClose();
+  };
+
+  const handleEdit = (charges, index) => {
+    console.log("edit_charges: ", charges);
+    setIsEditcharge(true);
+    setEditCharge(charges);
+    setEditIndex(index);
+    handleClickOpen();
+  };
+
+  const openDialog = () => {
+    setIsEditcharge(false);
+    handleClickOpen();
+  };
+
+  const submitPda = async (status) => {
+    setStatus(Number(status));
+    let pdaPayload = {
+      isvessels: isVessels,
+      isservices: isServices,
+      vesselid: selectedVessel?._id,
+      portid: selectedPort?._id,
+      cargoid: selectedCargo?._id,
+      vesseltypeid: "671a60013b3ccd8450292d23",
+      customerid: selectedVesselType?._id,
+      userid: loginResponse?.data?._id,
+      vesselvoyagenumber: Number(formData?.vesselVoyageNo),
+      imonumber: Number(formData?.imoNo),
+      loa: Number(formData?.loa),
+      grt: Number(formData?.grt),
+      nrt: Number(formData?.nrt),
+      eta: eta,
+      etd: etd,
+      status: status,
+      charges: chargesArray,
+    };
+    try {
+      const response = await savePda(pdaPayload);
+      console.log(response, "login_response");
+      if (response?.status == true) {
+        setPdaResponse(response?.pda);
+        toast.success("PDA saved successfully!", {
+          position: "top-center",
+          autoClose: 2000,
+        });
+      } else {
+        toast.error("PDA failed. Please try again", {
+          position: "top-center",
+          autoClose: 2000,
+        });
+      }
+    } catch (error) {
+      toast.error("PDA failed. Please try again", {
+        position: "top-center",
+        autoClose: 2000,
+      });
+    } finally {
+    }
+  };
+
+  const updateQuotation = async (status) => {
+    let pdaPayload = {
+      pdaid: pdaResponse?._id,
+      status: status,
+    };
+    try {
+      const response = await changeQuotationStatus(pdaPayload);
+      console.log(response, "login_response");
+      if (response?.status == true) {
+        setPdaResponse(response?.pda);
+        toast.success("PDA Updated successfully!", {
+          position: "top-center",
+          autoClose: 2000,
+        });
+      } else {
+        toast.error("PDA failed. Please try again", {
+          position: "top-center",
+          autoClose: 2000,
+        });
+      }
+    } catch (error) {
+      toast.error("PDA failed. Please try again", {
+        position: "top-center",
+        autoClose: 2000,
+      });
+    } finally {
+    }
+  };
+
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      alert("If you reload, your changes may not be saved.");
+
+      event.preventDefault();
+      event.returnValue = "";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
+  useEffect(() => {
+    console.log(pdaResponse, "pdaResponse");
+  }, [pdaResponse]);
+
+  // Function to format the date
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0"); // Add leading zero if needed
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
   };
 
   return (
     <>
-      <div class="pdacontent">
-        <div class=" pda-no ">
-          <div class="row justify-content-start ">
-            <div class="col-2 pdanumber ">
-              <span> PDA No:</span>
-              <span class="fw-bolder pdafontweight">2024001</span>
-            </div>
-            <div class="col-2 d-flex justify-content-start back">
-              <div class="pdadate">
-                <label for="inputPassword" class="col-sm-4 col-form-label">
-                  PDA Date:
-                </label>
-                <div class="col-sm-8">
-                  {/* <Flatpickr
+      <div className="pdacontent">
+        <div className=" pda-no ">
+          {pdaResponse && (
+            <>
+              <div className="row justify-content-start ">
+                <div className="col-2 pdanumber ">
+                  <span> PDA No:</span>
+                  <span className="fw-bolder pdafontweight">
+                    {pdaResponse?.pdaNumber}
+                  </span>
+                </div>
+                <div className="col-2 d-flex justify-content-start back">
+                  <div className="pdadate">
+                    <label
+                      for="inputPassword"
+                      className="col-sm-4 col-form-label"
+                    >
+                      PDA Date:
+                    </label>
+                    <div className="col-sm-8">
+                      {/* <Flatpickr
                     data-enable-time
                     value={date}
                     onChange={(selectedDates) => setDate(selectedDates[0])}
                     options={{ dateFormat: "Y-m-d H:i" }}
                   /> */}
-                  <input
-                    type="password"
-                    class="form-control"
-                    placeholder="25/09/2024"
-                    id="inputPassword"
-                  />
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="PDA Date"
+                        value={
+                          pdaResponse?.createdAt
+                            ? formatDate(pdaResponse.createdAt)
+                            : ""
+                        } // Format date if available
+                        disabled
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="col-2 draft-pda ">
+                  <button type="button" className="btn draft">
+                    <span className="badge ">
+                      <i className="bi bi-book-fill book"></i>{" "}
+                    </span>{" "}
+                    {pdaResponse?.pdaStatus == 1
+                      ? "Draft PDA"
+                      : pdaResponse?.pdaStatus == 2
+                      ? "Waiting For Approval From Finance Manager"
+                      : ""}
+                    {/* Internally Approved
+                    Customer Approved
+                    Rejected By Finance Manager */}
+                  </button>
                 </div>
               </div>
-            </div>
-            <div class="col-2 draft-pda ">
-              <button type="button" class="btn draft">
-                <span class="badge ">
-                  <i class="bi bi-book-fill book"></i>{" "}
-                </span>{" "}
-                Draft PDA
-              </button>
-            </div>
-          </div>
-          <div class="charge">
-            <div class="rectangle"></div>
+            </>
+          )}
+
+          <div className="charge">
+            <div className="rectangle"></div>
             <img src={Group}></img>
           </div>
-          <div class="typesofcall-row ">
-            <div class="row align-items-start">
-              <div class="col">
-                <div class="mb-3">
-                  <label for="exampleFormControlInput1" class="form-label">
+          <div className="typesofcall-row ">
+            <div className="row align-items-start">
+              <div className="col">
+                <div className="mb-3">
+                  <label for="exampleFormControlInput1" className="form-label">
                     Types of Call
                   </label>
-                  <div class="radio gap-3">
+                  <div className="radio gap-3">
                     <div>
                       <input
                         type="checkbox"
@@ -307,11 +384,11 @@ const CreatePDA = ({
                   </div>
                 </div>
               </div>
-              <div class="col">
-                <label for="exampleFormControlInput1" class="form-label">
+              <div className="col">
+                <label for="exampleFormControlInput1" className="form-label">
                   Vessel Name*:
                 </label>
-                <div class="vessel-select">
+                <div className="vessel-select">
                   <select
                     name="vessel"
                     className="form-select vesselbox"
@@ -327,11 +404,11 @@ const CreatePDA = ({
                   </select>
                 </div>
               </div>
-              <div class="col">
-                <label for="exampleFormControlInput1" class="form-label">
+              <div className="col">
+                <label for="exampleFormControlInput1" className="form-label">
                   Port Name*:
                 </label>
-                <div class="vessel-select">
+                <div className="vessel-select">
                   <select
                     name="port"
                     className="form-select vesselbox"
@@ -349,14 +426,14 @@ const CreatePDA = ({
               </div>
             </div>
           </div>
-          <div class="choosecargo-row ">
-            <div class="row align-items-start">
-              <div class="col">
-                <div class="mb-3">
-                  <label for="exampleFormControlInput1" class="form-label">
+          <div className="choosecargo-row ">
+            <div className="row align-items-start">
+              <div className="col">
+                <div className="mb-3">
+                  <label for="exampleFormControlInput1" className="form-label">
                     Cargo
                   </label>
-                  <div class="vessel-select">
+                  <div className="vessel-select">
                     <select
                       name="cargo"
                       className="form-select vesselbox"
@@ -373,11 +450,11 @@ const CreatePDA = ({
                   </div>
                 </div>
               </div>
-              <div class="col">
-                <label for="exampleFormControlInput1" class="form-label">
+              <div className="col">
+                <label for="exampleFormControlInput1" className="form-label">
                   Type of Vessel:
                 </label>
-                <div class="vessel-select">
+                <div className="vessel-select">
                   <select
                     name="vesselType"
                     className="form-select vesselbox"
@@ -387,20 +464,20 @@ const CreatePDA = ({
                     <option value="">Choose Type of Vessel</option>
                     {vesselTypes.map((vessel) => (
                       <option key={vessel._id} value={vessel._id}>
-                        {vessel.vesselName}
+                        {vessel.vesselType}
                       </option>
                     ))}
                   </select>
                 </div>
               </div>
-              <div class="col">
-                <label for="exampleFormControlInput1" class="form-label">
+              <div className="col">
+                <label for="exampleFormControlInput1" className="form-label">
                   Vessel Voyage No:
                 </label>
                 <input
                   name="vesselVoyageNo"
                   type="number"
-                  class="form-control vessel-voyage"
+                  className="form-control vessel-voyage"
                   id="exampleFormControlInput1"
                   placeholder=""
                   value={formData.vesselVoyageNo}
@@ -409,11 +486,11 @@ const CreatePDA = ({
               </div>
             </div>
           </div>
-          <div class="thirdrow mb-3">
-            <div class="col-4">
-              <div class="row">
-                <div class="col-5">
-                  <label for="exampleFormControlInput1" class="form-label">
+          <div className="thirdrow mb-3">
+            <div className="col-4">
+              <div className="row">
+                <div className="col-5">
+                  <label for="exampleFormControlInput1" className="form-label">
                     IMO No:
                   </label>
                   <input
@@ -421,13 +498,13 @@ const CreatePDA = ({
                     name="imoNo"
                     value={formData.imoNo}
                     onChange={handleInputChange}
-                    class="form-control vessel-voyage voyageblock"
+                    className="form-control vessel-voyage voyageblock"
                     id="exampleFormControlInput1"
                     placeholder=""
                   />
                 </div>
-                <div class="col-5 voyage ">
-                  <label for="exampleFormControlInput1" class="form-label">
+                <div className="col-5 voyage ">
+                  <label for="exampleFormControlInput1" className="form-label">
                     LOA:
                   </label>
                   <input
@@ -435,17 +512,17 @@ const CreatePDA = ({
                     name="loa"
                     value={formData.loa}
                     onChange={handleInputChange}
-                    class="form-control vessel-voyage voyageblock"
+                    className="form-control vessel-voyage voyageblock"
                     id="exampleFormControlInput1"
                     placeholder=""
                   />
                 </div>
               </div>
             </div>
-            <div class="col-4">
-              <div class="row">
-                <div class="col-5 grt">
-                  <label for="exampleFormControlInput1" class="form-label">
+            <div className="col-4">
+              <div className="row">
+                <div className="col-5 grt">
+                  <label for="exampleFormControlInput1" className="form-label">
                     GRT:
                   </label>
                   <input
@@ -453,13 +530,13 @@ const CreatePDA = ({
                     name="grt"
                     value={formData.grt}
                     onChange={handleInputChange}
-                    class="form-control vessel-voyage voyageblock"
+                    className="form-control vessel-voyage voyageblock"
                     id="exampleFormControlInput1"
                     placeholder=""
                   />
                 </div>
-                <div class="col-5 nrt ">
-                  <label for="exampleFormControlInput1" class="form-label">
+                <div className="col-5 nrt ">
+                  <label for="exampleFormControlInput1" className="form-label">
                     NRT:
                   </label>
                   <input
@@ -467,17 +544,17 @@ const CreatePDA = ({
                     name="nrt"
                     value={formData.nrt}
                     onChange={handleInputChange}
-                    class="form-control vessel-voyage voyageblock"
+                    className="form-control vessel-voyage voyageblock"
                     id="exampleFormControlInput1"
                     placeholder=""
                   />
                 </div>
               </div>
             </div>
-            <div class="col-4">
-              <div class="row">
-                <div class="col-5 eta">
-                  <label for="exampleFormControlInput1" class="form-label">
+            <div className="col-4">
+              <div className="row">
+                <div className="col-5 eta">
+                  <label for="exampleFormControlInput1" className="form-label">
                     ETA:
                   </label>
                   <DatePicker
@@ -492,8 +569,8 @@ const CreatePDA = ({
                     placeholderText="Select ETA"
                   />
                 </div>
-                <div class="col-5 etd ">
-                  <label for="exampleFormControlInput1" class="form-label">
+                <div className="col-5 etd ">
+                  <label for="exampleFormControlInput1" className="form-label">
                     ETD:
                   </label>
                   <DatePicker
@@ -512,14 +589,14 @@ const CreatePDA = ({
             </div>
           </div>
 
-          <div class="imo">
-            <div class="row align-items-start">
-              <div class="col-5">
-                <div class="mb-3">
-                  <label for="exampleFormControlInput1" class="form-label">
+          <div className="imo">
+            <div className="row align-items-start">
+              {/* <div className="col-5">
+                <div className="mb-3">
+                  <label for="exampleFormControlInput1" className="form-label">
                     Services
                   </label>
-                  <div class="vessel-select">
+                  <div className="vessel-select">
                     <select
                       name="service"
                       className="form-select vesselbox"
@@ -535,12 +612,12 @@ const CreatePDA = ({
                     </select>
                   </div>
                 </div>
-              </div>
-              <div class="col-5">
-                <label for="exampleFormControlInput1" class="form-label">
+              </div> */}
+              <div className="col-5">
+                <label for="exampleFormControlInput1" className="form-label">
                   Customer Name:
                 </label>
-                <div class="vessel-select">
+                <div className="vessel-select">
                   <select
                     name="customer"
                     className="form-select vesselbox"
@@ -556,14 +633,30 @@ const CreatePDA = ({
                   </select>
                 </div>
               </div>
-              <div class="col-2">
+              <div className="col-2">
                 <button
                   type="button"
-                  class="btn addcharge-button"
-                  onClick={handleClickOpen}
+                  className="btn addcharge-button"
+                  onClick={() => {
+                    openDialog();
+                  }}
                 >
                   Add charge
                 </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="charges-table">
+            <div className="row mt-5">
+              <div className="col-lg-12">
+                <ChargesTable
+                  chargesArray={chargesArray}
+                  services={services}
+                  customers={customers}
+                  ports={ports}
+                  onEdit={handleEdit}
+                />
               </div>
             </div>
           </div>
@@ -574,7 +667,67 @@ const CreatePDA = ({
         open={open}
         onClose={handleClose}
         onSubmit={handleSubmit}
+        selectedVessel={selectedVessel}
+        selectedPort={selectedPort}
+        selectedCargo={selectedCargo}
+        selectedVesselType={selectedVesselType}
+        selectedCustomer={selectedCustomer}
+        eta={eta}
+        etd={etd}
+        status={status}
+        formData={formData}
+        services={services}
+        customers={customers}
+        ports={ports}
+        isEditcharge={isEditcharge}
+        editCharge={editCharge}
+        editIndex={editIndex}
       />
+
+      <button className="btn btn-primary">Generate PDA</button>
+
+      {status == 1 && (
+        <>
+          <button
+            className="btn btn-primary"
+            onClick={() => {
+              submitPda("2");
+            }}
+          >
+            Save As Draft
+          </button>
+        </>
+      )}
+
+      <button
+        className="btn btn-primary"
+        onClick={() => {
+          submitPda("2");
+        }}
+      >
+        Submit
+      </button>
+
+      {status == 2 && (
+        <>
+          <button
+            className="btn btn-primary"
+            onClick={() => {
+              updateQuotation("3");
+            }}
+          >
+            Approve
+          </button>
+          <button
+            className="btn btn-primary"
+            onClick={() => {
+              updateQuotation("4");
+            }}
+          >
+            Reject
+          </button>
+        </>
+      )}
     </>
   );
 };

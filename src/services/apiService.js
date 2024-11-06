@@ -61,10 +61,42 @@ export const forgotUserPassword = async (userData) => {
 
 // Add more API functions here as needed
 
-// forgotUserPassword api
 export const getCharges = async (userData) => {
   try {
     const response = await axiosInstance.post("/getCharges", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+export const getSubcharges = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/getSubcharges", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+export const savePda = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/savePda", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+export const changeQuotationStatus = async (userData) => {
+  try {
+    const response = await axiosInstance.post(
+      "/changeQuotationStatus",
+      userData
+    );
     return response.data;
   } catch (error) {
     console.error("Error:", error);
