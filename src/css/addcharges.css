@@ -20,19 +20,41 @@
 }
 
 .rectangle {
-  margin-top: 15px;
+  margin-top: 27;
   background-color: #5c5c5c25;
   border: 1px solid #cacaca25;
   border-radius: 50px;
-  width: 1000px;
+  width: 1315px;
   height: 2px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+.customerrectangle{
+  border: 1px solid #5c5c5c25;
+  border-radius: 50px;
+  width: 900px;
+  height: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 12px;
+}
 
 .customerhead {
   display: flex;
+}
+.editicon{
+  color: #007ac1;
+  margin-left:15px;
+  cursor: pointer;
+
+
+}
+.deleteicon{
+  color:red;
+  cursor: pointer;
+
 }
 
 .remarks {
@@ -57,7 +79,7 @@
 
 .btn:hover {
   color: #007ac1;
-  background-color: #007ac1;
+  background-color: #ffffff;
   border-color: #007ac1;
 }
 

@@ -37,15 +37,16 @@
 .table {
   margin-bottom: 30px;
 }
+
 .btn:hover {
   color: #007ac1;
-  background-color: #007ac1;
+  background-color: #ffffff;
   border-color: #007ac1;
 }
 .firstfooter {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  /* margin-top: 20px; */
 }
 .add-button {
   background-color: #007ac1;
