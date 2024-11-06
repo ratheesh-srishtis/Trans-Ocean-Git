@@ -563,7 +563,7 @@ const ResponsiveDialog = ({
 
                   <div className="customerhead">
                     <div className="headname">Customer Charges</div>
-                    <div className="rectangle"></div>
+                    <div className="customerrectangle"></div>
                   </div>
                   <div className="row ">
                     <div className="row align-items-start">
@@ -683,7 +683,7 @@ const ResponsiveDialog = ({
                   </div>
                   <div className="customerhead">
                     <div className="headname">Vendor Charges</div>
-                    <div className="rectangle"></div>
+                    <div className="customerrectangle"></div>
                   </div>
                   <div className="row ">
                     <div className="row align-items-start">

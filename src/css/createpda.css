@@ -81,11 +81,11 @@
   padding-bottom: 15px;
 }
 .rectangle {
-  margin-top: 25px;
+  margin-top: 27px;
   background-color: #007ac1;
   border: 3px dashed #007ac1;
   border-radius: 50px;
-  width: 1300px;
+  width: 1315px;
   height: 2px;
   display: flex;
   justify-content: center;
@@ -111,6 +111,14 @@
   color: white;
   font-size: larger;
 }
+.btna{
+  background-color: #007ac1;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  text-align: center;
+  color: white;
+  margin-right:20px
+}
 
 .typesofcall-row {
   margin-top: 30px;
@@ -134,7 +142,7 @@
 .btn:hover {
   anchor-name: none;
   color: white;
-  background-color: #007ac1;
+  background-color: #ffffff;
   border-color: #007ac1;
 }
 .date-input {

@@ -327,7 +327,7 @@ const CreatePDA = ({
                     </div>
                   </div>
                 </div>
-                <div className="col-2 draft-pda ">
+                <div className="col-4 draft-pda ">
                   <button type="button" className="btn draft">
                     <span className="badge ">
                       <i className="bi bi-book-fill book"></i>{" "}
@@ -335,8 +335,8 @@ const CreatePDA = ({
                     {pdaResponse?.pdaStatus == 1
                       ? "Draft PDA"
                       : pdaResponse?.pdaStatus == 2
-                      ? "Waiting For Approval From Finance Manager"
-                      : ""}
+                        ? "Waiting For Approval From Finance Manager"
+                        : ""}
                     {/* Internally Approved
                     Customer Approved
                     Rejected By Finance Manager */}
@@ -660,6 +660,50 @@ const CreatePDA = ({
               </div>
             </div>
           </div>
+          <button className="btn btna">Generate PDA</button>
+
+          {status == 1 && (
+            <>
+              <button
+                className="btn btna"
+                onClick={() => {
+                  submitPda("2");
+                }}
+              >
+                Save As Draft
+              </button>
+            </>
+          )}
+
+          <button
+            className="btn btna"
+            onClick={() => {
+              submitPda("2");
+            }}
+          >
+            Submit
+          </button>
+
+          {status == 2 && (
+            <>
+              <button
+                className="btn btna"
+                onClick={() => {
+                  updateQuotation("3");
+                }}
+              >
+                Approve
+              </button>
+              <button
+                className="btn btna"
+                onClick={() => {
+                  updateQuotation("4");
+                }}
+              >
+                Reject
+              </button>
+            </>
+          )}
         </div>
       </div>
 
@@ -684,50 +728,7 @@ const CreatePDA = ({
         editIndex={editIndex}
       />
 
-      <button className="btn btn-primary">Generate PDA</button>
 
-      {status == 1 && (
-        <>
-          <button
-            className="btn btn-primary"
-            onClick={() => {
-              submitPda("2");
-            }}
-          >
-            Save As Draft
-          </button>
-        </>
-      )}
-
-      <button
-        className="btn btn-primary"
-        onClick={() => {
-          submitPda("2");
-        }}
-      >
-        Submit
-      </button>
-
-      {status == 2 && (
-        <>
-          <button
-            className="btn btn-primary"
-            onClick={() => {
-              updateQuotation("3");
-            }}
-          >
-            Approve
-          </button>
-          <button
-            className="btn btn-primary"
-            onClick={() => {
-              updateQuotation("4");
-            }}
-          >
-            Reject
-          </button>
-        </>
-      )}
     </>
   );
 };

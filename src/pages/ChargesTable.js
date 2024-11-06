@@ -154,18 +154,9 @@ const ChargesTable = ({ chargesArray, services, ports, customers, onEdit }) => {
                 <td>{charge.customerusd}</td>
                 <td>
                   {/* Edit and Delete Buttons */}
-                  <button
-                    onClick={() => handleEdit(charge, index)}
-                    className="btn btn-primary btn-sm"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(charge, index)}
-                    className="btn btn-danger btn-sm"
-                  >
-                    Delete
-                  </button>
+
+                  <i class="bi bi-pencil-square editicon" onClick={() => handleEdit(charge, index)}> </i> 
+                  <i class="bi bi-trash deleteicon"  onClick={() => handleDelete(charge, index)}></i>
                 </td>
               </tr>
             ))}
