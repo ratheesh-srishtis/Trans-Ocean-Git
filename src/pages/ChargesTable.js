@@ -13,13 +13,15 @@ const ChargesTable = ({ chargesArray, services, ports, customers, onEdit }) => {
   const totalValues = chargesArray.reduce(
     (totals, charge) => {
       totals.quantity += parseInt(charge.quantity);
-      totals.customeramount += parseFloat(charge.customeramount);
-      totals.customervat += parseFloat(charge.customervat);
-      totals.customerusd += parseFloat(charge.customerusd);
+      totals.customerOMR += parseFloat(charge.customerOMR);
+      totals.customerVAT += parseFloat(charge.customerVAT);
+      totals.customerTotalUSD += parseFloat(charge.customerTotalUSD);
       return totals;
     },
-    { quantity: 0, customeramount: 0, customervat: 0, customerusd: 0 }
+    { quantity: 0, customerOMR: 0, customerVAT: 0, customerTotalUSD: 0 }
   );
+
+  console.log(totalValues, "totalValues");
 
   const handleRowClick = (charge) => {
     console.log(charge);
@@ -29,7 +31,7 @@ const ChargesTable = ({ chargesArray, services, ports, customers, onEdit }) => {
     if (!fetchedCharges.has(id)) {
       try {
         const response = await getCharges({
-          serviceid: id,
+          serviceId: id,
         });
         setCharges((prev) => [...prev, ...response?.charges]);
         setFetchedCharges((prev) => new Set(prev).add(id));
@@ -44,7 +46,7 @@ const ChargesTable = ({ chargesArray, services, ports, customers, onEdit }) => {
     if (!fetchedSubCharges.has(id)) {
       try {
         const response = await getSubcharges({
-          chargeid: id,
+          chargeId: id,
         });
         setSubCharges((prev) => [...prev, ...response?.subcharges]);
         setFetchedSubCharges((prev) => new Set(prev).add(id));
@@ -128,35 +130,43 @@ const ChargesTable = ({ chargesArray, services, ports, customers, onEdit }) => {
               <tr key={index} onClick={() => handleRowClick(charge)}>
                 <td>{index + 1}</td>
                 <td>
-                  {charge.serviceid
-                    ? getItemName(charge.serviceid, "service")
+                  {charge.serviceId
+                    ? getItemName(charge.serviceId, "service")
                     : ""}
                 </td>
                 <td>
-                  {charge.chargeid
-                    ? getItemName(charge.chargeid, "chargeType")
+                  {charge.chargeId
+                    ? getItemName(charge.chargeId, "chargeType")
                     : ""}
                 </td>
                 <td>
-                  {charge.subchargeid
-                    ? getItemName(charge.subchargeid, "subChargeType")
+                  {charge.subchargeId
+                    ? getItemName(charge.subchargeId, "subChargeType")
                     : ""}
                 </td>
                 <td>{charge.quantity}</td>
-                <td>{charge.customeramount}</td>
-                <td>{charge.customervat}</td>
+                <td>{charge.customerOMR}</td>
+                <td>{charge.customerVAT}</td>
                 <td>
                   {(
-                    parseFloat(charge.customeramount) +
-                    parseFloat(charge.customervat)
-                  ).toFixed(2)}
+                    parseFloat(charge.customerOMR) +
+                    parseFloat(charge.customerVAT)
+                  )?.toFixed(2)}
                 </td>
-                <td>{charge.customerusd}</td>
+                <td>{charge.customerTotalUSD}</td>
                 <td>
                   {/* Edit and Delete Buttons */}
 
-                  <i class="bi bi-pencil-square editicon" onClick={() => handleEdit(charge, index)}> </i> 
-                  <i class="bi bi-trash deleteicon"  onClick={() => handleDelete(charge, index)}></i>
+                  <i
+                    className="bi bi-pencil-square editicon"
+                    onClick={() => handleEdit(charge, index)}
+                  >
+                    {" "}
+                  </i>
+                  <i
+                    className="bi bi-trash deleteicon"
+                    onClick={() => handleDelete(charge, index)}
+                  ></i>
                 </td>
               </tr>
             ))}
@@ -167,14 +177,14 @@ const ChargesTable = ({ chargesArray, services, ports, customers, onEdit }) => {
               <tr>
                 <td colSpan={4}>Total Cost</td>
                 <td>{totalValues.quantity}</td>
-                <td>{totalValues.customeramount.toFixed(2)}</td>
-                <td>{totalValues.customervat.toFixed(2)}</td>
+                <td>{totalValues.customerOMR?.toFixed(2)}</td>
+                <td>{totalValues.customerVAT?.toFixed(2)}</td>
                 <td>
-                  {(
-                    totalValues.customeramount + totalValues.customervat
-                  ).toFixed(2)}
+                  {(totalValues.customerOMR + totalValues?.customerVAT).toFixed(
+                    2
+                  )}
                 </td>
-                <td>{totalValues.customerusd.toFixed(2)}</td>
+                <td>{totalValues?.customerTotalUSD?.toFixed(2)}</td>
                 <td></td> {/* Empty cell for footer */}
               </tr>
             </tfoot>

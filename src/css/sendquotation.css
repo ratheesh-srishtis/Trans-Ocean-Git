@@ -1,0 +1,21 @@
+.addcharges {
+  margin: 300px;
+  border: 1px solid red;
+  border-radius: 30px;
+  padding: 20px;
+}
+
+.add-button {
+  background-color: #007ac1;
+  padding: 10px 20px 10px 20px;
+  color: white;
+  font-size: larger;
+}
+.btn:hover {
+  color: #007ac1;
+  background-color: #007ac1;
+  border-color: #007ac1;
+}
+
+@media only screen and (max-width: 767px) {
+}

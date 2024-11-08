@@ -103,3 +103,44 @@ export const changeQuotationStatus = async (userData) => {
     throw error;
   }
 };
+
+export const editChargeQuotation = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/editQuotationCharge", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+export const editPDA = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/editQuotation", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+export const addPDACharges = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/addQuotationCharges", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+// Get All Quotations API function
+export const getAllQuotations = async () => {
+  try {
+    const response = await axiosInstance.post("/getAllQuotations");
+    return response.data;
+  } catch (error) {
+    console.error("Get All Quotations API Error:", error);
+    throw error;
+  }
+};

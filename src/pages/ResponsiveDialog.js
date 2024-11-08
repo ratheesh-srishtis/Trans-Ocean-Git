@@ -11,9 +11,13 @@ import {
 } from "@mui/material";
 import "../css/addcharges.css";
 import "../css/editcharges.css";
-import { getSubcharges, getCharges } from "../services/apiService";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import {
+  getSubcharges,
+  getCharges,
+  editChargeQuotation,
+  addPDACharges,
+} from "../services/apiService";
+import PopUp from "./PopUp";
 const ResponsiveDialog = ({
   open,
   onClose,
@@ -33,8 +37,10 @@ const ResponsiveDialog = ({
   isEditcharge,
   editCharge,
   editIndex,
+  pdaResponse,
 }) => {
   console.log(services, "services");
+  console.log(pdaResponse, "pdaResponse_dialog");
   const [firstFieldSelected, setFirstFieldSelected] = useState(false);
   const [secondFieldSelected, setSecondFieldSelected] = useState(false);
   const [thirdFieldSelected, setThirdFieldSelected] = useState(false);
@@ -59,12 +65,13 @@ const ResponsiveDialog = ({
   const [subCharges, setSubCharges] = useState([]);
   const [isPrivateVendor, setIsPrivateVendor] = useState(false);
   const [chargesArray, setChargesArray] = useState([]);
-
+  const [openPopUp, setOpenPopUp] = useState(false);
+  const [message, setMessage] = useState("");
   const resetCharges = () => {
     setFirstFieldSelected(false);
     setSecondFieldSelected(false);
     setThirdFieldSelected(false);
-    setSelectedService("");
+    setSelectedService(null);
     setSelectedChargesType("");
     setSelectedSubhargesType("");
     setSelectedVendor("");
@@ -128,7 +135,7 @@ const ResponsiveDialog = ({
     const fetchCharges = async () => {
       try {
         const response = await getCharges({
-          serviceid: selectedService?._id,
+          serviceId: selectedService?._id,
         });
         setCharges(response?.charges);
         console.log("Fetched Charges:", response);
@@ -148,7 +155,7 @@ const ResponsiveDialog = ({
       // alert(selectedService?._id);
       try {
         const response = await getSubcharges({
-          chargeid: selectedChargesType?._id,
+          chargeId: selectedChargesType?._id,
         });
         setSubCharges(response?.subcharges);
         console.log("fetchSubCharges:", response);
@@ -188,10 +195,6 @@ const ResponsiveDialog = ({
       setRemarks(value);
     }
   };
-
-  useEffect(() => {
-    console.log(chargesArray, "chargesArray");
-  }, [chargesArray]);
 
   useEffect(() => {
     const handleBeforeUnload = (event) => {
@@ -292,7 +295,7 @@ const ResponsiveDialog = ({
   //   }
   // };
 
-  const addCharges = (action = "add", index = null) => {
+  const addCharges = async (action = "add", index = null) => {
     console.log(selectedService, "selectedService");
     console.log(selectedChargesType, "selectedChargesType");
     console.log(selectedSubhargesType, "selectedSubhargesType");
@@ -323,62 +326,95 @@ const ResponsiveDialog = ({
       vendorVatAmount
     ) {
       let chargesPayload = {
-        serviceid: selectedService?._id,
-        chargeid: selectedChargesType?._id,
-        subchargeid: selectedSubhargesType?._id,
+        serviceId: selectedService?._id
+          ? selectedService?._id
+          : selectedService?.serviceId,
+        chargeId: selectedChargesType?._id
+          ? selectedChargesType?._id
+          : selectedChargesType?.chargeId,
+        subchargeId: selectedSubhargesType?._id
+          ? selectedSubhargesType?._id
+          : selectedSubhargesType?.subchargeId,
         quantity: Number(selectedQuantity),
-        customerid: selectedNewCustomer?._id,
-        customeramount: Number(customerAmount),
-        customervat: Number(customerVatAmount),
-        customerusd: Number(customerTotalUSD),
-        vendorid: selectedVendor?._id,
-        vendoramount: Number(vendorAmount),
-        vendorvat: Number(vendorVatAmount),
-        vendorusd: Number(vendorTotalUSD),
+        customerId: selectedNewCustomer?._id
+          ? selectedNewCustomer?._id
+          : selectedNewCustomer?.customerId,
+        vendorId: selectedVendor?._id
+          ? selectedVendor?._id
+          : selectedVendor?.vendorId,
+        customerOMR: Number(customerAmount),
+        customerVAT: Number(customerVatAmount),
+        customerTotalUSD: Number(customerTotalUSD),
+        vendorOMR: Number(vendorAmount),
+        vendorVAT: Number(vendorVatAmount),
+        vendorTotalUSD: Number(vendorTotalUSD),
         isPrivateVendor: isPrivateVendor,
         remark: remarks,
       };
       console.log(chargesPayload, "chargesPayload");
       if (action === "edit" && index !== null) {
-        // Edit existing charge
-        setChargesArray((prevChargesArray) =>
-          prevChargesArray.map((charge, idx) =>
-            idx === index ? chargesPayload : charge
-          )
+        const updatedChargesArray = chargesArray.map((charge, idx) =>
+          idx === index ? chargesPayload : charge
         );
-        toast.success("Charge Edited Successfully!", {
-          position: "top-center",
-          autoClose: 2000,
-        });
+        setChargesArray(updatedChargesArray); // update the state
+        // Now call submit with the updated charges array
+        onSubmit(updatedChargesArray); // pass the updated array immediately
+        try {
+          const response = await editChargeQuotation(chargesPayload);
+          console.log("Fetched Charges:", response);
+        } catch (error) {
+          console.error("Error fetching charges:", error);
+        }
       } else {
         // Add new charge
-        setChargesArray((prevChargesArray) => [
-          ...prevChargesArray,
-          chargesPayload,
-        ]);
-        toast.success("Charges Added Successfully!", {
-          position: "top-center",
-          autoClose: 2000,
-        });
-        resetCharges();
+        if (pdaResponse?._id) {
+          try {
+            const updatedChargesArray = [...chargesArray, chargesPayload];
+            setChargesArray(updatedChargesArray);
+            let addChargesPaylod = {
+              pdaId: pdaResponse?._id ? pdaResponse?._id : null,
+              charges: updatedChargesArray,
+            };
+            const response = await addPDACharges(addChargesPaylod);
+            console.log("addPDACharges_response:", response);
+            // resetCharges();
+          } catch (error) {
+            console.error("Error fetching charges:", error);
+          }
+        } else {
+          setChargesArray((prevChargesArray) => [
+            ...prevChargesArray,
+            chargesPayload,
+          ]);
+
+          setMessage("Charges Added Successfully!");
+          setOpenPopUp(true);
+          setTimeout(() => {
+            setOpenPopUp(false);
+          }, 2000);
+
+          resetCharges();
+        }
       }
 
       // onSubmit(formData);
       // onClose();
     } else {
-      toast.error("Please fill all fields", {
-        position: "top-center",
-        autoClose: 2000,
-      });
+      setMessage("Please fill all fields");
+      setOpenPopUp(true);
+      setTimeout(() => {
+        setOpenPopUp(false);
+      }, 2000);
     }
   };
 
   const submitCharges = () => {
     onSubmit(chargesArray);
-    toast.success("Charges Added Successfuly!", {
-      position: "top-center",
-      autoClose: 2000,
-    });
+    setMessage("Charges Added Successfully!");
+    setOpenPopUp(true);
+    setTimeout(() => {
+      setOpenPopUp(false);
+    }, 2000);
   };
 
   useEffect(() => {
@@ -387,12 +423,12 @@ const ResponsiveDialog = ({
     setSelectedChargesType(editCharge);
     setSelectedSubhargesType(editCharge);
     setSelectedQuantity(editCharge?.quantity);
-    setCustomerAmount(editCharge?.customeramount);
-    setCustomerVatAmount(editCharge?.customervat);
-    setVendorAmount(editCharge?.vendoramount);
-    setVendorVatAmount(editCharge?.vendorvat);
-    setCustomerTotalUSD(editCharge?.customerusd);
-    setVendorTotalUSD(editCharge?.vendorusd);
+    setCustomerAmount(editCharge?.customerOMR);
+    setCustomerVatAmount(editCharge?.customerVAT);
+    setVendorAmount(editCharge?.vendorOMR);
+    setVendorVatAmount(editCharge?.vendorVAT);
+    setCustomerTotalUSD(editCharge?.customerTotalUSD);
+    setVendorTotalUSD(editCharge?.vendorTotalUSD);
     setRemarks(editCharge?.remark);
     setSelectedNewCustomer(editCharge);
     setSelectedVendor(editCharge);
@@ -442,893 +478,954 @@ const ResponsiveDialog = ({
 
   const submitEditCharges = () => {};
 
-  return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="lg">
-      <DialogTitle>{isEditcharge ? "Update" : "Add"} Charges</DialogTitle>
-      <DialogContent>
-        {isEditcharge == false && (
-          <>
-            <div className="Anchoragecall">
-              <div className="Callhead">Service: Anchorage Call</div>
-              <div className="row ">
-                <div className="row align-items-start">
-                  <div className="col-md-4">
-                    <label
-                      for="exampleFormControlInput1"
-                      className="form-label"
-                    >
-                      Services:*
-                    </label>
-                    <div className="vessel-select">
-                      <select
-                        name="service"
-                        className="form-select vesselbox"
-                        onChange={handleSelectChange}
-                        aria-label="Default select example"
-                        value={selectedService}
-                      >
-                        <option value="">Choose Services</option>
-                        {services.map((service) => (
-                          <option key={service._id} value={service._id}>
-                            {service.serviceName}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                  {firstFieldSelected && (
-                    <>
-                      <div className="col-md-4">
-                        <label
-                          for="exampleFormControlInput1"
-                          className="form-label"
-                        >
-                          Charges Type:*
-                        </label>
-                        <div className="vessel-select">
-                          <select
-                            name="chargeType"
-                            className="form-select vesselbox"
-                            onChange={handleSelectChange}
-                            aria-label="Default select example"
-                            value={selectedChargesType?._id}
-                          >
-                            <option value="">Choose Charge Type</option>
-                            {charges?.map((charge) => (
-                              <option key={charge._id} value={charge._id}>
-                                {charge.chargeName}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      </div>
-                    </>
-                  )}
+  useEffect(() => {
+    console.log(chargesArray, "chargesArray");
+  }, [chargesArray]);
 
-                  {secondFieldSelected && (
-                    <>
-                      <div className="col-md-4">
-                        <label
-                          for="exampleFormControlInput1"
-                          className="form-label"
+  return (
+    <>
+      <Dialog open={open} onClose={onClose} fullWidth maxWidth="lg">
+        <DialogTitle>{isEditcharge ? "Update" : "Add"} Charges</DialogTitle>
+        <DialogContent>
+          {isEditcharge == false && (
+            <>
+              <div className="Anchoragecall">
+                {/* <div className="Callhead">Service: Anchorage Call</div> */}
+                <div className="row ">
+                  <div className="row align-items-start">
+                    <div className="col-md-4">
+                      <label
+                        for="exampleFormControlInput1"
+                        className="form-label"
+                      >
+                        Services:*
+                      </label>
+                      <div className="vessel-select">
+                        <select
+                          name="service"
+                          className="form-select vesselbox"
+                          onChange={handleSelectChange}
+                          aria-label="Default select example"
+                          value={selectedService ? selectedService._id : ""}
                         >
-                          Sub Charges Type:*
-                        </label>
-                        <div className="vessel-select">
-                          <select
-                            name="subChargeType"
-                            className="form-select vesselbox"
-                            onChange={handleSelectChange}
-                            aria-label="Default select example"
-                            value={selectedSubhargesType?._id}
+                          <option value="">Choose Services</option>
+                          {services.map((service) => (
+                            <option key={service._id} value={service._id}>
+                              {service.serviceName}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                    {firstFieldSelected && (
+                      <>
+                        <div className="col-md-4">
+                          <label
+                            for="exampleFormControlInput1"
+                            className="form-label"
                           >
-                            <option value="">Choose Sub Charge Type</option>
-                            {subCharges?.map((charge) => (
-                              <option key={charge._id} value={charge._id}>
-                                {charge.subchargeName}
-                              </option>
-                            ))}
-                          </select>
+                            Charges Type:*
+                          </label>
+                          <div className="vessel-select">
+                            <select
+                              name="chargeType"
+                              className="form-select vesselbox"
+                              onChange={handleSelectChange}
+                              aria-label="Default select example"
+                              value={selectedChargesType?._id}
+                            >
+                              <option value="">Choose Charge Type</option>
+                              {charges?.map((charge) => (
+                                <option key={charge._id} value={charge._id}>
+                                  {charge.chargeName}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+                      </>
+                    )}
+
+                    {secondFieldSelected && (
+                      <>
+                        <div className="col-md-4">
+                          <label
+                            for="exampleFormControlInput1"
+                            className="form-label"
+                          >
+                            Sub Charges Type:*
+                          </label>
+                          <div className="vessel-select">
+                            <select
+                              name="subChargeType"
+                              className="form-select vesselbox"
+                              onChange={handleSelectChange}
+                              aria-label="Default select example"
+                              value={selectedSubhargesType?._id}
+                            >
+                              <option value="">Choose Sub Charge Type</option>
+                              {subCharges?.map((charge) => (
+                                <option key={charge._id} value={charge._id}>
+                                  {charge.subchargeName}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </div>
+                {thirdFieldSelected && (
+                  <>
+                    <div className="row align-items-start mt-3">
+                      <div className="col-md-4">
+                        <div className="mb-3">
+                          <div className="col">
+                            <label
+                              for="exampleFormControlInput1"
+                              className="form-label"
+                            >
+                              Quantity:*
+                            </label>
+                            <input
+                              type="number"
+                              className="form-control vessel-voyage"
+                              id="exampleFormControlInput1"
+                              placeholder="PerDay"
+                              name="quantity"
+                              value={selectedQuantity || ""}
+                              onChange={handleInputChange}
+                            />
+                          </div>
                         </div>
                       </div>
-                    </>
-                  )}
-                </div>
-              </div>
-              {thirdFieldSelected && (
-                <>
-                  <div className="row align-items-start mt-3">
-                    <div className="col-md-4">
-                      <div className="mb-3">
+                    </div>
+
+                    <div className="customerhead">
+                      <div className="headname">Customer Charges</div>
+                      <div className="customerrectangle"></div>
+                    </div>
+                    <div className="row ">
+                      <div className="row align-items-start">
                         <div className="col">
                           <label
                             for="exampleFormControlInput1"
                             className="form-label"
                           >
-                            Quantity:*
+                            Customer:
                           </label>
-                          <input
-                            type="number"
-                            className="form-control vessel-voyage"
-                            id="exampleFormControlInput1"
-                            placeholder="PerDay"
-                            name="quantity"
-                            value={selectedQuantity || ""}
-                            onChange={handleInputChange}
-                          />
+                          <div className="vessel-select">
+                            <select
+                              name="customer"
+                              className="form-select vesselbox"
+                              onChange={handleSelectChange}
+                              aria-label="Default select example"
+                              value={selectedNewCustomer?._id}
+                            >
+                              <option value="">Choose Customer</option>
+                              {customers?.map((customer) => (
+                                <option key={customer._id} value={customer._id}>
+                                  {customer.customerName}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+                        <div className="col">
+                          <div className="mb-3">
+                            <div className="col">
+                              <label
+                                for="exampleFormControlInput1"
+                                className="form-label"
+                              >
+                                Amount(OMR):*
+                              </label>
+                              <input
+                                type="number"
+                                className="form-control vessel-voyage"
+                                id="exampleFormControlInput1/"
+                                placeholder="200.00"
+                                name="customerAmount"
+                                value={customerAmount || ""}
+                                onChange={handleInputChange}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col">
+                          <div className="mb-3">
+                            <div className="col">
+                              <label
+                                for="exampleFormControlInput1"
+                                className="form-label"
+                              >
+                                VAT Amount:*
+                              </label>
+                              <input
+                                type="number"
+                                className="form-control vessel-voyage"
+                                id="exampleFormControlInput1"
+                                placeholder="50.00"
+                                name="customerVatAmount"
+                                value={customerVatAmount || ""}
+                                onChange={handleInputChange}
+                              />
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                    <div className="row ">
+                      <div className="row align-items-start">
+                        <div className="col-4  ">
+                          <div className="mb-3">
+                            <div className="col">
+                              <label
+                                for="exampleFormControlInput1"
+                                className="form-label"
+                              >
+                                Total OMR:
+                              </label>
+                              <input
+                                type="number"
+                                className="form-control vessel-voyage"
+                                id="exampleFormControlInput1"
+                                placeholder="Total OMR"
+                                name="customerOmrAmount"
+                                value={customerTotalOmr}
+                                disabled
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-4">
+                          <div className="mb-3">
+                            <div className="col">
+                              <label
+                                for="exampleFormControlInput1"
+                                className="form-label"
+                              >
+                                Total USD:
+                              </label>
+                              <input
+                                type="number"
+                                className="form-control vessel-voyage"
+                                id="exampleFormControlInput1"
+                                placeholder="25.00"
+                                name="customerTotalUSD"
+                                value={customerTotalUSD || ""}
+                                onChange={handleInputChange}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="customerhead">
+                      <div className="headname">Vendor Charges</div>
+                      <div className="customerrectangle"></div>
+                    </div>
+                    <div className="row ">
+                      <div className="row align-items-start">
+                        <div className="col">
+                          <label
+                            for="exampleFormControlInput1"
+                            className="form-label"
+                          >
+                            Vendor:
+                          </label>
+                          <div className="vessel-select">
+                            <select
+                              name="vendor"
+                              className="form-select vesselbox"
+                              onChange={handleSelectChange}
+                              aria-label="Default select example"
+                              value={selectedVendor?._id}
+                            >
+                              <option value="">Choose Vendor</option>
+                              {ports?.map((port) => (
+                                <option key={port._id} value={port._id}>
+                                  {port.portName}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+                        <div className="col">
+                          <div className="mb-3">
+                            <div className="col">
+                              <label
+                                for="exampleFormControlInput1"
+                                className="form-label"
+                              >
+                                Amount(OMR):*
+                              </label>
+                              <input
+                                type="number"
+                                className="form-control vessel-voyage"
+                                id="exampleFormControlInput1"
+                                placeholder="200.00"
+                                name="vendorAmount"
+                                value={vendorAmount || ""}
+                                onChange={handleInputChange}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col">
+                          <div className="mb-3">
+                            <div className="col">
+                              <label
+                                for="exampleFormControlInput1"
+                                className="form-label"
+                              >
+                                VAT Amount:*
+                              </label>
+                              <input
+                                type="number"
+                                className="form-control vessel-voyage"
+                                id="exampleFormControlInput1"
+                                placeholder="50.00"
+                                name="vendorVatAmount"
+                                value={vendorVatAmount || ""}
+                                onChange={handleInputChange}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row ">
+                      <div className="row align-items-start">
+                        <div className="col-4  ">
+                          <div className="mb-3">
+                            <div className="col">
+                              <label
+                                for="exampleFormControlInput1"
+                                className="form-label"
+                              >
+                                Total OMR:
+                              </label>
+                              <input
+                                type="number"
+                                className="form-control vessel-voyage"
+                                id="exampleFormControlInput1"
+                                placeholder="Total OMR"
+                                name="vendorOmrAmount"
+                                value={vendorTotalOmr}
+                                disabled
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-4">
+                          <div className="mb-3">
+                            <div className="col">
+                              <label
+                                for="exampleFormControlInput1"
+                                className="form-label"
+                              >
+                                Total USD:
+                              </label>
+                              <input
+                                type="number"
+                                className="form-control vessel-voyage"
+                                id="exampleFormControlInput1"
+                                placeholder="25.00"
+                                name="vendorTotalUSD"
+                                value={vendorTotalUSD || ""}
+                                onChange={handleInputChange}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row ">
+                      <div className="row align-items-start">
+                        <div className="col">
+                          <div className="mb-3">
+                            <div className="col">
+                              <label
+                                for="exampleFormControlInput1"
+                                className="form-label"
+                              >
+                                Remarks:
+                              </label>
+                              <textarea
+                                rows="3"
+                                className="form-control"
+                                id="exampleFormControlInput1"
+                                placeholder="RO 0.0049/day"
+                                name="remarks"
+                                value={remarks || ""}
+                                onChange={handleInputChange}
+                              ></textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-4">
+                        <div className="form-check pvendor">
+                          <input
+                            className="form-check-input"
+                            type="checkbox"
+                            id="flexCheckDefault"
+                            checked={isPrivateVendor}
+                            onChange={handleCheckboxChange}
+                          />
+                          <label
+                            className="form-check-label"
+                            htmlFor="flexCheckDefault"
+                          >
+                            Private Vendor
+                          </label>
+                        </div>
+                      </div>
+                      <div className="col-4">
+                        <div className="firstfooter">
+                          <button
+                            type="button"
+                            className="btn add-button"
+                            onClick={() => {
+                              addCharges("add");
+                            }}
+                          >
+                            Add
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
 
-                  <div className="customerhead">
-                    <div className="headname">Customer Charges</div>
-                    <div className="customerrectangle"></div>
+                {chargesArray?.length > 0 && (
+                  <>
+                    {chargesArray.map((charge, index) => (
+                      <>
+                        <div className="marinetable mt-4 mb-4">
+                          <div className="tablehead">
+                            {getItemName(charge?.serviceId, "service")}
+                          </div>
+                          <div key={index} className="tablesep">
+                            <div className="col">
+                              <div className="subh">
+                                <span className="marinehead">charge Type:</span>
+                                <span className="subvalue">
+                                  {" "}
+                                  {getItemName(
+                                    charge?.chargeId,
+                                    "chargeType"
+                                  )}{" "}
+                                </span>
+                              </div>
+                              <div className="subh">
+                                <span className="marinehead">
+                                  Sub charge Type:
+                                </span>
+                                <span className="subvalue">
+                                  {getItemName(
+                                    charge?.subchargeId,
+                                    "subChargeType"
+                                  )}
+                                </span>
+                              </div>
+                              <div className="subh">
+                                <span className="marinehead">Customer:</span>
+                                <span className="subvalue">
+                                  {getItemName(charge?.customerId, "customer")}
+                                </span>
+                              </div>
+                              <div className="subh d-flex">
+                                <div className="omr">
+                                  <span className="marinehead">
+                                    Amount (OMR):
+                                  </span>
+                                  <span className="subvalue">
+                                    {charge.customerOMR}
+                                  </span>
+                                </div>
+                                <div className="vat ms-5">
+                                  <span className="marinehead">
+                                    VAT Amount:
+                                  </span>
+                                  <span className="subvalue">
+                                    {charge.customerVAT}
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="subh d-flex">
+                                <div className="omr">
+                                  <span className="marinehead">
+                                    Total (OMR):
+                                  </span>
+                                  <span className="subvalue">
+                                    {Number(charge.customerOMR) +
+                                      Number(charge.customerVAT)}
+                                  </span>
+                                </div>
+                                <div className="vat ms-5">
+                                  <span className="marinehead">Total USD:</span>
+                                  <span className="subvalue">
+                                    {charge.customerTotalUSD}
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="subheadremarks">
+                                <span className="marinehead">Remarks:</span>
+                                <span className="subvalue">
+                                  {charge.remark}
+                                </span>
+                              </div>
+                            </div>
+                            <div className="marineseperation"></div>
+                            <div className="col">
+                              <div className="subhvendor d-flex justify-content-start">
+                                <span className="marinehead">Quantity:</span>
+                                <span className="subvalue">
+                                  {charge.quantity}
+                                </span>
+                              </div>
+                              <div className="subhvendor d-flex justify-content-start">
+                                <span className="marinehead">Vendor:</span>
+                                <span className="subvalue">
+                                  {" "}
+                                  {getItemName(charge?.vendorId, "vendor")}{" "}
+                                </span>
+                              </div>
+                              <div className="subhvendor d-flex justify-content-start">
+                                <div className="omr">
+                                  <span className="marinehead">
+                                    Amount (OMR):
+                                  </span>
+                                  <span className="subvalue">
+                                    {charge.vendorOMR}
+                                  </span>
+                                </div>
+                                <div className="vat ms-5">
+                                  <span className="marinehead">
+                                    VAT Amount:
+                                  </span>
+                                  <span className="subvalue">
+                                    {charge.vendorVAT}
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="subhvendor d-flex justify-content-start">
+                                <div className="omr">
+                                  <span className="marinehead">
+                                    Total (OMR):
+                                  </span>
+                                  <span className="subvalue">
+                                    {Number(charge.vendorOMR) +
+                                      Number(charge.vendorVAT)}
+                                  </span>
+                                </div>
+                                <div className="vat ms-5">
+                                  <span className="marinehead">Total USD:</span>
+                                  <span className="subvalue">
+                                    {charge.vendorTotalUSD}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    ))}
+                  </>
+                )}
+
+                <div className="footer-button d-flex justify-content-center">
+                  <button
+                    type="button"
+                    className="btn cancel-button"
+                    onClick={onClose}
+                  >
+                    Cancel{" "}
+                  </button>
+                  <button
+                    type="button"
+                    className="btn save-button"
+                    onClick={() => {
+                      submitCharges();
+                    }}
+                  >
+                    Save{" "}
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
+
+          {isEditcharge == true && (
+            <>
+              <div className="Anchoragecall">
+                <div className="row ">
+                  <div className="row align-items-start table">
+                    <div className="col-lg-3">
+                      <label
+                        for="exampleFormControlInput1"
+                        className="form-label"
+                      >
+                        Services:*
+                      </label>
+                      <div className="vessel-select">
+                        <select
+                          name="service"
+                          className="form-select vesselbox"
+                          onChange={handleSelectChange}
+                          aria-label="Default select example"
+                          value={
+                            selectedService?.serviceId || selectedService?._id
+                          }
+                        >
+                          <option value="">Choose Services</option>
+                          {services.map((service) => (
+                            <option key={service._id} value={service._id}>
+                              {service.serviceName}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                    <div className="col-lg-3">
+                      <label
+                        for="exampleFormControlInput1"
+                        className="form-label"
+                      >
+                        Charges Type:*
+                      </label>
+                      <div className="vessel-select">
+                        <select
+                          name="chargeType"
+                          className="form-select vesselbox"
+                          onChange={handleSelectChange}
+                          aria-label="Default select example"
+                          value={
+                            selectedChargesType?.chargeId ||
+                            selectedChargesType?._id
+                          }
+                        >
+                          <option value="">Choose Charge Type</option>
+                          {charges?.map((charge) => (
+                            <option key={charge._id} value={charge._id}>
+                              {charge.chargeName}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                    <div className="col-lg-3">
+                      <label
+                        for="exampleFormControlInput1"
+                        className="form-label"
+                      >
+                        Sub Charges Type:*
+                      </label>
+                      <div className="vessel-select">
+                        <select
+                          name="subChargeType"
+                          className="form-select vesselbox"
+                          onChange={handleSelectChange}
+                          aria-label="Default select example"
+                          value={
+                            selectedSubhargesType?.subchargeId ||
+                            selectedSubhargesType?._id
+                          }
+                        >
+                          <option value="">Choose Sub Charge Type</option>
+                          {subCharges?.map((charge) => (
+                            <option key={charge._id} value={charge._id}>
+                              {charge.subchargeName}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="col-lg-3">
+                      <label
+                        for="exampleFormControlInput1"
+                        className="form-label labelhead"
+                      >
+                        Quantity:
+                      </label>
+                      <div className="vessel-select">
+                        <input
+                          type="number"
+                          className="form-control labelbox"
+                          id="exampleFormControlInput1"
+                          placeholder=" Per Day"
+                          name="quantity"
+                          value={selectedQuantity}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div className="row ">
-                    <div className="row align-items-start">
-                      <div className="col">
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-6 ">
+                  <div className="marinetable">
+                    <div className="tablehead">Customer Charges</div>
+                    <div className="row cust">
+                      <div className="col-6 d-flex justify-content-end ">
                         <label
                           for="exampleFormControlInput1"
-                          className="form-label"
+                          className="form-label labelhead"
                         >
                           Customer:
                         </label>
-                        <div className="vessel-select">
-                          <select
-                            name="customer"
-                            className="form-select vesselbox"
-                            onChange={handleSelectChange}
-                            aria-label="Default select example"
-                            value={selectedNewCustomer?._id}
-                          >
-                            <option value="">Choose Customer</option>
-                            {customers?.map((customer) => (
-                              <option key={customer._id} value={customer._id}>
-                                {customer.customerName}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
                       </div>
-                      <div className="col">
-                        <div className="mb-3">
-                          <div className="col">
-                            <label
-                              for="exampleFormControlInput1"
-                              className="form-label"
-                            >
-                              Amount(OMR):*
-                            </label>
-                            <input
-                              type="number"
-                              className="form-control vessel-voyage"
-                              id="exampleFormControlInput1/"
-                              placeholder="200.00"
-                              name="customerAmount"
-                              value={customerAmount || ""}
-                              onChange={handleInputChange}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="mb-3">
-                          <div className="col">
-                            <label
-                              for="exampleFormControlInput1"
-                              className="form-label"
-                            >
-                              VAT Amount:*
-                            </label>
-                            <input
-                              type="number"
-                              className="form-control vessel-voyage"
-                              id="exampleFormControlInput1"
-                              placeholder="50.00"
-                              name="customerVatAmount"
-                              value={customerVatAmount || ""}
-                              onChange={handleInputChange}
-                            />
-                          </div>
-                        </div>
+                      <div className="col-6 d-flex justify-content-start ">
+                        <select
+                          name="customer"
+                          className="form-select vesselbox"
+                          onChange={handleSelectChange}
+                          aria-label="Default select example"
+                          value={
+                            selectedNewCustomer?.customerId ||
+                            selectedNewCustomer?._id
+                          }
+                        >
+                          <option value="">Choose Customer</option>
+                          {customers?.map((customer) => (
+                            <option key={customer._id} value={customer._id}>
+                              {customer.customerName}
+                            </option>
+                          ))}
+                        </select>
                       </div>
                     </div>
-                  </div>
-                  <div className="row ">
-                    <div className="row align-items-start">
-                      <div className="col-4  ">
-                        <div className="mb-3">
-                          <div className="col">
-                            <label
-                              for="exampleFormControlInput1"
-                              className="form-label"
-                            >
-                              Total OMR:
-                            </label>
-                            <input
-                              type="number"
-                              className="form-control vessel-voyage"
-                              id="exampleFormControlInput1"
-                              placeholder="Total OMR"
-                              name="customerOmrAmount"
-                              value={customerTotalOmr}
-                              disabled
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-4">
-                        <div className="mb-3">
-                          <div className="col">
-                            <label
-                              for="exampleFormControlInput1"
-                              className="form-label"
-                            >
-                              Total USD:
-                            </label>
-                            <input
-                              type="number"
-                              className="form-control vessel-voyage"
-                              id="exampleFormControlInput1"
-                              placeholder="25.00"
-                              name="customerTotalUSD"
-                              value={customerTotalUSD || ""}
-                              onChange={handleInputChange}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="customerhead">
-                    <div className="headname">Vendor Charges</div>
-                    <div className="customerrectangle"></div>
-                  </div>
-                  <div className="row ">
-                    <div className="row align-items-start">
-                      <div className="col">
+                    <div className="row cust">
+                      <div className="col-6 d-flex justify-content-end ">
                         <label
                           for="exampleFormControlInput1"
-                          className="form-label"
+                          className="form-label labelhead"
+                        >
+                          Amount(OMR):
+                        </label>
+                      </div>
+                      <div className="col-6 d-flex justify-content-start ">
+                        <input
+                          type="number"
+                          className="form-control labelbox"
+                          id="exampleFormControlInput1"
+                          placeholder="200.00"
+                          name="customerAmount"
+                          value={customerAmount || ""}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+                    </div>
+                    <div className="row cust">
+                      <div className="col-6 d-flex justify-content-end ">
+                        <label
+                          for="exampleFormControlInput1"
+                          className="form-label labelhead"
+                        >
+                          VAT Amount:
+                        </label>
+                      </div>
+                      <div className="col-6 d-flex justify-content-start ">
+                        <input
+                          type="number"
+                          className="form-control labelbox"
+                          id="exampleFormControlInput1"
+                          placeholder=" 50.00"
+                          name="customerVatAmount"
+                          value={customerVatAmount || ""}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="row cust">
+                      <div className="col-6 d-flex justify-content-end ">
+                        <label
+                          for="exampleFormControlInput1"
+                          className="form-label labelhead"
+                        >
+                          Total OMR:
+                        </label>
+                      </div>
+                      <div className="col-6 d-flex justify-content-start ">
+                        <input
+                          type="number"
+                          className="form-control labelbox"
+                          id="exampleFormControlInput1"
+                          placeholder=" 250.00"
+                          name="customerOmrAmount"
+                          value={customerTotalOmr}
+                          disabled
+                        />
+                      </div>
+                    </div>
+                    <div className="row cust">
+                      <div className="col-6 d-flex justify-content-end ">
+                        <label
+                          for="exampleFormControlInput1"
+                          className="form-label labelhead"
+                        >
+                          Total USD:
+                        </label>
+                      </div>
+                      <div className="col-6 d-flex justify-content-start ">
+                        <input
+                          type="number"
+                          className="form-control labelbox"
+                          id="exampleFormControlInput1"
+                          placeholder=" 25.00"
+                          name="customerTotalUSD"
+                          value={customerTotalUSD || ""}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-6">
+                  <div className="marinetable">
+                    <div className="tablehead">Vendor Charges</div>
+                    <div className="row cust">
+                      <div className="col-6 d-flex justify-content-end ">
+                        <label
+                          for="exampleFormControlInput1"
+                          className="form-label labelhead"
                         >
                           Vendor:
                         </label>
-                        <div className="vessel-select">
-                          <select
-                            name="vendor"
-                            className="form-select vesselbox"
-                            onChange={handleSelectChange}
-                            aria-label="Default select example"
-                            value={selectedVendor?._id}
-                          >
-                            <option value="">Choose Vendor</option>
-                            {ports?.map((port) => (
-                              <option key={port._id} value={port._id}>
-                                {port.portName}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
                       </div>
-                      <div className="col">
-                        <div className="mb-3">
-                          <div className="col">
-                            <label
-                              for="exampleFormControlInput1"
-                              className="form-label"
-                            >
-                              Amount(OMR):*
-                            </label>
-                            <input
-                              type="number"
-                              className="form-control vessel-voyage"
-                              id="exampleFormControlInput1"
-                              placeholder="200.00"
-                              name="vendorAmount"
-                              value={vendorAmount || ""}
-                              onChange={handleInputChange}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col">
-                        <div className="mb-3">
-                          <div className="col">
-                            <label
-                              for="exampleFormControlInput1"
-                              className="form-label"
-                            >
-                              VAT Amount:*
-                            </label>
-                            <input
-                              type="number"
-                              className="form-control vessel-voyage"
-                              id="exampleFormControlInput1"
-                              placeholder="50.00"
-                              name="vendorVatAmount"
-                              value={vendorVatAmount || ""}
-                              onChange={handleInputChange}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row ">
-                    <div className="row align-items-start">
-                      <div className="col-4  ">
-                        <div className="mb-3">
-                          <div className="col">
-                            <label
-                              for="exampleFormControlInput1"
-                              className="form-label"
-                            >
-                              Total OMR:
-                            </label>
-                            <input
-                              type="number"
-                              className="form-control vessel-voyage"
-                              id="exampleFormControlInput1"
-                              placeholder="Total OMR"
-                              name="vendorOmrAmount"
-                              value={vendorTotalOmr}
-                              disabled
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-4">
-                        <div className="mb-3">
-                          <div className="col">
-                            <label
-                              for="exampleFormControlInput1"
-                              className="form-label"
-                            >
-                              Total USD:
-                            </label>
-                            <input
-                              type="number"
-                              className="form-control vessel-voyage"
-                              id="exampleFormControlInput1"
-                              placeholder="25.00"
-                              name="vendorTotalUSD"
-                              value={vendorTotalUSD || ""}
-                              onChange={handleInputChange}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row ">
-                    <div className="row align-items-start">
-                      <div className="col">
-                        <div className="mb-3">
-                          <div className="col">
-                            <label
-                              for="exampleFormControlInput1"
-                              className="form-label"
-                            >
-                              Remarks:
-                            </label>
-                            <textarea
-                              rows="3"
-                              className="form-control"
-                              id="exampleFormControlInput1"
-                              placeholder="RO 0.0049/day"
-                              name="remarks"
-                              value={remarks || ""}
-                              onChange={handleInputChange}
-                            ></textarea>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-4">
-                      <div className="form-check pvendor">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          id="flexCheckDefault"
-                          checked={isPrivateVendor}
-                          onChange={handleCheckboxChange}
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="flexCheckDefault"
+                      <div className="col-6 d-flex justify-content-start ">
+                        <select
+                          name="vendor"
+                          className="form-select vesselbox"
+                          onChange={handleSelectChange}
+                          aria-label="Default select example"
+                          value={
+                            selectedVendor?.vendorId || selectedVendor?._id
+                          }
                         >
-                          Private Vendor
+                          <option value="">Choose Vendor</option>
+                          {ports?.map((port) => (
+                            <option key={port._id} value={port._id}>
+                              {port.portName}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                    <div className="row cust">
+                      <div className="col-6 d-flex justify-content-end ">
+                        <label
+                          for="exampleFormControlInput1"
+                          className="form-label labelhead"
+                        >
+                          Amount(OMR):
                         </label>
                       </div>
+                      <div className="col-6 d-flex justify-content-start ">
+                        <input
+                          type="number"
+                          className="form-control labelbox"
+                          id="exampleFormControlInput1"
+                          placeholder="200.00"
+                          name="vendorAmount"
+                          value={vendorAmount}
+                          onChange={handleInputChange}
+                        />
+                      </div>
                     </div>
-                    <div className="col-4">
-                      <div className="firstfooter">
-                        <button
-                          type="button"
-                          className="btn add-button"
-                          onClick={() => {
-                            addCharges("add");
-                          }}
+                    <div className="row cust">
+                      <div className="col-6 d-flex justify-content-end ">
+                        <label
+                          for="exampleFormControlInput1"
+                          className="form-label labelhead"
                         >
-                          Add
-                        </button>
+                          VAT Amount:
+                        </label>
+                      </div>
+                      <div className="col-6 d-flex justify-content-start ">
+                        <input
+                          type="number"
+                          className="form-control labelbox"
+                          id="exampleFormControlInput1"
+                          placeholder=" 50.00"
+                          name="vendorVatAmount"
+                          value={vendorVatAmount}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="row cust">
+                      <div className="col-6 d-flex justify-content-end ">
+                        <label
+                          for="exampleFormControlInput1"
+                          className="form-label labelhead"
+                        >
+                          Total OMR:
+                        </label>
+                      </div>
+                      <div className="col-6 d-flex justify-content-start ">
+                        <input
+                          type="number"
+                          className="form-control labelbox"
+                          id="exampleFormControlInput1"
+                          placeholder=" 250.00"
+                          name="vendorOmrAmount"
+                          value={vendorTotalOmr}
+                          disabled
+                        />
+                      </div>
+                    </div>
+                    <div className="row cust">
+                      <div className="col-6 d-flex justify-content-end ">
+                        <label
+                          for="exampleFormControlInput1"
+                          className="form-label labelhead"
+                        >
+                          Total USD:
+                        </label>
+                      </div>
+                      <div className="col-6 d-flex justify-content-start ">
+                        <input
+                          type="number"
+                          className="form-control labelbox"
+                          id="exampleFormControlInput1"
+                          placeholder=" 25.00"
+                          name="vendorTotalUSD"
+                          value={vendorTotalUSD}
+                          onChange={handleInputChange}
+                        />
                       </div>
                     </div>
                   </div>
-                </>
-              )}
-
-              {chargesArray?.length > 0 && (
-                <>
-                  {chargesArray.map((charge, index) => (
-                    <>
-                      <div className="marinetable mt-4 mb-4">
-                        <div className="tablehead">
-                          {getItemName(charge?.serviceid, "service")}
-                        </div>
-                        <div key={index} className="tablesep">
-                          <div className="col">
-                            <div className="subh">
-                              <span className="marinehead">charge Type:</span>
-                              <span className="subvalue">
-                                {" "}
-                                {getItemName(
-                                  charge?.chargeid,
-                                  "chargeType"
-                                )}{" "}
-                              </span>
-                            </div>
-                            <div className="subh">
-                              <span className="marinehead">
-                                Sub charge Type:
-                              </span>
-                              <span className="subvalue">
-                                {getItemName(
-                                  charge?.subchargeid,
-                                  "subChargeType"
-                                )}
-                              </span>
-                            </div>
-                            <div className="subh">
-                              <span className="marinehead">Customer:</span>
-                              <span className="subvalue">
-                                {getItemName(charge?.customerid, "customer")}
-                              </span>
-                            </div>
-                            <div className="subh d-flex">
-                              <div className="omr">
-                                <span className="marinehead">
-                                  Amount (OMR):
-                                </span>
-                                <span className="subvalue">
-                                  {charge.customeramount}
-                                </span>
-                              </div>
-                              <div className="vat ms-5">
-                                <span className="marinehead">VAT Amount:</span>
-                                <span className="subvalue">
-                                  {charge.customervat}
-                                </span>
-                              </div>
-                            </div>
-                            <div className="subheadremarks">
-                              <span className="marinehead">Remarks:</span>
-                              <span className="subvalue">{charge.remark}</span>
-                            </div>
-                          </div>
-                          <div className="marineseperation"></div>
-                          <div className="col">
-                            <div className="subhvendor d-flex justify-content-start">
-                              <span className="marinehead">Quantity:</span>
-                              <span className="subvalue">
-                                {charge.quantity}
-                              </span>
-                            </div>
-                            <div className="subhvendor d-flex justify-content-start">
-                              <span className="marinehead">Vendor:</span>
-                              <span className="subvalue">
-                                {" "}
-                                {getItemName(charge?.vendorid, "vendor")}{" "}
-                              </span>
-                            </div>
-                            <div className="subhvendor d-flex justify-content-start">
-                              <div className="omr">
-                                <span className="marinehead">
-                                  Amount (OMR):
-                                </span>
-                                <span className="subvalue">
-                                  {charge.vendoramount}
-                                </span>
-                              </div>
-                              <div className="vat ms-5">
-                                <span className="marinehead">VAT Amount:</span>
-                                <span className="subvalue">
-                                  {charge.vendorvat}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </>
-                  ))}
-                </>
-              )}
-
-              <div className="footer-button d-flex justify-content-center">
+                </div>
+              </div>
+              <div className="firstfooter">
                 <button
                   type="button"
-                  className="btn cancel-button"
-                  onClick={onClose}
-                >
-                  Cancel{" "}
-                </button>
-                <button
-                  type="button"
-                  className="btn save-button"
+                  className="btn add-button"
                   onClick={() => {
-                    submitCharges();
+                    addCharges("edit", editIndex);
                   }}
                 >
-                  Save{" "}
+                  Save changes
                 </button>
               </div>
-            </div>
-          </>
-        )}
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
 
-        {isEditcharge == true && (
-          <>
-            <div class="Anchoragecall">
-              <div class="row ">
-                <div class="row align-items-start table">
-                  <div class="col-lg-3">
-                    <label
-                      for="exampleFormControlInput1"
-                      className="form-label"
-                    >
-                      Services:*
-                    </label>
-                    <div className="vessel-select">
-                      <select
-                        name="service"
-                        className="form-select vesselbox"
-                        onChange={handleSelectChange}
-                        aria-label="Default select example"
-                        value={selectedService?._id}
-                      >
-                        <option value="">Choose Services</option>
-                        {services.map((service) => (
-                          <option key={service._id} value={service._id}>
-                            {service.serviceName}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-lg-3">
-                    <label
-                      for="exampleFormControlInput1"
-                      className="form-label"
-                    >
-                      Charges Type:*
-                    </label>
-                    <div className="vessel-select">
-                      <select
-                        name="chargeType"
-                        className="form-select vesselbox"
-                        onChange={handleSelectChange}
-                        aria-label="Default select example"
-                        value={selectedChargesType?._id}
-                      >
-                        <option value="">Choose Charge Type</option>
-                        {charges?.map((charge) => (
-                          <option key={charge._id} value={charge._id}>
-                            {charge.chargeName}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-lg-3">
-                    <label
-                      for="exampleFormControlInput1"
-                      className="form-label"
-                    >
-                      Sub Charges Type:*
-                    </label>
-                    <div className="vessel-select">
-                      <select
-                        name="subChargeType"
-                        className="form-select vesselbox"
-                        onChange={handleSelectChange}
-                        aria-label="Default select example"
-                        value={selectedSubhargesType?._id}
-                      >
-                        <option value="">Choose Sub Charge Type</option>
-                        {subCharges?.map((charge) => (
-                          <option key={charge._id} value={charge._id}>
-                            {charge.subchargeName}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  <div class="col-lg-3">
-                    <label
-                      for="exampleFormControlInput1"
-                      class="form-label labelhead"
-                    >
-                      Quantity:
-                    </label>
-                    <div class="vessel-select">
-                      <input
-                        type="number"
-                        class="form-control labelbox"
-                        id="exampleFormControlInput1"
-                        placeholder=" Per Day"
-                        name="quantity"
-                        value={selectedQuantity}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-6 ">
-                <div class="marinetable">
-                  <div class="tablehead">Customer Charges</div>
-                  <div class="row cust">
-                    <div class="col-6 d-flex justify-content-end ">
-                      <label
-                        for="exampleFormControlInput1"
-                        class="form-label labelhead"
-                      >
-                        Customer:
-                      </label>
-                    </div>
-                    <div class="col-6 d-flex justify-content-start ">
-                      <select
-                        name="customer"
-                        className="form-select vesselbox"
-                        onChange={handleSelectChange}
-                        aria-label="Default select example"
-                        value={selectedNewCustomer?._id}
-                      >
-                        <option value="">Choose Customer</option>
-                        {customers?.map((customer) => (
-                          <option key={customer._id} value={customer._id}>
-                            {customer.customerName}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                  <div class="row cust">
-                    <div class="col-6 d-flex justify-content-end ">
-                      <label
-                        for="exampleFormControlInput1"
-                        class="form-label labelhead"
-                      >
-                        Amount(OMR):
-                      </label>
-                    </div>
-                    <div class="col-6 d-flex justify-content-start ">
-                      <input
-                        type="number"
-                        class="form-control labelbox"
-                        id="exampleFormControlInput1"
-                        placeholder="200.00"
-                        name="customerAmount"
-                        value={customerAmount || ""}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                  </div>
-                  <div class="row cust">
-                    <div class="col-6 d-flex justify-content-end ">
-                      <label
-                        for="exampleFormControlInput1"
-                        class="form-label labelhead"
-                      >
-                        VAT Amount:
-                      </label>
-                    </div>
-                    <div class="col-6 d-flex justify-content-start ">
-                      <input
-                        type="number"
-                        class="form-control labelbox"
-                        id="exampleFormControlInput1"
-                        placeholder=" 50.00"
-                        name="customerVatAmount"
-                        value={customerVatAmount || ""}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                  </div>
-
-                  <div class="row cust">
-                    <div class="col-6 d-flex justify-content-end ">
-                      <label
-                        for="exampleFormControlInput1"
-                        class="form-label labelhead"
-                      >
-                        Total OMR:
-                      </label>
-                    </div>
-                    <div class="col-6 d-flex justify-content-start ">
-                      <input
-                        type="number"
-                        class="form-control labelbox"
-                        id="exampleFormControlInput1"
-                        placeholder=" 250.00"
-                        name="customerOmrAmount"
-                        value={customerTotalOmr}
-                        disabled
-                      />
-                    </div>
-                  </div>
-                  <div class="row cust">
-                    <div class="col-6 d-flex justify-content-end ">
-                      <label
-                        for="exampleFormControlInput1"
-                        class="form-label labelhead"
-                      >
-                        Total USD:
-                      </label>
-                    </div>
-                    <div class="col-6 d-flex justify-content-start ">
-                      <input
-                        type="number"
-                        class="form-control labelbox"
-                        id="exampleFormControlInput1"
-                        placeholder=" 25.00"
-                        name="customerTotalUSD"
-                        value={customerTotalUSD || ""}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="marinetable">
-                  <div class="tablehead">Vendor Charges</div>
-                  <div class="row cust">
-                    <div class="col-6 d-flex justify-content-end ">
-                      <label
-                        for="exampleFormControlInput1"
-                        class="form-label labelhead"
-                      >
-                        Vendor:
-                      </label>
-                    </div>
-                    <div class="col-6 d-flex justify-content-start ">
-                      <select
-                        name="vendor"
-                        className="form-select vesselbox"
-                        onChange={handleSelectChange}
-                        aria-label="Default select example"
-                        value={selectedVendor?._id}
-                      >
-                        <option value="">Choose Vendor</option>
-                        {ports?.map((port) => (
-                          <option key={port._id} value={port._id}>
-                            {port.portName}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                  <div class="row cust">
-                    <div class="col-6 d-flex justify-content-end ">
-                      <label
-                        for="exampleFormControlInput1"
-                        class="form-label labelhead"
-                      >
-                        Amount(OMR):
-                      </label>
-                    </div>
-                    <div class="col-6 d-flex justify-content-start ">
-                      <input
-                        type="number"
-                        class="form-control labelbox"
-                        id="exampleFormControlInput1"
-                        placeholder="200.00"
-                        name="vendorAmount"
-                        value={vendorAmount}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                  </div>
-                  <div class="row cust">
-                    <div class="col-6 d-flex justify-content-end ">
-                      <label
-                        for="exampleFormControlInput1"
-                        class="form-label labelhead"
-                      >
-                        VAT Amount:
-                      </label>
-                    </div>
-                    <div class="col-6 d-flex justify-content-start ">
-                      <input
-                        type="number"
-                        class="form-control labelbox"
-                        id="exampleFormControlInput1"
-                        placeholder=" 50.00"
-                        name="vendorVatAmount"
-                        value={vendorVatAmount}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                  </div>
-
-                  <div class="row cust">
-                    <div class="col-6 d-flex justify-content-end ">
-                      <label
-                        for="exampleFormControlInput1"
-                        class="form-label labelhead"
-                      >
-                        Total OMR:
-                      </label>
-                    </div>
-                    <div class="col-6 d-flex justify-content-start ">
-                      <input
-                        type="number"
-                        class="form-control labelbox"
-                        id="exampleFormControlInput1"
-                        placeholder=" 250.00"
-                        name="vendorOmrAmount"
-                        value={vendorTotalOmr}
-                        disabled
-                      />
-                    </div>
-                  </div>
-                  <div class="row cust">
-                    <div class="col-6 d-flex justify-content-end ">
-                      <label
-                        for="exampleFormControlInput1"
-                        class="form-label labelhead"
-                      >
-                        Total USD:
-                      </label>
-                    </div>
-                    <div class="col-6 d-flex justify-content-start ">
-                      <input
-                        type="number"
-                        class="form-control labelbox"
-                        id="exampleFormControlInput1"
-                        placeholder=" 25.00"
-                        name="vendorTotalUSD"
-                        value={vendorTotalUSD}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="firstfooter">
-              <button
-                type="button"
-                class="btn add-button"
-                onClick={() => {
-                  addCharges("edit", editIndex);
-                }}
-              >
-                Save changes
-              </button>
-            </div>
-          </>
-        )}
-      </DialogContent>
-    </Dialog>
+      {openPopUp && <PopUp message={message} />}
+    </>
   );
 };
 

@@ -6,9 +6,15 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ResponsiveDialog from "./ResponsiveDialog";
 import ChargesTable from "./ChargesTable";
-import { savePda, changeQuotationStatus } from "../services/apiService";
+import {
+  savePda,
+  changeQuotationStatus,
+  editPDA,
+} from "../services/apiService";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PopUp from "./PopUp";
+import QuotationDialog from "./QuotationDialog";
 const CreatePDA = ({
   vessels,
   ports,
@@ -32,7 +38,9 @@ const CreatePDA = ({
   const [editCharge, setEditCharge] = useState(null);
   const [editIndex, setEditIndex] = useState(null);
   const [pdaResponse, setPdaResponse] = useState(null);
-
+  const [pdaServicesResponse, setPdaServicesResponse] = useState(null);
+  const [openPopUp, setOpenPopUp] = useState(false);
+  const [message, setMessage] = useState("");
   const [formData, setFormData] = useState({
     vessel: null,
     port: null,
@@ -40,20 +48,25 @@ const CreatePDA = ({
     vesselType: null,
     service: null,
     customer: null,
-    vesselVoyageNo: "",
-    imoNo: "",
-    loa: "",
-    grt: "",
-    nrt: "",
+    vesselVoyageNumber: "",
+    IMONumber: "",
+    LOA: "",
+    GRT: "",
+    NRT: "",
   });
 
   // Boolean states for each option
   const [isVessels, setIsVessels] = useState(false);
   const [isServices, setIsServices] = useState(false);
+  const [isCustomerApproved, setIsCustomerApproved] = useState(false);
 
   // Handler functions to toggle each state
   const handleVesselsChange = () => {
     setIsVessels(!isVessels);
+  };
+
+  const handleCustomerApproved = () => {
+    setIsCustomerApproved(!isCustomerApproved);
   };
 
   const handleServicesChange = () => {
@@ -131,29 +144,50 @@ const CreatePDA = ({
 
   useEffect(() => {
     console.log(selectedPort, "selectedPort");
-    console.log(selectedVessel, "selectedVessel");
     console.log(selectedCargo, "selectedCargo");
     console.log(selectedVesselType, "selectedVesselType");
     console.log(selectedCustomer, "selectedCustomer");
     console.log(isVessels, "isVessels");
     console.log(isServices, "isServices");
-    console.log(formData, "formData");
     console.log(eta, "eta");
     console.log(etd, "etd");
   }, [
     selectedPort,
-    selectedVessel,
     selectedCargo,
     selectedVesselType,
     selectedCustomer,
     isVessels,
     isServices,
-    formData,
     eta,
     etd,
   ]);
 
+  useEffect(() => {
+    console.log(selectedVessel, "selectedVessel");
+    if (selectedVessel?.vesselName !== "TBA") {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        IMONumber: selectedVessel?.IMONumber,
+        LOA: selectedVessel?.LOA,
+        GRT: selectedVessel?.GRT,
+        NRT: selectedVessel?.NRT,
+      }));
+    } else {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        IMONumber: "",
+        LOA: "",
+        GRT: "",
+        NRT: "",
+      }));
+    }
+  }, [selectedVessel]); // Only re-run when selectedVessel changes
+
+  useEffect(() => {
+    console.log(formData, "formData");
+  }, [formData]);
   const [open, setOpen] = useState(false);
+  const [quotationOpen, setQuotationOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -161,6 +195,14 @@ const CreatePDA = ({
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleQuotationOpen = () => {
+    setQuotationOpen(true);
+  };
+
+  const handleQuotationCloseClose = () => {
+    setQuotationOpen(false);
   };
 
   const handleSubmit = (chargesArray) => {
@@ -172,10 +214,12 @@ const CreatePDA = ({
 
   const handleEdit = (charges, index) => {
     console.log("edit_charges: ", charges);
-    setIsEditcharge(true);
-    setEditCharge(charges);
-    setEditIndex(index);
-    handleClickOpen();
+    if (charges) {
+      setIsEditcharge(true);
+      setEditCharge(charges);
+      setEditIndex(index);
+      handleClickOpen();
+    }
   };
 
   const openDialog = () => {
@@ -183,54 +227,126 @@ const CreatePDA = ({
     handleClickOpen();
   };
 
+  const sendQuotation = () => {
+    handleQuotationOpen();
+  };
+
   const submitPda = async (status) => {
-    setStatus(Number(status));
-    let pdaPayload = {
-      isvessels: isVessels,
-      isservices: isServices,
-      vesselid: selectedVessel?._id,
-      portid: selectedPort?._id,
-      cargoid: selectedCargo?._id,
-      vesseltypeid: "671a60013b3ccd8450292d23",
-      customerid: selectedVesselType?._id,
-      userid: loginResponse?.data?._id,
-      vesselvoyagenumber: Number(formData?.vesselVoyageNo),
-      imonumber: Number(formData?.imoNo),
-      loa: Number(formData?.loa),
-      grt: Number(formData?.grt),
-      nrt: Number(formData?.nrt),
-      eta: eta,
-      etd: etd,
-      status: status,
-      charges: chargesArray,
-    };
-    try {
-      const response = await savePda(pdaPayload);
-      console.log(response, "login_response");
-      if (response?.status == true) {
-        setPdaResponse(response?.pda);
-        toast.success("PDA saved successfully!", {
-          position: "top-center",
-          autoClose: 2000,
-        });
-      } else {
-        toast.error("PDA failed. Please try again", {
-          position: "top-center",
-          autoClose: 2000,
-        });
+    if ((isVessels || isServices) && selectedVessel && selectedPort) {
+      setStatus(Number(status));
+      let pdaPayload = {
+        pdaId: pdaResponse?._id ? pdaResponse?._id : null,
+        isVessels: isVessels,
+        isServices: isServices,
+        vesselId: selectedVessel?._id,
+        portId: selectedPort?._id,
+        cargoId: selectedCargo?._id,
+        vesselTypeId: "671a60013b3ccd8450292d23",
+        customerId: selectedVesselType?._id,
+        userid: loginResponse?.data?._id,
+        vesselVoyageNumber: Number(formData?.vesselVoyageNo),
+        IMONumber: Number(formData?.imoNo),
+        LOA: Number(formData?.LOA),
+        GRT: Number(formData?.GRT),
+        NRT: Number(formData?.NRT),
+        ETA: eta,
+        ETD: etd,
+        pdaStatus: isCustomerApproved ? 5 : status,
+        charges: chargesArray,
+        pdaid: pdaResponse?._id ? pdaResponse?._id : null,
+      };
+      if (!pdaResponse?._id) {
+        try {
+          const response = await savePda(pdaPayload);
+          console.log(response, "login_response");
+          if (response?.status == true) {
+            setPdaResponse(response?.pda);
+            setPdaServicesResponse(response?.pdaServices);
+            updateValues(response);
+            if (response?.pda?.pdaStatus == 2) {
+              setMessage("PDA Forwarded To The Finance Manager For Approval");
+            } else {
+              setMessage("PDA has been submitted successfully");
+            }
+            setOpenPopUp(true);
+            setTimeout(() => {
+              setOpenPopUp(false);
+            }, 2000);
+          } else {
+            setMessage("PDA failed. Please try again");
+            setOpenPopUp(true);
+            setTimeout(() => {
+              setOpenPopUp(false);
+            }, 2000);
+          }
+        } catch (error) {
+          setMessage("PDA failed. Please try again");
+          setOpenPopUp(true);
+          setTimeout(() => {
+            setOpenPopUp(false);
+          }, 2000);
+        } finally {
+        }
+      } else if (pdaResponse?._id) {
+        try {
+          const response = await editPDA(pdaPayload);
+          console.log(response, "editPDA_response");
+          if (response?.status == true) {
+            setPdaResponse(response?.pda);
+            setPdaServicesResponse(response?.pdaServices);
+            updateValues(response);
+            setMessage("PDA Updated Successfully");
+            setOpenPopUp(true);
+            setTimeout(() => {
+              setOpenPopUp(false);
+            }, 2000);
+          } else {
+            setMessage("PDA failed. Please try again");
+            setOpenPopUp(true);
+            setTimeout(() => {
+              setOpenPopUp(false);
+            }, 2000);
+          }
+        } catch (error) {
+          setMessage("PDA failed. Please try again");
+          setOpenPopUp(true);
+          setTimeout(() => {
+            setOpenPopUp(false);
+          }, 2000);
+        } finally {
+        }
       }
-    } catch (error) {
-      toast.error("PDA failed. Please try again", {
-        position: "top-center",
-        autoClose: 2000,
-      });
-    } finally {
+    } else {
+      alert("fill all fields");
     }
+  };
+
+  const updateValues = (response) => {
+    setIsVessels(response?.pda?.isVessels);
+    setIsServices(response?.pda?.isServices);
+    setSelectedVessel(response?.pda?.vesselId);
+    setSelectedPort(response?.pda?.portId);
+    setSelectedCargo(response?.pda?.cargoId);
+    setSelectedCustomer(response?.pda?.customerId);
+    setSelectedVesselType(response?.pda?.vesselTypeId);
+    setEta(response?.pda?.ETA);
+    setEtd(response?.pda?.ETD);
+    setStatus(response?.pda?.pdaStatus);
+    setChargesArray(response?.pdaServices);
+
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      vesselVoyageNumber: response?.pda?.vesselVoyageNumber,
+      IMONumber: response?.pda?.IMONumber,
+      LOA: response?.pda?.LOA,
+      GRT: response?.pda?.GRT,
+      NRT: response?.pda?.NRT,
+    }));
   };
 
   const updateQuotation = async (status) => {
     let pdaPayload = {
-      pdaid: pdaResponse?._id,
+      pdaId: pdaResponse?._id,
       status: status,
     };
     try {
@@ -238,21 +354,28 @@ const CreatePDA = ({
       console.log(response, "login_response");
       if (response?.status == true) {
         setPdaResponse(response?.pda);
-        toast.success("PDA Updated successfully!", {
-          position: "top-center",
-          autoClose: 2000,
-        });
+        if (response?.pda?.pdaStatus == 3) {
+          setMessage("PDA has been internally approved");
+        } else if (response?.pda?.pdaStatus == 4) {
+          setMessage("PDA has been rejected by finance manager");
+        }
+        setOpenPopUp(true);
+        setTimeout(() => {
+          setOpenPopUp(false);
+        }, 2000);
       } else {
-        toast.error("PDA failed. Please try again", {
-          position: "top-center",
-          autoClose: 2000,
-        });
+        setMessage("PDA failed. Please try again");
+        setOpenPopUp(true);
+        setTimeout(() => {
+          setOpenPopUp(false);
+        }, 2000);
       }
     } catch (error) {
-      toast.error("PDA failed. Please try again", {
-        position: "top-center",
-        autoClose: 2000,
-      });
+      setMessage("PDA failed. Please try again");
+      setOpenPopUp(true);
+      setTimeout(() => {
+        setOpenPopUp(false);
+      }, 2000);
     } finally {
     }
   };
@@ -275,6 +398,21 @@ const CreatePDA = ({
   useEffect(() => {
     console.log(pdaResponse, "pdaResponse");
   }, [pdaResponse]);
+
+  useEffect(() => {
+    console.log(pdaServicesResponse, "pdaServicesResponse");
+  }, [pdaServicesResponse]);
+  useEffect(() => {
+    console.log(status, "status_CERATE");
+  }, [status]);
+
+  useEffect(() => {
+    console.log(editCharge, "editCharge");
+  }, [editCharge]);
+
+  useEffect(() => {
+    console.log(chargesArray, "chargesArray_CREATEPDA");
+  }, [chargesArray]);
 
   // Function to format the date
   const formatDate = (dateString) => {
@@ -335,13 +473,37 @@ const CreatePDA = ({
                     {pdaResponse?.pdaStatus == 1
                       ? "Draft PDA"
                       : pdaResponse?.pdaStatus == 2
-                        ? "Waiting For Approval From Finance Manager"
-                        : ""}
+                      ? "Waiting For Approval From Finance Manager"
+                      : pdaResponse?.pdaStatus == 3
+                      ? "Internally Approved"
+                      : pdaResponse?.pdaStatus == 4
+                      ? "Rejected By Finance Manager"
+                      : pdaResponse?.pdaStatus == 5
+                      ? "Customer Approved"
+                      : ""}
                     {/* Internally Approved
                     Customer Approved
                     Rejected By Finance Manager */}
                   </button>
                 </div>
+
+                {pdaResponse?.pdaStatus == 3 && (
+                  <>
+                    <div className="d-flex ">
+                      <input
+                        type="checkbox"
+                        name="payment"
+                        id="customerapproved"
+                        checked={isCustomerApproved}
+                        onChange={handleCustomerApproved}
+                        className="vesselradio"
+                      />
+                      <label htmlFor="customerapproved" className="vessel">
+                        Customer Approved
+                      </label>
+                    </div>
+                  </>
+                )}
               </div>
             </>
           )}
@@ -394,6 +556,7 @@ const CreatePDA = ({
                     className="form-select vesselbox"
                     onChange={handleSelectChange}
                     aria-label="Default select example"
+                    value={selectedVessel?._id}
                   >
                     <option value="">Choose Vessel name</option>
                     {vessels.map((vessel) => (
@@ -414,6 +577,7 @@ const CreatePDA = ({
                     className="form-select vesselbox"
                     onChange={handleSelectChange}
                     aria-label="Default select example"
+                    value={selectedPort?._id}
                   >
                     <option value="">Choose Port name</option>
                     {ports.map((port) => (
@@ -439,6 +603,7 @@ const CreatePDA = ({
                       className="form-select vesselbox"
                       onChange={handleSelectChange}
                       aria-label="Default select example"
+                      value={selectedCargo?._id}
                     >
                       <option value="">Choose Cargo name</option>
                       {cargos.map((cargo) => (
@@ -460,6 +625,7 @@ const CreatePDA = ({
                     className="form-select vesselbox"
                     onChange={handleSelectChange}
                     aria-label="Default select example"
+                    value={selectedVesselType?._id}
                   >
                     <option value="">Choose Type of Vessel</option>
                     {vesselTypes.map((vessel) => (
@@ -496,11 +662,12 @@ const CreatePDA = ({
                   <input
                     type="number"
                     name="imoNo"
-                    value={formData.imoNo}
+                    value={formData.IMONumber}
                     onChange={handleInputChange}
                     className="form-control vessel-voyage voyageblock"
                     id="exampleFormControlInput1"
                     placeholder=""
+                    readOnly={selectedVessel?.vesselName !== "TBA"} // Use readOnly instead of disabled
                   />
                 </div>
                 <div className="col-5 voyage ">
@@ -510,11 +677,12 @@ const CreatePDA = ({
                   <input
                     type="number"
                     name="loa"
-                    value={formData.loa}
+                    value={formData.LOA}
                     onChange={handleInputChange}
                     className="form-control vessel-voyage voyageblock"
                     id="exampleFormControlInput1"
                     placeholder=""
+                    readOnly={selectedVessel?.vesselName !== "TBA"} // Use readOnly instead of disabled
                   />
                 </div>
               </div>
@@ -528,11 +696,12 @@ const CreatePDA = ({
                   <input
                     type="number"
                     name="grt"
-                    value={formData.grt}
+                    value={formData.GRT}
                     onChange={handleInputChange}
                     className="form-control vessel-voyage voyageblock"
                     id="exampleFormControlInput1"
                     placeholder=""
+                    readOnly={selectedVessel?.vesselName !== "TBA"} // Use readOnly instead of disabled
                   />
                 </div>
                 <div className="col-5 nrt ">
@@ -542,11 +711,12 @@ const CreatePDA = ({
                   <input
                     type="number"
                     name="nrt"
-                    value={formData.nrt}
+                    value={formData.NRT}
                     onChange={handleInputChange}
                     className="form-control vessel-voyage voyageblock"
                     id="exampleFormControlInput1"
                     placeholder=""
+                    readOnly={selectedVessel?.vesselName !== "TBA"} // Use readOnly instead of disabled
                   />
                 </div>
               </div>
@@ -567,6 +737,7 @@ const CreatePDA = ({
                     className="form-control date-input" // Bootstrap class for styling
                     id="eta-picker"
                     placeholderText="Select ETA"
+                    value={eta ? new Date(eta) : null}
                   />
                 </div>
                 <div className="col-5 etd ">
@@ -583,6 +754,7 @@ const CreatePDA = ({
                     className="form-control date-input" // Bootstrap class for styling
                     id="etd-picker"
                     placeholderText="Select ETD"
+                    value={etd ? new Date(etd) : null}
                   />
                 </div>
               </div>
@@ -623,6 +795,7 @@ const CreatePDA = ({
                     className="form-select vesselbox"
                     onChange={handleSelectChange}
                     aria-label="Default select example"
+                    value={selectedCustomer?._id}
                   >
                     <option value="">Choose Customer</option>
                     {customers.map((customer) => (
@@ -660,48 +833,77 @@ const CreatePDA = ({
               </div>
             </div>
           </div>
-          <button className="btn btna">Generate PDA</button>
 
-          {status == 1 && (
+          {chargesArray?.length > 0 && (
             <>
-              <button
-                className="btn btna"
-                onClick={() => {
-                  submitPda("2");
-                }}
-              >
-                Save As Draft
-              </button>
-            </>
-          )}
+              <React.Fragment>
+                <button className="btn btna">Generate PDA</button>
 
-          <button
-            className="btn btna"
-            onClick={() => {
-              submitPda("2");
-            }}
-          >
-            Submit
-          </button>
+                {}
 
-          {status == 2 && (
-            <>
-              <button
-                className="btn btna"
-                onClick={() => {
-                  updateQuotation("3");
-                }}
-              >
-                Approve
-              </button>
-              <button
-                className="btn btna"
-                onClick={() => {
-                  updateQuotation("4");
-                }}
-              >
-                Reject
-              </button>
+                {pdaResponse?.pdaStatus && pdaResponse?.pdaStatus == 3 && (
+                  <>
+                    <button className="btn btna">Generate Invoice</button>
+                    <button className="btn btna">Send Invoice</button>
+                    <button
+                      className="btn btna"
+                      onClick={() => {
+                        sendQuotation();
+                      }}
+                    >
+                      Send Quotation
+                    </button>
+                  </>
+                )}
+
+                {status == 1 && (
+                  <>
+                    <button
+                      className="btn btna"
+                      onClick={() => {
+                        submitPda("2");
+                      }}
+                    >
+                      Save As Draft
+                    </button>
+                  </>
+                )}
+
+                {status != 5 && (
+                  <>
+                    <button
+                      className="btn btna"
+                      onClick={() => {
+                        submitPda("2");
+                      }}
+                    >
+                      Submit
+                    </button>
+                  </>
+                )}
+
+                {(pdaResponse?.pdaStatus == 2 ||
+                  pdaResponse?.pdaStatus == 4) && (
+                  <>
+                    <button
+                      className="btn btna"
+                      onClick={() => {
+                        updateQuotation("3");
+                      }}
+                    >
+                      Approve
+                    </button>
+                    <button
+                      className="btn btna"
+                      onClick={() => {
+                        updateQuotation("4");
+                      }}
+                    >
+                      Reject
+                    </button>
+                  </>
+                )}
+              </React.Fragment>
             </>
           )}
         </div>
@@ -726,9 +928,32 @@ const CreatePDA = ({
         isEditcharge={isEditcharge}
         editCharge={editCharge}
         editIndex={editIndex}
+        pdaResponse={pdaResponse}
       />
 
+      <QuotationDialog
+        open={quotationOpen}
+        onClose={handleQuotationCloseClose}
+        onSubmit={handleSubmit}
+        selectedVessel={selectedVessel}
+        selectedPort={selectedPort}
+        selectedCargo={selectedCargo}
+        selectedVesselType={selectedVesselType}
+        selectedCustomer={selectedCustomer}
+        eta={eta}
+        etd={etd}
+        status={status}
+        formData={formData}
+        services={services}
+        customers={customers}
+        ports={ports}
+        isEditcharge={isEditcharge}
+        editCharge={editCharge}
+        editIndex={editIndex}
+        pdaResponse={pdaResponse}
+      />
 
+      {openPopUp && <PopUp message={message} />}
     </>
   );
 };

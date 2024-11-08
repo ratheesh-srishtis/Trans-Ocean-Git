@@ -1,10 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Button, IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import { getAllQuotations } from "../services/apiService";
 
 const initialData = [
   {
@@ -55,6 +56,18 @@ const Quotations = () => {
   const [selectedRows, setSelectedRows] = useState([]);
   const invoiceRef = useRef();
 
+  const fetchQuotations = async () => {
+    try {
+      const quotations = await getAllQuotations();
+      console.log("Quotations:", quotations);
+    } catch (error) {
+      console.error("Failed to fetch quotations:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchQuotations();
+  }, []);
   // Column definition
   const columns = [
     { field: "jobId", headerName: "Job ID", width: 150 },
