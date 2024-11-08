@@ -13,9 +13,10 @@
 }
 .btn:hover {
   color: #007ac1;
-  background-color: #007ac1;
+  background-color: #ffffff;
   border-color: #007ac1;
 }
+
 
 @media only screen and (max-width: 767px) {
 }
