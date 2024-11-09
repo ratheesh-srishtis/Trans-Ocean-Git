@@ -13,6 +13,9 @@
 .pdadate {
   display: flex;
 }
+.customerbox{
+  padding:10px;
+}
 
 .btn-color {
   background-color: #007ac12d;
@@ -34,6 +37,7 @@
 .pdanumber {
   display: flex;
   align-items: center;
+  margin-top: -05px;
 }
 .draft-pda {
   display: flex;
@@ -54,6 +58,15 @@
 
 .book {
   color: #007ac1;
+ 
+}
+.circle{
+  color:#007ac1;
+  height:200px;
+  width:30px;
+}
+.statusbadge{
+  
 }
 
 .radio {
@@ -128,6 +141,9 @@
   color: #ffffff;
   background-color: #1EBBEE;
   border-color: #1EBBEE;
+}
+.required{
+  color:red;
 }
 
 .typesofcall-row {

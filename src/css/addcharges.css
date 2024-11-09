@@ -48,8 +48,9 @@
   color: #007ac1;
   margin-left:15px;
   cursor: pointer;
-
-
+}
+.required{
+  color:red;
 }
 .deleteicon{
   color:red;

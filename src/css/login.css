@@ -283,7 +283,9 @@ body {
   padding: 1em 2em;
   border-radius: 0.5em;
 }
-
+.required{
+  color:red;
+}
 .vesselbox {
   padding-top: 15px;
   padding-bottom: 15px;
