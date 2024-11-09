@@ -119,6 +119,16 @@
   color: white;
   margin-right:20px
 }
+.generate-button{
+  color: #1EBBEE;
+  background-color: #ffffff;
+  border-color: #1EBBEE;
+}
+.submit-button{
+  color: #ffffff;
+  background-color: #1EBBEE;
+  border-color: #1EBBEE;
+}
 
 .typesofcall-row {
   margin-top: 30px;
