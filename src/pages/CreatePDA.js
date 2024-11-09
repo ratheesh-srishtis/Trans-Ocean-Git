@@ -476,19 +476,20 @@ const CreatePDA = ({
                 <div className="col-4 draft-pda ">
                   <button type="button" className="btn draft">
                     <span className="badge ">
-                      <i className="bi bi-book-fill book"></i>{" "}
+                      <i className="bi bi-book-fill book"></i>
+                      <i class="bi bi-check2-circle"></i>{" "}
                     </span>{" "}
                     {pdaResponse?.pdaStatus == 1
                       ? "Draft PDA"
                       : pdaResponse?.pdaStatus == 2
-                      ? "Waiting For Approval From Finance Manager"
-                      : pdaResponse?.pdaStatus == 3
-                      ? "Internally Approved"
-                      : pdaResponse?.pdaStatus == 4
-                      ? "Rejected By Finance Manager"
-                      : pdaResponse?.pdaStatus == 5
-                      ? "Customer Approved"
-                      : ""}
+                        ? "Waiting For Approval From Finance Manager"
+                        : pdaResponse?.pdaStatus == 3
+                          ? "Internally Approved"
+                          : pdaResponse?.pdaStatus == 4
+                            ? "Rejected By Finance Manager"
+                            : pdaResponse?.pdaStatus == 5
+                              ? "Customer Approved"
+                              : ""}
                     {/* Internally Approved
                     Customer Approved
                     Rejected By Finance Manager */}
@@ -845,16 +846,39 @@ const CreatePDA = ({
           {chargesArray?.length > 0 && (
             <>
               <React.Fragment>
-                <button className="btn btna">Generate PDA</button>
 
-                {}
 
-                {pdaResponse?.pdaStatus && pdaResponse?.pdaStatus == 3 && (
+                <div>
+
+                  <div className="left"> 
+                  <button className="btn btna generate-button">Generate PDA</button>
+
+                  {pdaResponse?.pdaStatus && pdaResponse?.pdaStatus == 3 && (
                   <>
-                    <button className="btn btna">Generate Invoice</button>
-                    <button className="btn btna">Send Invoice</button>
+                    <button className="btn btna generate-button">Generate Invoice</button>
+                    <button className="btn btna generate-button">Send Invoice</button>
+                    {status == 1 && (
+                  <>
                     <button
-                      className="btn btna"
+                      className="btn btna generate-button "
+                      onClick={() => {
+                        submitPda("2");
+                      }}
+                    >
+                      Save As Draft
+                    </button>
+                  </>
+                )}
+                  </>
+                )}
+
+                  </div>
+
+                  <div className="right">
+                  {pdaResponse?.pdaStatus && pdaResponse?.pdaStatus == 3 && (
+                  <>
+                    <button
+                      className="btn btna submit-button"
                       onClick={() => {
                         sendQuotation();
                       }}
@@ -864,23 +888,10 @@ const CreatePDA = ({
                   </>
                 )}
 
-                {status == 1 && (
+{status != 5 && (
                   <>
                     <button
-                      className="btn btna"
-                      onClick={() => {
-                        submitPda("2");
-                      }}
-                    >
-                      Save As Draft
-                    </button>
-                  </>
-                )}
-
-                {status != 5 && (
-                  <>
-                    <button
-                      className="btn btna"
+                      className="btn btna submit-button"
                       onClick={() => {
                         submitPda("2");
                       }}
@@ -890,27 +901,41 @@ const CreatePDA = ({
                   </>
                 )}
 
-                {(pdaResponse?.pdaStatus == 2 ||
+                  {(pdaResponse?.pdaStatus == 2 ||
                   pdaResponse?.pdaStatus == 4) && (
-                  <>
-                    <button
-                      className="btn btna"
-                      onClick={() => {
-                        updateQuotation("3");
-                      }}
-                    >
-                      Approve
-                    </button>
-                    <button
-                      className="btn btna"
-                      onClick={() => {
-                        updateQuotation("4");
-                      }}
-                    >
-                      Reject
-                    </button>
-                  </>
-                )}
+                    <>
+                      <button
+                        className="btn btna generate-button"
+                        onClick={() => {
+                          updateQuotation("3");
+                        }}
+                      >
+                        Approve
+                      </button>
+                      <button
+                        className="btn btna generate-button"
+                        onClick={() => {
+                          updateQuotation("4");
+                        }}
+                      >
+                        Reject
+                      </button>
+                    </>
+                  )}
+
+                  </div>
+
+                </div>
+
+                
+
+             
+
+                
+
+               
+
+              
               </React.Fragment>
             </>
           )}
