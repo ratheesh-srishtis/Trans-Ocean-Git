@@ -145,6 +145,7 @@ const CreatePDA = ({
   useEffect(() => {
     console.log(selectedPort, "selectedPort");
     console.log(selectedCargo, "selectedCargo");
+    console.log(selectedVessel, "selectedVessel");
     console.log(selectedVesselType, "selectedVesselType");
     console.log(selectedCustomer, "selectedCustomer");
     console.log(isVessels, "isVessels");
@@ -155,6 +156,7 @@ const CreatePDA = ({
     selectedPort,
     selectedCargo,
     selectedVesselType,
+    selectedVessel,
     selectedCustomer,
     isVessels,
     isServices,
@@ -232,6 +234,10 @@ const CreatePDA = ({
   };
 
   const submitPda = async (status) => {
+    console.log(isVessels, "isVessels submitPda");
+    console.log(isServices, "isServices submitPda");
+    console.log(selectedVessel, "selectedVessel submitPda");
+    console.log(selectedPort, "selectedPort submitPda");
     if ((isVessels || isServices) && selectedVessel && selectedPort) {
       setStatus(Number(status));
       let pdaPayload = {
@@ -241,8 +247,8 @@ const CreatePDA = ({
         vesselId: selectedVessel?._id,
         portId: selectedPort?._id,
         cargoId: selectedCargo?._id,
-        vesselTypeId: "671a60013b3ccd8450292d23",
-        customerId: selectedVesselType?._id,
+        vesselTypeId: selectedVesselType?._id,
+        customerId: selectedCustomer?._id,
         userid: loginResponse?.data?._id,
         vesselVoyageNumber: Number(formData?.vesselVoyageNo),
         IMONumber: Number(formData?.imoNo),
@@ -255,6 +261,7 @@ const CreatePDA = ({
         charges: chargesArray,
         pdaid: pdaResponse?._id ? pdaResponse?._id : null,
       };
+      console.log(pdaPayload, "pdaPayload");
       if (!pdaResponse?._id) {
         try {
           const response = await savePda(pdaPayload);
@@ -322,9 +329,10 @@ const CreatePDA = ({
   };
 
   const updateValues = (response) => {
+    console.log(response, "updateValues");
     setIsVessels(response?.pda?.isVessels);
     setIsServices(response?.pda?.isServices);
-    setSelectedVessel(response?.pda?.vesselId);
+    // setSelectedVessel(response?.pda?.vesselId);
     setSelectedPort(response?.pda?.portId);
     setSelectedCargo(response?.pda?.cargoId);
     setSelectedCustomer(response?.pda?.customerId);
