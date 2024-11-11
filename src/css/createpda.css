@@ -80,9 +80,14 @@
 .vesselradio {
   margin-left: 50px;
   margin-right: 10px;
+  cursor: pointer;
 }
 .vessel {
   margin-right: 100px;
+  cursor: pointer;
+}
+.service{
+  cursor: pointer;
 }
 .vesselbox {
   padding-top: 15px;
@@ -124,23 +129,23 @@
   color: white;
   font-size: larger;
 }
-.btna {
+.btna{
   background-color: #007ac1;
   padding-top: 13px;
   padding-bottom: 13px;
   text-align: center;
   color: white;
-  margin-right: 20px;
+  margin-right:20px
 }
-.generate-button {
-  color: #1ebbee;
+.generate-button{
+  color: #1EBBEE;
   background-color: #ffffff;
-  border-color: #1ebbee;
+  border-color: #1EBBEE;
 }
-.submit-button {
+.submit-button{
   color: #ffffff;
-  background-color: #1ebbee;
-  border-color: #1ebbee;
+  background-color: #1EBBEE;
+  border-color: #1EBBEE;
 }
 .required{
   color:red;
@@ -175,10 +180,38 @@
   width: 240px !important;
   height: 56px !important;
 }
+@media only screen and (max-width: 1354px) {
+  
+  .voyageblock {
+    width: 100%;
+    max-with:100%;
+  }
+  .nrt {
+    padding-left: 0px;
+    padding-right:20px;
+  }
+  .date-input {
+    width: 100% !important;
+    height: 56px !important;
+    max-width: 100%;
+  }
+  .etd {
+    padding-left: 0px;
+  }
+  .voyage {
+    padding-left:0px;
+    width:45%;
+  }
+  .vesselradio {
+    margin-left: 0px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+}
+
+
 .buttons-wrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-@media only screen and (max-width: 767px) {
 }

@@ -546,7 +546,7 @@ const CreatePDA = ({
                         onChange={handleServicesChange}
                         className="vesselradio"
                       />
-                      <label htmlFor="services">Services</label>
+                      <label htmlFor="services" className="service">Services</label>
                     </div>
                   </div>
                 </div>
@@ -660,7 +660,7 @@ const CreatePDA = ({
           <div className="thirdrow mb-3">
             <div className="col-4">
               <div className="row">
-                <div className="col-5">
+                <div className="col-6">
                   <label for="exampleFormControlInput1" className="form-label">
                     IMO No:
                   </label>
@@ -675,7 +675,7 @@ const CreatePDA = ({
                     readOnly={selectedVessel?.vesselName !== "TBA"} // Use readOnly instead of disabled
                   />
                 </div>
-                <div className="col-5 voyage ">
+                <div className="col-6 voyage ">
                   <label for="exampleFormControlInput1" className="form-label">
                     LOA:
                   </label>
@@ -694,7 +694,7 @@ const CreatePDA = ({
             </div>
             <div className="col-4">
               <div className="row">
-                <div className="col-5 grt">
+                <div className="col-6 grt">
                   <label for="exampleFormControlInput1" className="form-label">
                     GRT:
                   </label>
@@ -709,7 +709,7 @@ const CreatePDA = ({
                     readOnly={selectedVessel?.vesselName !== "TBA"} // Use readOnly instead of disabled
                   />
                 </div>
-                <div className="col-5 nrt ">
+                <div className="col-6 nrt ">
                   <label for="exampleFormControlInput1" className="form-label">
                     NRT:
                   </label>
@@ -728,7 +728,7 @@ const CreatePDA = ({
             </div>
             <div className="col-4">
               <div className="row">
-                <div className="col-5 eta">
+                <div className="col-6 eta">
                   <label for="exampleFormControlInput1" className="form-label">
                     ETA:
                   </label>
@@ -745,7 +745,7 @@ const CreatePDA = ({
                     value={eta ? new Date(eta) : null}
                   />
                 </div>
-                <div className="col-5 etd ">
+                <div className="col-6 etd ">
                   <label for="exampleFormControlInput1" className="form-label">
                     ETD:
                   </label>
@@ -790,7 +790,7 @@ const CreatePDA = ({
                   </div>
                 </div>
               </div> */}
-              <div className="col-5">
+              <div className="col-4">
                 <label for="exampleFormControlInput1" className="form-label">
                   Customer Name:
                 </label>

@@ -435,11 +435,17 @@ td {
 
 /* loginpage end */
 
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 1354px) {
   .transocean_login .mainpng {
     display: none !important;
   }
 
+  .notification h6 {
+    font-size:13px;
+  }
+  .notification.new{
+    fontsize:1px;
+  }
   .transocean_login .maincard {
     padding: 25px;
     max-width: 80%;
@@ -452,6 +458,10 @@ td {
     z-index: -1;
     left: 0;
     top: 0;
+  }
+  .dashboard_cards {
+    border-radius: 12px;
+    padding: 10px 30px;
   }
 
   .same-level {
@@ -502,5 +512,32 @@ td {
   .footerlinks a {
     color: #4d5959 !important;
     text-decoration: none;
+  }
+  .header--wrapper .btn-group{
+    margin-top: 10px;
+  }
+  .header--wrapper .downarrow{
+    margin-top: 10px;
+  }
+  .Signout {
+    border-top: 10px;
+    border-color: black;
+    position: absolute;
+    top: 650px;
+    left: 0;
+    width: 100%;
+  }
+  .sidebar {
+    position: sticky;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 220px;
+    height: 500%;
+    padding: 0px 12px;
+    color: #fff;
+    overflow: hidden;
+    transition: all 0.5s linear;
+    background-color: aliceblue;
   }
 }
