@@ -18,22 +18,22 @@ const Dashboard = () => {
           <ul className="nav nav-underline">
             <li className="nav-item">
               <a className="nav-link" aria-current="page" href="#">
-                Last 24 hour
+                All
               </a>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="#">
-                Last Weeks
+                Last Hour
               </a>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="#">
-                Last Month
+                Last Week
               </a>
             </li>
             <li className="nav-item">
               <h6 className="nav-link" href="#">
-                Last Year
+                Last Month
               </h6>
             </li>
           </ul>
@@ -51,7 +51,7 @@ const Dashboard = () => {
               <img className="img-size" src={img_2} />
               <h3 className="card_count"> 32</h3>
               <h5 className="card_title">Received Quotation</h5>
-              <span className="card_subtitle">-5% From Last Week</span>
+              
             </div>
           </div>
           <div className="col-3">
@@ -59,7 +59,7 @@ const Dashboard = () => {
               <img className="img-size" src={img_3} />
               <h3 className="card_count"> 32</h3>
               <h5 className="card_title">Received Quotation</h5>
-              <span className="card_subtitle">-5% From Last Week</span>
+             
             </div>
           </div>
           <div className="col-3">
@@ -67,7 +67,7 @@ const Dashboard = () => {
               <img className="img-size" src={img_4} />
               <h3 className="card_count"> 32</h3>
               <h5 className="card_title">Received Quotation</h5>
-              <span className="card_subtitle">-5% From Last Week</span>
+              
             </div>
           </div>
           <div className="col-3">
@@ -75,7 +75,7 @@ const Dashboard = () => {
               <img className="img-size" src={img_1} />
               <h3 className="card_count"> 32</h3>
               <h5 className="card_title">Received Quotation</h5>
-              <span className="card_subtitle">-5% From Last Week</span>
+             
             </div>
           </div>
         </div>

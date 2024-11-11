@@ -18,11 +18,11 @@ const Header = () => {
             <h2>Dashboard</h2>
           </div>
 
-          <div className="d-flex flex-row-reverse gap-5">
+          <div className="d-flex flex-row-reverse ">
             <div className="btn-group">
               <img src={Rectangle} className="userimg"></img>
               <button type="button" className="admin-button text-start">
-                Admin
+                Finance
                 <div className="fs-6">Username</div>
               </button>
               <button
@@ -66,7 +66,7 @@ const Header = () => {
               <div className="notification">
                 <div>
                   <i className="bi bi-exclamation-triangle-fill alert"></i>
-                  <span> New Message</span>
+                  <span class="new"> New Message</span>
                   <h6> PDA’s are ready for Verification and Approval</h6>
                 </div>
                 <div>
