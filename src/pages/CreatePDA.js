@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PopUp from "./PopUp";
 import QuotationDialog from "./QuotationDialog";
+import PdaDialog from "./PdaDialog";
 const CreatePDA = ({
   vessels,
   ports,
@@ -190,6 +191,7 @@ const CreatePDA = ({
   }, [formData]);
   const [open, setOpen] = useState(false);
   const [quotationOpen, setQuotationOpen] = useState(false);
+  const [generatePDAOpen, setGeneratePDAOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -205,6 +207,14 @@ const CreatePDA = ({
 
   const handleQuotationCloseClose = () => {
     setQuotationOpen(false);
+  };
+
+  const handlePdaOpen = () => {
+    setGeneratePDAOpen(true);
+  };
+
+  const handlePdaClose = () => {
+    setGeneratePDAOpen(false);
   };
 
   const handleSubmit = (chargesArray) => {
@@ -333,7 +343,7 @@ const CreatePDA = ({
     setIsVessels(response?.pda?.isVessels);
     setIsServices(response?.pda?.isServices);
     // setSelectedVessel(response?.pda?.vesselId);
-    setSelectedPort(response?.pda?.portId);
+    // setSelectedPort(response?.pda?.portId);
     setSelectedCargo(response?.pda?.cargoId);
     setSelectedCustomer(response?.pda?.customerId);
     setSelectedVesselType(response?.pda?.vesselTypeId);
@@ -476,20 +486,28 @@ const CreatePDA = ({
                 <div className="col-4 draft-pda ">
                   <button type="button" className="btn draft">
                     <span className="badge ">
-                      <i className="bi bi-book-fill book"></i>
-                      <i class="bi bi-check2-circle"></i>{" "}
+                      {pdaResponse?.pdaStatus == 1 && (
+                        <>
+                          <i className="bi bi-book-fill book"></i>
+                        </>
+                      )}
+                      {pdaResponse?.pdaStatus != 1 && (
+                        <>
+                          <i class="bi bi-check2-circle"></i>{" "}
+                        </>
+                      )}
                     </span>{" "}
                     {pdaResponse?.pdaStatus == 1
                       ? "Draft PDA"
                       : pdaResponse?.pdaStatus == 2
-                        ? "Waiting For Approval From Finance Manager"
-                        : pdaResponse?.pdaStatus == 3
-                          ? "Internally Approved"
-                          : pdaResponse?.pdaStatus == 4
-                            ? "Rejected By Finance Manager"
-                            : pdaResponse?.pdaStatus == 5
-                              ? "Customer Approved"
-                              : ""}
+                      ? "Waiting For Approval From Finance Manager"
+                      : pdaResponse?.pdaStatus == 3
+                      ? "Internally Approved"
+                      : pdaResponse?.pdaStatus == 4
+                      ? "Rejected By Finance Manager"
+                      : pdaResponse?.pdaStatus == 5
+                      ? "Customer Approved"
+                      : ""}
                     {/* Internally Approved
                     Customer Approved
                     Rejected By Finance Manager */}
@@ -846,96 +864,91 @@ const CreatePDA = ({
           {chargesArray?.length > 0 && (
             <>
               <React.Fragment>
-
-
-                <div>
-
-                  <div className="left"> 
-                  <button className="btn btna generate-button">Generate PDA</button>
-
-                  {pdaResponse?.pdaStatus && pdaResponse?.pdaStatus == 3 && (
-                  <>
-                    <button className="btn btna generate-button">Generate Invoice</button>
-                    <button className="btn btna generate-button">Send Invoice</button>
-                    {status == 1 && (
-                  <>
+                <div className="buttons-wrapper">
+                  <div className="left">
                     <button
-                      className="btn btna generate-button "
+                      className="btn btna generate-button"
                       onClick={() => {
-                        submitPda("2");
+                        handlePdaOpen();
                       }}
                     >
-                      Save As Draft
+                      Generate PDA
                     </button>
-                  </>
-                )}
-                  </>
-                )}
 
+                    {pdaResponse?.pdaStatus && pdaResponse?.pdaStatus == 3 && (
+                      <>
+                        <button className="btn btna generate-button">
+                          Generate Invoice
+                        </button>
+                        <button className="btn btna generate-button">
+                          Send Invoice
+                        </button>
+                        {status == 1 && (
+                          <>
+                            <button
+                              className="btn btna generate-button "
+                              onClick={() => {
+                                submitPda("2");
+                              }}
+                            >
+                              Save As Draft
+                            </button>
+                          </>
+                        )}
+                      </>
+                    )}
                   </div>
 
                   <div className="right">
-                  {pdaResponse?.pdaStatus && pdaResponse?.pdaStatus == 3 && (
-                  <>
-                    <button
-                      className="btn btna submit-button"
-                      onClick={() => {
-                        sendQuotation();
-                      }}
-                    >
-                      Send Quotation
-                    </button>
-                  </>
-                )}
+                    {pdaResponse?.pdaStatus && pdaResponse?.pdaStatus == 3 && (
+                      <>
+                        <button
+                          className="btn btna submit-button"
+                          onClick={() => {
+                            sendQuotation();
+                          }}
+                        >
+                          Send Quotation
+                        </button>
+                      </>
+                    )}
 
-{status != 5 && (
-                  <>
-                    <button
-                      className="btn btna submit-button"
-                      onClick={() => {
-                        submitPda("2");
-                      }}
-                    >
-                      Submit
-                    </button>
-                  </>
-                )}
+                    {status != 5 && (
+                      <>
+                        <button
+                          className="btn btna submit-button"
+                          onClick={() => {
+                            submitPda("2");
+                          }}
+                        >
+                          Submit
+                        </button>
+                      </>
+                    )}
 
-                  {(pdaResponse?.pdaStatus == 2 ||
-                  pdaResponse?.pdaStatus == 4) && (
-                    <>
-                      <button
-                        className="btn btna generate-button"
-                        onClick={() => {
-                          updateQuotation("3");
-                        }}
-                      >
-                        Approve
-                      </button>
-                      <button
-                        className="btn btna generate-button"
-                        onClick={() => {
-                          updateQuotation("4");
-                        }}
-                      >
-                        Reject
-                      </button>
-                    </>
-                  )}
-
+                    {(pdaResponse?.pdaStatus == 2 ||
+                      pdaResponse?.pdaStatus == 4) && (
+                      <>
+                        <button
+                          className="btn btna generate-button"
+                          onClick={() => {
+                            updateQuotation("3");
+                          }}
+                        >
+                          Approve
+                        </button>
+                        <button
+                          className="btn btna generate-button"
+                          onClick={() => {
+                            updateQuotation("4");
+                          }}
+                        >
+                          Reject
+                        </button>
+                      </>
+                    )}
                   </div>
-
                 </div>
-
-                
-
-             
-
-                
-
-               
-
-              
               </React.Fragment>
             </>
           )}
@@ -967,6 +980,27 @@ const CreatePDA = ({
       <QuotationDialog
         open={quotationOpen}
         onClose={handleQuotationCloseClose}
+        onSubmit={handleSubmit}
+        selectedVessel={selectedVessel}
+        selectedPort={selectedPort}
+        selectedCargo={selectedCargo}
+        selectedVesselType={selectedVesselType}
+        selectedCustomer={selectedCustomer}
+        eta={eta}
+        etd={etd}
+        status={status}
+        formData={formData}
+        services={services}
+        customers={customers}
+        ports={ports}
+        isEditcharge={isEditcharge}
+        editCharge={editCharge}
+        editIndex={editIndex}
+        pdaResponse={pdaResponse}
+      />
+      <PdaDialog
+        open={generatePDAOpen}
+        onClose={handlePdaClose}
         onSubmit={handleSubmit}
         selectedVessel={selectedVessel}
         selectedPort={selectedPort}

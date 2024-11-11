@@ -111,23 +111,23 @@
   color: white;
   font-size: larger;
 }
-.btna{
+.btna {
   background-color: #007ac1;
   padding-top: 13px;
   padding-bottom: 13px;
   text-align: center;
   color: white;
-  margin-right:20px
+  margin-right: 20px;
 }
-.generate-button{
-  color: #1EBBEE;
+.generate-button {
+  color: #1ebbee;
   background-color: #ffffff;
-  border-color: #1EBBEE;
+  border-color: #1ebbee;
 }
-.submit-button{
+.submit-button {
   color: #ffffff;
-  background-color: #1EBBEE;
-  border-color: #1EBBEE;
+  background-color: #1ebbee;
+  border-color: #1ebbee;
 }
 
 .typesofcall-row {
@@ -158,6 +158,11 @@
 .date-input {
   width: 240px !important;
   height: 56px !important;
+}
+.buttons-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 @media only screen and (max-width: 767px) {
 }
