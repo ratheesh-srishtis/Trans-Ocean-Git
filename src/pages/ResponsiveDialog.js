@@ -411,7 +411,7 @@ const ResponsiveDialog = ({
     setVendorTotalOmr(total);
   }, [vendorAmount, vendorVatAmount]);
 
-  const submitEditCharges = () => {};
+  const submitEditCharges = () => { };
 
   useEffect(() => {
     console.log(chargesArray, "chargesArray");
@@ -420,7 +420,9 @@ const ResponsiveDialog = ({
   return (
     <>
       <Dialog open={open} onClose={onClose} fullWidth maxWidth="lg">
-        <DialogTitle>{isEditcharge ? "Update" : "Add"} Charges</DialogTitle>
+        <div className="d-flex justify-content-between">       
+          <DialogTitle>{isEditcharge ? "Update" : "Add"} Charges</DialogTitle>
+          <div className="closeicon"><i class="bi bi-x-lg "></i></div></div>
         <DialogContent>
           {isEditcharge == false && (
             <>
@@ -433,7 +435,7 @@ const ResponsiveDialog = ({
                         for="exampleFormControlInput1"
                         className="form-label"
                       >
-                        Services:*
+                        Services:<span className="required"> * </span>
                       </label>
                       <div className="vessel-select">
                         <select
@@ -459,7 +461,7 @@ const ResponsiveDialog = ({
                             for="exampleFormControlInput1"
                             className="form-label"
                           >
-                            Charges Type:*
+                            Charges Type:<span className="required"> * </span>
                           </label>
                           <div className="vessel-select">
                             <select
@@ -488,7 +490,7 @@ const ResponsiveDialog = ({
                             for="exampleFormControlInput1"
                             className="form-label"
                           >
-                            Sub Charges Type:*
+                            Sub Charges Type:<span className="required"> * </span>
                           </label>
                           <div className="vessel-select">
                             <select
@@ -513,15 +515,15 @@ const ResponsiveDialog = ({
                 </div>
                 {thirdFieldSelected && (
                   <>
-                    <div className="row align-items-start mt-3">
-                      <div className="col-md-4">
-                        <div className="mb-3">
+                    <div className="qq">
+                      <div className="col-4">
+                        <div className="mb-5">
                           <div className="col">
                             <label
                               for="exampleFormControlInput1"
                               className="form-label"
                             >
-                              Quantity:*
+                              Quantity:
                             </label>
                             <input
                               type="number"
@@ -574,7 +576,7 @@ const ResponsiveDialog = ({
                                 for="exampleFormControlInput1"
                                 className="form-label"
                               >
-                                Amount(OMR):*
+                                Amount(OMR):<span className="required"> * </span>
                               </label>
                               <input
                                 type="number"
@@ -595,7 +597,7 @@ const ResponsiveDialog = ({
                                 for="exampleFormControlInput1"
                                 className="form-label"
                               >
-                                VAT Amount:*
+                                VAT Amount:<span className="required"> * </span>
                               </label>
                               <input
                                 type="number"
@@ -694,7 +696,7 @@ const ResponsiveDialog = ({
                                 for="exampleFormControlInput1"
                                 className="form-label"
                               >
-                                Amount(OMR):*
+                                Amount(OMR):<span className="required"> * </span>
                               </label>
                               <input
                                 type="number"
@@ -715,7 +717,7 @@ const ResponsiveDialog = ({
                                 for="exampleFormControlInput1"
                                 className="form-label"
                               >
-                                VAT Amount:*
+                                VAT Amount:<span className="required"> * </span>
                               </label>
                               <input
                                 type="number"
@@ -1006,7 +1008,7 @@ const ResponsiveDialog = ({
                         for="exampleFormControlInput1"
                         className="form-label"
                       >
-                        Services:*
+                        Services:<span className="required"> * </span>
                       </label>
                       <div className="vessel-select">
                         <select
@@ -1032,7 +1034,7 @@ const ResponsiveDialog = ({
                         for="exampleFormControlInput1"
                         className="form-label"
                       >
-                        Charges Type:*
+                        Charges Type:<span className="required"> * </span>
                       </label>
                       <div className="vessel-select">
                         <select
@@ -1059,7 +1061,7 @@ const ResponsiveDialog = ({
                         for="exampleFormControlInput1"
                         className="form-label"
                       >
-                        Sub Charges Type:*
+                        Sub Charges Type:<span className="required"> * </span>
                       </label>
                       <div className="vessel-select">
                         <select
@@ -1081,11 +1083,10 @@ const ResponsiveDialog = ({
                         </select>
                       </div>
                     </div>
-
                     <div className="col-lg-3">
                       <label
                         for="exampleFormControlInput1"
-                        className="form-label labelhead"
+                        className="form-label"
                       >
                         Quantity:
                       </label>
@@ -1100,8 +1101,7 @@ const ResponsiveDialog = ({
                           onChange={handleInputChange}
                         />
                       </div>
-                    </div>
-                  </div>
+                    </div></div>
                 </div>
               </div>
               <div className="row">

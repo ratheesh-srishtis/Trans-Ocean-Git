@@ -485,18 +485,21 @@ const CreatePDA = ({
                 </div>
                 <div className="col-4 draft-pda ">
                   <button type="button" className="btn draft">
-                    <span className="badge ">
-                      {pdaResponse?.pdaStatus == 1 && (
-                        <>
+                    {pdaResponse?.pdaStatus == 1 && (
+                      <>
+                        <span className="badge statusbadge ">
                           <i className="bi bi-book-fill book"></i>
-                        </>
-                      )}
-                      {pdaResponse?.pdaStatus != 1 && (
-                        <>
-                          <i class="bi bi-check2-circle"></i>{" "}
-                        </>
-                      )}
-                    </span>{" "}
+                        </span>{" "}
+                      </>
+                    )}
+                    {pdaResponse?.pdaStatus != 1 && (
+                      <>
+                        <span className="badge statusbadge ">
+                          <i class="bi bi-check2-circle circle"></i>{" "}
+                        </span>{" "}
+                      </>
+                    )}
+
                     {pdaResponse?.pdaStatus == 1
                       ? "Draft PDA"
                       : pdaResponse?.pdaStatus == 2
@@ -516,16 +519,16 @@ const CreatePDA = ({
 
                 {pdaResponse?.pdaStatus == 3 && (
                   <>
-                    <div className="d-flex ">
+                    <div className="col-3 d-flex justify-content-start ">
                       <input
                         type="checkbox"
                         name="payment"
                         id="customerapproved"
                         checked={isCustomerApproved}
                         onChange={handleCustomerApproved}
-                        className="vesselradio"
+                        className=""
                       />
-                      <label htmlFor="customerapproved" className="vessel">
+                      <label htmlFor="customerapproved" className="customerbox">
                         Customer Approved
                       </label>
                     </div>
@@ -575,7 +578,7 @@ const CreatePDA = ({
               </div>
               <div className="col">
                 <label for="exampleFormControlInput1" className="form-label">
-                  Vessel Name*:
+                  Vessel Name<span className="required"> * </span> :
                 </label>
                 <div className="vessel-select">
                   <select
@@ -596,7 +599,7 @@ const CreatePDA = ({
               </div>
               <div className="col">
                 <label for="exampleFormControlInput1" className="form-label">
-                  Port Name*:
+                  Port Name<span className="required"> * </span> :
                 </label>
                 <div className="vessel-select">
                   <select
@@ -864,16 +867,34 @@ const CreatePDA = ({
           {chargesArray?.length > 0 && (
             <>
               <React.Fragment>
-                <div className="buttons-wrapper">
+                <div>
                   <div className="left">
-                    <button
-                      className="btn btna generate-button"
-                      onClick={() => {
-                        handlePdaOpen();
-                      }}
-                    >
+                    <button className="btn btna generate-button">
                       Generate PDA
                     </button>
+
+                    {pdaResponse?.pdaStatus && pdaResponse?.pdaStatus == 3 && (
+                      <>
+                        <button className="btn btna generate-button">
+                          Generate Invoice
+                        </button>
+                        <button className="btn btna generate-button">
+                          Send Invoice
+                        </button>
+                        {status == 1 && (
+                          <>
+                            <button
+                              className="btn btna generate-button "
+                              onClick={() => {
+                                submitPda("2");
+                              }}
+                            >
+                              Save As Draft
+                            </button>
+                          </>
+                        )}
+                      </>
+                    )}
 
                     {pdaResponse?.pdaStatus && pdaResponse?.pdaStatus == 3 && (
                       <>
@@ -922,6 +943,28 @@ const CreatePDA = ({
                           }}
                         >
                           Submit
+                        </button>
+                      </>
+                    )}
+
+                    {(pdaResponse?.pdaStatus == 2 ||
+                      pdaResponse?.pdaStatus == 4) && (
+                      <>
+                        <button
+                          className="btn btna generate-button"
+                          onClick={() => {
+                            updateQuotation("3");
+                          }}
+                        >
+                          Approve
+                        </button>
+                        <button
+                          className="btn btna generate-button"
+                          onClick={() => {
+                            updateQuotation("4");
+                          }}
+                        >
+                          Reject
                         </button>
                       </>
                     )}
