@@ -4,6 +4,7 @@ import { loginApi } from "../services/apiService";
 // Create the AuthContext
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PopUp from "../pages/PopUp";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -14,7 +15,8 @@ export const AuthProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("loginResponse")) || null
   ); // Initialize with saved loginResponse
   const [error, setError] = useState(null);
-
+  const [openPopUp, setOpenPopUp] = useState(false);
+  const [message, setMessage] = useState("");
   // Check for token in localStorage on initial load
   useEffect(() => {
     const token = localStorage.getItem("transocean_token");
@@ -37,31 +39,26 @@ export const AuthProvider = ({ children }) => {
           setLoginResponse(response);
           localStorage.setItem("transocean_token", response.token);
           localStorage.setItem("loginResponse", JSON.stringify(response)); // Save response to localStorage
-          toast.success("Logged in successfully!", {
-            position: "top-center",
-            autoClose: 2000,
-          });
+
+          setMessage("Logged in successfully!");
+          setOpenPopUp(true);
+
           setIsAuthenticated(true);
           navigate("/dashboard");
         } else {
-          toast.error("Login failed. Please try again", {
-            position: "top-center",
-            autoClose: 2000,
-          });
+          setMessage("Login failed. Please try again");
+          setOpenPopUp(true);
         }
       } catch (error) {
-        toast.error("Login failed. Please try again", {
-          position: "top-center",
-          autoClose: 2000,
-        });
+        setMessage("Login failed. Please try again");
+        setOpenPopUp(true);
       } finally {
       }
     } catch (error) {
       console.error("Login failed:", error);
-      toast.error("Login failed. Please try again", {
-        position: "top-center",
-        autoClose: 2000,
-      });
+
+      setMessage("Login failed. Please try again");
+      setOpenPopUp(true);
     } finally {
       setLoading(false);
     }
@@ -83,11 +80,16 @@ export const AuthProvider = ({ children }) => {
   }, [isAuthenticated]);
 
   return (
-    <AuthContext.Provider
-      value={{ isAuthenticated, login, logout, loading, loginResponse }}
-    >
-      {children}
-    </AuthContext.Provider>
+    <>
+      <AuthContext.Provider
+        value={{ isAuthenticated, login, logout, loading, loginResponse }}
+      >
+        {children}
+      </AuthContext.Provider>
+      {openPopUp && (
+        <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
+      )}
+    </>
   );
 };
 

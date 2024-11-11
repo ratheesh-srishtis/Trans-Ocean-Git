@@ -30,7 +30,7 @@
   justify-content: center;
   align-items: center;
 }
-.customerrectangle{
+.customerrectangle {
   border: 1px solid #5c5c5c25;
   border-radius: 50px;
   width: 900px;
@@ -44,18 +44,17 @@
 .customerhead {
   display: flex;
 }
-.editicon{
+.editicon {
   color: #007ac1;
-  margin-left:15px;
+  margin-left: 15px;
   cursor: pointer;
 }
-.required{
-  color:red;
+.required {
+  color: red;
 }
-.deleteicon{
-  color:red;
+.deleteicon {
+  color: red;
   cursor: pointer;
-
 }
 
 .remarks {
@@ -150,4 +149,10 @@
 }
 
 @media only screen and (max-width: 767px) {
+}
+
+.invalid {
+  font-size: 12px;
+  color: red;
+  font-family: sans-serif;
 }

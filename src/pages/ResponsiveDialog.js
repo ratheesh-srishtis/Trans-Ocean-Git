@@ -41,6 +41,23 @@ const ResponsiveDialog = ({
 }) => {
   console.log(services, "services");
   console.log(pdaResponse, "pdaResponse_dialog");
+
+  const [selectedServiceError, setSelectedServiceError] = useState(false);
+  const [selectedChargesTypeError, setSelectedChargesTypeError] =
+    useState(false);
+  const [selectedSubhargesTypeError, setSelectedSubhargesTypeError] =
+    useState(false);
+  const [selectedQuantityError, setSelectedQuantityError] = useState(false);
+  const [selectedNewCustomerError, setSelectedNewCustomerError] =
+    useState(false);
+  const [customerAmountError, setCustomerAmountError] = useState(false);
+  const [customerTotalUSDError, setCustomerTotalUSDError] = useState(false);
+  const [customerVatAmountError, setCustomerVatAmountError] = useState(false);
+  const [selectedVendorError, setSelectedVendorError] = useState(false);
+  const [vendorAmountError, setVendorAmountError] = useState(false);
+  const [vendorTotalUSDError, setVendorTotalUSDError] = useState(false);
+  const [vendorVatAmountError, setVendorVatAmountError] = useState(false);
+
   const [firstFieldSelected, setFirstFieldSelected] = useState(false);
   const [secondFieldSelected, setSecondFieldSelected] = useState(false);
   const [thirdFieldSelected, setThirdFieldSelected] = useState(false);
@@ -107,24 +124,29 @@ const ResponsiveDialog = ({
       case "service":
         setSelectedService(services.find((service) => service?._id === value));
         setFirstFieldSelected(true);
+        setSelectedServiceError(false);
         break;
       case "chargeType":
         setSelectedChargesType(charges.find((charge) => charge?._id === value));
         setSecondFieldSelected(true);
+        setSelectedChargesTypeError(false);
         break;
       case "subChargeType":
         setSelectedSubhargesType(
           subCharges.find((subCharge) => subCharge?._id === value)
         );
         setThirdFieldSelected(true);
+        setSelectedSubhargesTypeError(false);
         break;
       case "customer":
         setSelectedNewCustomer(
           customers.find((customer) => customer?._id === value)
         );
+        setSelectedNewCustomerError(false);
         break;
       case "vendor":
         setSelectedVendor(ports.find((port) => port?._id === value));
+        setSelectedVendorError(false);
         break;
       default:
         break;
@@ -173,22 +195,28 @@ const ResponsiveDialog = ({
     const { name, value } = e.target;
     if (name === "quantity") {
       setSelectedQuantity(value);
+      setSelectedQuantityError(false);
     } else if (name === "customerAmount") {
       setCustomerAmount(value);
+      setCustomerAmountError(false);
     } else if (name === "customerVatAmount") {
       setCustomerVatAmount(value);
+      setCustomerVatAmountError(false);
     } else if (name === "customerOmrAmount") {
       setCustomerOmrAmount(value);
     } else if (name === "vendorAmount") {
       setVendorAmount(value);
+      setVendorAmountError(false);
     } else if (name === "vendorOmrAmount") {
       setVendorOmrAmount(value);
     } else if (name === "vendorVatAmount") {
       setVendorVatAmount(value);
     } else if (name === "vendorTotalUSD") {
       setVendorTotalUSD(value);
+      setVendorTotalUSDError(false);
     } else if (name === "customerTotalUSD") {
       setCustomerTotalUSD(value);
+      setCustomerTotalUSDError(false);
     } else if (name === "vendorTotalUSD") {
       setVendorTotalUSD(value);
     } else if (name === "remarks") {
@@ -245,6 +273,79 @@ const ResponsiveDialog = ({
     console.log(vendorOmrAmount, "vendorOmrAmount");
     console.log(vendorTotalUSD, "vendorTotalUSD");
     console.log(vendorVatAmount, "vendorVatAmount");
+
+    // Individual checks for each field
+    if (!selectedService || selectedService === "") {
+      setSelectedServiceError(true);
+    } else {
+      setSelectedServiceError(false);
+    }
+
+    if (!selectedChargesType || selectedChargesType === "") {
+      setSelectedChargesTypeError(true);
+    } else {
+      setSelectedChargesTypeError(false);
+    }
+
+    if (!selectedSubhargesType || selectedSubhargesType === "") {
+      setSelectedSubhargesTypeError(true);
+    } else {
+      setSelectedSubhargesTypeError(false);
+    }
+
+    if (!selectedQuantity || selectedQuantity === "") {
+      setSelectedQuantityError(true);
+    } else {
+      setSelectedQuantityError(false);
+    }
+
+    if (!selectedNewCustomer || selectedNewCustomer === "") {
+      setSelectedNewCustomerError(true);
+    } else {
+      setSelectedNewCustomerError(false);
+    }
+
+    if (!customerAmount || customerAmount === "") {
+      setCustomerAmountError(true);
+    } else {
+      setCustomerAmountError(false);
+    }
+
+    if (!customerTotalUSD || customerTotalUSD === "") {
+      setCustomerTotalUSDError(true);
+    } else {
+      setCustomerTotalUSDError(false);
+    }
+
+    if (!customerVatAmount || customerVatAmount === "") {
+      setCustomerVatAmountError(true);
+    } else {
+      setCustomerVatAmountError(false);
+    }
+
+    if (!selectedVendor || selectedVendor === "") {
+      setSelectedVendorError(true);
+    } else {
+      setSelectedVendorError(false);
+    }
+
+    if (!vendorAmount || vendorAmount === "") {
+      setVendorAmountError(true);
+    } else {
+      setVendorAmountError(false);
+    }
+
+    if (!vendorTotalUSD || vendorTotalUSD === "") {
+      setVendorTotalUSDError(true);
+    } else {
+      setVendorTotalUSDError(false);
+    }
+
+    if (!vendorVatAmount || vendorVatAmount === "") {
+      setVendorVatAmountError(true);
+    } else {
+      setVendorVatAmountError(false);
+    }
 
     if (
       selectedService &&
@@ -324,9 +425,6 @@ const ResponsiveDialog = ({
 
           setMessage("Charges Added Successfully!");
           setOpenPopUp(true);
-          setTimeout(() => {
-            setOpenPopUp(false);
-          }, 2000);
 
           resetCharges();
         }
@@ -337,9 +435,6 @@ const ResponsiveDialog = ({
     } else {
       setMessage("Please fill all fields");
       setOpenPopUp(true);
-      setTimeout(() => {
-        setOpenPopUp(false);
-      }, 2000);
     }
   };
 
@@ -347,9 +442,6 @@ const ResponsiveDialog = ({
     onSubmit(chargesArray);
     setMessage("Charges Added Successfully!");
     setOpenPopUp(true);
-    setTimeout(() => {
-      setOpenPopUp(false);
-    }, 2000);
   };
 
   useEffect(() => {
@@ -411,7 +503,7 @@ const ResponsiveDialog = ({
     setVendorTotalOmr(total);
   }, [vendorAmount, vendorVatAmount]);
 
-  const submitEditCharges = () => { };
+  const submitEditCharges = () => {};
 
   useEffect(() => {
     console.log(chargesArray, "chargesArray");
@@ -420,9 +512,12 @@ const ResponsiveDialog = ({
   return (
     <>
       <Dialog open={open} onClose={onClose} fullWidth maxWidth="lg">
-        <div className="d-flex justify-content-between">       
+        <div className="d-flex justify-content-between" onClick={onClose}>
           <DialogTitle>{isEditcharge ? "Update" : "Add"} Charges</DialogTitle>
-          <div className="closeicon"><i class="bi bi-x-lg "></i></div></div>
+          <div className="closeicon">
+            <i class="bi bi-x-lg "></i>
+          </div>
+        </div>
         <DialogContent>
           {isEditcharge == false && (
             <>
@@ -453,6 +548,11 @@ const ResponsiveDialog = ({
                           ))}
                         </select>
                       </div>
+                      {selectedServiceError && (
+                        <>
+                          <div className="invalid">Please select service</div>
+                        </>
+                      )}
                     </div>
                     {firstFieldSelected && (
                       <>
@@ -490,7 +590,8 @@ const ResponsiveDialog = ({
                             for="exampleFormControlInput1"
                             className="form-label"
                           >
-                            Sub Charges Type:<span className="required"> * </span>
+                            Sub Charges Type:
+                            <span className="required"> * </span>
                           </label>
                           <div className="vessel-select">
                             <select
@@ -576,7 +677,8 @@ const ResponsiveDialog = ({
                                 for="exampleFormControlInput1"
                                 className="form-label"
                               >
-                                Amount(OMR):<span className="required"> * </span>
+                                Amount(OMR):
+                                <span className="required"> * </span>
                               </label>
                               <input
                                 type="number"
@@ -696,7 +798,8 @@ const ResponsiveDialog = ({
                                 for="exampleFormControlInput1"
                                 className="form-label"
                               >
-                                Amount(OMR):<span className="required"> * </span>
+                                Amount(OMR):
+                                <span className="required"> * </span>
                               </label>
                               <input
                                 type="number"
@@ -822,22 +925,34 @@ const ResponsiveDialog = ({
                           </label>
                         </div>
                       </div>
-                      <div className="col-4">
-                        <div className="firstfooter">
-                          <button
-                            type="button"
-                            className="btn add-button"
-                            onClick={() => {
-                              addCharges("add");
-                            }}
-                          >
-                            Add
-                          </button>
-                        </div>
-                      </div>
                     </div>
                   </>
                 )}
+
+                <div className="col-12">
+                  <div className="footer-button d-flex justify-content-center">
+                    {chargesArray.length == 0 && (
+                      <>
+                        <button
+                          type="button"
+                          className="btn cancel-button"
+                          onClick={onClose}
+                        >
+                          Cancel{" "}
+                        </button>
+                      </>
+                    )}
+                    <button
+                      type="button"
+                      className="btn save-button"
+                      onClick={() => {
+                        addCharges("add");
+                      }}
+                    >
+                      Add
+                    </button>
+                  </div>
+                </div>
 
                 {chargesArray?.length > 0 && (
                   <>
@@ -976,24 +1091,28 @@ const ResponsiveDialog = ({
                   </>
                 )}
 
-                <div className="footer-button d-flex justify-content-center">
-                  <button
-                    type="button"
-                    className="btn cancel-button"
-                    onClick={onClose}
-                  >
-                    Cancel{" "}
-                  </button>
-                  <button
-                    type="button"
-                    className="btn save-button"
-                    onClick={() => {
-                      submitCharges();
-                    }}
-                  >
-                    Save{" "}
-                  </button>
-                </div>
+                {chargesArray.length > 0 && (
+                  <>
+                    <div className="footer-button d-flex justify-content-center">
+                      <button
+                        type="button"
+                        className="btn cancel-button"
+                        onClick={onClose}
+                      >
+                        Cancel{" "}
+                      </button>
+                      <button
+                        type="button"
+                        className="btn save-button"
+                        onClick={() => {
+                          submitCharges();
+                        }}
+                      >
+                        Save
+                      </button>
+                    </div>
+                  </>
+                )}
               </div>
             </>
           )}
@@ -1101,7 +1220,8 @@ const ResponsiveDialog = ({
                           onChange={handleInputChange}
                         />
                       </div>
-                    </div></div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div className="row">
@@ -1358,8 +1478,9 @@ const ResponsiveDialog = ({
           )}
         </DialogContent>
       </Dialog>
-
-      {openPopUp && <PopUp message={message} />}
+      {openPopUp && (
+        <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
+      )}{" "}
     </>
   );
 };

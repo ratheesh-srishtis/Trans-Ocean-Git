@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PopUp from "./PopUp";
 import QuotationDialog from "./QuotationDialog";
+import PdaDialog from "./PdaDialog";
 const CreatePDA = ({
   vessels,
   ports,
@@ -48,11 +49,11 @@ const CreatePDA = ({
     vesselType: null,
     service: null,
     customer: null,
-    vesselVoyageNumber: "",
-    IMONumber: "",
-    LOA: "",
-    GRT: "",
-    NRT: "",
+    vesselVoyageNumber: null,
+    IMONumber: null,
+    LOA: null,
+    GRT: null,
+    NRT: null,
   });
 
   // Boolean states for each option
@@ -110,6 +111,8 @@ const CreatePDA = ({
   // Single handler function to update state based on input name
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    console.log(value, "value_handleInputChange");
+
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -190,6 +193,7 @@ const CreatePDA = ({
   }, [formData]);
   const [open, setOpen] = useState(false);
   const [quotationOpen, setQuotationOpen] = useState(false);
+  const [generatePDAOpen, setGeneratePDAOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -205,6 +209,14 @@ const CreatePDA = ({
 
   const handleQuotationCloseClose = () => {
     setQuotationOpen(false);
+  };
+
+  const handlePdaOpen = () => {
+    setGeneratePDAOpen(true);
+  };
+
+  const handlePdaClose = () => {
+    setGeneratePDAOpen(false);
   };
 
   const handleSubmit = (chargesArray) => {
@@ -251,7 +263,7 @@ const CreatePDA = ({
         customerId: selectedCustomer?._id,
         userid: loginResponse?.data?._id,
         vesselVoyageNumber: Number(formData?.vesselVoyageNo),
-        IMONumber: Number(formData?.imoNo),
+        IMONumber: Number(formData?.IMONumber),
         LOA: Number(formData?.LOA),
         GRT: Number(formData?.GRT),
         NRT: Number(formData?.NRT),
@@ -276,22 +288,13 @@ const CreatePDA = ({
               setMessage("PDA has been submitted successfully");
             }
             setOpenPopUp(true);
-            setTimeout(() => {
-              setOpenPopUp(false);
-            }, 2000);
           } else {
             setMessage("PDA failed. Please try again");
             setOpenPopUp(true);
-            setTimeout(() => {
-              setOpenPopUp(false);
-            }, 2000);
           }
         } catch (error) {
           setMessage("PDA failed. Please try again");
           setOpenPopUp(true);
-          setTimeout(() => {
-            setOpenPopUp(false);
-          }, 2000);
         } finally {
         }
       } else if (pdaResponse?._id) {
@@ -304,22 +307,13 @@ const CreatePDA = ({
             updateValues(response);
             setMessage("PDA Updated Successfully");
             setOpenPopUp(true);
-            setTimeout(() => {
-              setOpenPopUp(false);
-            }, 2000);
           } else {
             setMessage("PDA failed. Please try again");
             setOpenPopUp(true);
-            setTimeout(() => {
-              setOpenPopUp(false);
-            }, 2000);
           }
         } catch (error) {
           setMessage("PDA failed. Please try again");
           setOpenPopUp(true);
-          setTimeout(() => {
-            setOpenPopUp(false);
-          }, 2000);
         } finally {
         }
       }
@@ -333,7 +327,7 @@ const CreatePDA = ({
     setIsVessels(response?.pda?.isVessels);
     setIsServices(response?.pda?.isServices);
     // setSelectedVessel(response?.pda?.vesselId);
-    setSelectedPort(response?.pda?.portId);
+    // setSelectedPort(response?.pda?.portId);
     setSelectedCargo(response?.pda?.cargoId);
     setSelectedCustomer(response?.pda?.customerId);
     setSelectedVesselType(response?.pda?.vesselTypeId);
@@ -368,22 +362,13 @@ const CreatePDA = ({
           setMessage("PDA has been rejected by finance manager");
         }
         setOpenPopUp(true);
-        setTimeout(() => {
-          setOpenPopUp(false);
-        }, 2000);
       } else {
         setMessage("PDA failed. Please try again");
         setOpenPopUp(true);
-        setTimeout(() => {
-          setOpenPopUp(false);
-        }, 2000);
       }
     } catch (error) {
       setMessage("PDA failed. Please try again");
       setOpenPopUp(true);
-      setTimeout(() => {
-        setOpenPopUp(false);
-      }, 2000);
     } finally {
     }
   };
@@ -475,21 +460,32 @@ const CreatePDA = ({
                 </div>
                 <div className="col-4 draft-pda ">
                   <button type="button" className="btn draft">
-                    <span className="badge statusbadge ">
-                      <i className="bi bi-book-fill book"></i>
-                      <i class="bi bi-check2-circle circle"></i>{" "}
-                    </span>{" "}
+                    {pdaResponse?.pdaStatus == 1 && (
+                      <>
+                        <span className="badge statusbadge ">
+                          <i className="bi bi-book-fill book"></i>
+                        </span>{" "}
+                      </>
+                    )}
+                    {pdaResponse?.pdaStatus != 1 && (
+                      <>
+                        <span className="badge statusbadge ">
+                          <i class="bi bi-check2-circle circle"></i>{" "}
+                        </span>{" "}
+                      </>
+                    )}
+
                     {pdaResponse?.pdaStatus == 1
                       ? "Draft PDA"
                       : pdaResponse?.pdaStatus == 2
-                        ? "Waiting For Approval From Finance Manager"
-                        : pdaResponse?.pdaStatus == 3
-                          ? "Internally Approved"
-                          : pdaResponse?.pdaStatus == 4
-                            ? "Rejected By Finance Manager"
-                            : pdaResponse?.pdaStatus == 5
-                              ? "Customer Approved"
-                              : ""}
+                      ? "Waiting For Approval From Finance Manager"
+                      : pdaResponse?.pdaStatus == 3
+                      ? "Internally Approved"
+                      : pdaResponse?.pdaStatus == 4
+                      ? "Rejected By Finance Manager"
+                      : pdaResponse?.pdaStatus == 5
+                      ? "Customer Approved"
+                      : ""}
                     {/* Internally Approved
                     Customer Approved
                     Rejected By Finance Manager */}
@@ -670,7 +666,7 @@ const CreatePDA = ({
                   </label>
                   <input
                     type="number"
-                    name="imoNo"
+                    name="IMONumber"
                     value={formData.IMONumber}
                     onChange={handleInputChange}
                     className="form-control vessel-voyage voyageblock"
@@ -685,7 +681,7 @@ const CreatePDA = ({
                   </label>
                   <input
                     type="number"
-                    name="loa"
+                    name="LOA"
                     value={formData.LOA}
                     onChange={handleInputChange}
                     className="form-control vessel-voyage voyageblock"
@@ -704,7 +700,7 @@ const CreatePDA = ({
                   </label>
                   <input
                     type="number"
-                    name="grt"
+                    name="GRT"
                     value={formData.GRT}
                     onChange={handleInputChange}
                     className="form-control vessel-voyage voyageblock"
@@ -719,7 +715,7 @@ const CreatePDA = ({
                   </label>
                   <input
                     type="number"
-                    name="nrt"
+                    name="NRT"
                     value={formData.NRT}
                     onChange={handleInputChange}
                     className="form-control vessel-voyage voyageblock"
@@ -846,17 +842,25 @@ const CreatePDA = ({
           {chargesArray?.length > 0 && (
             <>
               <React.Fragment>
-
-
-                <div>
-
+                <div className="buttons-wrapper">
                   <div className="left">
-                    <button className="btn btna generate-button">Generate PDA</button>
+                    <button
+                      className="btn btna generate-button"
+                      onClick={() => {
+                        handlePdaOpen();
+                      }}
+                    >
+                      Generate PDA
+                    </button>
 
                     {pdaResponse?.pdaStatus && pdaResponse?.pdaStatus == 3 && (
                       <>
-                        <button className="btn btna generate-button">Generate Invoice</button>
-                        <button className="btn btna generate-button">Send Invoice</button>
+                        <button className="btn btna generate-button">
+                          Generate Invoice
+                        </button>
+                        <button className="btn btna generate-button">
+                          Send Invoice
+                        </button>
                         {status == 1 && (
                           <>
                             <button
@@ -871,23 +875,9 @@ const CreatePDA = ({
                         )}
                       </>
                     )}
-
                   </div>
 
                   <div className="right">
-                    {pdaResponse?.pdaStatus && pdaResponse?.pdaStatus == 3 && (
-                      <>
-                        <button
-                          className="btn btna submit-button"
-                          onClick={() => {
-                            sendQuotation();
-                          }}
-                        >
-                          Send Quotation
-                        </button>
-                      </>
-                    )}
-
                     {status != 5 && (
                       <>
                         <button
@@ -901,41 +891,42 @@ const CreatePDA = ({
                       </>
                     )}
 
+                    {pdaResponse?.pdaStatus && pdaResponse?.pdaStatus == 3 && (
+                      <>
+                        <button
+                          className="btn btna submit-button"
+                          onClick={() => {
+                            sendQuotation();
+                          }}
+                        >
+                          Send Quotation
+                        </button>
+                      </>
+                    )}
+
                     {(pdaResponse?.pdaStatus == 2 ||
                       pdaResponse?.pdaStatus == 4) && (
-                        <>
-                          <button
-                            className="btn btna generate-button"
-                            onClick={() => {
-                              updateQuotation("3");
-                            }}
-                          >
-                            Approve
-                          </button>
-                          <button
-                            className="btn btna generate-button"
-                            onClick={() => {
-                              updateQuotation("4");
-                            }}
-                          >
-                            Reject
-                          </button>
-                        </>
-                      )}
-
+                      <>
+                        <button
+                          className="btn btna generate-button"
+                          onClick={() => {
+                            updateQuotation("3");
+                          }}
+                        >
+                          Approve
+                        </button>
+                        <button
+                          className="btn btna generate-button"
+                          onClick={() => {
+                            updateQuotation("4");
+                          }}
+                        >
+                          Reject
+                        </button>
+                      </>
+                    )}
                   </div>
-
                 </div>
-
-
-
-
-
-
-
-
-
-
               </React.Fragment>
             </>
           )}
@@ -985,73 +976,33 @@ const CreatePDA = ({
         editIndex={editIndex}
         pdaResponse={pdaResponse}
       />
+      <PdaDialog
+        open={generatePDAOpen}
+        onClose={handlePdaClose}
+        onSubmit={handleSubmit}
+        selectedVessel={selectedVessel}
+        selectedPort={selectedPort}
+        selectedCargo={selectedCargo}
+        selectedVesselType={selectedVesselType}
+        selectedCustomer={selectedCustomer}
+        eta={eta}
+        etd={etd}
+        status={status}
+        formData={formData}
+        services={services}
+        customers={customers}
+        ports={ports}
+        isEditcharge={isEditcharge}
+        editCharge={editCharge}
+        editIndex={editIndex}
+        pdaResponse={pdaResponse}
+      />
 
-      {openPopUp && <PopUp message={message} />}
+      {openPopUp && (
+        <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
+      )}
     </>
   );
 };
 
 export default CreatePDA;
-
-// <div>
-// <h2>Select Options</h2>
-// {/* Vessels Select */}
-// <label htmlFor="vessels">Vessel:</label>
-// <select id="vessels">
-//   {vessels.map((vessel) => (
-//     <option key={vessel._id} value={vessel._id}>
-//       {vessel.vesselName}
-//     </option>
-//   ))}
-// </select>
-
-// {/* Ports Select */}
-// <label htmlFor="ports">Port:</label>
-// <select id="ports">
-//   {ports.map((port) => (
-//     <option key={port._id} value={port._id}>
-//       {port.portName}
-//     </option>
-//   ))}
-// </select>
-
-// {/* Cargos Select */}
-// <label htmlFor="cargos">Cargo:</label>
-// <select id="cargos">
-//   {cargos.map((cargo) => (
-//     <option key={cargo._id} value={cargo._id}>
-//       {cargo.cargoName}
-//     </option>
-//   ))}
-// </select>
-
-// {/* Vessel Types Select */}
-// <label htmlFor="vesselTypes">Vessel Type:</label>
-// <select id="vesselTypes">
-//   {vesselTypes.map((type) => (
-//     <option key={type._id} value={type._id}>
-//       {type.vesselType}
-//     </option>
-//   ))}
-// </select>
-
-// {/* Services Select */}
-// <label htmlFor="services">Service:</label>
-// <select id="services">
-//   {services.map((service) => (
-//     <option key={service._id} value={service._id}>
-//       {service.serviceName}
-//     </option>
-//   ))}
-// </select>
-
-// {/* Customers Select */}
-// <label htmlFor="customers">Customer:</label>
-// <select id="customers">
-//   {customers.map((customer) => (
-//     <option key={customer._id} value={customer._id}>
-//       {customer.customerName}
-//     </option>
-//   ))}
-// </select>
-// </div>

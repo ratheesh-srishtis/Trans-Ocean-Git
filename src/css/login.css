@@ -120,7 +120,7 @@ body {
   background: #fff;
   border-radius: 10px;
   padding: 10px 2rem;
-  margin-bottom: 10px;
+  margin-bottom: -20px;
 }
 
 .notification {
@@ -259,7 +259,6 @@ body {
   color: #007ac1fb;
 }
 
-
 .back {
   background-color: #ffffff;
   padding: 0;
@@ -283,8 +282,8 @@ body {
   padding: 1em 2em;
   border-radius: 0.5em;
 }
-.required{
-  color:red;
+.required {
+  color: red;
 }
 .vesselbox {
   padding-top: 15px;

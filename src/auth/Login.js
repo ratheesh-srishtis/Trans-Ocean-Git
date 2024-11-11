@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { forgotUserPassword } from "../services/apiService";
+import PopUp from "../pages/PopUp";
 const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -28,7 +29,8 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-
+  const [openPopUp, setOpenPopUp] = useState(false);
+  const [message, setMessage] = useState("");
   // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -275,6 +277,10 @@ const Login = () => {
           </p>
         </div>
       </div>
+
+      {openPopUp && (
+        <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
+      )}
     </>
   );
 };

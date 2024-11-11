@@ -70,9 +70,7 @@ const QuotationDialog = ({
       if (!file.type.startsWith("image/")) {
         setMessage("You can only upload images");
         setOpenPopUp(true);
-        setTimeout(function () {
-          setOpenPopUp(false);
-        }, 1000);
+
         return;
       }
 
@@ -129,7 +127,13 @@ const QuotationDialog = ({
   return (
     <>
       <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
-        <DialogTitle>Send Quotation</DialogTitle>
+        <div className="d-flex justify-content-between">
+          <DialogTitle>Send Quotation</DialogTitle>
+          <div className="closeicon" onClick={onClose}>
+            <i class="bi bi-x-lg "></i>
+          </div>
+        </div>
+
         <DialogContent>
           <div class="Anchoragecall">
             <div class="toaddress ">
@@ -241,81 +245,12 @@ const QuotationDialog = ({
                   <label for="exampleFormControlInput1" class="form-label">
                     Attachments:
                   </label>
-
-                  <div
-                    className="cv-section"
-                    onDrop={handleProfileDrop}
-                    onDragOver={handleProfileDragOver}
-                  >
-                    <label className="upload-backdrop" htmlFor="profile-image">
-                      <img src={uploadIcon} alt="" />
-                    </label>
-                    <input
-                      type="file"
-                      className="select-cv-input"
-                      id="profile-image"
-                      accept="image/*"
-                      onChange={profileUpload}
-                    />
+                  <div class="rectangle-quotation">
+                    <div class="invoice">Quotation PDF</div>
+                    <div class="Attach">
+                      <i class="bi bi-file-earmark-fill"></i>
+                    </div>
                   </div>
-                  {profileFile && (
-                    <>
-                      <div className="uploaded-file-wrapper">
-                        <div className="file-section">
-                          {profileFile.type === "image" && (
-                            <div className="fileType">
-                              <img src={imageType} alt="" />
-                            </div>
-                          )}
-                          <div className="fileName">{profileFile.title}</div>
-                        </div>
-                        <div className="file-options">
-                          <div className="sucess-tick">
-                            <img src={greenTickCircle} alt="" />
-                          </div>
-                          <div className="option-menu">
-                            <div className="dropdown">
-                              <img
-                                onClick={() => setShowOptions(!showOptions)}
-                                src={elipsis}
-                                alt=""
-                                className="dropdown-toggle elipsis-icon"
-                                type="button"
-                                id="dropdownMenuButton"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                              />
-                              <ul
-                                className="dropdown-menu"
-                                aria-labelledby="dropdownMenuButton"
-                              >
-                                <li>
-                                  <a
-                                    className="dropdown-item"
-                                    onClick={() => handleView(profileFile)}
-                                    id="view"
-                                  >
-                                    View
-                                  </a>
-                                </li>
-                                <li>
-                                  <a
-                                    className="dropdown-item"
-                                    onClick={() =>
-                                      handleProfileDelete(profileFile)
-                                    }
-                                    id="delete"
-                                  >
-                                    Delete
-                                  </a>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </>
-                  )}
                 </div>
               </div>
             </div>
@@ -327,10 +262,11 @@ const QuotationDialog = ({
           </div>
         </DialogContent>
       </Dialog>
-
-      {openPopUp && <PopUp message={message} />}
+      {openPopUp && (
+        <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
+      )}{" "}
     </>
   );
 };
 
-export default QuotationDialog; 
+export default QuotationDialog;
