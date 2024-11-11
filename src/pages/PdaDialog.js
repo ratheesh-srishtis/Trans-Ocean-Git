@@ -77,9 +77,7 @@ const PdaDialog = ({
       if (!file.type.startsWith("image/")) {
         setMessage("You can only upload images");
         setOpenPopUp(true);
-        setTimeout(function () {
-          setOpenPopUp(false);
-        }, 1000);
+
         return;
       }
 
@@ -136,6 +134,12 @@ const PdaDialog = ({
   return (
     <>
       <Dialog open={open} onClose={onClose} fullWidth maxWidth="lg">
+        <div className="d-flex justify-content-between" onClick={onClose}>
+          <DialogTitle>PDA</DialogTitle>
+          <div className="closeicon">
+            <i class="bi bi-x-lg "></i>
+          </div>
+        </div>
         <DialogContent>
           <div class="header d-flex justify-content-between">
             <img src={image_5} />
@@ -184,14 +188,22 @@ const PdaDialog = ({
             <table class="table">
               <thead>
                 <tr>
-                  <th scope="col">Description</th>
-                  <th scope="col">Price</th>
-                  <th scope="col">Quantity</th>
-                  <th scope="col">Total</th>
+                  <th class="tableh" scope="col">
+                    Description
+                  </th>
+                  <th class="tableh" scope="col">
+                    Price
+                  </th>
+                  <th class="tableh" scope="col">
+                    Quantity
+                  </th>
+                  <th class="tableh" scope="col">
+                    Total
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
+                <tr class="tabler">
                   <td>Marine Charges</td>
                   <td>$20</td>
                   <td>4</td>
@@ -283,8 +295,9 @@ const PdaDialog = ({
           </div>
         </DialogContent>
       </Dialog>
-
-      {openPopUp && <PopUp message={message} />}
+      {openPopUp && (
+        <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
+      )}{" "}
     </>
   );
 };

@@ -136,7 +136,10 @@ const Quotations = () => {
 
   return (
     <>
-      <div style={{ height: 400, width: "100%" }}>
+      <div className="p-5">
+        <h2>Quotations Page</h2>
+      </div>
+      {/* <div style={{ height: 400, width: "100%" }}>
         <DataGrid
           rows={data}
           columns={columns}
@@ -145,7 +148,7 @@ const Quotations = () => {
             setSelectedRows(newSelection);
           }}
         />
-      </div>
+      </div> */}
 
       {/* Invoice Section */}
       {/* <div
@@ -254,11 +257,11 @@ const Quotations = () => {
         </div>
       </div> */}
 
-      <div style={{ textAlign: "center", marginTop: "20px" }}>
+      {/* <div style={{ textAlign: "center", marginTop: "20px" }}>
         <Button variant="contained" color="primary" onClick={handleGeneratePDF}>
           Generate PDF
         </Button>
-      </div>
+      </div> */}
     </>
   );
 };

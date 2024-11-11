@@ -16,10 +16,20 @@
   background-color: #ffffff;
   border-color: #007ac1;
 }
-.required{
-  color:red;
+.required {
+  color: red;
 }
 
+.rectangle-quotation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #e9ecef;
+  padding-left: 30px;
+  padding-right: 100px;
+  height: 50px;
+  border-radius: 10px;
+}
 
 @media only screen and (max-width: 767px) {
 }

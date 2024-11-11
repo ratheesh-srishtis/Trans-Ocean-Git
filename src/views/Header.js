@@ -62,7 +62,7 @@ const Header = () => {
             <div className="p-2">
               <img src={Notifications} className="bellicon"></img>
             </div>
-            <div className="p-2">
+            {/* <div className="p-2">
               <div className="notification">
                 <div>
                   <i className="bi bi-exclamation-triangle-fill alert"></i>
@@ -73,7 +73,7 @@ const Header = () => {
                   <i className="bi bi-x"></i>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

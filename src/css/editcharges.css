@@ -26,12 +26,16 @@
   border-radius: 12px;
   padding-bottom: 10px;
 }
-.closeicon{
+.closeicon {
   margin-top: 16px;
   padding-right: 30px;
+  cursor: pointer;
 }
-.statusbadge i{
+.statusbadge i {
   font-size: 20px;
+}
+.bi-x-lg {
+  font-size: 18px;
 }
 .cust {
   padding-right: 130px;
@@ -41,8 +45,8 @@
   margin-top: 10px;
   font-weight: bold;
 }
-span.required{
-  color:red;
+span.required {
+  color: red;
 }
 .table {
   margin-bottom: 30px;
