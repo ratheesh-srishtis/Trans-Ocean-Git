@@ -8,10 +8,10 @@ body {
 }
 
 .side-logo {
-  margin-bottom: 70px;
+  margin-bottom: 22px;
   align-content: center;
-  width: 168px;
-  height: 103px;
+  max-width: 149px;
+  max-height: 89px;
 }
 
 .sidebar {
@@ -19,9 +19,8 @@ body {
   top: 0;
   left: 0;
   bottom: 0;
-  width: 270px;
+  max-width: 192px;
   height: 500%;
-  padding: 0px 12px;
   color: #fff;
   overflow: hidden;
   transition: all 0.5s linear;
@@ -33,19 +32,17 @@ body {
 } */
 
 .space {
-  height: 100px;
-  padding: 16px;
+  padding: 9px;
 }
 
 .menu {
-  height: 88%;
+  max-height: 100%;
   position: relative;
   list-style: none;
   padding: 0;
 }
 
 .menu li {
-  margin: 10px 0;
   border-radius: 8px;
 }
 
@@ -64,19 +61,20 @@ body {
 }
 
 .menu a {
-  height: 100%;
-  width: 100%;
+  max-height: 100%;
+  max-width: 100%;
   border-radius: inherit;
   color: #737791;
-  font-size: 14px;
+  font-size: 15px;
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  padding: 1.2rem;
+  gap: 10px;
+  padding: 7px 15px 7px 015px;
   transition: all 0.3s linear;
   cursor: pointer;
 }
+
 
 .menu a span {
   overflow: hidden;
@@ -92,7 +90,7 @@ body {
   border-top: 10px;
   border-color: black;
   position: absolute;
-  top: 750px;
+  top: 500px;
   left: 0;
   width: 100%;
 }
@@ -101,14 +99,14 @@ body {
   position: relative;
   background: #efefef;
   width: 100%;
-  padding: 1rem;
+  padding-bottom: 10px;
 }
 
 .header--wrapper img {
-  width: 50px;
-  height: 50px;
+  max-width: 40px;
+  max-height: 40px;
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: 6px;
   margin-right: 10px;
 }
 
@@ -118,10 +116,15 @@ body {
   align-items: center;
   flex-wrap: wrap;
   background: #fff;
-  border-radius: 10px;
-  padding: 10px 2rem;
-  
+  padding: 0px 15px 0px 15px;
 }
+.nameuser{
+  font-size:11px;
+}
+.namefinance{
+  font-size:13px;
+}
+
 
 .notification {
   display: flex;
@@ -156,12 +159,12 @@ body {
 }
 
 .dashboard_cards {
-  border-radius: 15px;
-  padding: 15px 30px;
+  border-radius: 10px;
+  padding: 5px 16px;
 }
 
 .card_title {
-  font-size: 15px;
+  font-size: 12px;
 }
 
 .card_subtitle {
@@ -171,12 +174,29 @@ body {
 }
 
 .card_count {
-  font-size: 25px;
-  padding-top: 12px;
+  font-size: 18px;
+  padding-top: 9px;
 }
 
 .received-quot {
   background-color: #fff4de;
+}
+
+.img-size {
+  max-height: 25px;
+  margin-top: 10px;
+}
+
+.carduppercontent {
+  font-size: 13px;
+}
+
+.createb {
+  font-size: 13px;
+}
+
+.carduppercontentlast {
+  font-size: 13px;
 }
 
 .pending-quot {
@@ -199,8 +219,9 @@ body {
 
 .split {
   background-color: #ffffff;
-  height: 50px;
+  height: 0px;
   border: 0;
+  margin-bottom:0px;
 }
 
 .chat-button {
@@ -282,12 +303,15 @@ body {
   padding: 1em 2em;
   border-radius: 0.5em;
 }
-.logoside{
+
+.logoside {
   max-height: 200px;
 }
+
 .required {
   color: red;
 }
+
 .vesselbox {
   padding-top: 15px;
   padding-bottom: 15px;
@@ -337,9 +361,11 @@ td {
   max-height: 500px;
   padding: 20px;
 }
-.logincard{
+
+.logincard {
   margin-top: 20px;
 }
+
 .transocean_login .maincard {
   padding: 25px;
   border-radius: 10px;
@@ -405,7 +431,7 @@ td {
 }
 
 .transocean_login .nav-pills .nav-link.active,
-.transocean_login .nav-pills .show > .nav-link {
+.transocean_login .nav-pills .show>.nav-link {
   background-color: #007bc1;
   color: white;
 }
@@ -416,17 +442,34 @@ td {
   color: rgb(0, 0, 0);
   margin: 0px;
 }
-.header--wrapper .btn-group{
-  margin-top: 10px;
+
+.header--wrapper .btn-group {
+  margin-top: 9px;
 }
-.header--wrapper .downarrow{
-  margin-top: 10px;
+.dropdown-toggle::after {
+  display: inline-block;
+  margin-left: .255em;
+  vertical-align: 6px;
+  content: "";
+  border-top: .3em solid;
+  border-right: .3em solid transparent;
+  border-bottom: 0;
+  border-left: .3em solid transparent;
 }
+
+
+
 .transocean_login .forgotpassword {
   font-size: 13px;
 }
-.fullbody{
-  width:calc(100% - 220px);
+.menulist{
+  font-size: 13px;
+}
+.fullbody {
+  width: calc(100% - 159px);
+}
+.menugap{
+  margin-bottom: 10px;
 }
 
 .transocean_login .rememberme {
@@ -435,9 +478,9 @@ td {
 
 .same-level {
   max-height: 90%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .button-row {
@@ -449,110 +492,118 @@ td {
 /* loginpage end */
 
 @media only screen and (max-width: 1200px) {
-@media only screen and (max-width: 1243px) {
-  .transocean_login .mainpng {
-    display: none !important;
-  }
+  @media only screen and (max-width: 1243px) {
+    .transocean_login .mainpng {
+      display: none !important;
+    }
 
-  .notification h6 {
-    font-size: 13px;
-  }
-  .notification.new {
-    fontsize: 1px;
-  }
-  .transocean_login .maincard {
-    padding: 25px;
-    max-width: 80%;
-    margin: 0 auto;
-    background-color: #fff;
-  }
+    .notification h6 {
+      font-size: 13px;
+    }
 
-  .transocean_login .group {
-    position: absolute;
-    z-index: -1;
-    left: 0;
-    top: 0;
-  }
-  .dashboard_cards {
-    border-radius: 12px;
-    padding: 10px 30px;
-  }
+    .notification.new {
+      fontsize: 1px;
+    }
 
-  .same-level {
-    height: auto;
-  }
+    .transocean_login .maincard {
+      padding: 25px;
+      max-width: 80%;
+      margin: 0 auto;
+      background-color: #fff;
+    }
 
-  /* .bottom-head {
+    .transocean_login .group {
+      position: absolute;
+      z-index: -1;
+      left: 0;
+      top: 0;
+    }
+
+    .dashboard_cards {
+      border-radius: 10px;
+      padding: 5px 16px;
+    }
+
+    .same-level {
+      height: auto;
+    }
+
+    /* .bottom-head {
             flex-direction: row;
             font-size: 13px;
         } */
-  .bottom-head {
-    flex-direction: row;
-    font-size: 13px;
-    display: flex;
-    justify-content: space-around;
-    justify-content: space-between;
-    padding: 20px;
-    padding-top: 200px;
-  }
+    .bottom-head {
+      flex-direction: row;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-around;
+      justify-content: space-between;
+      padding: 20px;
+      padding-top: 200px;
+    }
 
-  .transocean_login .logo {
-    height: 136px;
-    width: 200px;
-    margin-top: 100px;
-  }
+    .transocean_login .logo {
+      height: 136px;
+      width: 200px;
+      margin-top: 100px;
+    }
 
-  .font {
-    font-size: 13px;
-  }
+    .font {
+      font-size: 13px;
+    }
 
-  .transocean_login .nav-pills .nav-link {
-    border-radius: 0px;
-    border: 0.2px solid #c4bfbf;
-    color: rgb(0, 0, 0);
-    margin: 0px;
-    padding: 8px 15px;
-  }
+    .transocean_login .nav-pills .nav-link {
+      border-radius: 0px;
+      border: 0.2px solid #c4bfbf;
+      color: rgb(0, 0, 0);
+      margin: 0px;
+      padding: 8px 15px;
+    }
 
-  .transocean_login .buttons {
-    padding-bottom: 10;
-  }
+    .transocean_login .buttons {
+      padding-bottom: 10;
+    }
 
-  .transocean_login .login_text {
-    text-decoration: underline;
-    padding-bottom: 40px;
+    .transocean_login .login_text {
+      text-decoration: underline;
+      padding-bottom: 40px;
+    }
+
+    .transocean_login .bottom-head a,
+    .footerlinks a {
+      color: #4d5959 !important;
+      text-decoration: none;
+    }
+
+    .header--wrapper .btn-group {
+      margin-top: 10px;
+    }
+
+    .header--wrapper .downarrow {
+      margin-top: 10px;
+    }
+
+    .Signout {
+      border-top: 10px;
+      border-color: black;
+      position: absolute;
+      top: 650px;
+      left: 0;
+      width: 100%;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      max-width: 230px;
+      height: 500%;
+      padding: 0px 12px;
+      color: #fff;
+      overflow: hidden;
+      transition: all 0.5s linear;
+      background-color: aliceblue;
+    }
   }
-  .transocean_login .bottom-head a,
-  .footerlinks a {
-    color: #4d5959 !important;
-    text-decoration: none;
-  }
-  .header--wrapper .btn-group {
-    margin-top: 10px;
-  }
-  .header--wrapper .downarrow {
-    margin-top: 10px;
-  }
-  .Signout {
-    border-top: 10px;
-    border-color: black;
-    position: absolute;
-    top: 650px;
-    left: 0;
-    width: 100%;
-  }
-  .sidebar {
-    position: sticky;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 220px;
-    height: 500%;
-    padding: 0px 12px;
-    color: #fff;
-    overflow: hidden;
-    transition: all 0.5s linear;
-    background-color: aliceblue;
-  }
-}
 }

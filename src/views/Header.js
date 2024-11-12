@@ -15,15 +15,15 @@ const Header = () => {
       <div className="main--content">
         <div className="header--wrapper">
           <div className="header--title">
-            <h2>Dashboard</h2>
+            <h5>Dashboard</h5>
           </div>
 
           <div className="d-flex flex-row-reverse ">
             <div className="btn-group">
               <img src={Rectangle} className="userimg"></img>
-              <button type="button" className="admin-button text-start">
+              <button type="button" className="admin-button text-start namefinance">
                 Finance
-                <div className="fs-6">Username</div>
+                <div className="nameuser">Username</div>
               </button>
               <button
                 type="button"
@@ -53,10 +53,10 @@ const Header = () => {
             <div className="p-2">
               <button
                 type="button"
-                className="btn btn-success px-5 py-3 chatbut"
+                className="btn btn-success px-4 py-2"
               >
                 {" "}
-                <i className="bi bi-chat-text"></i> <span>Chat</span>{" "}
+                <i className="bi bi-chat-text"></i> <span>Chats</span>{" "}
               </button>
             </div>
             <div className="p-2">
