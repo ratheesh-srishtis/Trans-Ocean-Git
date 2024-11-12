@@ -23,7 +23,7 @@ const Header = () => {
               <img src={Rectangle} className="userimg"></img>
               <button type="button" className="admin-button text-start">
                 Finance
-                <div className="fs-6">Username</div>
+                <div className="fs-6">finance</div>
               </button>
               <button
                 type="button"

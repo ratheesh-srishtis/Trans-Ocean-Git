@@ -17,7 +17,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
 
   // State to track the selected tab
-  const [selectedTab, setSelectedTab] = useState("Admin");
+  const [selectedTab, setSelectedTab] = useState("Finance");
 
   // Function to handle tab selection
   const handleTabClick = (tab) => {

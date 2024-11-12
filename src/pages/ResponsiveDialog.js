@@ -57,6 +57,7 @@ const ResponsiveDialog = ({
   const [vendorAmountError, setVendorAmountError] = useState(false);
   const [vendorTotalUSDError, setVendorTotalUSDError] = useState(false);
   const [vendorVatAmountError, setVendorVatAmountError] = useState(false);
+  const [customerTotalOmrError, setCustomerTotalOmrError] = useState(null);
 
   const [firstFieldSelected, setFirstFieldSelected] = useState(false);
   const [secondFieldSelected, setSecondFieldSelected] = useState(false);
@@ -211,6 +212,7 @@ const ResponsiveDialog = ({
       setVendorOmrAmount(value);
     } else if (name === "vendorVatAmount") {
       setVendorVatAmount(value);
+      setVendorVatAmountError(false);
     } else if (name === "vendorTotalUSD") {
       setVendorTotalUSD(value);
       setVendorTotalUSDError(false);
@@ -275,76 +277,94 @@ const ResponsiveDialog = ({
     console.log(vendorVatAmount, "vendorVatAmount");
 
     // Individual checks for each field
-    if (!selectedService || selectedService === "") {
+    if (!selectedService || selectedService === "" || !selectedService) {
       setSelectedServiceError(true);
     } else {
       setSelectedServiceError(false);
     }
 
-    if (!selectedChargesType || selectedChargesType === "") {
+    if (
+      !selectedChargesType ||
+      selectedChargesType === "" ||
+      !selectedChargesType
+    ) {
       setSelectedChargesTypeError(true);
     } else {
       setSelectedChargesTypeError(false);
     }
 
-    if (!selectedSubhargesType || selectedSubhargesType === "") {
+    if (
+      !selectedSubhargesType ||
+      selectedSubhargesType === "" ||
+      !selectedSubhargesType
+    ) {
       setSelectedSubhargesTypeError(true);
     } else {
       setSelectedSubhargesTypeError(false);
     }
 
-    if (!selectedQuantity || selectedQuantity === "") {
+    if (!selectedQuantity || selectedQuantity === "" || !selectedQuantity) {
       setSelectedQuantityError(true);
     } else {
       setSelectedQuantityError(false);
     }
 
-    if (!selectedNewCustomer || selectedNewCustomer === "") {
+    if (
+      !selectedNewCustomer ||
+      selectedNewCustomer === "" ||
+      !selectedNewCustomer
+    ) {
       setSelectedNewCustomerError(true);
     } else {
       setSelectedNewCustomerError(false);
     }
 
-    if (!customerAmount || customerAmount === "") {
+    if (!customerAmount || customerAmount === "" || !customerAmount) {
       setCustomerAmountError(true);
     } else {
       setCustomerAmountError(false);
     }
 
-    if (!customerTotalUSD || customerTotalUSD === "") {
+    if (!customerTotalUSD || customerTotalUSD === "" || !customerTotalUSD) {
       setCustomerTotalUSDError(true);
     } else {
       setCustomerTotalUSDError(false);
     }
 
-    if (!customerVatAmount || customerVatAmount === "") {
+    if (!customerVatAmount || customerVatAmount === "" || !customerVatAmount) {
       setCustomerVatAmountError(true);
     } else {
       setCustomerVatAmountError(false);
     }
 
-    if (!selectedVendor || selectedVendor === "") {
+    if (!selectedVendor || selectedVendor === "" || !selectedVendor) {
       setSelectedVendorError(true);
     } else {
       setSelectedVendorError(false);
     }
 
-    if (!vendorAmount || vendorAmount === "") {
+    if (!vendorAmount || vendorAmount === "" || !vendorAmount) {
       setVendorAmountError(true);
     } else {
       setVendorAmountError(false);
     }
 
-    if (!vendorTotalUSD || vendorTotalUSD === "") {
+    if (!vendorTotalUSD || vendorTotalUSD === "" || !vendorTotalUSD) {
       setVendorTotalUSDError(true);
     } else {
       setVendorTotalUSDError(false);
     }
 
-    if (!vendorVatAmount || vendorVatAmount === "") {
+    if (!vendorVatAmount || vendorVatAmount === "" || !vendorVatAmount) {
       setVendorVatAmountError(true);
     } else {
       setVendorVatAmountError(false);
+    }
+
+    if (!customerTotalOmr || customerTotalOmr === "" || !customerTotalOmr) {
+      setCustomerTotalOmrError(true);
+    } else {
+      setCustomerTotalOmrError(false);
     }
 
     if (
@@ -422,10 +442,8 @@ const ResponsiveDialog = ({
             ...prevChargesArray,
             chargesPayload,
           ]);
-
           setMessage("Charges Added Successfully!");
           setOpenPopUp(true);
-
           resetCharges();
         }
       }
@@ -538,7 +556,11 @@ const ResponsiveDialog = ({
                           className="form-select vesselbox"
                           onChange={handleSelectChange}
                           aria-label="Default select example"
-                          value={selectedService ? selectedService._id : ""}
+                          value={
+                            selectedService
+                              ? selectedService?._id
+                              : selectedService?.serviceId
+                          }
                         >
                           <option value="">Choose Services</option>
                           {services.map((service) => (
@@ -579,6 +601,13 @@ const ResponsiveDialog = ({
                               ))}
                             </select>
                           </div>
+                          {selectedChargesTypeError && (
+                            <>
+                              <div className="invalid">
+                                Please select charges type
+                              </div>
+                            </>
+                          )}
                         </div>
                       </>
                     )}
@@ -609,6 +638,13 @@ const ResponsiveDialog = ({
                               ))}
                             </select>
                           </div>
+                          {selectedSubhargesTypeError && (
+                            <>
+                              <div className="invalid">
+                                Please select sub charges type
+                              </div>
+                            </>
+                          )}
                         </div>
                       </>
                     )}
@@ -636,6 +672,13 @@ const ResponsiveDialog = ({
                               onChange={handleInputChange}
                             />
                           </div>
+                          {selectedQuantityError && (
+                            <>
+                              <div className="invalid">
+                                Please enter quantity
+                              </div>
+                            </>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -669,6 +712,13 @@ const ResponsiveDialog = ({
                               ))}
                             </select>
                           </div>
+                          {selectedNewCustomerError && (
+                            <>
+                              <div className="invalid">
+                                Please select customer
+                              </div>
+                            </>
+                          )}
                         </div>
                         <div className="col">
                           <div className="mb-3">
@@ -690,6 +740,13 @@ const ResponsiveDialog = ({
                                 onChange={handleInputChange}
                               />
                             </div>
+                            {customerAmountError && (
+                              <>
+                                <div className="invalid">
+                                  Please enter amount
+                                </div>
+                              </>
+                            )}
                           </div>
                         </div>
                         <div className="col">
@@ -711,6 +768,13 @@ const ResponsiveDialog = ({
                                 onChange={handleInputChange}
                               />
                             </div>
+                            {customerVatAmountError && (
+                              <>
+                                <div className="invalid">
+                                  Please enter vat amount
+                                </div>
+                              </>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -757,6 +821,13 @@ const ResponsiveDialog = ({
                                 onChange={handleInputChange}
                               />
                             </div>
+                            {customerTotalUSDError && (
+                              <>
+                                <div className="invalid">
+                                  Please enter total usd
+                                </div>
+                              </>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -790,6 +861,13 @@ const ResponsiveDialog = ({
                               ))}
                             </select>
                           </div>
+                          {selectedVendorError && (
+                            <>
+                              <div className="invalid">
+                                Please select vendor
+                              </div>
+                            </>
+                          )}
                         </div>
                         <div className="col">
                           <div className="mb-3">
@@ -811,6 +889,13 @@ const ResponsiveDialog = ({
                                 onChange={handleInputChange}
                               />
                             </div>
+                            {vendorAmountError && (
+                              <>
+                                <div className="invalid">
+                                  Please select amount
+                                </div>
+                              </>
+                            )}
                           </div>
                         </div>
                         <div className="col">
@@ -832,6 +917,13 @@ const ResponsiveDialog = ({
                                 onChange={handleInputChange}
                               />
                             </div>
+                            {vendorVatAmountError && (
+                              <>
+                                <div className="invalid">
+                                  Please select vat amount
+                                </div>
+                              </>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -878,6 +970,13 @@ const ResponsiveDialog = ({
                                 onChange={handleInputChange}
                               />
                             </div>
+                            {vendorTotalUSDError && (
+                              <>
+                                <div className="invalid">
+                                  Please select total usd
+                                </div>
+                              </>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -1147,6 +1246,11 @@ const ResponsiveDialog = ({
                           ))}
                         </select>
                       </div>
+                      {selectedServiceError && (
+                        <>
+                          <div className="invalid">Please select services</div>
+                        </>
+                      )}
                     </div>
                     <div className="col-lg-3">
                       <label
@@ -1174,6 +1278,13 @@ const ResponsiveDialog = ({
                           ))}
                         </select>
                       </div>
+                      {selectedChargesTypeError && (
+                        <>
+                          <div className="invalid">
+                            Please select charges type
+                          </div>
+                        </>
+                      )}
                     </div>
                     <div className="col-lg-3">
                       <label
@@ -1201,6 +1312,13 @@ const ResponsiveDialog = ({
                           ))}
                         </select>
                       </div>
+                      {selectedSubhargesTypeError && (
+                        <>
+                          <div className="invalid">
+                            Please select sub charges type
+                          </div>
+                        </>
+                      )}
                     </div>
                     <div className="col-lg-3">
                       <label
@@ -1220,6 +1338,11 @@ const ResponsiveDialog = ({
                           onChange={handleInputChange}
                         />
                       </div>
+                      {selectedQuantityError && (
+                        <>
+                          <div className="invalid">Please enter quantity</div>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -1237,7 +1360,7 @@ const ResponsiveDialog = ({
                           Customer:
                         </label>
                       </div>
-                      <div className="col-6 d-flex justify-content-start ">
+                      <div className="col-6  justify-content-start ">
                         <select
                           name="customer"
                           className="form-select vesselbox"
@@ -1255,6 +1378,13 @@ const ResponsiveDialog = ({
                             </option>
                           ))}
                         </select>
+                        {selectedNewCustomerError && (
+                          <>
+                            <div className="invalid">
+                              Please select customer
+                            </div>
+                          </>
+                        )}
                       </div>
                     </div>
                     <div className="row cust">
@@ -1266,7 +1396,7 @@ const ResponsiveDialog = ({
                           Amount(OMR):
                         </label>
                       </div>
-                      <div className="col-6 d-flex justify-content-start ">
+                      <div className="col-6 justify-content-start ">
                         <input
                           type="number"
                           className="form-control labelbox"
@@ -1276,6 +1406,11 @@ const ResponsiveDialog = ({
                           value={customerAmount || ""}
                           onChange={handleInputChange}
                         />
+                        {customerAmountError && (
+                          <>
+                            <div className="invalid">Please enter amount</div>
+                          </>
+                        )}
                       </div>
                     </div>
                     <div className="row cust">
@@ -1287,7 +1422,7 @@ const ResponsiveDialog = ({
                           VAT Amount:
                         </label>
                       </div>
-                      <div className="col-6 d-flex justify-content-start ">
+                      <div className="col-6  justify-content-start ">
                         <input
                           type="number"
                           className="form-control labelbox"
@@ -1297,6 +1432,13 @@ const ResponsiveDialog = ({
                           value={customerVatAmount || ""}
                           onChange={handleInputChange}
                         />
+                        {customerVatAmountError && (
+                          <>
+                            <div className="invalid">
+                              Please enter vat amount
+                            </div>
+                          </>
+                        )}
                       </div>
                     </div>
 
@@ -1330,7 +1472,7 @@ const ResponsiveDialog = ({
                           Total USD:
                         </label>
                       </div>
-                      <div className="col-6 d-flex justify-content-start ">
+                      <div className="col-6  justify-content-start ">
                         <input
                           type="number"
                           className="form-control labelbox"
@@ -1340,6 +1482,13 @@ const ResponsiveDialog = ({
                           value={customerTotalUSD || ""}
                           onChange={handleInputChange}
                         />
+                        {customerTotalUSDError && (
+                          <>
+                            <div className="invalid">
+                              Please enter total usd
+                            </div>
+                          </>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -1356,7 +1505,7 @@ const ResponsiveDialog = ({
                           Vendor:
                         </label>
                       </div>
-                      <div className="col-6 d-flex justify-content-start ">
+                      <div className="col-6  justify-content-start ">
                         <select
                           name="vendor"
                           className="form-select vesselbox"
@@ -1373,6 +1522,11 @@ const ResponsiveDialog = ({
                             </option>
                           ))}
                         </select>
+                        {selectedVendorError && (
+                          <>
+                            <div className="invalid">Please select vendor</div>
+                          </>
+                        )}
                       </div>
                     </div>
                     <div className="row cust">
@@ -1384,7 +1538,7 @@ const ResponsiveDialog = ({
                           Amount(OMR):
                         </label>
                       </div>
-                      <div className="col-6 d-flex justify-content-start ">
+                      <div className="col-6  justify-content-start ">
                         <input
                           type="number"
                           className="form-control labelbox"
@@ -1394,6 +1548,11 @@ const ResponsiveDialog = ({
                           value={vendorAmount}
                           onChange={handleInputChange}
                         />
+                        {vendorAmountError && (
+                          <>
+                            <div className="invalid">Please select amount</div>
+                          </>
+                        )}
                       </div>
                     </div>
                     <div className="row cust">
@@ -1405,7 +1564,7 @@ const ResponsiveDialog = ({
                           VAT Amount:
                         </label>
                       </div>
-                      <div className="col-6 d-flex justify-content-start ">
+                      <div className="col-6  justify-content-start ">
                         <input
                           type="number"
                           className="form-control labelbox"
@@ -1415,6 +1574,13 @@ const ResponsiveDialog = ({
                           value={vendorVatAmount}
                           onChange={handleInputChange}
                         />
+                        {vendorVatAmountError && (
+                          <>
+                            <div className="invalid">
+                              Please select vat amount
+                            </div>
+                          </>
+                        )}
                       </div>
                     </div>
 
@@ -1448,7 +1614,7 @@ const ResponsiveDialog = ({
                           Total USD:
                         </label>
                       </div>
-                      <div className="col-6 d-flex justify-content-start ">
+                      <div className="col-6  justify-content-start ">
                         <input
                           type="number"
                           className="form-control labelbox"
@@ -1458,6 +1624,13 @@ const ResponsiveDialog = ({
                           value={vendorTotalUSD}
                           onChange={handleInputChange}
                         />
+                        {vendorTotalUSDError && (
+                          <>
+                            <div className="invalid">
+                              Please select total usd
+                            </div>
+                          </>
+                        )}
                       </div>
                     </div>
                   </div>
