@@ -108,7 +108,7 @@ const ChargesTable = ({ chargesArray, services, ports, customers, onEdit }) => {
   };
 
   return (
-    <div>
+    <div className="createtable">
       <table className="table">
         <thead>
           <tr>

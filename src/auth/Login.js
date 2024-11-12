@@ -87,7 +87,7 @@ const Login = () => {
       <div>
         <div className="transocean_login">
           <div className="group">
-            <img src={Group}></img>
+            <img class="logoside" src={Group}></img>
           </div>
           <div className="container">
             <div className="row">
@@ -168,7 +168,7 @@ const Login = () => {
                             aria-selected="false"
                             onClick={() => handleTabClick("Hr")}
                           >
-                            Hr
+                            HR
                           </button>
                         </li>
                       </ul>

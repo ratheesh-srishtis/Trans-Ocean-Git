@@ -58,7 +58,7 @@ const App = () => {
                       }}
                     >
                       <Sidebar />
-                      <div style={{ width: "100%" }}>
+                      <div className="fullbody">
                         <Header />
                         <Content />
                       </div>
