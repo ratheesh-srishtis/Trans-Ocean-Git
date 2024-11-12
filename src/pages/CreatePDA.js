@@ -29,6 +29,7 @@ const CreatePDA = ({
   const [selectedVessel, setSelectedVessel] = useState(null);
   const [selectedPort, setSelectedPort] = useState(null);
   const [selectedVesselError, setSelectedVesselError] = useState(false);
+  const [isApproved, setIsApproved] = useState(false);
   const [selectedPortError, setSelectedPortError] = useState(false);
   const [selectedCargo, setSelectedCargo] = useState(null);
   const [selectedVesselType, setSelectedVesselType] = useState(null);
@@ -36,7 +37,7 @@ const CreatePDA = ({
   const [eta, setEta] = useState("");
   const [etd, setEtd] = useState("");
   const [status, setStatus] = useState(1);
-  const [chargesArray, setChargesArray] = useState([]);
+  const [finalChargesArray, setFinalChargesArray] = useState([]);
   const [isEditcharge, setIsEditcharge] = useState(false);
   const [editCharge, setEditCharge] = useState(null);
   const [editIndex, setEditIndex] = useState(null);
@@ -234,7 +235,13 @@ const CreatePDA = ({
   const handleSubmit = (chargesArray) => {
     console.log("chargesArray Submitted: ", chargesArray);
     // Here you can add logic to handle form submission
-    setChargesArray(chargesArray);
+    setFinalChargesArray(chargesArray);
+
+    // setFinalChargesArray((prevChargesArray) => [
+    //   ...prevChargesArray,
+    //   ...chargesArray,
+    // ]);
+
     handleClose();
   };
 
@@ -291,7 +298,7 @@ const CreatePDA = ({
         ETA: eta,
         ETD: etd,
         pdaStatus: isCustomerApproved ? 5 : status,
-        charges: chargesArray,
+        charges: finalChargesArray,
         pdaid: pdaResponse?._id ? pdaResponse?._id : null,
       };
       console.log(pdaPayload, "pdaPayload");
@@ -303,8 +310,10 @@ const CreatePDA = ({
             setPdaResponse(response?.pda);
             setPdaServicesResponse(response?.pdaServices);
             updateValues(response);
-            if (response?.pda?.pdaStatus == 2) {
-              setMessage("PDA Forwarded To The Finance Manager For Approval");
+            if (response?.pda?.pdaStatus == 1) {
+              setMessage("PDA has been saved successfully");
+            } else if (response?.pda?.pdaStatus == 2) {
+              setMessage("PDA forwarded to the finance manager for approval");
             } else {
               setMessage("PDA has been submitted successfully");
             }
@@ -339,7 +348,7 @@ const CreatePDA = ({
         }
       }
     } else {
-      setMessage("Please fill all fields");
+      setMessage("Please fill all the required fields");
       setOpenPopUp(true);
     }
   };
@@ -356,7 +365,7 @@ const CreatePDA = ({
     setEta(response?.pda?.ETA);
     setEtd(response?.pda?.ETD);
     setStatus(response?.pda?.pdaStatus);
-    setChargesArray(response?.pdaServices);
+    setFinalChargesArray(response?.pdaServices);
 
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -379,6 +388,7 @@ const CreatePDA = ({
       if (response?.status == true) {
         setPdaResponse(response?.pda);
         if (response?.pda?.pdaStatus == 3) {
+          setIsApproved(true);
           setMessage("PDA has been internally approved");
         } else if (response?.pda?.pdaStatus == 4) {
           setMessage("PDA has been rejected by finance manager");
@@ -426,8 +436,8 @@ const CreatePDA = ({
   }, [editCharge]);
 
   useEffect(() => {
-    console.log(chargesArray, "chargesArray_CREATEPDA");
-  }, [chargesArray]);
+    console.log(finalChargesArray, "finalChargesArray_CREATEPDA");
+  }, [finalChargesArray]);
 
   // Function to format the date
   const formatDate = (dateString) => {
@@ -871,17 +881,18 @@ const CreatePDA = ({
             <div className="row mt-5">
               <div className="col-lg-12">
                 <ChargesTable
-                  chargesArray={chargesArray}
+                  chargesArray={finalChargesArray}
                   services={services}
                   customers={customers}
                   ports={ports}
                   onEdit={handleEdit}
+                  pdaResponse={pdaResponse}
                 />
               </div>
             </div>
           </div>
 
-          {chargesArray?.length > 0 && (
+          {finalChargesArray?.length > 0 && pdaResponse?.pdaStatus != 4 && (
             <>
               <React.Fragment>
                 <div className="buttons-wrapper">
@@ -905,12 +916,12 @@ const CreatePDA = ({
                         </button>
                       </>
                     )}
-                    {status == 1 && (
+                    {!pdaResponse && (
                       <>
                         <button
                           className="btn btna generate-button "
                           onClick={() => {
-                            submitPda("2");
+                            submitPda("1");
                           }}
                         >
                           Save As Draft
@@ -923,27 +934,27 @@ const CreatePDA = ({
                     <button
                       className="btn btna submit-button"
                       onClick={() => {
-                        submitPda("2");
+                        submitPda(2);
                       }}
                     >
                       Submit
                     </button>
 
-                    {pdaResponse?.pdaStatus && pdaResponse?.pdaStatus >= 3 && (
-                      <>
-                        <button
-                          className="btn btna submit-button"
-                          onClick={() => {
-                            sendQuotation();
-                          }}
-                        >
-                          Send Quotation
-                        </button>
-                      </>
-                    )}
+                    {pdaResponse?.pdaStatus >= 3 ||
+                      (isApproved == true && (
+                        <>
+                          <button
+                            className="btn btna submit-button"
+                            onClick={() => {
+                              sendQuotation();
+                            }}
+                          >
+                            Send Quotation
+                          </button>
+                        </>
+                      ))}
 
-                    {(pdaResponse?.pdaStatus == 2 ||
-                      pdaResponse?.pdaStatus == 4) && (
+                    {pdaResponse?.pdaStatus == 2 && isApproved == false && (
                       <>
                         <button
                           className="btn btna generate-button"

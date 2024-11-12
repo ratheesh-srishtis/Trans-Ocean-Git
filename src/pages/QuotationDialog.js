@@ -116,16 +116,15 @@ const QuotationDialog = ({
     try {
       const response = await sendQuotationAPI(formDataToSend);
       console.log(response, "sendQuotationAPI_response");
-
       if (response?.status === true) {
         setMessage("Quotation Sent successfully");
         setOpenPopUp(true);
       } else {
-        setMessage("Send Quotation failed. Please try again");
+        setMessage("Send quotation failed. please try again");
         setOpenPopUp(true);
       }
     } catch (error) {
-      setMessage("Send Quotation failed. Please try again");
+      setMessage("Send quotation failed. please try again");
       setOpenPopUp(true);
     } finally {
       onClose();
