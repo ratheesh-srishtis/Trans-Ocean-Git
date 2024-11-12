@@ -57,11 +57,12 @@ const ResponsiveDialog = ({
   const [vendorAmountError, setVendorAmountError] = useState(false);
   const [vendorTotalUSDError, setVendorTotalUSDError] = useState(false);
   const [vendorVatAmountError, setVendorVatAmountError] = useState(false);
+  const [customerTotalOmrError, setCustomerTotalOmrError] = useState(null);
 
   const [firstFieldSelected, setFirstFieldSelected] = useState(false);
   const [secondFieldSelected, setSecondFieldSelected] = useState(false);
   const [thirdFieldSelected, setThirdFieldSelected] = useState(false);
-  const [selectedService, setSelectedService] = useState(null);
+  const [selectedService, setSelectedService] = useState("");
   const [selectedChargesType, setSelectedChargesType] = useState(null);
   const [selectedSubhargesType, setSelectedSubhargesType] = useState(null);
   const [selectedVendor, setSelectedVendor] = useState(null);
@@ -84,27 +85,6 @@ const ResponsiveDialog = ({
   const [chargesArray, setChargesArray] = useState([]);
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
-  const resetCharges = () => {
-    setFirstFieldSelected(false);
-    setSecondFieldSelected(false);
-    setThirdFieldSelected(false);
-    setSelectedService(null);
-    setSelectedChargesType("");
-    setSelectedSubhargesType("");
-    setSelectedVendor("");
-    setSelectedNewCustomer("");
-    setSelectedQuantity("");
-    setCustomerAmount("");
-    setCustomerVatAmount("");
-    setCustomerOmrAmount("");
-    setCustomerTotalUSD("");
-    setVendorAmount("");
-    setVendorVatAmount("");
-    setVendorOmrAmount("");
-    setVendorTotalUSD("");
-    setRemarks("");
-    setIsPrivateVendor(false);
-  };
 
   const handleCheckboxChange = (e) => {
     setIsPrivateVendor(e.target.checked);
@@ -157,7 +137,9 @@ const ResponsiveDialog = ({
     const fetchCharges = async () => {
       try {
         const response = await getCharges({
-          serviceId: selectedService?._id,
+          serviceId: selectedService?._id
+            ? selectedService?._id
+            : selectedService?.serviceId,
         });
         setCharges(response?.charges);
         console.log("Fetched Charges:", response);
@@ -177,7 +159,9 @@ const ResponsiveDialog = ({
       // alert(selectedService?._id);
       try {
         const response = await getSubcharges({
-          chargeId: selectedChargesType?._id,
+          chargeId: selectedChargesType?._id
+            ? selectedChargesType?._id
+            : selectedChargesType?.chargeId,
         });
         setSubCharges(response?.subcharges);
         console.log("fetchSubCharges:", response);
@@ -211,6 +195,7 @@ const ResponsiveDialog = ({
       setVendorOmrAmount(value);
     } else if (name === "vendorVatAmount") {
       setVendorVatAmount(value);
+      setVendorVatAmountError(false);
     } else if (name === "vendorTotalUSD") {
       setVendorTotalUSD(value);
       setVendorTotalUSDError(false);
@@ -275,76 +260,94 @@ const ResponsiveDialog = ({
     console.log(vendorVatAmount, "vendorVatAmount");
 
     // Individual checks for each field
-    if (!selectedService || selectedService === "") {
+    if (!selectedService || selectedService === "" || !selectedService) {
       setSelectedServiceError(true);
     } else {
       setSelectedServiceError(false);
     }
 
-    if (!selectedChargesType || selectedChargesType === "") {
+    if (
+      !selectedChargesType ||
+      selectedChargesType === "" ||
+      !selectedChargesType
+    ) {
       setSelectedChargesTypeError(true);
     } else {
       setSelectedChargesTypeError(false);
     }
 
-    if (!selectedSubhargesType || selectedSubhargesType === "") {
+    if (
+      !selectedSubhargesType ||
+      selectedSubhargesType === "" ||
+      !selectedSubhargesType
+    ) {
       setSelectedSubhargesTypeError(true);
     } else {
       setSelectedSubhargesTypeError(false);
     }
 
-    if (!selectedQuantity || selectedQuantity === "") {
+    if (!selectedQuantity || selectedQuantity === "" || !selectedQuantity) {
       setSelectedQuantityError(true);
     } else {
       setSelectedQuantityError(false);
     }
 
-    if (!selectedNewCustomer || selectedNewCustomer === "") {
+    if (
+      !selectedNewCustomer ||
+      selectedNewCustomer === "" ||
+      !selectedNewCustomer
+    ) {
       setSelectedNewCustomerError(true);
     } else {
       setSelectedNewCustomerError(false);
     }
 
-    if (!customerAmount || customerAmount === "") {
+    if (!customerAmount || customerAmount === "" || !customerAmount) {
       setCustomerAmountError(true);
     } else {
       setCustomerAmountError(false);
     }
 
-    if (!customerTotalUSD || customerTotalUSD === "") {
+    if (!customerTotalUSD || customerTotalUSD === "" || !customerTotalUSD) {
       setCustomerTotalUSDError(true);
     } else {
       setCustomerTotalUSDError(false);
     }
 
-    if (!customerVatAmount || customerVatAmount === "") {
+    if (!customerVatAmount || customerVatAmount === "" || !customerVatAmount) {
       setCustomerVatAmountError(true);
     } else {
       setCustomerVatAmountError(false);
     }
 
-    if (!selectedVendor || selectedVendor === "") {
+    if (!selectedVendor || selectedVendor === "" || !selectedVendor) {
       setSelectedVendorError(true);
     } else {
       setSelectedVendorError(false);
     }
 
-    if (!vendorAmount || vendorAmount === "") {
+    if (!vendorAmount || vendorAmount === "" || !vendorAmount) {
       setVendorAmountError(true);
     } else {
       setVendorAmountError(false);
     }
 
-    if (!vendorTotalUSD || vendorTotalUSD === "") {
+    if (!vendorTotalUSD || vendorTotalUSD === "" || !vendorTotalUSD) {
       setVendorTotalUSDError(true);
     } else {
       setVendorTotalUSDError(false);
     }
 
-    if (!vendorVatAmount || vendorVatAmount === "") {
+    if (!vendorVatAmount || vendorVatAmount === "" || !vendorVatAmount) {
       setVendorVatAmountError(true);
     } else {
       setVendorVatAmountError(false);
+    }
+
+    if (!customerTotalOmr || customerTotalOmr === "" || !customerTotalOmr) {
+      setCustomerTotalOmrError(true);
+    } else {
+      setCustomerTotalOmrError(false);
     }
 
     if (
@@ -371,7 +374,7 @@ const ResponsiveDialog = ({
         subchargeId: selectedSubhargesType?._id
           ? selectedSubhargesType?._id
           : selectedSubhargesType?.subchargeId,
-        quantity: Number(selectedQuantity),
+        quantity: selectedQuantity,
         customerId: selectedNewCustomer?._id
           ? selectedNewCustomer?._id
           : selectedNewCustomer?.customerId,
@@ -386,6 +389,7 @@ const ResponsiveDialog = ({
         vendorTotalUSD: Number(vendorTotalUSD),
         isPrivateVendor: isPrivateVendor,
         remark: remarks,
+        pdaChargeId: pdaResponse?._id ? pdaResponse?._id : null,
       };
       console.log(chargesPayload, "chargesPayload");
       if (action === "edit" && index !== null) {
@@ -395,45 +399,44 @@ const ResponsiveDialog = ({
         setChargesArray(updatedChargesArray); // update the state
         // Now call submit with the updated charges array
         onSubmit(updatedChargesArray); // pass the updated array immediately
-        try {
-          const response = await editChargeQuotation(chargesPayload);
-          console.log("Fetched Charges:", response);
-        } catch (error) {
-          console.error("Error fetching charges:", error);
-        }
-      } else {
-        // Add new charge
         if (pdaResponse?._id) {
           try {
-            const updatedChargesArray = [...chargesArray, chargesPayload];
-            setChargesArray(updatedChargesArray);
-            let addChargesPaylod = {
-              pdaId: pdaResponse?._id ? pdaResponse?._id : null,
-              charges: updatedChargesArray,
-            };
-            const response = await addPDACharges(addChargesPaylod);
-            console.log("addPDACharges_response:", response);
-            // resetCharges();
+            const response = await editChargeQuotation(chargesPayload);
+            console.log("Fetched Charges:", response);
           } catch (error) {
             console.error("Error fetching charges:", error);
           }
-        } else {
-          setChargesArray((prevChargesArray) => [
-            ...prevChargesArray,
-            chargesPayload,
-          ]);
-
-          setMessage("Charges Added Successfully!");
-          setOpenPopUp(true);
-
-          resetCharges();
         }
+      } else if (action === "edit" && pdaResponse?._id) {
+        // Add new charge
+        try {
+          const updatedChargesArray = [...chargesArray, chargesPayload];
+          setChargesArray(updatedChargesArray);
+          let addChargesPaylod = {
+            pdaId: pdaResponse?._id ? pdaResponse?._id : null,
+            charges: updatedChargesArray,
+          };
+          const response = await addPDACharges(addChargesPaylod);
+          console.log("addPDACharges_response:", response);
+          onSubmit(updatedChargesArray);
+        } catch (error) {
+          console.error("Error fetching charges:", error);
+        }
+      } else if (action === "new") {
+        setChargesArray((prevChargesArray) => [
+          ...prevChargesArray,
+          chargesPayload,
+        ]);
+        setMessage("Charges Added Successfully!");
+        setOpenPopUp(true);
+        alert("NEW Charge Added");
+        resetCharges("new");
       }
 
       // onSubmit(formData);
       // onClose();
     } else {
-      setMessage("Please fill all fields");
+      setMessage("Please fill all the required fields");
       setOpenPopUp(true);
     }
   };
@@ -443,23 +446,6 @@ const ResponsiveDialog = ({
     setMessage("Charges Added Successfully!");
     setOpenPopUp(true);
   };
-
-  useEffect(() => {
-    console.log(editCharge, "editCharge");
-    setSelectedService(editCharge);
-    setSelectedChargesType(editCharge);
-    setSelectedSubhargesType(editCharge);
-    setSelectedQuantity(editCharge?.quantity);
-    setCustomerAmount(editCharge?.customerOMR);
-    setCustomerVatAmount(editCharge?.customerVAT);
-    setVendorAmount(editCharge?.vendorOMR);
-    setVendorVatAmount(editCharge?.vendorVAT);
-    setCustomerTotalUSD(editCharge?.customerTotalUSD);
-    setVendorTotalUSD(editCharge?.vendorTotalUSD);
-    setRemarks(editCharge?.remark);
-    setSelectedNewCustomer(editCharge);
-    setSelectedVendor(editCharge);
-  }, [editCharge]);
 
   useEffect(() => {
     console.log(selectedService, "selectedService");
@@ -509,6 +495,62 @@ const ResponsiveDialog = ({
     console.log(chargesArray, "chargesArray");
   }, [chargesArray]);
 
+  const resetCharges = (event) => {
+    setFirstFieldSelected(false);
+    setSecondFieldSelected(false);
+    setThirdFieldSelected(false);
+    setSelectedService("");
+    setSelectedChargesType("");
+    setSelectedSubhargesType("");
+    setSelectedVendor("");
+    setSelectedNewCustomer("");
+    setSelectedQuantity("");
+    setCustomerAmount("");
+    setCustomerVatAmount("");
+    setCustomerOmrAmount("");
+    setCustomerTotalUSD("");
+    setVendorAmount("");
+    setVendorVatAmount("");
+    setVendorOmrAmount("");
+    setVendorTotalUSD("");
+    setRemarks("");
+    setIsPrivateVendor(false);
+    if (event != "new") {
+      setChargesArray([]);
+    }
+  };
+
+  useEffect(() => {
+    console.log(open, "open");
+    console.log(isEditcharge, "isEditcharge");
+    if (isEditcharge == false && open == true) {
+      resetCharges("load");
+    }
+  }, [isEditcharge, open]);
+
+  useEffect(() => {
+    console.log(editCharge, "editCharge");
+    console.log(isEditcharge, "isEditcharge EDIT");
+    console.log(open, "open EDIT");
+    if (isEditcharge == true && open == true) {
+      alert("editChargeFilling");
+
+      setSelectedService(editCharge);
+      setSelectedChargesType(editCharge);
+      setSelectedSubhargesType(editCharge);
+      setSelectedQuantity(editCharge?.quantity);
+      setCustomerAmount(editCharge?.customerOMR);
+      setCustomerVatAmount(editCharge?.customerVAT);
+      setVendorAmount(editCharge?.vendorOMR);
+      setVendorVatAmount(editCharge?.vendorVAT);
+      setCustomerTotalUSD(editCharge?.customerTotalUSD);
+      setVendorTotalUSD(editCharge?.vendorTotalUSD);
+      setRemarks(editCharge?.remark);
+      setSelectedNewCustomer(editCharge);
+      setSelectedVendor(editCharge);
+    }
+  }, [isEditcharge, open]);
+
   return (
     <>
       <Dialog open={open} onClose={onClose} fullWidth maxWidth="lg">
@@ -534,11 +576,14 @@ const ResponsiveDialog = ({
                       </label>
                       <div className="vessel-select">
                         <select
+                          key={
+                            selectedService ? selectedService?._id : "default"
+                          }
                           name="service"
                           className="form-select vesselbox"
                           onChange={handleSelectChange}
                           aria-label="Default select example"
-                          value={selectedService ? selectedService._id : ""}
+                          value={selectedService ? selectedService?._id : null}
                         >
                           <option value="">Choose Services</option>
                           {services.map((service) => (
@@ -579,6 +624,13 @@ const ResponsiveDialog = ({
                               ))}
                             </select>
                           </div>
+                          {selectedChargesTypeError && (
+                            <>
+                              <div className="invalid">
+                                Please select charges type
+                              </div>
+                            </>
+                          )}
                         </div>
                       </>
                     )}
@@ -609,6 +661,13 @@ const ResponsiveDialog = ({
                               ))}
                             </select>
                           </div>
+                          {selectedSubhargesTypeError && (
+                            <>
+                              <div className="invalid">
+                                Please select sub charges type
+                              </div>
+                            </>
+                          )}
                         </div>
                       </>
                     )}
@@ -627,7 +686,7 @@ const ResponsiveDialog = ({
                               Quantity:
                             </label>
                             <input
-                              type="number"
+                              type="text"
                               className="form-control vessel-voyage"
                               id="exampleFormControlInput1"
                               placeholder="PerDay"
@@ -636,6 +695,13 @@ const ResponsiveDialog = ({
                               onChange={handleInputChange}
                             />
                           </div>
+                          {selectedQuantityError && (
+                            <>
+                              <div className="invalid">
+                                Please enter quantity
+                              </div>
+                            </>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -669,6 +735,13 @@ const ResponsiveDialog = ({
                               ))}
                             </select>
                           </div>
+                          {selectedNewCustomerError && (
+                            <>
+                              <div className="invalid">
+                                Please select customer
+                              </div>
+                            </>
+                          )}
                         </div>
                         <div className="col">
                           <div className="mb-3">
@@ -690,6 +763,13 @@ const ResponsiveDialog = ({
                                 onChange={handleInputChange}
                               />
                             </div>
+                            {customerAmountError && (
+                              <>
+                                <div className="invalid">
+                                  Please enter amount
+                                </div>
+                              </>
+                            )}
                           </div>
                         </div>
                         <div className="col">
@@ -711,6 +791,13 @@ const ResponsiveDialog = ({
                                 onChange={handleInputChange}
                               />
                             </div>
+                            {customerVatAmountError && (
+                              <>
+                                <div className="invalid">
+                                  Please enter vat amount
+                                </div>
+                              </>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -757,6 +844,13 @@ const ResponsiveDialog = ({
                                 onChange={handleInputChange}
                               />
                             </div>
+                            {customerTotalUSDError && (
+                              <>
+                                <div className="invalid">
+                                  Please enter total usd
+                                </div>
+                              </>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -790,6 +884,13 @@ const ResponsiveDialog = ({
                               ))}
                             </select>
                           </div>
+                          {selectedVendorError && (
+                            <>
+                              <div className="invalid">
+                                Please select vendor
+                              </div>
+                            </>
+                          )}
                         </div>
                         <div className="col">
                           <div className="mb-3">
@@ -811,6 +912,13 @@ const ResponsiveDialog = ({
                                 onChange={handleInputChange}
                               />
                             </div>
+                            {vendorAmountError && (
+                              <>
+                                <div className="invalid">
+                                  Please select amount
+                                </div>
+                              </>
+                            )}
                           </div>
                         </div>
                         <div className="col">
@@ -832,6 +940,13 @@ const ResponsiveDialog = ({
                                 onChange={handleInputChange}
                               />
                             </div>
+                            {vendorVatAmountError && (
+                              <>
+                                <div className="invalid">
+                                  Please select vat amount
+                                </div>
+                              </>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -878,6 +993,13 @@ const ResponsiveDialog = ({
                                 onChange={handleInputChange}
                               />
                             </div>
+                            {vendorTotalUSDError && (
+                              <>
+                                <div className="invalid">
+                                  Please select total usd
+                                </div>
+                              </>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -929,8 +1051,8 @@ const ResponsiveDialog = ({
                   </>
                 )}
 
-                <div className="col-12">
-                  <div className="footer-button d-flex justify-content-center">
+                <div className="col-12 mt-5">
+                  <div className="footer-button d-flex justify-content-center ">
                     {chargesArray.length == 0 && (
                       <>
                         <button
@@ -946,7 +1068,7 @@ const ResponsiveDialog = ({
                       type="button"
                       className="btn save-button"
                       onClick={() => {
-                        addCharges("add");
+                        addCharges("new");
                       }}
                     >
                       Add
@@ -965,7 +1087,7 @@ const ResponsiveDialog = ({
                           <div key={index} className="tablesep">
                             <div className="col">
                               <div className="subh">
-                                <span className="marinehead">charge Type:</span>
+                                <span className="marinehead">Charge Type:</span>
                                 <span className="subvalue">
                                   {" "}
                                   {getItemName(
@@ -1024,6 +1146,26 @@ const ResponsiveDialog = ({
                                   <span className="subvalue">
                                     {charge.customerTotalUSD}
                                   </span>
+                                </div>
+                              </div>
+                              <div className="subh d-flex">
+                                <div className="marinehead">
+                                  <div className="form-check pvendor">
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      id="flexCheckDefault"
+                                      checked={charge?.isPrivateVendor}
+                                      value={charge?.isPrivateVendor}
+                                      readOnly
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor="flexCheckDefault"
+                                    >
+                                      Private Vendor
+                                    </label>
+                                  </div>
                                 </div>
                               </div>
                               <div className="subheadremarks">
@@ -1147,6 +1289,11 @@ const ResponsiveDialog = ({
                           ))}
                         </select>
                       </div>
+                      {selectedServiceError && (
+                        <>
+                          <div className="invalid">Please select services</div>
+                        </>
+                      )}
                     </div>
                     <div className="col-lg-3">
                       <label
@@ -1174,6 +1321,13 @@ const ResponsiveDialog = ({
                           ))}
                         </select>
                       </div>
+                      {selectedChargesTypeError && (
+                        <>
+                          <div className="invalid">
+                            Please select charges type
+                          </div>
+                        </>
+                      )}
                     </div>
                     <div className="col-lg-3">
                       <label
@@ -1201,6 +1355,13 @@ const ResponsiveDialog = ({
                           ))}
                         </select>
                       </div>
+                      {selectedSubhargesTypeError && (
+                        <>
+                          <div className="invalid">
+                            Please select sub charges type
+                          </div>
+                        </>
+                      )}
                     </div>
                     <div className="col-lg-3">
                       <label
@@ -1211,7 +1372,7 @@ const ResponsiveDialog = ({
                       </label>
                       <div className="vessel-select">
                         <input
-                          type="number"
+                          type="text"
                           className="form-control labelbox"
                           id="exampleFormControlInput1"
                           placeholder=" Per Day"
@@ -1220,6 +1381,11 @@ const ResponsiveDialog = ({
                           onChange={handleInputChange}
                         />
                       </div>
+                      {selectedQuantityError && (
+                        <>
+                          <div className="invalid">Please enter quantity</div>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -1237,7 +1403,7 @@ const ResponsiveDialog = ({
                           Customer:
                         </label>
                       </div>
-                      <div className="col-6 d-flex justify-content-start ">
+                      <div className="col-6  justify-content-start ">
                         <select
                           name="customer"
                           className="form-select vesselbox"
@@ -1255,6 +1421,13 @@ const ResponsiveDialog = ({
                             </option>
                           ))}
                         </select>
+                        {selectedNewCustomerError && (
+                          <>
+                            <div className="invalid">
+                              Please select customer
+                            </div>
+                          </>
+                        )}
                       </div>
                     </div>
                     <div className="row cust">
@@ -1266,7 +1439,7 @@ const ResponsiveDialog = ({
                           Amount(OMR):
                         </label>
                       </div>
-                      <div className="col-6 d-flex justify-content-start ">
+                      <div className="col-6 justify-content-start ">
                         <input
                           type="number"
                           className="form-control labelbox"
@@ -1276,6 +1449,11 @@ const ResponsiveDialog = ({
                           value={customerAmount || ""}
                           onChange={handleInputChange}
                         />
+                        {customerAmountError && (
+                          <>
+                            <div className="invalid">Please enter amount</div>
+                          </>
+                        )}
                       </div>
                     </div>
                     <div className="row cust">
@@ -1287,7 +1465,7 @@ const ResponsiveDialog = ({
                           VAT Amount:
                         </label>
                       </div>
-                      <div className="col-6 d-flex justify-content-start ">
+                      <div className="col-6  justify-content-start ">
                         <input
                           type="number"
                           className="form-control labelbox"
@@ -1297,6 +1475,13 @@ const ResponsiveDialog = ({
                           value={customerVatAmount || ""}
                           onChange={handleInputChange}
                         />
+                        {customerVatAmountError && (
+                          <>
+                            <div className="invalid">
+                              Please enter vat amount
+                            </div>
+                          </>
+                        )}
                       </div>
                     </div>
 
@@ -1330,7 +1515,7 @@ const ResponsiveDialog = ({
                           Total USD:
                         </label>
                       </div>
-                      <div className="col-6 d-flex justify-content-start ">
+                      <div className="col-6  justify-content-start ">
                         <input
                           type="number"
                           className="form-control labelbox"
@@ -1340,6 +1525,13 @@ const ResponsiveDialog = ({
                           value={customerTotalUSD || ""}
                           onChange={handleInputChange}
                         />
+                        {customerTotalUSDError && (
+                          <>
+                            <div className="invalid">
+                              Please enter total usd
+                            </div>
+                          </>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -1356,7 +1548,7 @@ const ResponsiveDialog = ({
                           Vendor:
                         </label>
                       </div>
-                      <div className="col-6 d-flex justify-content-start ">
+                      <div className="col-6  justify-content-start ">
                         <select
                           name="vendor"
                           className="form-select vesselbox"
@@ -1373,6 +1565,11 @@ const ResponsiveDialog = ({
                             </option>
                           ))}
                         </select>
+                        {selectedVendorError && (
+                          <>
+                            <div className="invalid">Please select vendor</div>
+                          </>
+                        )}
                       </div>
                     </div>
                     <div className="row cust">
@@ -1384,7 +1581,7 @@ const ResponsiveDialog = ({
                           Amount(OMR):
                         </label>
                       </div>
-                      <div className="col-6 d-flex justify-content-start ">
+                      <div className="col-6  justify-content-start ">
                         <input
                           type="number"
                           className="form-control labelbox"
@@ -1394,6 +1591,11 @@ const ResponsiveDialog = ({
                           value={vendorAmount}
                           onChange={handleInputChange}
                         />
+                        {vendorAmountError && (
+                          <>
+                            <div className="invalid">Please select amount</div>
+                          </>
+                        )}
                       </div>
                     </div>
                     <div className="row cust">
@@ -1405,7 +1607,7 @@ const ResponsiveDialog = ({
                           VAT Amount:
                         </label>
                       </div>
-                      <div className="col-6 d-flex justify-content-start ">
+                      <div className="col-6  justify-content-start ">
                         <input
                           type="number"
                           className="form-control labelbox"
@@ -1415,6 +1617,13 @@ const ResponsiveDialog = ({
                           value={vendorVatAmount}
                           onChange={handleInputChange}
                         />
+                        {vendorVatAmountError && (
+                          <>
+                            <div className="invalid">
+                              Please select vat amount
+                            </div>
+                          </>
+                        )}
                       </div>
                     </div>
 
@@ -1448,7 +1657,7 @@ const ResponsiveDialog = ({
                           Total USD:
                         </label>
                       </div>
-                      <div className="col-6 d-flex justify-content-start ">
+                      <div className="col-6  justify-content-start ">
                         <input
                           type="number"
                           className="form-control labelbox"
@@ -1458,6 +1667,13 @@ const ResponsiveDialog = ({
                           value={vendorTotalUSD}
                           onChange={handleInputChange}
                         />
+                        {vendorTotalUSDError && (
+                          <>
+                            <div className="invalid">
+                              Please select total usd
+                            </div>
+                          </>
+                        )}
                       </div>
                     </div>
                   </div>

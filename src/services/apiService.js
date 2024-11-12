@@ -134,6 +134,19 @@ export const addPDACharges = async (userData) => {
   }
 };
 
+export const deleteQuotationCharge = async (userData) => {
+  try {
+    const response = await axiosInstance.post(
+      "/deleteQuotationCharge",
+      userData
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
 export const sendQuotationAPI = async (userData) => {
   try {
     const response = await axiosInstance.post("/sendQuotation", userData);
