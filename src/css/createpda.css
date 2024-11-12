@@ -13,8 +13,8 @@
 .pdadate {
   display: flex;
 }
-.customerbox{
-  padding:10px;
+.customerbox {
+  padding: 10px;
 }
 
 .btn-color {
@@ -58,15 +58,13 @@
 
 .book {
   color: #007ac1;
- 
 }
-.circle{
-  color:#007ac1;
-  height:200px;
-  width:30px;
+.circle {
+  color: #007ac1;
+  height: 200px;
+  width: 30px;
 }
-.statusbadge{
-  
+.statusbadge {
 }
 
 .radio {
@@ -86,7 +84,7 @@
   margin-right: 100px;
   cursor: pointer;
 }
-.service{
+.service {
   cursor: pointer;
 }
 .vesselbox {
@@ -129,26 +127,26 @@
   color: white;
   font-size: larger;
 }
-.btna{
+.btna {
   background-color: #007ac1;
   padding-top: 13px;
   padding-bottom: 13px;
   text-align: center;
   color: white;
-  margin-right:20px
+  margin-right: 20px;
 }
-.generate-button{
-  color: #1EBBEE;
+.generate-button {
+  color: #1ebbee;
   background-color: #ffffff;
-  border-color: #1EBBEE;
+  border-color: #1ebbee;
 }
-.submit-button{
+.submit-button {
   color: #ffffff;
-  background-color: #1EBBEE;
-  border-color: #1EBBEE;
+  background-color: #1ebbee;
+  border-color: #1ebbee;
 }
-.required{
-  color:red;
+.required {
+  color: red;
 }
 
 .typesofcall-row {
@@ -180,15 +178,14 @@
   width: 240px !important;
   height: 56px !important;
 }
-@media only screen and (max-width: 1354px) {
-  
+@media only screen and (max-width: 1243px) {
   .voyageblock {
     width: 100%;
-    max-with:100%;
+    max-with: 100%;
   }
   .nrt {
     padding-left: 0px;
-    padding-right:20px;
+    padding-right: 20px;
   }
   .date-input {
     width: 100% !important;
@@ -199,8 +196,8 @@
     padding-left: 0px;
   }
   .voyage {
-    padding-left:0px;
-    width:45%;
+    padding-left: 0px;
+    width: 45%;
   }
   .vesselradio {
     margin-left: 0px;
@@ -208,7 +205,6 @@
     cursor: pointer;
   }
 }
-
 
 .buttons-wrapper {
   display: flex;

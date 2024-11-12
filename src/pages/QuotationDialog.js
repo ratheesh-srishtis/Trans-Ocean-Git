@@ -1,14 +1,6 @@
 // ResponsiveDialog.js
 import React, { useState, useEffect } from "react";
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TextField,
-  Grid,
-  Button,
-} from "@mui/material";
+
 import "../css/addcharges.css";
 import "../css/editcharges.css";
 import "../css/sendquotation.css";
@@ -17,9 +9,26 @@ import {
   getCharges,
   editChargeQuotation,
   addPDACharges,
+  sendQuotationAPI,
 } from "../services/apiService";
 import PopUp from "./PopUp";
-
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  TextField,
+  IconButton,
+  Menu,
+  MenuItem,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemSecondaryAction,
+  Paper,
+} from "@mui/material";
+import { AttachFile, Delete, Visibility } from "@mui/icons-material";
 const QuotationDialog = ({
   open,
   onClose,
@@ -32,7 +41,6 @@ const QuotationDialog = ({
   eta,
   etd,
   status,
-  formData,
   services,
   customers,
   ports,
@@ -46,82 +54,88 @@ const QuotationDialog = ({
 
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
-  const uploadIcon = require("../assets/images/uploadIcon.png");
-  const imageType = require("../assets/images/imageType.png");
-  const elipsis = require("../assets/images/elipsis.png");
-  const greenTickCircle = require("../assets/images/small-green-tick.png");
 
-  const [profileFile, setProfileFile] = useState(null);
+  const [formData, setFormData] = useState({
+    to: "",
+    subject: "",
+    cc: "",
+    bcc: "",
+    emailbody: "",
+    pdaId: "",
+    files: [],
+  });
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedFileIndex, setSelectedFileIndex] = useState(null);
 
-  const handleProfileDrop = (e) => {
-    e.preventDefault();
-    const droppedFiles = Array.from(e.dataTransfer.files);
+  const handleFileUpload = (e) => {
+    const uploadedFiles = Array.from(e.target.files);
 
-    uploadProfile(droppedFiles[0]);
+    // Update the state with the files
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      files: [...prevFormData.files, ...uploadedFiles], // append files to the existing array
+    }));
   };
 
-  const handleProfileDragOver = (e) => {
-    e.preventDefault();
+  const handleMenuOpen = (event, index) => {
+    setAnchorEl(event.currentTarget);
+    setSelectedFileIndex(index);
   };
 
-  const profileUpload = (event) => {
-    if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
-      if (!file.type.startsWith("image/")) {
-        setMessage("You can only upload images");
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    setSelectedFileIndex(null);
+  };
+
+  const handleFileDelete = () => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      files: prevFormData.files.filter(
+        (_, index) => index !== selectedFileIndex
+      ),
+    }));
+    handleMenuClose();
+  };
+
+  const handleSubmit = async () => {
+    const formDataToSend = new FormData();
+
+    // Append each file to FormData
+    formData.files.forEach((file) => {
+      formDataToSend.append("files", file); // 'files' is the key expected on the server side
+    });
+
+    // Append other form data
+    formDataToSend.append("to", formData.to);
+    formDataToSend.append("subject", formData.subject);
+    formDataToSend.append("cc", formData.cc);
+    formDataToSend.append("bcc", formData.bcc);
+    formDataToSend.append("emailbody", formData.emailbody);
+    formDataToSend.append("pdaId", pdaResponse?._id);
+
+    try {
+      const response = await sendQuotationAPI(formDataToSend);
+      console.log(response, "sendQuotationAPI_response");
+
+      if (response?.status === true) {
+        setMessage("PDA has been submitted successfully");
         setOpenPopUp(true);
-
-        return;
+      } else {
+        setMessage("PDA failed. Please try again");
+        setOpenPopUp(true);
       }
-
-      uploadProfile(file);
+    } catch (error) {
+      setMessage("PDA failed. Please try again");
+      setOpenPopUp(true);
+    } finally {
+      onClose();
     }
   };
 
-  const uploadProfile = async (fileData) => {
-    // const params = new FormData();
-    // params.append("file", fileData);
-    // params.append("fileName", fileData.name);
-    // params.append("fileType", getFileType(fileData.type));
-    // await Axios.post(API.uploadFile, params, {
-    //   headers: {
-    //     "Content-Type": "multipart/form-data",
-    //   },
-    // })
-    //   .then((resData) => {
-    //     setMessage(resData.data.message);
-    //     let fileObj = {
-    //       id: resData.data.data.fileId,
-    //       title: fileData.name,
-    //       fileData: resData.data.data.filename,
-    //       type: resData?.data?.data?.filetype,
-    //     };
-    //     setProfileFile(fileObj);
-    //     setOpenPopUp(true);
-    //     setTimeout(function () {
-    //       setOpenPopUp(false);
-    //     }, 1000);
-    //   })
-    //   .catch((err) => {});
-  };
-
-  const handleProfileDelete = () => {
-    setProfileFile(null);
-  };
-
-  const handleView = (imageUrl) => {
-    // let viewImage = `${API.userFilePath}${imageUrl?.fileData}`;
-    // window.open(viewImage, "_blank");
-  };
-
-  const [showOptions, setShowOptions] = useState(false);
-
-  const handleOptionClick = (option) => {
-    if (option === "view") {
-      window.open("your-image-url", "_blank");
-    } else if (option === "delete") {
-    }
-    setShowOptions(false);
+  const handleViewFile = (file) => {
+    // Open the file in a new window
+    const fileURL = URL.createObjectURL(file);
+    window.open(fileURL, "_blank");
   };
 
   return (
@@ -149,14 +163,14 @@ const QuotationDialog = ({
                         class="form-control vessel-voyage"
                         id="exampleFormControlInput1"
                         placeholder=""
+                        value={formData.to}
+                        onChange={(e) =>
+                          setFormData({ ...formData, to: e.target.value })
+                        }
                       />
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div class="ccbcc ">
-              <div class="row align-items-start">
                 <div class="col">
                   <div class="mb-3">
                     <div class="col">
@@ -168,21 +182,10 @@ const QuotationDialog = ({
                         class="form-control vessel-voyage"
                         id="exampleFormControlInput1"
                         placeholder=""
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="mb-3">
-                    <div class="col">
-                      <label for="exampleFormControlInput1" class="form-label">
-                        Bcc:
-                      </label>
-                      <input
-                        type="email"
-                        class="form-control vessel-voyage"
-                        id="exampleFormControlInput1"
-                        placeholder=""
+                        value={formData.cc}
+                        onChange={(e) =>
+                          setFormData({ ...formData, cc: e.target.value })
+                        }
                       />
                     </div>
                   </div>
@@ -195,13 +198,17 @@ const QuotationDialog = ({
                   <div class="mb-3">
                     <div class="col">
                       <label for="exampleFormControlInput1" class="form-label">
-                        Subject:
+                        Bcc:
                       </label>
                       <input
                         type="email"
                         class="form-control vessel-voyage"
                         id="exampleFormControlInput1"
                         placeholder=""
+                        value={formData.bcc}
+                        onChange={(e) =>
+                          setFormData({ ...formData, bcc: e.target.value })
+                        }
                       />
                     </div>
                   </div>
@@ -210,18 +217,24 @@ const QuotationDialog = ({
                   <div class="mb-3">
                     <div class="col">
                       <label for="exampleFormControlInput1" class="form-label">
-                        Upload Attachments:
+                        Subject:
                       </label>
                       <input
+                        type="email"
                         class="form-control vessel-voyage"
                         id="exampleFormControlInput1"
-                        placeholder=" "
+                        placeholder=""
+                        value={formData.subject}
+                        onChange={(e) =>
+                          setFormData({ ...formData, subject: e.target.value })
+                        }
                       />
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+
             <div class="row ">
               <div class="col">
                 <div class="mb-3">
@@ -233,6 +246,10 @@ const QuotationDialog = ({
                       rows="3"
                       class="form-control"
                       id="exampleFormControlInput1"
+                      value={formData.emailbody}
+                      onChange={(e) =>
+                        setFormData({ ...formData, emailbody: e.target.value })
+                      }
                       placeholder="I am writing to seek your approval for the Quotation. Please find attached a copy of the signed quotation for your records. Once approved, we will proceed with the Quotation as per our standard procedures. Thank you for your prompt attention to this matter."
                     ></textarea>
                   </div>
@@ -254,8 +271,77 @@ const QuotationDialog = ({
                 </div>
               </div>
             </div>
+            <div class="row">
+              <div class="mb-3">
+                <div class="col">
+                  <div style={{ marginTop: 16 }}>
+                    <input
+                      type="file"
+                      multiple
+                      onChange={handleFileUpload}
+                      style={{ display: "none" }}
+                      id="file-upload"
+                    />
+                    <label htmlFor="file-upload">
+                      <Button
+                        variant="outlined"
+                        component="span"
+                        startIcon={<AttachFile />}
+                      >
+                        Upload Attachments
+                      </Button>
+                    </label>
+                    {formData?.files?.length > 0 && (
+                      <>
+                        <Paper
+                          elevation={1}
+                          style={{ marginTop: 16, padding: 8 }}
+                        >
+                          <List>
+                            {formData.files.map((file, index) => (
+                              <ListItem key={index}>
+                                <ListItemText primary={file.name} />
+                                <ListItemSecondaryAction>
+                                  <IconButton
+                                    edge="end"
+                                    onClick={() => handleViewFile(file)}
+                                  >
+                                    <Visibility />
+                                  </IconButton>
+                                  <IconButton
+                                    edge="end"
+                                    onClick={() => {
+                                      setFormData((prevFormData) => ({
+                                        ...prevFormData,
+                                        files: prevFormData.files.filter(
+                                          (_, i) => i !== index
+                                        ),
+                                      }));
+                                    }}
+                                  >
+                                    <Delete
+                                      onClick={() => {
+                                        handleFileDelete();
+                                      }}
+                                    />
+                                  </IconButton>
+                                </ListItemSecondaryAction>
+                              </ListItem>
+                            ))}
+                          </List>
+                        </Paper>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="firstfooter d-flex justify-content-end">
-              <button type="button" class="btn add-button">
+              <button
+                type="button"
+                class="btn add-button"
+                onClick={handleSubmit}
+              >
                 OK
               </button>
             </div>

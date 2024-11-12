@@ -435,16 +435,16 @@ td {
 
 /* loginpage end */
 
-@media only screen and (max-width: 1354px) {
+@media only screen and (max-width: 1243px) {
   .transocean_login .mainpng {
     display: none !important;
   }
 
   .notification h6 {
-    font-size:13px;
+    font-size: 13px;
   }
-  .notification.new{
-    fontsize:1px;
+  .notification.new {
+    fontsize: 1px;
   }
   .transocean_login .maincard {
     padding: 25px;
@@ -513,10 +513,10 @@ td {
     color: #4d5959 !important;
     text-decoration: none;
   }
-  .header--wrapper .btn-group{
+  .header--wrapper .btn-group {
     margin-top: 10px;
   }
-  .header--wrapper .downarrow{
+  .header--wrapper .downarrow {
     margin-top: 10px;
   }
   .Signout {
