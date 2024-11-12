@@ -6,6 +6,7 @@
   border-radius: 30px;
   padding: 20px;
 }
+
 .tablehead {
   background-color: #007ac1;
   color: white;
@@ -20,34 +21,42 @@
   font-size: medium;
   font-weight: bold;
 }
+
 .marinetable {
   border: 1px solid #007ac1;
   margin-top: 0px;
   border-radius: 12px;
   padding-bottom: 10px;
 }
+
 .closeicon {
   margin-top: 16px;
   padding-right: 30px;
   cursor: pointer;
 }
+
 .statusbadge i {
-  font-size: 20px;
+  font-size: 15px;
 }
+
 .bi-x-lg {
   font-size: 18px;
 }
+
 .cust {
   padding-right: 130px;
   padding-bottom: 10px;
 }
+
 .labelhead {
   margin-top: 10px;
   font-weight: bold;
 }
+
 span.required {
   color: red;
 }
+
 .table {
   margin-bottom: 30px;
 }
@@ -57,16 +66,23 @@ span.required {
   background-color: #ffffff;
   border-color: #007ac1;
 }
+
 .firstfooter {
   display: flex;
   justify-content: center;
   margin-top: 20px;
 }
+
 .add-button {
   background-color: #007ac1;
   padding: 10px 20px 10px 20px;
   color: white;
   font-size: larger;
 }
-@media only screen and (max-width: 767px) {
+
+@media screen and (min-device-width: 1200px) and (max-device-width: 1800px) {
+  .createtable th {
+    font-size: 10px !important;
+    min-width: 50px;
+  }
 }

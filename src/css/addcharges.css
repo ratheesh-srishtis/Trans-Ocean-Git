@@ -20,16 +20,18 @@
 }
 
 .rectangle {
-  margin-top: 27;
+  margin-top: 27px;
   background-color: #5c5c5c25;
   border: 1px solid #cacaca25;
   border-radius: 50px;
-  width: 1315px;
+  width: 100%;
+
   height: 2px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .customerrectangle {
   border: 1px solid #5c5c5c25;
   border-radius: 50px;
@@ -44,14 +46,17 @@
 .customerhead {
   display: flex;
 }
+
 .editicon {
   color: #007ac1;
   margin-left: 15px;
   cursor: pointer;
 }
+
 .required {
   color: red;
 }
+
 .deleteicon {
   color: red;
   cursor: pointer;
@@ -148,11 +153,26 @@
   margin: 20px;
 }
 
-@media only screen and (max-width: 767px) {
+.createtable tr td {
+  font-size: 12px;
 }
 
-.invalid {
-  font-size: 12px;
-  color: red;
-  font-family: sans-serif;
+@media screen and (min-device-width: 481px) and (max-device-width: 768px) {}
+
+@media only screen and (max-width: 1280px) {
+  .createtable th {
+    font-size: 12px;
+  }
+
+  .createtable tr td {
+    font-size: 12px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .invalid {
+    font-size: 12px;
+    color: red;
+    font-family: sans-serif;
+  }
 }

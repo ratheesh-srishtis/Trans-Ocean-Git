@@ -422,22 +422,22 @@ const CreatePDA = ({
         <div className=" pda-no ">
           {pdaResponse && (
             <>
-              <div className="row justify-content-start ">
-                <div className="col-2 pdanumber ">
+              <div className=" pdarow ">
+                <div className="pdanumber ">
                   <span> PDA No:</span>
                   <span className="fw-bolder pdafontweight">
                     {pdaResponse?.pdaNumber}
                   </span>
                 </div>
-                <div className="col-2 d-flex justify-content-start back">
+                <div className="d-flex justify-content-start back">
                   <div className="pdadate">
                     <label
                       for="inputPassword"
-                      className="col-sm-4 col-form-label"
+                      className="col-sm-5  col-form-label text-nowrap"
                     >
                       PDA Date:
                     </label>
-                    <div className="col-sm-8">
+                    <div className="col-sm-7">
                       {/* <Flatpickr
                     data-enable-time
                     value={date}
@@ -446,7 +446,7 @@ const CreatePDA = ({
                   /> */}
                       <input
                         type="text"
-                        className="form-control"
+                        className="form-control pdad"
                         placeholder="PDA Date"
                         value={
                           pdaResponse?.createdAt
@@ -458,8 +458,8 @@ const CreatePDA = ({
                     </div>
                   </div>
                 </div>
-                <div className="col-4 draft-pda ">
-                  <button type="button" className="btn draft">
+                <div className="draft-pda ">
+                  
                     {pdaResponse?.pdaStatus == 1 && (
                       <>
                         <span className="badge statusbadge ">
@@ -475,6 +475,7 @@ const CreatePDA = ({
                       </>
                     )}
 
+                    <div class="pdabadge">
                     {pdaResponse?.pdaStatus == 1
                       ? "Draft PDA"
                       : pdaResponse?.pdaStatus == 2
@@ -486,15 +487,16 @@ const CreatePDA = ({
                       : pdaResponse?.pdaStatus == 5
                       ? "Customer Approved"
                       : ""}
+                    </div>
                     {/* Internally Approved
                     Customer Approved
                     Rejected By Finance Manager */}
-                  </button>
+                 
                 </div>
 
                 {pdaResponse?.pdaStatus == 3 && (
                   <>
-                    <div className="col-3 d-flex justify-content-start ">
+                    <div className="capproved ">
                       <input
                         type="checkbox"
                         name="payment"
@@ -515,7 +517,7 @@ const CreatePDA = ({
 
           <div className="charge">
             <div className="rectangle"></div>
-            <img src={Group}></img>
+            <div > <img src={Group}></img></div>
           </div>
           <div className="typesofcall-row ">
             <div className="row align-items-start">
@@ -811,7 +813,7 @@ const CreatePDA = ({
                   </select>
                 </div>
               </div>
-              <div className="col-2">
+              <div className="col-4">
                 <button
                   type="button"
                   className="btn addcharge-button"

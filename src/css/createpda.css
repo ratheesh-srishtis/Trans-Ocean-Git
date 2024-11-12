@@ -12,10 +12,15 @@
 
 .pdadate {
   display: flex;
+  margin-left: 20px;
+  font-size: 14px;
 }
-.customerbox{
-  padding:10px;
+
+.pdadate label {
+  word-wrap: none;
 }
+
+
 
 .btn-color {
   background-color: #007ac12d;
@@ -31,21 +36,34 @@
   padding: 20px;
   border-radius: 10px;
 }
+
 .charge {
   display: flex;
+  justify-content: space-between;
 }
+
 .pdanumber {
   display: flex;
-  align-items: center;
-  margin-top: -05px;
+  align-items: normal;
+  margin-top: 8px;
+  font-size: 14px;
 }
+
 .draft-pda {
+  border-radius: 5px;
   display: flex;
   justify-content: center;
+  border: 1px solid #007bc1;
+  background-color: #E6F2F9;
+  padding-top: 5px;
+  padding-right: 5px;
+  margin-left: 40px;
 }
+
 .pdafontweight {
   margin-left: 30px;
 }
+
 .back {
   background-color: #ffffff;
 }
@@ -58,16 +76,16 @@
 
 .book {
   color: #007ac1;
- 
+
 }
-.circle{
-  color:#007ac1;
-  height:200px;
-  width:30px;
+
+.circle {
+  color: #007ac1;
+  height: 200px;
+  width: 30px;
 }
-.statusbadge{
-  
-}
+
+.statusbadge {}
 
 .radio {
   position: relative;
@@ -77,18 +95,22 @@
   padding: 1em 2em;
   border-radius: 0.5em;
 }
+
 .vesselradio {
   margin-left: 50px;
   margin-right: 10px;
   cursor: pointer;
 }
+
 .vessel {
-  margin-right: 100px;
+  margin-right: 30px;
   cursor: pointer;
 }
-.service{
+
+.service {
   cursor: pointer;
 }
+
 .vesselbox {
   padding-top: 15px;
   padding-bottom: 15px;
@@ -98,6 +120,7 @@
   padding-top: 15px;
   padding-bottom: 15px;
 }
+
 .rectangle {
   margin-top: 27px;
   background-color: #007ac1;
@@ -109,46 +132,50 @@
   justify-content: center;
   align-items: center;
 }
+
 .voyage {
   padding-left: 48px;
 }
+
 .voyageblock {
   width: 240px;
 }
+
 .thirdrow {
   display: flex;
 }
+
 .addcharge-button {
   background-color: #007ac1;
-  width: 100%;
-  height: 100%;
-  padding-top: 13px;
-  padding-bottom: 13px;
-  margin-top: 30px;
   text-align: center;
-  color: white;
-  font-size: larger;
+  color: rgb(255, 255, 255);
+  font-size: 20px;
+  margin-top: 30px;
 }
-.btna{
+
+.btna {
   background-color: #007ac1;
   padding-top: 13px;
   padding-bottom: 13px;
   text-align: center;
   color: white;
-  margin-right:20px
+  margin-right: 20px
 }
-.generate-button{
+
+.generate-button {
   color: #1EBBEE;
   background-color: #ffffff;
   border-color: #1EBBEE;
 }
-.submit-button{
+
+.submit-button {
   color: #ffffff;
   background-color: #1EBBEE;
   border-color: #1EBBEE;
 }
-.required{
-  color:red;
+
+.required {
+  color: red;
 }
 
 .typesofcall-row {
@@ -158,50 +185,97 @@
 .td {
   padding: 20px;
 }
+
 .grt {
   padding-left: 20px;
 }
+
 .nrt {
   padding-left: 55px;
 }
+
 .eta {
   padding-left: 30px;
 }
+
 .etd {
   padding-left: 65px;
 }
+
 .btn:hover {
   anchor-name: none;
   color: white;
   background-color: #ffffff;
   border-color: #007ac1;
 }
+
+.pdabadge {
+  font-weight: 13px;
+}
+
+.capproved {
+  margin-left: 20px;
+  padding-top: 5px;
+}
+
+.capproved input{
+ margin-right: 2px;
+}
+
+.pdarow {
+  display: flex;
+  justify-content: start;
+  margin-bottom: 20px;
+}
+
 .date-input {
   width: 240px !important;
   height: 56px !important;
 }
-@media only screen and (max-width: 1354px) {
-  
+
+.pdad {
+  width: 130px;
+  font-size: 14px;
+}
+
+@media screen and (min-device-width: 1354px) and (max-device-width: 1800px) {
   .voyageblock {
     width: 100%;
-    max-with:100%;
+    max-with: 100%;
   }
+
   .nrt {
     padding-left: 0px;
-    padding-right:20px;
+    padding-right: 20px;
   }
+
   .date-input {
     width: 100% !important;
     height: 56px !important;
     max-width: 100%;
   }
+
   .etd {
     padding-left: 0px;
   }
+
   .voyage {
-    padding-left:0px;
-    width:45%;
+    padding-left: 0px;
+    width: 45%;
   }
+
+  .vesselradio {
+    margin-left: 0px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+
+  .buttons-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   .vesselradio {
     margin-left: 0px;
     margin-right: 10px;
@@ -209,9 +283,94 @@
   }
 }
 
+@media only screen and (max-width: 1354px) {
 
-.buttons-wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  .voyageblock {
+    width: 100%;
+    max-with: 100%;
+  }
+
+  .nrt {
+    padding-left: 0px;
+    padding-right: 20px;
+  }
+
+  .date-input {
+    width: 100% !important;
+    height: 56px !important;
+    max-width: 100%;
+  }
+
+  .etd {
+    padding-left: 0px;
+  }
+
+  .voyage {
+    padding-left: 0px;
+    width: 45%;
+  }
+
+  .vesselradio {
+    margin-left: 0px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+
+  .buttons-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .vesselradio {
+    margin-left: 0px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+}
+
+@media only screen and (max-width: 1453px) {
+
+  .voyageblock {
+    width: 100%;
+    max-with: 100%;
+  }
+
+  .nrt {
+    padding-left: 0px;
+    padding-right: 20px;
+  }
+
+  .date-input {
+    width: 100% !important;
+    height: 56px !important;
+    max-width: 100%;
+  }
+
+  .etd {
+    padding-left: 0px;
+  }
+
+  .voyage {
+    padding-left: 0px;
+    width: 45%;
+  }
+
+  .vesselradio {
+    margin-left: 0px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+
+  .buttons-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .vesselradio {
+    margin-left: 0px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
 }

@@ -120,7 +120,7 @@ body {
   background: #fff;
   border-radius: 10px;
   padding: 10px 2rem;
-  margin-bottom: -20px;
+  
 }
 
 .notification {
@@ -282,6 +282,9 @@ body {
   padding: 1em 2em;
   border-radius: 0.5em;
 }
+.logoside{
+  max-height: 200px;
+}
 .required {
   color: red;
 }
@@ -321,8 +324,8 @@ td {
 }
 
 .transocean_login .logo {
-  height: 150px;
-  width: 200px;
+  max-height: 150px;
+  max-width: 200px;
   align-items: center;
   /* margin-top: 150px;
     margin-left: 300px; */
@@ -330,13 +333,15 @@ td {
 }
 
 .transocean_login .mainpng {
-  width: 800px;
-  height: 500px;
+  max-width: 500px;
+  max-height: 500px;
   padding: 20px;
 }
-
+.logincard{
+  margin-top: 20px;
+}
 .transocean_login .maincard {
-  padding: 40px;
+  padding: 25px;
   border-radius: 10px;
   border: 1px solid rgba(102, 100, 100, 0.253);
   box-shadow: 0 4px 8px 0 rgba(199, 198, 198, 0.2),
@@ -411,9 +416,17 @@ td {
   color: rgb(0, 0, 0);
   margin: 0px;
 }
-
+.header--wrapper .btn-group{
+  margin-top: 10px;
+}
+.header--wrapper .downarrow{
+  margin-top: 10px;
+}
 .transocean_login .forgotpassword {
   font-size: 13px;
+}
+.fullbody{
+  width:calc(100% - 220px);
 }
 
 .transocean_login .rememberme {
@@ -421,10 +434,10 @@ td {
 }
 
 .same-level {
-  height: 90vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  max-height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .button-row {
@@ -435,7 +448,7 @@ td {
 
 /* loginpage end */
 
-@media only screen and (max-width: 1354px) {
+@media only screen and (max-width: 1200px) {
   .transocean_login .mainpng {
     display: none !important;
   }
