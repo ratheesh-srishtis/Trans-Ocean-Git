@@ -134,6 +134,16 @@ export const addPDACharges = async (userData) => {
   }
 };
 
+export const sendQuotationAPI = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/sendQuotation", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
 // Get All Quotations API function
 export const getAllQuotations = async () => {
   try {

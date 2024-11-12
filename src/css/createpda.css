@@ -19,6 +19,9 @@
 .pdadate label {
   word-wrap: none;
 }
+.customerbox {
+  padding: 10px;
+}
 
 
 
@@ -79,10 +82,13 @@
 
 }
 
+
 .circle {
   color: #007ac1;
   height: 200px;
   width: 30px;
+}
+.statusbadge {
 }
 
 .statusbadge {}
@@ -152,7 +158,6 @@
   font-size: 20px;
   margin-top: 30px;
 }
-
 .btna {
   background-color: #007ac1;
   padding-top: 13px;
@@ -164,14 +169,18 @@
 
 .generate-button {
   color: #1EBBEE;
+  margin-right: 20px;
+}
+.generate-button {
+  color: #1ebbee;
   background-color: #ffffff;
-  border-color: #1EBBEE;
+  border-color: #1ebbee;
 }
 
 .submit-button {
   color: #ffffff;
-  background-color: #1EBBEE;
-  border-color: #1EBBEE;
+  background-color: #1ebbee;
+  border-color: #1ebbee;
 }
 
 .required {
@@ -239,6 +248,7 @@
 }
 
 @media screen and (min-device-width: 1354px) and (max-device-width: 1800px) {
+@media only screen and (max-width: 1243px) {
   .voyageblock {
     width: 100%;
     max-with: 100%;
@@ -282,7 +292,7 @@
     cursor: pointer;
   }
 }
-
+}
 @media only screen and (max-width: 1354px) {
 
   .voyageblock {
@@ -373,4 +383,9 @@
     margin-right: 10px;
     cursor: pointer;
   }
+}
+.buttons-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
