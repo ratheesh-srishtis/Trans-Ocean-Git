@@ -238,12 +238,12 @@
 }
 
 .date-input {
-  width: 240px !important;
-  height: 56px !important;
+  max-width: 240px !important;
+  max-height: 56px !important;
 }
 
 .pdad {
-  width: 130px;
+  max-width: 130px;
   font-size: 14px;
 }
 
@@ -260,8 +260,8 @@
   }
 
   .date-input {
-    width: 100% !important;
-    height: 56px !important;
+    max-width: 100% !important;
+    max-height: 56px !important;
     max-width: 100%;
   }
 
@@ -271,7 +271,7 @@
 
   .voyage {
     padding-left: 0px;
-    width: 45%;
+    max-width: 45%;
   }
 
   .vesselradio {

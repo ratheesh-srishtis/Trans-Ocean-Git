@@ -76,17 +76,17 @@ const Sidebar = () => {
                     <li
                       key={perm}
                       onClick={() => handleNavigation(perm)}
-                      className={activeMenu === perm ? "active" : ""}
+                      className={activeMenu === perm ? "active menulist menugap" : "menugap"}
                     >
                       <a>
                         <i
                           className={`${menuItems[perm].icon} ${
-                            activeMenu === perm ? "active-span" : ""
+                            activeMenu === perm ? "active-span menulist" : ""
                           }`}
                         ></i>
 
                         <span
-                          className={activeMenu === perm ? "active-span" : ""}
+                          className={activeMenu === perm ? "active-span menulist " : "menulist"}
                         >
                           {" "}
                           {menuItems[perm].label}
