@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/project/transocean/static/css/main.dbb4c45b.css",
+    "main.js": "/project/transocean/static/js/main.5d5081a2.js",
+    "static/js/213.3317431a.chunk.js": "/project/transocean/static/js/213.3317431a.chunk.js",
+    "static/js/732.be7fbf8b.chunk.js": "/project/transocean/static/js/732.be7fbf8b.chunk.js",
+    "static/js/453.68693753.chunk.js": "/project/transocean/static/js/453.68693753.chunk.js",
+    "static/media/3.jpg": "/project/transocean/static/media/3.8a87461fc03b30552d96.jpg",
+    "static/media/mian.png": "/project/transocean/static/media/mian.6013344facccda676539.png",
+    "static/media/LOGO.png": "/project/transocean/static/media/LOGO.17db91d990c0c5b07024.png",
+    "static/media/2.jpg": "/project/transocean/static/media/2.a8a074988149a9006e9e.jpg",
+    "static/media/check.png": "/project/transocean/static/media/check.f683121bf23201ee6021.png",
+    "static/media/11.jpg": "/project/transocean/static/media/11.9cddae821645324ab908.jpg",
+    "static/media/5.jpg": "/project/transocean/static/media/5.e013711c93e3b9ec2384.jpg",
+    "index.html": "/project/transocean/index.html",
+    "main.dbb4c45b.css.map": "/project/transocean/static/css/main.dbb4c45b.css.map",
+    "main.5d5081a2.js.map": "/project/transocean/static/js/main.5d5081a2.js.map",
+    "213.3317431a.chunk.js.map": "/project/transocean/static/js/213.3317431a.chunk.js.map",
+    "732.be7fbf8b.chunk.js.map": "/project/transocean/static/js/732.be7fbf8b.chunk.js.map",
+    "453.68693753.chunk.js.map": "/project/transocean/static/js/453.68693753.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.dbb4c45b.css",
+    "static/js/main.5d5081a2.js"
+  ]
+}

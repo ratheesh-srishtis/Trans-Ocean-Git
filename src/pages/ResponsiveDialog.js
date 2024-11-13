@@ -38,6 +38,7 @@ const ResponsiveDialog = ({
   editCharge,
   editIndex,
   pdaResponse,
+  finalChargesArray,
 }) => {
   console.log(services, "services");
   console.log(pdaResponse, "pdaResponse_dialog");
@@ -83,6 +84,7 @@ const ResponsiveDialog = ({
   const [subCharges, setSubCharges] = useState([]);
   const [isPrivateVendor, setIsPrivateVendor] = useState(false);
   const [chargesArray, setChargesArray] = useState([]);
+  const [savedChargesArray, setSavedChargesArray] = useState([]);
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -244,23 +246,7 @@ const ResponsiveDialog = ({
     }
   };
 
-  const addCharges = async (action = "add", index = null) => {
-    console.log(selectedService, "selectedService");
-    console.log(selectedChargesType, "selectedChargesType");
-    console.log(selectedSubhargesType, "selectedSubhargesType");
-    console.log(selectedQuantity, "selectedQuantity");
-    console.log(selectedNewCustomer, "selectedNewCustomer");
-    console.log(customerAmount, "customerAmount");
-    console.log(customerOmrAmount, "customerOmrAmount");
-    console.log(customerTotalUSD, "customerTotalUSD");
-    console.log(customerVatAmount, "customerVatAmount");
-    console.log(selectedVendor, "selectedVendor");
-    console.log(vendorAmount, "vendorAmount");
-    console.log(vendorOmrAmount, "vendorOmrAmount");
-    console.log(vendorTotalUSD, "vendorTotalUSD");
-    console.log(vendorVatAmount, "vendorVatAmount");
-
-    // Individual checks for each field
+  const addNewCharge = async () => {
     if (!selectedService || selectedService === "" || !selectedService) {
       setSelectedServiceError(true);
     } else {
@@ -277,6 +263,134 @@ const ResponsiveDialog = ({
       setSelectedChargesTypeError(false);
     }
 
+    if (
+      !selectedSubhargesType ||
+      selectedSubhargesType === "" ||
+      !selectedSubhargesType
+    ) {
+      setSelectedSubhargesTypeError(true);
+    } else {
+      setSelectedSubhargesTypeError(false);
+    }
+
+    if (!selectedQuantity || selectedQuantity === "" || !selectedQuantity) {
+      setSelectedQuantityError(true);
+    } else {
+      setSelectedQuantityError(false);
+    }
+
+    if (
+      !selectedNewCustomer ||
+      selectedNewCustomer === "" ||
+      !selectedNewCustomer
+    ) {
+      setSelectedNewCustomerError(true);
+    } else {
+      setSelectedNewCustomerError(false);
+    }
+
+    if (!customerAmount || customerAmount === "" || !customerAmount) {
+      setCustomerAmountError(true);
+    } else {
+      setCustomerAmountError(false);
+    }
+
+    if (!customerTotalUSD || customerTotalUSD === "" || !customerTotalUSD) {
+      setCustomerTotalUSDError(true);
+    } else {
+      setCustomerTotalUSDError(false);
+    }
+
+    if (!customerVatAmount || customerVatAmount === "" || !customerVatAmount) {
+      setCustomerVatAmountError(true);
+    } else {
+      setCustomerVatAmountError(false);
+    }
+
+    if (!selectedVendor || selectedVendor === "" || !selectedVendor) {
+      setSelectedVendorError(true);
+    } else {
+      setSelectedVendorError(false);
+    }
+
+    if (!vendorAmount || vendorAmount === "" || !vendorAmount) {
+      setVendorAmountError(true);
+    } else {
+      setVendorAmountError(false);
+    }
+
+    if (!vendorTotalUSD || vendorTotalUSD === "" || !vendorTotalUSD) {
+      setVendorTotalUSDError(true);
+    } else {
+      setVendorTotalUSDError(false);
+    }
+
+    if (!vendorVatAmount || vendorVatAmount === "" || !vendorVatAmount) {
+      setVendorVatAmountError(true);
+    } else {
+      setVendorVatAmountError(false);
+    }
+
+    if (!customerTotalOmr || customerTotalOmr === "" || !customerTotalOmr) {
+      setCustomerTotalOmrError(true);
+    } else {
+      setCustomerTotalOmrError(false);
+    }
+
+    let chargesPayload = {
+      serviceId: selectedService?._id
+        ? selectedService?._id
+        : selectedService?.serviceId,
+      chargeId: selectedChargesType?._id
+        ? selectedChargesType?._id
+        : selectedChargesType?.chargeId,
+      subchargeId: selectedSubhargesType?._id
+        ? selectedSubhargesType?._id
+        : selectedSubhargesType?.subchargeId,
+      quantity: selectedQuantity,
+      customerId: selectedNewCustomer?._id
+        ? selectedNewCustomer?._id
+        : selectedNewCustomer?.customerId,
+      vendorId: selectedVendor?._id
+        ? selectedVendor?._id
+        : selectedVendor?.vendorId,
+      customerOMR: Number(customerAmount),
+      customerVAT: Number(customerVatAmount),
+      customerTotalUSD: Number(customerTotalUSD),
+      vendorOMR: Number(vendorAmount),
+      vendorVAT: Number(vendorVatAmount),
+      vendorTotalUSD: Number(vendorTotalUSD),
+      isPrivateVendor: isPrivateVendor,
+      remark: remarks,
+      pdaChargeId: pdaResponse?._id ? pdaResponse?._id : null,
+      serviceName: selectedService?.serviceName,
+      chargeName: selectedChargesType?.chargeName,
+      subchargeName: selectedSubhargesType?.subchargeName,
+    };
+    setChargesArray([...chargesArray, chargesPayload]);
+    setSavedChargesArray([...finalChargesArray, chargesPayload]);
+    console.log(chargesArray, "chargesArray newCharge");
+    setMessage("Charges added successfully!");
+    setOpenPopUp(true);
+    resetCharges("new");
+  };
+
+  const editCharges = async (index) => {
+    // Individual checks for each field
+    if (!selectedService || selectedService === "" || !selectedService) {
+      setSelectedServiceError(true);
+    } else {
+      setSelectedServiceError(false);
+    }
+    if (
+      !selectedChargesType ||
+      selectedChargesType === "" ||
+      !selectedChargesType
+    ) {
+      setSelectedChargesTypeError(true);
+    } else {
+      setSelectedChargesTypeError(false);
+    }
     if (
       !selectedSubhargesType ||
       selectedSubhargesType === "" ||
@@ -391,18 +505,17 @@ const ResponsiveDialog = ({
         isPrivateVendor: isPrivateVendor,
         remark: remarks,
         pdaChargeId: pdaResponse?._id ? pdaResponse?._id : null,
-        serviceName:selectedService?.serviceName,
-        chargeName:selectedChargesType?.chargeName,
-        subchargeName:selectedSubhargesType?.subchargeName,
-
+        serviceName: selectedService?.serviceName,
+        chargeName: selectedChargesType?.chargeName,
+        subchargeName: selectedSubhargesType?.subchargeName,
       };
       console.log(chargesPayload, "chargesPayload");
-      if (action === "edit" && index !== null) {
-        const updatedChargesArray = chargesArray.map((charge, idx) =>
+      if (index !== null) {
+        const updatedChargesArray = finalChargesArray.map((charge, idx) =>
           idx === index ? chargesPayload : charge
         );
         setChargesArray(updatedChargesArray); // update the state
-        console.log(updatedChargesArray, "updatedChargesArray")
+        console.log(updatedChargesArray, "updatedChargesArray");
         // Now call submit with the updated charges array
         onSubmit(updatedChargesArray); // pass the updated array immediately
         if (pdaResponse?._id) {
@@ -413,42 +526,61 @@ const ResponsiveDialog = ({
             console.error("Error fetching charges:", error);
           }
         }
-      } 
-      
-      // else if (action === "edit" && pdaResponse?._id) {
-      //   // Add new charge
-      //   try {
-      //     const updatedChargesArray = [...chargesArray, chargesPayload];
-      //     setChargesArray(updatedChargesArray);
-      //     let addChargesPaylod = {
-      //       pdaId: pdaResponse?._id ? pdaResponse?._id : null,
-      //       charges: updatedChargesArray,
-      //     };
-      //     const response = await addPDACharges(addChargesPaylod);
-      //     console.log("addPDACharges_response:", response);
-      //     onSubmit(updatedChargesArray);
-      //   } catch (error) {
-      //     console.error("Error fetching charges:", error);
-      //   }
-      // } 
-      
-      else if (action === "new") {
-        const newaddedarray = [...chargesArray, chargesPayload];
-        onSubmit(newaddedarray);
-        setMessage("Charges added successfully!");
-        setOpenPopUp(true);
-        resetCharges("new");
       }
-
-      // onSubmit(formData);
-      // onClose();
     } else {
       setMessage("Please fill all the required fields");
       setOpenPopUp(true);
     }
   };
 
-  const submitCharges = () => {
+  const submitCharges = async () => {
+    let chargesPayload = {
+      serviceId: selectedService?._id
+        ? selectedService?._id
+        : selectedService?.serviceId,
+      chargeId: selectedChargesType?._id
+        ? selectedChargesType?._id
+        : selectedChargesType?.chargeId,
+      subchargeId: selectedSubhargesType?._id
+        ? selectedSubhargesType?._id
+        : selectedSubhargesType?.subchargeId,
+      quantity: selectedQuantity,
+      customerId: selectedNewCustomer?._id
+        ? selectedNewCustomer?._id
+        : selectedNewCustomer?.customerId,
+      vendorId: selectedVendor?._id
+        ? selectedVendor?._id
+        : selectedVendor?.vendorId,
+      customerOMR: Number(customerAmount),
+      customerVAT: Number(customerVatAmount),
+      customerTotalUSD: Number(customerTotalUSD),
+      vendorOMR: Number(vendorAmount),
+      vendorVAT: Number(vendorVatAmount),
+      vendorTotalUSD: Number(vendorTotalUSD),
+      isPrivateVendor: isPrivateVendor,
+      remark: remarks,
+      pdaChargeId: pdaResponse?._id ? pdaResponse?._id : null,
+      serviceName: selectedService?.serviceName,
+      chargeName: selectedChargesType?.chargeName,
+      subchargeName: selectedSubhargesType?.subchargeName,
+    };
+
+    if (pdaResponse?._id) {
+      try {
+        const updatedChargesArray = [...finalChargesArray, chargesPayload];
+        setChargesArray(updatedChargesArray);
+        let addChargesPaylod = {
+          pdaId: pdaResponse?._id ? pdaResponse?._id : null,
+          charges: updatedChargesArray,
+        };
+        const response = await addPDACharges(addChargesPaylod);
+        console.log("addPDACharges_response:", response);
+        onSubmit(updatedChargesArray);
+      } catch (error) {
+        console.error("Error fetching charges:", error);
+      }
+    }
+
     onSubmit(chargesArray);
     setMessage("Charges added successfully!");
     setOpenPopUp(true);
@@ -1073,7 +1205,7 @@ const ResponsiveDialog = ({
                       type="button"
                       className="btn save-button"
                       onClick={() => {
-                        addCharges("new");
+                        addNewCharge();
                       }}
                     >
                       Add
@@ -1093,27 +1225,25 @@ const ResponsiveDialog = ({
 
                           <div className="row mb-3">
                             <div className="col-6">
-                              <span className="marinehead">
-                                Charge type:
-                              </span>
+                              <span className="marinehead">Charge type:</span>
                               <span className="subvalue">
                                 {/* {getItemName(
                                   charge?.subchargeId,
                                   "subChargeType"
                                 )} */}
-                                {charge?.chargeName }
+                                {charge?.chargeName}
                               </span>
                               <div className="mt-2">
-                              <span className="marinehead">
-                                Sub charge Type:
-                              </span>
-                              <span className="subvalue">
-                                {/* {getItemName(
+                                <span className="marinehead">
+                                  Sub charge Type:
+                                </span>
+                                <span className="subvalue">
+                                  {/* {getItemName(
                                   charge?.subchargeId,
                                   "subChargeType"
                                 )} */}
-                                {charge?.subchargeName }
-                              </span>
+                                  {charge?.subchargeName}
+                                </span>
                               </div>
                             </div>
                             <div className="col-6">
@@ -1125,15 +1255,18 @@ const ResponsiveDialog = ({
                           </div>
 
                           <div className="row mb-3">
-
                             <div className="col-6 table_seperation">
-                              <span className="marinehead marineBold">Customer:</span>
+                              <span className="marinehead marineBold">
+                                Customer:
+                              </span>
                               <span className="subvalue marineBold">
                                 {getItemName(charge?.customerId, "customer")}
                               </span>
                             </div>
                             <div className="col-6">
-                              <span className="marinehead marineBold">Vendor:</span>
+                              <span className="marinehead marineBold">
+                                Vendor:
+                              </span>
                               <span className="subvalue marineBold">
                                 {" "}
                                 {getItemName(charge?.vendorId, "vendor")}{" "}
@@ -1141,35 +1274,27 @@ const ResponsiveDialog = ({
                             </div>
 
                             <div className="omr col-6 table_seperation">
-                              <span className="marinehead">
-                                Amount (OMR):
-                              </span>
+                              <span className="marinehead">Amount (OMR):</span>
                               <span className="subvalue">
                                 {charge.customerOMR}
                               </span>
                             </div>
                             <div className="omr col-6">
-                              <span className="marinehead">
-                                Amount (OMR):
-                              </span>
+                              <span className="marinehead">Amount (OMR):</span>
                               <span className="subvalue">
                                 {charge.vendorOMR}
                               </span>
                             </div>
 
                             <div className="omr col-6 table_seperation">
-                              <span className="marinehead">
-                                Total (OMR):
-                              </span>
+                              <span className="marinehead">Total (OMR):</span>
                               <span className="subvalue">
                                 {Number(charge.customerOMR) +
                                   Number(charge.customerVAT)}
                               </span>
                             </div>
                             <div className="omr col-6">
-                              <span className="marinehead">
-                                Total (OMR):
-                              </span>
+                              <span className="marinehead">Total (OMR):</span>
                               <span className="subvalue">
                                 {Number(charge.vendorOMR) +
                                   Number(charge.vendorVAT)}
@@ -1177,17 +1302,13 @@ const ResponsiveDialog = ({
                             </div>
 
                             <div className="vat col-6 table_seperation">
-                              <span className="marinehead">
-                                VAT Amount:
-                              </span>
+                              <span className="marinehead">VAT Amount:</span>
                               <span className="subvalue">
                                 {charge.customerVAT}
                               </span>
                             </div>
                             <div className="vat col-6">
-                              <span className="marinehead">
-                                VAT Amount:
-                              </span>
+                              <span className="marinehead">VAT Amount:</span>
                               <span className="subvalue">
                                 {charge.vendorVAT}
                               </span>
@@ -1205,7 +1326,6 @@ const ResponsiveDialog = ({
                                 {charge.vendorTotalUSD}
                               </span>
                             </div>
-                            
                           </div>
 
                           <div className="row mb-3">
@@ -1213,13 +1333,10 @@ const ResponsiveDialog = ({
                               <span className="marinehead">Remarks:</span>
                             </div>
                             <div className="col-10 remark_value">
-                              <span className="">
-                                {charge.remark}
-                              </span>
+                              <span className="">{charge.remark}</span>
                             </div>
                           </div>
 
-                        
                           {/* <div key={index} className="tablesep">
                             <div className="col">
                               <div className="subh">
@@ -1820,7 +1937,7 @@ const ResponsiveDialog = ({
                   type="button"
                   className="btn add-button"
                   onClick={() => {
-                    addCharges("edit", editIndex);
+                    editCharges(editIndex);
                   }}
                 >
                   Save changes

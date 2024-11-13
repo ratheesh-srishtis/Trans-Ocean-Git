@@ -778,25 +778,25 @@ const CreatePDA = ({
               </div>
             </div>
             <div className="col-4">
-            <label for="exampleFormControlInput1" className="form-label">
-                  Customer Name:
-                </label>
-                <div className="vessel-select">
-                  <select
-                    name="customer"
-                    className="form-select vesselbox"
-                    onChange={handleSelectChange}
-                    aria-label="Default select example"
-                    value={selectedCustomer?._id}
-                  >
-                    <option value="">Choose Customer</option>
-                    {customers.map((customer) => (
-                      <option key={customer._id} value={customer._id}>
-                        {customer.customerName}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+              <label for="exampleFormControlInput1" className="form-label">
+                Customer Name:
+              </label>
+              <div className="vessel-select">
+                <select
+                  name="customer"
+                  className="form-select vesselbox"
+                  onChange={handleSelectChange}
+                  aria-label="Default select example"
+                  value={selectedCustomer?._id}
+                >
+                  <option value="">Choose Customer</option>
+                  {customers.map((customer) => (
+                    <option key={customer._id} value={customer._id}>
+                      {customer.customerName}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
           </div>
 
@@ -1000,6 +1000,7 @@ const CreatePDA = ({
         editCharge={editCharge}
         editIndex={editIndex}
         pdaResponse={pdaResponse}
+        finalChargesArray={finalChargesArray}
       />
 
       <QuotationDialog
