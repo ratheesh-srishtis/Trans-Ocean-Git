@@ -10,12 +10,14 @@ import {
   savePda,
   changeQuotationStatus,
   editPDA,
+  getPdaDetails,
 } from "../services/apiService";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PopUp from "./PopUp";
 import QuotationDialog from "./QuotationDialog";
 import PdaDialog from "./PdaDialog";
+import Remarks from "./Remarks";
 const CreatePDA = ({
   vessels,
   ports,
@@ -207,6 +209,7 @@ const CreatePDA = ({
   const [open, setOpen] = useState(false);
   const [quotationOpen, setQuotationOpen] = useState(false);
   const [generatePDAOpen, setGeneratePDAOpen] = useState(false);
+  const [remarksOpen, setRemarksOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -220,7 +223,7 @@ const CreatePDA = ({
     setQuotationOpen(true);
   };
 
-  const handleQuotationCloseClose = () => {
+  const handleQuotationClose = () => {
     setQuotationOpen(false);
   };
 
@@ -230,6 +233,14 @@ const CreatePDA = ({
 
   const handlePdaClose = () => {
     setGeneratePDAOpen(false);
+  };
+
+  const handleRemarksOpen = () => {
+    setRemarksOpen(true);
+  };
+
+  const handleRemarksClose = () => {
+    setRemarksOpen(false);
   };
 
   const handleSubmit = (chargesArray) => {
@@ -312,7 +323,7 @@ const CreatePDA = ({
             if (response?.pda?.pdaStatus == 1) {
               setMessage("PDA has been saved successfully");
             } else if (response?.pda?.pdaStatus == 2) {
-              setMessage("PDA forwarded to the finance manager for approval");
+              setMessage("PDA forwarded to the Finance Manager for Approval");
             } else {
               setMessage("PDA has been submitted successfully");
             }
@@ -334,7 +345,13 @@ const CreatePDA = ({
             setPdaResponse(response?.pda);
             setPdaServicesResponse(response?.pdaServices);
             updateValues(response);
-            setMessage("PDA updated successfully");
+            if (response?.pda?.pdaStatus == 2) {
+              setMessage("PDA forwarded to the Finance Manager for Approval");
+            } else if (response?.pda?.pdaStatus == 5) {
+              setMessage("Customer approved successfully");
+            } else {
+              setMessage("PDA updated successfully");
+            }
             setOpenPopUp(true);
           } else {
             setMessage("PDA failed. please try again");
@@ -390,7 +407,8 @@ const CreatePDA = ({
           setIsApproved(true);
           setMessage("PDA has been internally approved");
         } else if (response?.pda?.pdaStatus == 4) {
-          setMessage("PDA has been rejected by finance manager");
+          handleRemarksOpen();
+          // setMessage("PDA has been Rejected by Finance Manager");
         }
         setOpenPopUp(true);
       } else {
@@ -422,6 +440,9 @@ const CreatePDA = ({
   useEffect(() => {
     console.log(pdaResponse, "pdaResponse");
   }, [pdaResponse]);
+  useEffect(() => {
+    console.log(isCustomerApproved, "isCustomerApproved");
+  }, [isCustomerApproved]);
 
   useEffect(() => {
     console.log(pdaServicesResponse, "pdaServicesResponse");
@@ -446,6 +467,22 @@ const CreatePDA = ({
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
   };
+
+  // const fetchPdaDetails = async (id) => {
+  //   let data = {
+  //     pdaId: "6721dfef3b7c91ec9a4327da",
+  //   };
+  //   try {
+  //     const pdaDetails = await getPdaDetails();
+  //     console.log("pdaDetails:", pdaDetails);
+  //   } catch (error) {
+  //     console.error("Failed to fetch quotations:", error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchPdaDetails();
+  // }, []);
 
   return (
     <>
@@ -830,12 +867,12 @@ const CreatePDA = ({
                 </label>
                 <div>
                   <DatePicker
+                    dateFormat="dd/MM/yyyy hh:mm aa" // Set date format to dd/mm/yyyy
                     selected={eta ? new Date(eta) : null}
                     onChange={handleEtaChange}
                     showTimeSelect
                     timeFormat="hh:mm aa"
                     timeIntervals={15}
-                    dateFormat="Pp"
                     className="form-control date-input" // Bootstrap class for styling
                     id="eta-picker"
                     placeholderText="Select ETA"
@@ -854,12 +891,12 @@ const CreatePDA = ({
                   showTimeSelect
                   timeFormat="hh:mm aa"
                   timeIntervals={15}
-                  dateFormat="Pp"
                   className="form-control date-input" // Bootstrap class for styling
                   id="etd-picker"
                   placeholderText="Select ETD"
                   value={etd ? new Date(etd) : null}
                   autoComplete="off"
+                  dateFormat="dd/MM/yyyy hh:mm aa" // Set date format to dd/mm/yyyy
                 />
               </div>
               <div className="col-4">
@@ -887,7 +924,6 @@ const CreatePDA = ({
                   ports={ports}
                   onEdit={handleEdit}
                   pdaResponse={pdaResponse}
-
                 />
               </div>
             </div>
@@ -922,7 +958,7 @@ const CreatePDA = ({
                         <button
                           className="btn btna generate-button "
                           onClick={() => {
-                            submitPda("1");
+                            submitPda(1);
                           }}
                         >
                           Save As Draft
@@ -932,15 +968,6 @@ const CreatePDA = ({
                   </div>
 
                   <div className="right">
-                    <button
-                      className="btn btna submit-button"
-                      onClick={() => {
-                        submitPda(2);
-                      }}
-                    >
-                      Submit
-                    </button>
-
                     {(pdaResponse?.pdaStatus >= 3 || isApproved == true) && (
                       <>
                         <button
@@ -953,6 +980,15 @@ const CreatePDA = ({
                         </button>
                       </>
                     )}
+
+                    <button
+                      className="btn btna submit-button"
+                      onClick={() => {
+                        submitPda(2);
+                      }}
+                    >
+                      Submit
+                    </button>
 
                     {pdaResponse?.pdaStatus == 2 && isApproved == false && (
                       <>
@@ -1007,7 +1043,7 @@ const CreatePDA = ({
 
       <QuotationDialog
         open={quotationOpen}
-        onClose={handleQuotationCloseClose}
+        onClose={handleQuotationClose}
         onSubmit={handleSubmit}
         selectedVessel={selectedVessel}
         selectedPort={selectedPort}
@@ -1026,6 +1062,7 @@ const CreatePDA = ({
         editIndex={editIndex}
         pdaResponse={pdaResponse}
       />
+      <Remarks open={remarksOpen} onClose={handleRemarksClose} />
       <PdaDialog
         open={generatePDAOpen}
         onClose={handlePdaClose}

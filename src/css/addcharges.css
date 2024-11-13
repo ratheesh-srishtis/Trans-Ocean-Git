@@ -178,7 +178,8 @@
   font-size: 12px;
 }
 
-@media screen and (min-device-width: 481px) and (max-device-width: 768px) {}
+@media screen and (min-device-width: 481px) and (max-device-width: 768px) {
+}
 
 @media only screen and (max-width: 1280px) {
   .createtable th {
@@ -195,4 +196,8 @@
   color: red;
   font-family: sans-serif;
   padding-top: 6px;
+}
+
+.left-spc {
+  padding-left: 10px;
 }

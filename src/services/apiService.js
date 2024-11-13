@@ -167,3 +167,23 @@ export const getAllQuotations = async () => {
     throw error;
   }
 };
+
+export const getPdaDetails = async (data) => {
+  try {
+    const response = await axiosInstance.post("/getPda", data);
+    return response.data;
+  } catch (error) {
+    console.error("Get All Quotations API Error:", error);
+    throw error;
+  }
+};
+
+export const getDashbordDetails = async (data) => {
+  try {
+    const response = await axiosInstance.post("/financeDashboard", data);
+    return response.data;
+  } catch (error) {
+    console.error("financeDashboard API Error:", error);
+    throw error;
+  }
+};

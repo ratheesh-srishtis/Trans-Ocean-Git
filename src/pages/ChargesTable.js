@@ -41,7 +41,7 @@ const ChargesTable = ({
   customers,
   onEdit,
   pdaResponse,
-  onSubmit
+  onSubmit,
 }) => {
   const [charges, setCharges] = useState([]);
   const [subCharges, setSubCharges] = useState([]);
@@ -164,17 +164,21 @@ const ChargesTable = ({
             };
             const response = await deleteQuotationCharge(chargesPayload);
             console.log("Fetched Charges:", response);
-            const updatedChargesArray = chargesArray.filter((_, i) => i !== index);
-            onSubmit(updatedChargesArray)
-            Swal.fire("Charge deleted successfully", "success");
+            const updatedChargesArray = chargesArray.filter(
+              (_, i) => i !== index
+            );
+            onSubmit(updatedChargesArray);
+            Swal.fire("Charge deleted successfully");
           } catch (error) {
             console.error("Error fetching charges:", error);
-            Swal.fire("Error deleting charges", "success");
+            Swal.fire("Error deleting charges");
           }
         } else {
-        const updatedChargesArray = chargesArray.filter((_, i) => i !== index);
-        onSubmit(updatedChargesArray)
-        Swal.fire("Charge deleted successfully", "success");
+          const updatedChargesArray = chargesArray.filter(
+            (_, i) => i !== index
+          );
+          onSubmit(updatedChargesArray);
+          Swal.fire("Charge deleted successfully");
         }
       }
     });

@@ -16,6 +16,7 @@ import {
   getCharges,
   editChargeQuotation,
   addPDACharges,
+  getPdaDetails,
 } from "../services/apiService";
 import PopUp from "./PopUp";
 const ResponsiveDialog = ({
@@ -273,7 +274,7 @@ const ResponsiveDialog = ({
       setSelectedSubhargesTypeError(false);
     }
 
-    if (!selectedQuantity || selectedQuantity === "" || !selectedQuantity) {
+    if (selectedQuantity === "" || !selectedQuantity) {
       setSelectedQuantityError(true);
     } else {
       setSelectedQuantityError(false);
@@ -337,64 +338,82 @@ const ResponsiveDialog = ({
       setCustomerTotalOmrError(false);
     }
 
-    let chargesPayload = {
-      serviceId: selectedService?._id
-        ? selectedService?._id
-        : selectedService?.serviceId,
-      chargeId: selectedChargesType?._id
-        ? selectedChargesType?._id
-        : selectedChargesType?.chargeId,
-      subchargeId: selectedSubhargesType?._id
-        ? selectedSubhargesType?._id
-        : selectedSubhargesType?.subchargeId,
-      quantity: selectedQuantity,
-      customerId: selectedNewCustomer?._id
-        ? selectedNewCustomer?._id
-        : selectedNewCustomer?.customerId,
-      vendorId: selectedVendor?._id
-        ? selectedVendor?._id
-        : selectedVendor?.vendorId,
-      customerOMR: Number(customerAmount),
-      customerVAT: Number(customerVatAmount),
-      customerTotalUSD: Number(customerTotalUSD),
-      vendorOMR: Number(vendorAmount),
-      vendorVAT: Number(vendorVatAmount),
-      vendorTotalUSD: Number(vendorTotalUSD),
-      isPrivateVendor: isPrivateVendor,
-      remark: remarks,
-      pdaChargeId: pdaResponse?._id ? pdaResponse?._id : null,
-      serviceName: selectedService?.serviceName,
-      chargeName: selectedChargesType?.chargeName,
-      subchargeName: selectedSubhargesType?.subchargeName,
-    };
-    // setChargesArray([...chargesArray, chargesPayload]);
-    // setSavedChargesArray([...finalChargesArray, chargesPayload]);
-    const updatedChargesArray = [...chargesArray, chargesPayload];
-    setChargesArray(updatedChargesArray);
+    if (
+      selectedService &&
+      selectedChargesType &&
+      selectedSubhargesType &&
+      selectedQuantity &&
+      selectedNewCustomer &&
+      customerAmount &&
+      customerTotalUSD &&
+      customerVatAmount &&
+      selectedVendor &&
+      vendorAmount &&
+      vendorTotalUSD &&
+      vendorVatAmount
+    ) {
+      let chargesPayload = {
+        serviceId: selectedService?._id
+          ? selectedService?._id
+          : selectedService?.serviceId,
+        chargeId: selectedChargesType?._id
+          ? selectedChargesType?._id
+          : selectedChargesType?.chargeId,
+        subchargeId: selectedSubhargesType?._id
+          ? selectedSubhargesType?._id
+          : selectedSubhargesType?.subchargeId,
+        quantity: selectedQuantity,
+        customerId: selectedNewCustomer?._id
+          ? selectedNewCustomer?._id
+          : selectedNewCustomer?.customerId,
+        vendorId: selectedVendor?._id
+          ? selectedVendor?._id
+          : selectedVendor?.vendorId,
+        customerOMR: Number(customerAmount),
+        customerVAT: Number(customerVatAmount),
+        customerTotalUSD: Number(customerTotalUSD),
+        vendorOMR: Number(vendorAmount),
+        vendorVAT: Number(vendorVatAmount),
+        vendorTotalUSD: Number(vendorTotalUSD),
+        isPrivateVendor: isPrivateVendor,
+        remark: remarks,
+        pdaChargeId: pdaResponse?._id ? pdaResponse?._id : null,
+        serviceName: selectedService?.serviceName,
+        chargeName: selectedChargesType?.chargeName,
+        subchargeName: selectedSubhargesType?.subchargeName,
+      };
+      // setChargesArray([...chargesArray, chargesPayload]);
+      // setSavedChargesArray([...finalChargesArray, chargesPayload]);
+      const updatedChargesArray = [...chargesArray, chargesPayload];
+      setChargesArray(updatedChargesArray);
 
-    // Check if finalChargesArray is empty
-    let updatedSavedChargesArray;
-    if (finalChargesArray.length === 0) {
-      // If finalChargesArray is empty, add chargesArray objects and chargesPayload to savedChargesArray
-      updatedSavedChargesArray = [...updatedChargesArray];
+      // Check if finalChargesArray is empty
+      let updatedSavedChargesArray;
+      if (finalChargesArray.length === 0) {
+        // If finalChargesArray is empty, add chargesArray objects and chargesPayload to savedChargesArray
+        updatedSavedChargesArray = [...updatedChargesArray];
+      } else {
+        // If finalChargesArray already has objects, add only finalChargesArray objects and chargesPayload
+        updatedSavedChargesArray = [...finalChargesArray, chargesPayload];
+      }
+
+      // Update savedChargesArray with the new array
+      setSavedChargesArray(updatedSavedChargesArray);
+
+      // Also update finalChargesArray with the new charge
+      console.log(chargesArray, "chargesArray newCharge");
+      setMessage("Charges added successfully!");
+      setOpenPopUp(true);
+      resetCharges("new");
     } else {
-      // If finalChargesArray already has objects, add only finalChargesArray objects and chargesPayload
-      updatedSavedChargesArray = [...finalChargesArray, chargesPayload];
+      setMessage("Please fill all the required fields");
+      setOpenPopUp(true);
     }
-
-    // Update savedChargesArray with the new array
-    setSavedChargesArray(updatedSavedChargesArray);
-
-    // Also update finalChargesArray with the new charge
-    console.log(chargesArray, "chargesArray newCharge");
-    setMessage("Charges added successfully!");
-    setOpenPopUp(true);
-    resetCharges("new");
   };
 
-  useEffect(()=>{
-    console.log(savedChargesArray,"savedChargesArray")
-  },[savedChargesArray])
+  useEffect(() => {
+    console.log(savedChargesArray, "savedChargesArray");
+  }, [savedChargesArray]);
 
   const editCharges = async (index) => {
     // Individual checks for each field
@@ -422,7 +441,7 @@ const ResponsiveDialog = ({
       setSelectedSubhargesTypeError(false);
     }
 
-    if (!selectedQuantity || selectedQuantity === "" || !selectedQuantity) {
+    if (!selectedQuantity || selectedQuantity === "") {
       setSelectedQuantityError(true);
     } else {
       setSelectedQuantityError(false);
@@ -603,7 +622,7 @@ const ResponsiveDialog = ({
     }
 
     onSubmit(savedChargesArray);
-    setMessage("Charges added successfully!");
+    setMessage("Charges saved successfully!");
     setOpenPopUp(true);
   };
 
@@ -693,6 +712,7 @@ const ResponsiveDialog = ({
     console.log(isEditcharge, "isEditcharge EDIT");
     console.log(open, "open EDIT");
     if (isEditcharge == true && open == true) {
+      fetchPdaDetails(pdaResponse?._id);
       setSelectedService(editCharge);
       setSelectedChargesType(editCharge);
       setSelectedSubhargesType(editCharge);
@@ -708,6 +728,18 @@ const ResponsiveDialog = ({
       setSelectedVendor(editCharge);
     }
   }, [isEditcharge, open]);
+
+  const fetchPdaDetails = async (id) => {
+    let data = {
+      pdaId: id,
+    };
+    try {
+      const pdaDetails = await getPdaDetails(data);
+      console.log("pdaDetails:", pdaDetails);
+    } catch (error) {
+      console.error("Failed to fetch quotations:", error);
+    }
+  };
 
   return (
     <>
@@ -836,7 +868,7 @@ const ResponsiveDialog = ({
                     <div className="qq">
                       <div className="col-4">
                         <div className="mb-5">
-                          <div className="col">
+                          <div className="col mt-2">
                             <label
                               for="exampleFormControlInput1"
                               className="form-label"
@@ -1307,6 +1339,19 @@ const ResponsiveDialog = ({
                               </span>
                             </div>
 
+                            <div className="vat col-6 table_seperation">
+                              <span className="marinehead">VAT Amount:</span>
+                              <span className="subvalue">
+                                {charge.customerVAT}
+                              </span>
+                            </div>
+                            <div className="vat col-6">
+                              <span className="marinehead">VAT Amount:</span>
+                              <span className="subvalue">
+                                {charge.vendorVAT}
+                              </span>
+                            </div>
+
                             <div className="omr col-6 table_seperation">
                               <span className="marinehead">Total (OMR):</span>
                               <span className="subvalue">
@@ -1323,19 +1368,6 @@ const ResponsiveDialog = ({
                             </div>
 
                             <div className="vat col-6 table_seperation">
-                              <span className="marinehead">VAT Amount:</span>
-                              <span className="subvalue">
-                                {charge.customerVAT}
-                              </span>
-                            </div>
-                            <div className="vat col-6">
-                              <span className="marinehead">VAT Amount:</span>
-                              <span className="subvalue">
-                                {charge.vendorVAT}
-                              </span>
-                            </div>
-
-                            <div className="vat col-6 table_seperation">
                               <span className="marinehead">Total USD:</span>
                               <span className="subvalue">
                                 {charge.customerTotalUSD}
@@ -1347,6 +1379,31 @@ const ResponsiveDialog = ({
                                 {charge.vendorTotalUSD}
                               </span>
                             </div>
+
+                            {isPrivateVendor && (
+                              <>
+                                <div className="vat col-6 ">
+                                  <div className="marinehead d-flex">
+                                    <input
+                                      className="form-check-inpu "
+                                      type="checkbox"
+                                      id="flexCheckDefault"
+                                      checked={charge?.isPrivateVendor}
+                                      value={charge?.isPrivateVendor}
+                                      readOnly
+                                    />
+                                    <span className="ml-2 left-spc">
+                                      <label
+                                        className="form-check-label "
+                                        htmlFor="flexCheckDefault"
+                                      >
+                                        Private Vendor
+                                      </label>
+                                    </span>
+                                  </div>
+                                </div>
+                              </>
+                            )}
                           </div>
 
                           <div className="row mb-3">
