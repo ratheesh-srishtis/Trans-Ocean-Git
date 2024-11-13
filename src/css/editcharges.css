@@ -17,10 +17,10 @@
   margin-bottom: 30px;
 }
 
-.marinehead {
+/* .marinehead {
   font-size: medium;
   font-weight: bold;
-}
+} */
 
 .marinetable {
   border: 1px solid #007ac1;
@@ -55,6 +55,7 @@
 
 span.required {
   color: red;
+  background: none;
 }
 
 .table {
@@ -70,7 +71,6 @@ span.required {
 .firstfooter {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
 }
 
 .add-button {
@@ -82,7 +82,7 @@ span.required {
 
 @media screen and (min-device-width: 1200px) and (max-device-width: 1800px) {
   .createtable th {
-    font-size: 10px !important;
+    /* font-size: 10px; */
     min-width: 50px;
   }
 }

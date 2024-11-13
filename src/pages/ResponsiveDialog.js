@@ -1084,7 +1084,124 @@ const ResponsiveDialog = ({
                           <div className="tablehead">
                             {getItemName(charge?.serviceId, "service")}
                           </div>
-                          <div key={index} className="tablesep">
+
+                          <div className="row mb-3">
+                            <div className="col-6">
+                              <span className="marinehead">
+                                Sub charge Type:
+                              </span>
+                              <span className="subvalue">
+                                {getItemName(
+                                  charge?.subchargeId,
+                                  "subChargeType"
+                                )}
+                              </span>
+                            </div>
+                            <div className="col-6">
+                              <span className="marinehead">Quantity:</span>
+                              <span className="subvalue">
+                                {charge.quantity}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="row mb-3">
+
+                            <div className="col-6 table_seperation">
+                              <span className="marinehead marineBold">Customer:</span>
+                              <span className="subvalue marineBold">
+                                {getItemName(charge?.customerId, "customer")}
+                              </span>
+                            </div>
+                            <div className="col-6">
+                              <span className="marinehead marineBold">Vendor:</span>
+                              <span className="subvalue marineBold">
+                                {" "}
+                                {getItemName(charge?.vendorId, "vendor")}{" "}
+                              </span>
+                            </div>
+
+                            <div className="omr col-6 table_seperation">
+                              <span className="marinehead">
+                                Amount (OMR):
+                              </span>
+                              <span className="subvalue">
+                                {charge.customerOMR}
+                              </span>
+                            </div>
+                            <div className="omr col-6">
+                              <span className="marinehead">
+                                Amount (OMR):
+                              </span>
+                              <span className="subvalue">
+                                {charge.vendorOMR}
+                              </span>
+                            </div>
+
+                            <div className="omr col-6 table_seperation">
+                              <span className="marinehead">
+                                Total (OMR):
+                              </span>
+                              <span className="subvalue">
+                                {Number(charge.customerOMR) +
+                                  Number(charge.customerVAT)}
+                              </span>
+                            </div>
+                            <div className="omr col-6">
+                              <span className="marinehead">
+                                Total (OMR):
+                              </span>
+                              <span className="subvalue">
+                                {Number(charge.vendorOMR) +
+                                  Number(charge.vendorVAT)}
+                              </span>
+                            </div>
+
+                            <div className="vat col-6 table_seperation">
+                              <span className="marinehead">
+                                VAT Amount:
+                              </span>
+                              <span className="subvalue">
+                                {charge.customerVAT}
+                              </span>
+                            </div>
+                            <div className="vat col-6">
+                              <span className="marinehead">
+                                VAT Amount:
+                              </span>
+                              <span className="subvalue">
+                                {charge.vendorVAT}
+                              </span>
+                            </div>
+
+                            <div className="vat col-6 table_seperation">
+                              <span className="marinehead">Total USD:</span>
+                              <span className="subvalue">
+                                {charge.customerTotalUSD}
+                              </span>
+                            </div>
+                            <div className="vat col-6">
+                              <span className="marinehead">Total USD:</span>
+                              <span className="subvalue">
+                                {charge.vendorTotalUSD}
+                              </span>
+                            </div>
+                            
+                          </div>
+
+                          <div className="row mb-3">
+                            <div className="col-2">
+                              <span className="marinehead">Remarks:</span>
+                            </div>
+                            <div className="col-10 remark_value">
+                              <span className="">
+                                {charge.remark}
+                              </span>
+                            </div>
+                          </div>
+
+                        
+                          {/* <div key={index} className="tablesep">
                             <div className="col">
                               <div className="subh">
                                 <span className="marinehead">Charge Type:</span>
@@ -1226,7 +1343,7 @@ const ResponsiveDialog = ({
                                 </div>
                               </div>
                             </div>
-                          </div>
+                          </div> */}
                         </div>
                       </>
                     ))}
@@ -1373,7 +1490,7 @@ const ResponsiveDialog = ({
                       <div className="vessel-select">
                         <input
                           type="text"
-                          className="form-control labelbox"
+                          className="form-control labelbox vesselbox"
                           id="exampleFormControlInput1"
                           placeholder=" Per Day"
                           name="quantity"
@@ -1395,7 +1512,7 @@ const ResponsiveDialog = ({
                   <div className="marinetable">
                     <div className="tablehead">Customer Charges</div>
                     <div className="row cust">
-                      <div className="col-6 d-flex justify-content-end ">
+                      <div className="col-6">
                         <label
                           for="exampleFormControlInput1"
                           className="form-label labelhead"
@@ -1431,7 +1548,7 @@ const ResponsiveDialog = ({
                       </div>
                     </div>
                     <div className="row cust">
-                      <div className="col-6 d-flex justify-content-end ">
+                      <div className="col-6">
                         <label
                           for="exampleFormControlInput1"
                           className="form-label labelhead"
@@ -1457,7 +1574,7 @@ const ResponsiveDialog = ({
                       </div>
                     </div>
                     <div className="row cust">
-                      <div className="col-6 d-flex justify-content-end ">
+                      <div className="col-6">
                         <label
                           for="exampleFormControlInput1"
                           className="form-label labelhead"
@@ -1486,7 +1603,7 @@ const ResponsiveDialog = ({
                     </div>
 
                     <div className="row cust">
-                      <div className="col-6 d-flex justify-content-end ">
+                      <div className="col-6">
                         <label
                           for="exampleFormControlInput1"
                           className="form-label labelhead"
@@ -1507,7 +1624,7 @@ const ResponsiveDialog = ({
                       </div>
                     </div>
                     <div className="row cust">
-                      <div className="col-6 d-flex justify-content-end ">
+                      <div className="col-6">
                         <label
                           for="exampleFormControlInput1"
                           className="form-label labelhead"
@@ -1540,7 +1657,7 @@ const ResponsiveDialog = ({
                   <div className="marinetable">
                     <div className="tablehead">Vendor Charges</div>
                     <div className="row cust">
-                      <div className="col-6 d-flex justify-content-end ">
+                      <div className="col-6">
                         <label
                           for="exampleFormControlInput1"
                           className="form-label labelhead"
@@ -1573,7 +1690,7 @@ const ResponsiveDialog = ({
                       </div>
                     </div>
                     <div className="row cust">
-                      <div className="col-6 d-flex justify-content-end ">
+                      <div className="col-6">
                         <label
                           for="exampleFormControlInput1"
                           className="form-label labelhead"
@@ -1599,7 +1716,7 @@ const ResponsiveDialog = ({
                       </div>
                     </div>
                     <div className="row cust">
-                      <div className="col-6 d-flex justify-content-end ">
+                      <div className="col-6">
                         <label
                           for="exampleFormControlInput1"
                           className="form-label labelhead"
@@ -1628,7 +1745,7 @@ const ResponsiveDialog = ({
                     </div>
 
                     <div className="row cust">
-                      <div className="col-6 d-flex justify-content-end ">
+                      <div className="col-6">
                         <label
                           for="exampleFormControlInput1"
                           className="form-label labelhead"
@@ -1649,7 +1766,7 @@ const ResponsiveDialog = ({
                       </div>
                     </div>
                     <div className="row cust">
-                      <div className="col-6 d-flex justify-content-end ">
+                      <div className="col-6">
                         <label
                           for="exampleFormControlInput1"
                           className="form-label labelhead"
@@ -1679,7 +1796,7 @@ const ResponsiveDialog = ({
                   </div>
                 </div>
               </div>
-              <div className="firstfooter">
+              <div className="savechangesfooter text-center">
                 <button
                   type="button"
                   className="btn add-button"

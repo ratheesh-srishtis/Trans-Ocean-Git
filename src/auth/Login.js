@@ -217,7 +217,7 @@ const Login = () => {
                         />
                       </div>
 
-                      <div className="mb-3">
+                      <div className="mb-3 password_container">
                         <label
                           htmlFor="exampleInputPassword1"
                           className="form-label"
@@ -233,6 +233,7 @@ const Login = () => {
                           onChange={(e) => setPassword(e.target.value)} // Update password state
                           required
                         />
+                        <span className="password_icon"> <i class="bi bi-eye-fill"></i> </span>
                       </div>
 
                       <div className="d-flex justify-content-between">
