@@ -15,7 +15,7 @@ const Dashboard = () => {
     <div>
       <div className="card-main">
         <div className="d-flex justify-content-between mb-3">
-          <ul className="nav nav-underline">
+          <ul className="nav nav-underline gap-5">
             <li className="nav-item">
               <a
                 className="nav-link carduppercontent"
@@ -53,29 +53,29 @@ const Dashboard = () => {
           <div className="col-3">
             <div className="dashboard_cards received-quot">
               <img className="img-size" src={img_2} />
-              <h3 className="card_count"> 32</h3>
-              <h5 className="card_title">Received Quotation</h5>
+              <h3 className="card_count"> 42</h3>
+              <h5 className="card_title">Received Quotations </h5>
             </div>
           </div>
           <div className="col-3">
             <div className="dashboard_cards pending-quot">
               <img className="img-size" src={img_3} />
               <h3 className="card_count"> 32</h3>
-              <h5 className="card_title">Received Quotation</h5>
+              <h5 className="card_title">Approved Quotations</h5>
             </div>
           </div>
           <div className="col-3">
             <div className="dashboard_cards approved-quot">
               <img className="img-size" src={img_4} />
               <h3 className="card_count"> 32</h3>
-              <h5 className="card_title">Received Quotation</h5>
+              <h5 className="card_title">Quotations to OPS</h5>
             </div>
           </div>
           <div className="col-3">
             <div className="dashboard_cards ops">
               <img className="img-size" src={img_1} />
-              <h3 className="card_count"> 32</h3>
-              <h5 className="card_title">Received Quotation</h5>
+              <h3 className="card_count"> 60 </h3>
+              <h5 className="card_title"> Closed Quotations </h5>
             </div>
           </div>
         </div>
