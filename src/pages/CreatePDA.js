@@ -883,9 +883,11 @@ const CreatePDA = ({
                   chargesArray={finalChargesArray}
                   services={services}
                   customers={customers}
+                  onSubmit={handleSubmit}
                   ports={ports}
                   onEdit={handleEdit}
                   pdaResponse={pdaResponse}
+
                 />
               </div>
             </div>
