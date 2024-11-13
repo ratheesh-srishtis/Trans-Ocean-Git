@@ -235,12 +235,12 @@ const CreatePDA = ({
   const handleSubmit = (chargesArray) => {
     console.log("chargesArray Submitted: ", chargesArray);
     // Here you can add logic to handle form submission
-    // setFinalChargesArray(chargesArray);
+    setFinalChargesArray(chargesArray);
 
-    setFinalChargesArray((prevChargesArray) => [
-      ...prevChargesArray,
-      ...chargesArray,
-    ]);
+    // setFinalChargesArray((prevChargesArray) => [
+    //   ...prevChargesArray,
+    //   ...chargesArray,
+    // ]);
 
     handleClose();
   };
@@ -566,7 +566,7 @@ const CreatePDA = ({
                         id="vessels"
                         checked={isVessels}
                         onChange={handleVesselsChange}
-                        className="vesselradio"
+                        className="vesselradio form-check-input"
                       />
                       <label htmlFor="vessels" className="vessel">
                         Vessels
@@ -578,7 +578,7 @@ const CreatePDA = ({
                         id="services"
                         checked={isServices}
                         onChange={handleServicesChange}
-                        className="vesselradio"
+                        className="vesselradio form-check-input"
                       />
                       <label htmlFor="services" className="service">
                         Services
@@ -708,7 +708,7 @@ const CreatePDA = ({
               </div>
             </div>
           </div>
-          <div className="thirdrow mb-3">
+          <div className="thirdrow mb-3 row">
             <div className="col-4">
               <div className="row">
                 <div className="col-6">
@@ -778,44 +778,25 @@ const CreatePDA = ({
               </div>
             </div>
             <div className="col-4">
-              <div className="row">
-                <div className="col-6 eta">
-                  <label for="exampleFormControlInput1" className="form-label">
-                    ETA:
-                  </label>
-                  <DatePicker
-                    selected={eta ? new Date(eta) : null}
-                    onChange={handleEtaChange}
-                    showTimeSelect
-                    timeFormat="hh:mm aa"
-                    timeIntervals={15}
-                    dateFormat="Pp"
-                    className="form-control date-input" // Bootstrap class for styling
-                    id="eta-picker"
-                    placeholderText="Select ETA"
-                    value={eta ? new Date(eta) : null}
-                    autoComplete="off"
-                  />
+            <label for="exampleFormControlInput1" className="form-label">
+                  Customer Name:
+                </label>
+                <div className="vessel-select">
+                  <select
+                    name="customer"
+                    className="form-select vesselbox"
+                    onChange={handleSelectChange}
+                    aria-label="Default select example"
+                    value={selectedCustomer?._id}
+                  >
+                    <option value="">Choose Customer</option>
+                    {customers.map((customer) => (
+                      <option key={customer._id} value={customer._id}>
+                        {customer.customerName}
+                      </option>
+                    ))}
+                  </select>
                 </div>
-                <div className="col-6 etd ">
-                  <label for="exampleFormControlInput1" className="form-label">
-                    ETD:
-                  </label>
-                  <DatePicker
-                    selected={etd ? new Date(etd) : null}
-                    onChange={handleEtdChange}
-                    showTimeSelect
-                    timeFormat="hh:mm aa"
-                    timeIntervals={15}
-                    dateFormat="Pp"
-                    className="form-control date-input" // Bootstrap class for styling
-                    id="etd-picker"
-                    placeholderText="Select ETD"
-                    value={etd ? new Date(etd) : null}
-                    autoComplete="off"
-                  />
-                </div>
-              </div>
             </div>
           </div>
 
@@ -845,29 +826,46 @@ const CreatePDA = ({
               </div> */}
               <div className="col-4">
                 <label for="exampleFormControlInput1" className="form-label">
-                  Customer Name:
+                  ETA:
                 </label>
-                <div className="vessel-select">
-                  <select
-                    name="customer"
-                    className="form-select vesselbox"
-                    onChange={handleSelectChange}
-                    aria-label="Default select example"
-                    value={selectedCustomer?._id}
-                  >
-                    <option value="">Choose Customer</option>
-                    {customers.map((customer) => (
-                      <option key={customer._id} value={customer._id}>
-                        {customer.customerName}
-                      </option>
-                    ))}
-                  </select>
+                <div>
+                  <DatePicker
+                    selected={eta ? new Date(eta) : null}
+                    onChange={handleEtaChange}
+                    showTimeSelect
+                    timeFormat="hh:mm aa"
+                    timeIntervals={15}
+                    dateFormat="Pp"
+                    className="form-control date-input" // Bootstrap class for styling
+                    id="eta-picker"
+                    placeholderText="Select ETA"
+                    value={eta ? new Date(eta) : null}
+                    autoComplete="off"
+                  />
                 </div>
+              </div>
+              <div className="col-4">
+                <label for="exampleFormControlInput1" className="form-label">
+                  ETD:
+                </label>
+                <DatePicker
+                  selected={etd ? new Date(etd) : null}
+                  onChange={handleEtdChange}
+                  showTimeSelect
+                  timeFormat="hh:mm aa"
+                  timeIntervals={15}
+                  dateFormat="Pp"
+                  className="form-control date-input" // Bootstrap class for styling
+                  id="etd-picker"
+                  placeholderText="Select ETD"
+                  value={etd ? new Date(etd) : null}
+                  autoComplete="off"
+                />
               </div>
               <div className="col-4">
                 <button
                   type="button"
-                  className="btn addcharge-button"
+                  className="btn addcharge-button text-center"
                   onClick={() => {
                     openDialog();
                   }}
@@ -879,7 +877,7 @@ const CreatePDA = ({
           </div>
 
           <div className="charges-table">
-            <div className="row mt-5">
+            <div className="row mt-4">
               <div className="col-lg-12">
                 <ChargesTable
                   chargesArray={finalChargesArray}
