@@ -172,6 +172,9 @@
   color: #ffffff;
   font-size: larger;
   margin: 20px;
+  width: 100px;
+  display: flex;
+  justify-content:center;
 }
 
 .createtable tr td {
