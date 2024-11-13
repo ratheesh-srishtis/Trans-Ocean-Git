@@ -225,19 +225,20 @@ const ResponsiveDialog = ({
   }, []);
 
   const getItemName = (id, name) => {
-    if (name == "service") {
+    if (name == "service" && id) {
       const service = services.find((s) => s._id === id);
       return service ? service.serviceName : "Unknown Service";
-    } else if (name == "customer") {
+    } else if (name == "customer" && id) {
       const customer = customers.find((s) => s._id === id);
       return customer ? customer.customerName : "Unknown Customer";
-    } else if (name == "vendor") {
+    } else if (name == "vendor" && id) {
       const port = ports.find((s) => s._id === id);
       return port ? port.portName : "Unknown port";
-    } else if (name == "chargeType") {
+    } else if (name == "chargeType" && id) {
       const charge = charges.find((s) => s._id === id);
+      console.log(charge, "chargegetItemName");
       return charge ? charge.chargeName : "Unknown charge";
-    } else if (name == "subChargeType") {
+    } else if (name == "subChargeType" && id) {
       const subCharge = subCharges.find((s) => s._id === id);
       return subCharge ? subCharge.subchargeName : "Unknown subCharge";
     }
@@ -427,9 +428,8 @@ const ResponsiveDialog = ({
           ...prevChargesArray,
           chargesPayload,
         ]);
-        setMessage("Charges Added Successfully!");
+        setMessage("Charges added successfully!");
         setOpenPopUp(true);
-        alert("NEW Charge Added");
         resetCharges("new");
       }
 
@@ -443,7 +443,7 @@ const ResponsiveDialog = ({
 
   const submitCharges = () => {
     onSubmit(chargesArray);
-    setMessage("Charges Added Successfully!");
+    setMessage("Charges added successfully!");
     setOpenPopUp(true);
   };
 
@@ -533,8 +533,6 @@ const ResponsiveDialog = ({
     console.log(isEditcharge, "isEditcharge EDIT");
     console.log(open, "open EDIT");
     if (isEditcharge == true && open == true) {
-      alert("editChargeFilling");
-
       setSelectedService(editCharge);
       setSelectedChargesType(editCharge);
       setSelectedSubhargesType(editCharge);

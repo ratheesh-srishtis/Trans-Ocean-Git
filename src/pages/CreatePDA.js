@@ -147,11 +147,11 @@ const CreatePDA = ({
   };
 
   const formatDateTime = (date) => {
-    const year = date.getUTCFullYear();
-    const month = String(date.getUTCMonth() + 1).padStart(2, "0");
-    const day = String(date.getUTCDate()).padStart(2, "0");
-    let hours = date.getUTCHours();
-    const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    let hours = date.getHours();
+    const minutes = String(date.getMinutes()).padStart(2, "0");
     const ampm = hours >= 12 ? "PM" : "AM";
     hours = hours % 12;
     hours = hours ? String(hours).padStart(2, "0") : "12";
@@ -235,12 +235,12 @@ const CreatePDA = ({
   const handleSubmit = (chargesArray) => {
     console.log("chargesArray Submitted: ", chargesArray);
     // Here you can add logic to handle form submission
-    setFinalChargesArray(chargesArray);
+    // setFinalChargesArray(chargesArray);
 
-    // setFinalChargesArray((prevChargesArray) => [
-    //   ...prevChargesArray,
-    //   ...chargesArray,
-    // ]);
+    setFinalChargesArray((prevChargesArray) => [
+      ...prevChargesArray,
+      ...chargesArray,
+    ]);
 
     handleClose();
   };
@@ -299,7 +299,6 @@ const CreatePDA = ({
         ETD: etd,
         pdaStatus: isCustomerApproved ? 5 : status,
         charges: finalChargesArray,
-        pdaid: pdaResponse?._id ? pdaResponse?._id : null,
       };
       console.log(pdaPayload, "pdaPayload");
       if (!pdaResponse?._id) {
@@ -335,14 +334,14 @@ const CreatePDA = ({
             setPdaResponse(response?.pda);
             setPdaServicesResponse(response?.pdaServices);
             updateValues(response);
-            setMessage("PDA Updated Successfully");
+            setMessage("PDA updated successfully");
             setOpenPopUp(true);
           } else {
-            setMessage("PDA failed. Please try again");
+            setMessage("PDA failed. please try again");
             setOpenPopUp(true);
           }
         } catch (error) {
-          setMessage("PDA failed. Please try again");
+          setMessage("PDA failed. please try again");
           setOpenPopUp(true);
         } finally {
         }
@@ -834,13 +833,14 @@ const CreatePDA = ({
                     selected={eta ? new Date(eta) : null}
                     onChange={handleEtaChange}
                     showTimeSelect
-                    timeFormat="HH:mm"
+                    timeFormat="hh:mm aa"
                     timeIntervals={15}
                     dateFormat="Pp"
                     className="form-control date-input" // Bootstrap class for styling
                     id="eta-picker"
                     placeholderText="Select ETA"
                     value={eta ? new Date(eta) : null}
+                    autoComplete="off"
                   />
                 </div>
               </div>
@@ -852,13 +852,14 @@ const CreatePDA = ({
                   selected={etd ? new Date(etd) : null}
                   onChange={handleEtdChange}
                   showTimeSelect
-                  timeFormat="HH:mm"
+                  timeFormat="hh:mm aa"
                   timeIntervals={15}
                   dateFormat="Pp"
                   className="form-control date-input" // Bootstrap class for styling
                   id="etd-picker"
                   placeholderText="Select ETD"
                   value={etd ? new Date(etd) : null}
+                  autoComplete="off"
                 />
               </div>
               <div className="col-4">
@@ -904,7 +905,7 @@ const CreatePDA = ({
                       Generate PDA
                     </button>
 
-                    {pdaResponse?.pdaStatus && pdaResponse?.pdaStatus == 3 && (
+                    {(pdaResponse?.pdaStatus >= 3 || isApproved == true) && (
                       <>
                         <button className="btn btna generate-button">
                           Generate Invoice
@@ -938,19 +939,18 @@ const CreatePDA = ({
                       Submit
                     </button>
 
-                    {pdaResponse?.pdaStatus >= 3 ||
-                      (isApproved == true && (
-                        <>
-                          <button
-                            className="btn btna submit-button"
-                            onClick={() => {
-                              sendQuotation();
-                            }}
-                          >
-                            Send Quotation
-                          </button>
-                        </>
-                      ))}
+                    {(pdaResponse?.pdaStatus >= 3 || isApproved == true) && (
+                      <>
+                        <button
+                          className="btn btna submit-button"
+                          onClick={() => {
+                            sendQuotation();
+                          }}
+                        >
+                          Send Quotation
+                        </button>
+                      </>
+                    )}
 
                     {pdaResponse?.pdaStatus == 2 && isApproved == false && (
                       <>

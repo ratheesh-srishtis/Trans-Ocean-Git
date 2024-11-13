@@ -2,10 +2,10 @@ import React from "react";
 import { useAuth } from "../context/AuthContext";
 
 const Header = () => {
-  const { logout } = useAuth();
+  const { logout, loginResponse } = useAuth();
   const Rectangle = require("../assets/images/Rectangle 1393.png");
   const Notifications = require("../assets/images/Notifications.png");
-
+  console.log(loginResponse, "loginResponseHEader");
   return (
     // <header style={{ backgroundColor: "#f8f9fa", padding: "10px 20px" }}>
     //   <h1>My App</h1>
@@ -21,9 +21,12 @@ const Header = () => {
           <div className="d-flex flex-row-reverse ">
             <div className="btn-group">
               <img src={Rectangle} className="userimg"></img>
-              <button type="button" className="admin-button text-start namefinance">
+              <button
+                type="button"
+                className="admin-button text-start namefinance"
+              >
                 Finance
-                <div className="nameuser">Username</div>
+                <div className="nameuser">{loginResponse?.data?.name}</div>
               </button>
               <button
                 type="button"
@@ -51,10 +54,7 @@ const Header = () => {
             </div>
 
             <div className="p-2">
-              <button
-                type="button"
-                className="btn btn-success px-4 py-2"
-              >
+              <button type="button" className="btn btn-success px-4 py-2">
                 {" "}
                 <i className="bi bi-chat-text"></i> <span>Chats</span>{" "}
               </button>

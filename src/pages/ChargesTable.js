@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { editChargeQuotation } from "../services/apiService";
-
+import { deleteQuotationCharge } from "../services/apiService";
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
   return (
@@ -142,6 +142,8 @@ const ChargesTable = ({
   };
 
   const handleDelete = async (charge, index) => {
+    console.log(charge, "charge handleDelete");
+    console.log(index, "index handleDelete");
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -154,19 +156,20 @@ const ChargesTable = ({
       if (result.isConfirmed) {
         console.log("Delete:", charge);
         // Implement your delete logic here (e.g., API call to delete the charge)
-        if (pdaResponse?._id) {
+        if (charge?.pdaChargeId) {
           try {
             let chargesPayload = {
-              pdaChargeId: pdaResponse?._id,
+              pdaChargeId: charge?.pdaChargeId,
             };
-            const response = await editChargeQuotation(chargesPayload);
+            const response = await deleteQuotationCharge(chargesPayload);
             console.log("Fetched Charges:", response);
+            Swal.fire("Charge deleted successfully", "success");
           } catch (error) {
             console.error("Error fetching charges:", error);
+            Swal.fire("Error deleting charges", "success");
           }
+        } else {
         }
-
-        Swal.fire("Deleted!", "Your charge has been deleted.", "success");
       }
     });
   };
@@ -208,7 +211,7 @@ const ChargesTable = ({
                   <th>Service Type</th>
                   <th>Charge Type</th>
                   <th>Sub Charge Type</th>
-                  <th>Quantity</th>
+                  {/* <th>Quantity</th> */}
                   <th>Amount (OMR)</th>
                   <th>VAT Amount</th>
                   <th>Total OMR</th>
@@ -236,14 +239,12 @@ const ChargesTable = ({
                           ? getItemName(charge.subchargeId, "subChargeType")
                           : ""}
                       </td>
-                      <td>{charge.quantity}</td>
+                      {/* <td>{charge.quantity}</td> */}
                       <td>{charge.customerOMR}</td>
                       <td>{charge.customerVAT}</td>
                       <td>
-                        {(
-                          parseFloat(charge.customerOMR) +
-                          parseFloat(charge.customerVAT)
-                        )?.toFixed(2)}
+                        {parseFloat(charge.customerOMR) +
+                          parseFloat(charge.customerVAT)}
                       </td>
                       <td>{charge.customerTotalUSD}</td>
                       <td>
@@ -268,15 +269,13 @@ const ChargesTable = ({
                   <tfoot>
                     <tr>
                       <td colSpan={4}>Total Cost</td>
-                      <td>{totalValues.quantity}</td>
-                      <td>{totalValues.customerOMR?.toFixed(2)}</td>
-                      <td>{totalValues.customerVAT?.toFixed(2)}</td>
+                      {/* <td>{totalValues.quantity}</td> */}
+                      <td>{totalValues.customerOMR}</td>
+                      <td>{totalValues.customerVAT}</td>
                       <td>
-                        {(
-                          totalValues.customerOMR + totalValues?.customerVAT
-                        ).toFixed(2)}
+                        {totalValues.customerOMR + totalValues?.customerVAT}
                       </td>
-                      <td>{totalValues?.customerTotalUSD?.toFixed(2)}</td>
+                      <td>{totalValues?.customerTotalUSD}</td>
                       <td></td> {/* Empty cell for footer */}
                     </tr>
                   </tfoot>
@@ -294,7 +293,7 @@ const ChargesTable = ({
                   <th>Service Type</th>
                   <th>Charge Type</th>
                   <th>Sub Charge Type</th>
-                  <th>Quantity</th>
+                  {/* <th>Quantity</th> */}
                   <th>Amount (OMR)</th>
                   <th>VAT Amount</th>
                   <th>Total OMR</th>
@@ -322,14 +321,12 @@ const ChargesTable = ({
                           ? getItemName(charge.subchargeId, "subChargeType")
                           : ""}
                       </td>
-                      <td>{charge.quantity}</td>
+                      {/* <td>{charge.quantity}</td> */}
                       <td>{charge.vendorOMR}</td>
                       <td>{charge.vendorVAT}</td>
                       <td>
-                        {(
-                          parseFloat(charge.vendorOMR) +
-                          parseFloat(charge.vendorVAT)
-                        )?.toFixed(2)}
+                        {parseFloat(charge.vendorOMR) +
+                          parseFloat(charge.vendorVAT)}
                       </td>
                       <td>{charge.vendorTotalUSD}</td>
                       <td>
@@ -354,16 +351,14 @@ const ChargesTable = ({
                   <tfoot>
                     <tr>
                       <td colSpan={4}>Total Cost</td>
-                      <td>{vendorTotalValues.quantity}</td>
-                      <td>{vendorTotalValues.vendorOMR?.toFixed(2)}</td>
-                      <td>{vendorTotalValues.vendorVAT?.toFixed(2)}</td>
+                      {/* <td>{vendorTotalValues.quantity}</td> */}
+                      <td>{vendorTotalValues.vendorOMR}</td>
+                      <td>{vendorTotalValues.vendorVAT}</td>
                       <td>
-                        {(
-                          vendorTotalValues.vendorOMR +
-                          vendorTotalValues?.vendorVAT
-                        ).toFixed(2)}
+                        {vendorTotalValues.vendorOMR +
+                          vendorTotalValues?.vendorVAT}
                       </td>
-                      <td>{vendorTotalValues?.vendorTotalUSD?.toFixed(2)}</td>
+                      <td>{vendorTotalValues?.vendorTotalUSD}</td>
                       <td></td> {/* Empty cell for footer */}
                     </tr>
                   </tfoot>
