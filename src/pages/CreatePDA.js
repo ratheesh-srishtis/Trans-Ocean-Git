@@ -235,12 +235,12 @@ const CreatePDA = ({
   const handleSubmit = (chargesArray) => {
     console.log("chargesArray Submitted: ", chargesArray);
     // Here you can add logic to handle form submission
-    // setFinalChargesArray(chargesArray);
+    setFinalChargesArray(chargesArray);
 
-    setFinalChargesArray((prevChargesArray) => [
-      ...prevChargesArray,
-      ...chargesArray,
-    ]);
+    // setFinalChargesArray((prevChargesArray) => [
+    //   ...prevChargesArray,
+    //   ...chargesArray,
+    // ]);
 
     handleClose();
   };

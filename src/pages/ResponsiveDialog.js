@@ -391,6 +391,10 @@ const ResponsiveDialog = ({
         isPrivateVendor: isPrivateVendor,
         remark: remarks,
         pdaChargeId: pdaResponse?._id ? pdaResponse?._id : null,
+        serviceName:selectedService?.serviceName,
+        chargeName:selectedChargesType?.chargeName,
+        subchargeName:selectedSubhargesType?.subchargeName,
+
       };
       console.log(chargesPayload, "chargesPayload");
       if (action === "edit" && index !== null) {
@@ -398,6 +402,7 @@ const ResponsiveDialog = ({
           idx === index ? chargesPayload : charge
         );
         setChargesArray(updatedChargesArray); // update the state
+        console.log(updatedChargesArray, "updatedChargesArray")
         // Now call submit with the updated charges array
         onSubmit(updatedChargesArray); // pass the updated array immediately
         if (pdaResponse?._id) {
@@ -408,26 +413,28 @@ const ResponsiveDialog = ({
             console.error("Error fetching charges:", error);
           }
         }
-      } else if (action === "edit" && pdaResponse?._id) {
-        // Add new charge
-        try {
-          const updatedChargesArray = [...chargesArray, chargesPayload];
-          setChargesArray(updatedChargesArray);
-          let addChargesPaylod = {
-            pdaId: pdaResponse?._id ? pdaResponse?._id : null,
-            charges: updatedChargesArray,
-          };
-          const response = await addPDACharges(addChargesPaylod);
-          console.log("addPDACharges_response:", response);
-          onSubmit(updatedChargesArray);
-        } catch (error) {
-          console.error("Error fetching charges:", error);
-        }
-      } else if (action === "new") {
-        setChargesArray((prevChargesArray) => [
-          ...prevChargesArray,
-          chargesPayload,
-        ]);
+      } 
+      
+      // else if (action === "edit" && pdaResponse?._id) {
+      //   // Add new charge
+      //   try {
+      //     const updatedChargesArray = [...chargesArray, chargesPayload];
+      //     setChargesArray(updatedChargesArray);
+      //     let addChargesPaylod = {
+      //       pdaId: pdaResponse?._id ? pdaResponse?._id : null,
+      //       charges: updatedChargesArray,
+      //     };
+      //     const response = await addPDACharges(addChargesPaylod);
+      //     console.log("addPDACharges_response:", response);
+      //     onSubmit(updatedChargesArray);
+      //   } catch (error) {
+      //     console.error("Error fetching charges:", error);
+      //   }
+      // } 
+      
+      else if (action === "new") {
+        const newaddedarray = [...chargesArray, chargesPayload];
+        onSubmit(newaddedarray);
         setMessage("Charges added successfully!");
         setOpenPopUp(true);
         resetCharges("new");
@@ -1080,25 +1087,39 @@ const ResponsiveDialog = ({
                       <>
                         <div className="marinetable mt-4 mb-4">
                           <div className="tablehead">
-                            {getItemName(charge?.serviceId, "service")}
+                            {/* {getItemName(charge?.serviceId, "service")} */}
+                            {charge?.serviceName}
                           </div>
 
                           <div className="row mb-3">
                             <div className="col-6">
                               <span className="marinehead">
+                                Charge type:
+                              </span>
+                              <span className="subvalue">
+                                {/* {getItemName(
+                                  charge?.subchargeId,
+                                  "subChargeType"
+                                )} */}
+                                {charge?.chargeName }
+                              </span>
+                              <div className="mt-2">
+                              <span className="marinehead">
                                 Sub charge Type:
                               </span>
                               <span className="subvalue">
-                                {getItemName(
+                                {/* {getItemName(
                                   charge?.subchargeId,
                                   "subChargeType"
-                                )}
+                                )} */}
+                                {charge?.subchargeName }
                               </span>
+                              </div>
                             </div>
                             <div className="col-6">
                               <span className="marinehead">Quantity:</span>
                               <span className="subvalue">
-                                {charge.quantity}
+                                {charge?.quantity}
                               </span>
                             </div>
                           </div>

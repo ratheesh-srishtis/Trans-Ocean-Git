@@ -10,6 +10,11 @@ const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
   console.log("test");
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
 
   const Logo = require("../assets/images/LOGO.png");
   const Group = require("../assets/images/Group 1000002969.png");
@@ -225,7 +230,7 @@ const Login = () => {
                           Password
                         </label>
                         <input
-                          type="password"
+                          type={passwordVisible ? 'text' : 'password'}
                           className="form-control"
                           id="exampleInputPassword1"
                           placeholder="********"
@@ -233,7 +238,7 @@ const Login = () => {
                           onChange={(e) => setPassword(e.target.value)} // Update password state
                           required
                         />
-                        <span className="password_icon"> <i class="bi bi-eye-fill"></i> </span>
+                        <span className="password_icon"> <i onClick={togglePasswordVisibility} className={passwordVisible ? 'bi bi-eye-slash' : 'bi bi-eye'}> </i> </span>
                       </div>
 
                       <div className="d-flex justify-content-between">
