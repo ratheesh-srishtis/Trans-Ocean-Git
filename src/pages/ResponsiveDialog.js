@@ -1726,7 +1726,7 @@ const ResponsiveDialog = ({
                   <div className="marinetable">
                     <div className="tablehead">Customer Charges</div>
                     <div className="row cust">
-                      <div className="col-6">
+                      <div className="col-5">
                         <label
                           for="exampleFormControlInput1"
                           className="form-label labelhead"
@@ -1734,7 +1734,7 @@ const ResponsiveDialog = ({
                           Customer:
                         </label>
                       </div>
-                      <div className="col-6  justify-content-start ">
+                      <div className="col-7  justify-content-start ">
                         <select
                           name="customer"
                           className="form-select vesselbox"
@@ -1762,7 +1762,7 @@ const ResponsiveDialog = ({
                       </div>
                     </div>
                     <div className="row cust">
-                      <div className="col-6">
+                      <div className="col-5">
                         <label
                           for="exampleFormControlInput1"
                           className="form-label labelhead"
@@ -1770,7 +1770,7 @@ const ResponsiveDialog = ({
                           Amount(OMR):
                         </label>
                       </div>
-                      <div className="col-6 justify-content-start ">
+                      <div className="col-7 justify-content-start ">
                         <input
                           type="number"
                           className="form-control labelbox"
@@ -1788,7 +1788,7 @@ const ResponsiveDialog = ({
                       </div>
                     </div>
                     <div className="row cust">
-                      <div className="col-6">
+                      <div className="col-5">
                         <label
                           for="exampleFormControlInput1"
                           className="form-label labelhead"
@@ -1796,7 +1796,7 @@ const ResponsiveDialog = ({
                           VAT Amount:
                         </label>
                       </div>
-                      <div className="col-6  justify-content-start ">
+                      <div className="col-7  justify-content-start ">
                         <input
                           type="number"
                           className="form-control labelbox"
@@ -1817,7 +1817,7 @@ const ResponsiveDialog = ({
                     </div>
 
                     <div className="row cust">
-                      <div className="col-6">
+                      <div className="col-5">
                         <label
                           for="exampleFormControlInput1"
                           className="form-label labelhead"
@@ -1825,7 +1825,7 @@ const ResponsiveDialog = ({
                           Total OMR:
                         </label>
                       </div>
-                      <div className="col-6 d-flex justify-content-start ">
+                      <div className="col-7 d-flex justify-content-start ">
                         <input
                           type="number"
                           className="form-control labelbox"
@@ -1838,7 +1838,7 @@ const ResponsiveDialog = ({
                       </div>
                     </div>
                     <div className="row cust">
-                      <div className="col-6">
+                      <div className="col-5">
                         <label
                           for="exampleFormControlInput1"
                           className="form-label labelhead"
@@ -1846,7 +1846,7 @@ const ResponsiveDialog = ({
                           Total USD:
                         </label>
                       </div>
-                      <div className="col-6  justify-content-start ">
+                      <div className="col-7  justify-content-start ">
                         <input
                           type="number"
                           className="form-control labelbox"
@@ -1871,7 +1871,7 @@ const ResponsiveDialog = ({
                   <div className="marinetable">
                     <div className="tablehead">Vendor Charges</div>
                     <div className="row cust">
-                      <div className="col-6">
+                      <div className="col-5">
                         <label
                           for="exampleFormControlInput1"
                           className="form-label labelhead"
@@ -1879,7 +1879,7 @@ const ResponsiveDialog = ({
                           Vendor:
                         </label>
                       </div>
-                      <div className="col-6  justify-content-start ">
+                      <div className="col-7  justify-content-start ">
                         <select
                           name="vendor"
                           className="form-select vesselbox"
@@ -1904,7 +1904,7 @@ const ResponsiveDialog = ({
                       </div>
                     </div>
                     <div className="row cust">
-                      <div className="col-6">
+                      <div className="col-5">
                         <label
                           for="exampleFormControlInput1"
                           className="form-label labelhead"
@@ -1912,7 +1912,7 @@ const ResponsiveDialog = ({
                           Amount(OMR):
                         </label>
                       </div>
-                      <div className="col-6  justify-content-start ">
+                      <div className="col-7  justify-content-start ">
                         <input
                           type="number"
                           className="form-control labelbox"
@@ -1930,7 +1930,7 @@ const ResponsiveDialog = ({
                       </div>
                     </div>
                     <div className="row cust">
-                      <div className="col-6">
+                      <div className="col-5">
                         <label
                           for="exampleFormControlInput1"
                           className="form-label labelhead"
@@ -1938,7 +1938,7 @@ const ResponsiveDialog = ({
                           VAT Amount:
                         </label>
                       </div>
-                      <div className="col-6  justify-content-start ">
+                      <div className="col-7  justify-content-start ">
                         <input
                           type="number"
                           className="form-control labelbox"
@@ -1959,7 +1959,7 @@ const ResponsiveDialog = ({
                     </div>
 
                     <div className="row cust">
-                      <div className="col-6">
+                      <div className="col-5">
                         <label
                           for="exampleFormControlInput1"
                           className="form-label labelhead"
@@ -1967,7 +1967,7 @@ const ResponsiveDialog = ({
                           Total OMR:
                         </label>
                       </div>
-                      <div className="col-6 d-flex justify-content-start ">
+                      <div className="col-7 d-flex justify-content-start ">
                         <input
                           type="number"
                           className="form-control labelbox"
@@ -1980,7 +1980,7 @@ const ResponsiveDialog = ({
                       </div>
                     </div>
                     <div className="row cust">
-                      <div className="col-6">
+                      <div className="col-5">
                         <label
                           for="exampleFormControlInput1"
                           className="form-label labelhead"
@@ -1988,7 +1988,7 @@ const ResponsiveDialog = ({
                           Total USD:
                         </label>
                       </div>
-                      <div className="col-6  justify-content-start ">
+                      <div className="col-7  justify-content-start ">
                         <input
                           type="number"
                           className="form-control labelbox"
