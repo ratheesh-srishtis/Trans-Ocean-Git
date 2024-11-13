@@ -367,13 +367,34 @@ const ResponsiveDialog = ({
       chargeName: selectedChargesType?.chargeName,
       subchargeName: selectedSubhargesType?.subchargeName,
     };
-    setChargesArray([...chargesArray, chargesPayload]);
-    setSavedChargesArray([...finalChargesArray, chargesPayload]);
+    // setChargesArray([...chargesArray, chargesPayload]);
+    // setSavedChargesArray([...finalChargesArray, chargesPayload]);
+    const updatedChargesArray = [...chargesArray, chargesPayload];
+    setChargesArray(updatedChargesArray);
+
+    // Check if finalChargesArray is empty
+    let updatedSavedChargesArray;
+    if (finalChargesArray.length === 0) {
+      // If finalChargesArray is empty, add chargesArray objects and chargesPayload to savedChargesArray
+      updatedSavedChargesArray = [...updatedChargesArray];
+    } else {
+      // If finalChargesArray already has objects, add only finalChargesArray objects and chargesPayload
+      updatedSavedChargesArray = [...finalChargesArray, chargesPayload];
+    }
+
+    // Update savedChargesArray with the new array
+    setSavedChargesArray(updatedSavedChargesArray);
+
+    // Also update finalChargesArray with the new charge
     console.log(chargesArray, "chargesArray newCharge");
     setMessage("Charges added successfully!");
     setOpenPopUp(true);
     resetCharges("new");
   };
+
+  useEffect(()=>{
+    console.log(savedChargesArray,"savedChargesArray")
+  },[savedChargesArray])
 
   const editCharges = async (index) => {
     // Individual checks for each field
@@ -514,7 +535,7 @@ const ResponsiveDialog = ({
         const updatedChargesArray = finalChargesArray.map((charge, idx) =>
           idx === index ? chargesPayload : charge
         );
-        setChargesArray(updatedChargesArray); // update the state
+        setSavedChargesArray(updatedChargesArray); // update the state
         console.log(updatedChargesArray, "updatedChargesArray");
         // Now call submit with the updated charges array
         onSubmit(updatedChargesArray); // pass the updated array immediately
@@ -568,7 +589,7 @@ const ResponsiveDialog = ({
     if (pdaResponse?._id) {
       try {
         const updatedChargesArray = [...finalChargesArray, chargesPayload];
-        setChargesArray(updatedChargesArray);
+        setSavedChargesArray(updatedChargesArray);
         let addChargesPaylod = {
           pdaId: pdaResponse?._id ? pdaResponse?._id : null,
           charges: updatedChargesArray,
@@ -581,7 +602,7 @@ const ResponsiveDialog = ({
       }
     }
 
-    onSubmit(chargesArray);
+    onSubmit(savedChargesArray);
     setMessage("Charges added successfully!");
     setOpenPopUp(true);
   };

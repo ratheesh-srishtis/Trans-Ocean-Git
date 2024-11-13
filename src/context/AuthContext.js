@@ -69,10 +69,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("transocean_token");
     localStorage.removeItem("loginResponse"); // Clear login response on logout
     navigate("/login");
-    toast.success("Logged out successfully!", {
-      position: "top-center",
-      autoClose: 2000,
-    });
+setMessage("Logout sucessfully")
   };
 
   useEffect(() => {
@@ -89,6 +86,7 @@ export const AuthProvider = ({ children }) => {
       {openPopUp && (
         <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
       )}
+      
     </>
   );
 };

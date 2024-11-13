@@ -118,7 +118,7 @@ const Login = () => {
                       >
                         <li className="nav-item font" role="presentation">
                           <button
-                            className="nav-link active"
+                            className="nav-link "
                             id="pills-home-tab"
                             data-bs-toggle="pill"
                             data-bs-target="#pills-home"
@@ -133,7 +133,7 @@ const Login = () => {
                         </li>
                         <li className="nav-item font" role="presentation">
                           <button
-                            className="nav-link "
+                            className="nav-link active"
                             id="pills-profile-tab"
                             data-bs-toggle="pill"
                             data-bs-target="#pills-profile"
