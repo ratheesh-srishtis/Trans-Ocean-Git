@@ -17,16 +17,20 @@ const Dashboard = () => {
         <div className="d-flex justify-content-between mb-3">
           <ul className="nav nav-underline">
             <li className="nav-item">
-              <a className="nav-link carduppercontent" aria-current="page" href="#">
+              <a
+                className="nav-link carduppercontent"
+                aria-current="page"
+                href="#"
+              >
                 All
               </a>
             </li>
             <li className="nav-item">
               <a className="nav-link carduppercontent" href="#">
-                Last Hour
+                Last 24 Hour
               </a>
             </li>
-            <li className="nav-item" >
+            <li className="nav-item">
               <a className="nav-link carduppercontent" href="#">
                 Last Week
               </a>
@@ -36,8 +40,8 @@ const Dashboard = () => {
                 Last Month
               </a>
             </li>
-          </ul>         
-            <button
+          </ul>
+          <button
             type="button"
             className="btn btn-primary"
             onClick={() => handleNavigation()}
@@ -51,7 +55,6 @@ const Dashboard = () => {
               <img className="img-size" src={img_2} />
               <h3 className="card_count"> 32</h3>
               <h5 className="card_title">Received Quotation</h5>
-
             </div>
           </div>
           <div className="col-3">
@@ -59,7 +62,6 @@ const Dashboard = () => {
               <img className="img-size" src={img_3} />
               <h3 className="card_count"> 32</h3>
               <h5 className="card_title">Received Quotation</h5>
-
             </div>
           </div>
           <div className="col-3">
@@ -67,7 +69,6 @@ const Dashboard = () => {
               <img className="img-size" src={img_4} />
               <h3 className="card_count"> 32</h3>
               <h5 className="card_title">Received Quotation</h5>
-
             </div>
           </div>
           <div className="col-3">
@@ -75,7 +76,6 @@ const Dashboard = () => {
               <img className="img-size" src={img_1} />
               <h3 className="card_count"> 32</h3>
               <h5 className="card_title">Received Quotation</h5>
-
             </div>
           </div>
         </div>

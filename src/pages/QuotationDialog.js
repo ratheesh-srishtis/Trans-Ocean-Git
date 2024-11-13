@@ -117,7 +117,7 @@ const QuotationDialog = ({
       const response = await sendQuotationAPI(formDataToSend);
       console.log(response, "sendQuotationAPI_response");
       if (response?.status === true) {
-        setMessage("Quotation Sent successfully");
+        setMessage("Quotation sent successfully");
         setOpenPopUp(true);
       } else {
         setMessage("Send quotation failed. please try again");
@@ -264,7 +264,7 @@ const QuotationDialog = ({
                   <div class="rectangle-quotation">
                     <div class="invoice">Quotation PDF</div>
                     <div class="Attach">
-                      <i class="bi bi-file-earmark-fill"></i>
+                      <i class="bi bi-filetype-pdf"></i>
                     </div>
                   </div>
                 </div>
@@ -301,12 +301,12 @@ const QuotationDialog = ({
                               <ListItem key={index}>
                                 <ListItemText primary={file.name} />
                                 <ListItemSecondaryAction>
-                                  <IconButton
+                                  {/* <IconButton
                                     edge="end"
                                     onClick={() => handleViewFile(file)}
                                   >
                                     <Visibility />
-                                  </IconButton>
+                                  </IconButton> */}
                                   <IconButton
                                     edge="end"
                                     onClick={() => {
