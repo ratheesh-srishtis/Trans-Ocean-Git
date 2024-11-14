@@ -97,12 +97,12 @@ const Sidebar = () => {
               )}
 
               {/* Signout */}
-              <li className="Signout" onClick={logout}>
+              {/* <li className="Signout" onClick={logout}>
                 <a>
                   <i className="bi bi-box-arrow-left"></i>
                   <span> Signout</span>
                 </a>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>

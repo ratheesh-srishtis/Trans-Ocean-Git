@@ -169,7 +169,7 @@
 } */
 
 .voyageblock {
-  width: 240px;
+  max-width: 100%;
 }
 
 .thirdrow {
@@ -278,7 +278,7 @@
   @media only screen and (max-width: 1243px) {
     .voyageblock {
       width: 100%;
-      max-with: 100%;
+      max-width: 100%;
     }
 
     /* .nrt {
@@ -325,7 +325,7 @@
 
   .voyageblock {
     width: 100%;
-    max-with: 100%;
+    max-width: 100%;
   }
 
   /* 
@@ -372,7 +372,7 @@
 
   .voyageblock {
     width: 100%;
-    max-with: 100%;
+    max-width: 100%;
   }
 
   /* .nrt {

@@ -95,7 +95,7 @@ const Login = () => {
             <img class="logoside" src={Group}></img>
           </div>
           <div className="container">
-            <div className="row">
+            <div className="row alignbox">
               <div className="col-lg-6 same-level">
                 <div className="d-flex flex-column mb-3">
                   <img className="logo" src={Logo}></img>
@@ -277,8 +277,8 @@ const Login = () => {
           </div>
         </div>
         <div className="d-flex bottom-head">
-          <p className="copyright">Copyright@ transocean</p>
-          <p className="footerlinks">
+          <p className="copyright">Copyright &copy; TransOcean.</p>
+          <p className="footerlinks pl-2">
             <a href="#">Policy</a> | <a href="#"> Terms & Conditions </a>{" "}
           </p>
         </div>
