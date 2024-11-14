@@ -310,12 +310,14 @@ const CreatePDA = ({
             fetchPdaDetails();
             if (response?.pda?.pdaStatus == 1) {
               setMessage("PDA has been saved successfully");
+              setOpenPopUp(true);
             } else if (response?.pda?.pdaStatus == 2) {
               setMessage("PDA forwarded to the Finance Manager for Approval");
+              setOpenPopUp(true);
             } else {
               setMessage("PDA has been submitted successfully");
+              setOpenPopUp(true);
             }
-            setOpenPopUp(true);
           } else {
             setMessage("PDA failed. Please try again");
             setOpenPopUp(true);
@@ -336,12 +338,14 @@ const CreatePDA = ({
             fetchPdaDetails();
             if (response?.pda?.pdaStatus == 2) {
               setMessage("PDA forwarded to the Finance Manager for Approval");
+              setOpenPopUp(true);
             } else if (response?.pda?.pdaStatus == 5) {
               setMessage("Customer approved successfully");
+              setOpenPopUp(true);
             } else {
               setMessage("PDA updated successfully");
+              setOpenPopUp(true);
             }
-            setOpenPopUp(true);
           } else {
             setMessage("PDA failed. please try again");
             setOpenPopUp(true);
@@ -430,11 +434,10 @@ const CreatePDA = ({
         if (response?.pda?.pdaStatus == 3) {
           setIsApproved(true);
           setMessage("PDA has been internally approved");
+          setOpenPopUp(true);
         } else if (response?.pda?.pdaStatus == 4) {
           handleRemarksOpen();
-          // setMessage("PDA has been Rejected by Finance Manager");
         }
-        setOpenPopUp(true);
       } else {
         setMessage("PDA failed. Please try again");
         setOpenPopUp(true);

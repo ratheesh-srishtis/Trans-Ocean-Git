@@ -174,7 +174,7 @@
   margin: 20px;
   width: 100px;
   display: flex;
-  justify-content:center;
+  justify-content: center;
 }
 
 .createtable tr td {
@@ -203,4 +203,8 @@
 
 .left-spc {
   padding-left: 10px;
+}
+
+.vendor-class {
+  align-items: baseline !important;
 }

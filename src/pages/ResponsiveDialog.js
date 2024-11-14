@@ -752,7 +752,7 @@ const ResponsiveDialog = ({
             <i class="bi bi-x-lg "></i>
           </div>
         </div>
-        <DialogContent>
+        <DialogContent style={{ marginBottom: "30px" }}>
           {isEditcharge == false && (
             <>
               <div className="Anchoragecall">
@@ -1385,7 +1385,7 @@ const ResponsiveDialog = ({
                             {charge?.isPrivateVendor && (
                               <>
                                 <div className="vat col-6 ">
-                                  <div className="marinehead d-flex">
+                                  <div className="marinehead d-flex vendor-class">
                                     <input
                                       className="form-check-inpu "
                                       type="checkbox"
