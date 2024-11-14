@@ -1411,10 +1411,10 @@ const ResponsiveDialog = ({
                           {charge?.remark && (
                             <>
                               <div className="row mb-3">
-                                <div className="col-2">
+                                <div className="col-1">
                                   <span className="marinehead">Remarks:</span>
                                 </div>
-                                <div className="col-10 remark_value">
+                                <div className="col-11 remark_value">
                                   <span className="">{charge?.remark}</span>
                                 </div>
                               </div>

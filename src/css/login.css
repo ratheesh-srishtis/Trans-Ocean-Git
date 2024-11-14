@@ -537,8 +537,15 @@ td {
 }
 .usersep{
   border-bottom: 1px solid rgba(151, 151, 151, 0.313);
-  padding-bottom: 10px;
+  padding-bottom: 12px;
   
+}
+.version{
+  font-size: 10px;
+}
+.loginpageversion{
+  font-size: 12px;
+  margin-bottom: 20px;
 }
 .alignbox{
   display: flex;
