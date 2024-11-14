@@ -1247,7 +1247,7 @@ const ResponsiveDialog = ({
                       <>
                         <button
                           type="button"
-                          className="btn cancel-button"
+                          className="btn btncancel"
                           onClick={onClose}
                         >
                           Cancel{" "}
@@ -1256,7 +1256,7 @@ const ResponsiveDialog = ({
                     )}
                     <button
                       type="button"
-                      className="btn save-button"
+                      className="btn  generate-buttona "
                       onClick={() => {
                         addNewCharge();
                       }}
@@ -1569,14 +1569,14 @@ const ResponsiveDialog = ({
                     <div className="footer-button d-flex justify-content-center">
                       <button
                         type="button"
-                        className="btn cancel-button"
+                        className="btn btncancel"
                         onClick={onClose}
                       >
                         Cancel{" "}
                       </button>
                       <button
                         type="button"
-                        className="btn save-button"
+                        className="btn generate-buttona"
                         onClick={() => {
                           submitCharges();
                         }}
