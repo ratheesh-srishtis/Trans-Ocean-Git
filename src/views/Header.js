@@ -45,9 +45,15 @@ const Header = () => {
                     Finance
                   </a>
                 </li>
-                <li>
+                <li className="usersep"> 
                   <a className="dropdown-item" href="#">
                     Operations
+                  </a>
+                </li>
+                <li className="signoutmain" >
+                  <a className="dropdown-item" href="#">
+                  <i className="bi bi-box-arrow-left"></i>
+                   <span className="px-2">Signout</span> 
                   </a>
                 </li>
               </ul>

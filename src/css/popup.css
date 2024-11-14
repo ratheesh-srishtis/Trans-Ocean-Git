@@ -11,6 +11,25 @@
   justify-content: center;
   align-items: center;
 }
+.generate-buttona{
+  max-width: 100%;
+  width: 89px;
+  display: flex;
+  justify-content: center;
+  margin-right: 0px;
+  background-color: #0dcaf0;
+  color:white;
+}
+.btncancel{
+  max-width: 100%;
+  width: 89px;
+  display: flex;
+  justify-content: center;
+  margin-right: 10px;
+  background-color: #ffffff;
+  border-color: #1ebbee;
+  color:#1ebbee;
+}
 .popupcontainermain {
   width: 500px;
   max-width: 92%;

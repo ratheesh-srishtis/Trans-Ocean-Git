@@ -34,7 +34,7 @@ const Dashboard = () => {
     <div>
       <div className="card-main">
         <div className="d-flex justify-content-between mb-3">
-          <ul className="nav nav-underline gap-5">
+          <ul className="nav nav-underline gap-4">
             <li className="nav-item">
               <a
                 className="nav-link carduppercontent"
