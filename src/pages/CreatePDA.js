@@ -47,13 +47,8 @@ const CreatePDA = ({
   const [pdaServicesResponse, setPdaServicesResponse] = useState(null);
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
+
   const [formData, setFormData] = useState({
-    vessel: null,
-    port: null,
-    cargo: null,
-    vesselType: null,
-    service: null,
-    customer: null,
     vesselVoyageNumber: null,
     IMONumber: null,
     LOA: null,
@@ -134,30 +129,18 @@ const CreatePDA = ({
     }));
   };
 
+  // Handlers to update dates
+
   const handleEtaChange = (date) => {
     if (date) {
-      const formattedDate = formatDateTime(date);
-      setEta(formattedDate);
+      setEta(date.toISOString());
     }
   };
 
   const handleEtdChange = (date) => {
     if (date) {
-      const formattedDate = formatDateTime(date);
-      setEtd(formattedDate);
+      setEtd(date.toISOString());
     }
-  };
-
-  const formatDateTime = (date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    let hours = date.getHours();
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    const ampm = hours >= 12 ? "PM" : "AM";
-    hours = hours % 12;
-    hours = hours ? String(hours).padStart(2, "0") : "12";
-    return `${year}-${month}-${day} ${hours}:${minutes} ${ampm}`;
   };
 
   useEffect(() => {
@@ -295,13 +278,17 @@ const CreatePDA = ({
         pdaId: pdaResponse?._id ? pdaResponse?._id : null,
         isVessels: isVessels,
         isServices: isServices,
-        vesselId: selectedVessel?._id,
-        portId: selectedPort?._id,
-        cargoId: selectedCargo?._id,
-        vesselTypeId: selectedVesselType?._id,
-        customerId: selectedCustomer?._id,
-        userid: loginResponse?.data?._id,
-        vesselVoyageNumber: Number(formData?.vesselVoyageNo),
+        vesselId: selectedVessel?._id ? selectedVessel?._id : selectedVessel,
+        portId: selectedPort?._id ? selectedPort?._id : selectedPort,
+        cargoId: selectedCargo?._id ? selectedCargo?._id : selectedCargo,
+        vesselTypeId: selectedVesselType?._id
+          ? selectedVesselType?._id
+          : selectedVesselType,
+        customerId: selectedCustomer?._id
+          ? selectedCustomer?._id
+          : selectedCustomer,
+        preparedUserId: loginResponse?.data?._id,
+        vesselVoyageNumber: formData?.vesselVoyageNo,
         IMONumber: Number(formData?.IMONumber),
         LOA: Number(formData?.LOA),
         GRT: Number(formData?.GRT),
@@ -320,6 +307,7 @@ const CreatePDA = ({
             setPdaResponse(response?.pda);
             setPdaServicesResponse(response?.pdaServices);
             updateValues(response);
+            fetchPdaDetails();
             if (response?.pda?.pdaStatus == 1) {
               setMessage("PDA has been saved successfully");
             } else if (response?.pda?.pdaStatus == 2) {
@@ -345,6 +333,7 @@ const CreatePDA = ({
             setPdaResponse(response?.pda);
             setPdaServicesResponse(response?.pdaServices);
             updateValues(response);
+            fetchPdaDetails();
             if (response?.pda?.pdaStatus == 2) {
               setMessage("PDA forwarded to the Finance Manager for Approval");
             } else if (response?.pda?.pdaStatus == 5) {
@@ -373,24 +362,59 @@ const CreatePDA = ({
     console.log(response, "updateValues");
     setIsVessels(response?.pda?.isVessels);
     setIsServices(response?.pda?.isServices);
-    // setSelectedVessel(response?.pda?.vesselId);
-    // setSelectedPort(response?.pda?.portId);
-    setSelectedCargo(response?.pda?.cargoId);
-    setSelectedCustomer(response?.pda?.customerId);
-    setSelectedVesselType(response?.pda?.vesselTypeId);
+
+    const selectedVessel = vessels.find(
+      (vessel) => vessel._id === response?.pda?.vesselId
+    );
+
+    if (selectedVessel) {
+      setSelectedVessel(selectedVessel);
+    }
+
+    const selectedPort = ports.find(
+      (port) => port._id === response?.pda?.portId
+    );
+
+    if (selectedPort) {
+      setSelectedPort(selectedPort);
+    }
+
+    const selectedCargo = cargos.find(
+      (cargo) => cargo._id === response?.pda?.cargoId
+    );
+
+    if (selectedCargo) {
+      setSelectedCargo(selectedCargo);
+    }
+
+    const selectedCustomer = customers.find(
+      (customer) => customer._id === response?.pda?.customerId
+    );
+
+    if (selectedCustomer) {
+      setSelectedCustomer(selectedCustomer);
+    }
+
+    const selectedVeselTypeID = vesselTypes.find(
+      (vesselType) => vesselType._id === response?.pda?.vesselTypeId
+    );
+
+    if (selectedVeselTypeID) {
+      setSelectedVesselType(selectedVeselTypeID);
+    }
+
     setEta(response?.pda?.ETA);
     setEtd(response?.pda?.ETD);
     setStatus(response?.pda?.pdaStatus);
     setFinalChargesArray(response?.pdaServices);
 
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      vesselVoyageNumber: response?.pda?.vesselVoyageNumber,
-      IMONumber: response?.pda?.IMONumber,
-      LOA: response?.pda?.LOA,
-      GRT: response?.pda?.GRT,
-      NRT: response?.pda?.NRT,
-    }));
+    setFormData({
+      vesselVoyageNumber: response?.pda?.vesselVoyageNumber || null,
+      IMONumber: response?.pda?.IMONumber || null,
+      LOA: response?.pda?.LOA || null,
+      GRT: response?.pda?.GRT || null,
+      NRT: response?.pda?.NRT || null,
+    });
   };
 
   const updateQuotation = async (status) => {
@@ -468,21 +492,21 @@ const CreatePDA = ({
     return `${day}/${month}/${year}`;
   };
 
-  // const fetchPdaDetails = async (id) => {
-  //   let data = {
-  //     pdaId: "6721dfef3b7c91ec9a4327da",
-  //   };
-  //   try {
-  //     const pdaDetails = await getPdaDetails();
-  //     console.log("pdaDetails:", pdaDetails);
-  //   } catch (error) {
-  //     console.error("Failed to fetch quotations:", error);
-  //   }
-  // };
+  const fetchPdaDetails = async (id) => {
+    let data = {
+      pdaId: "6735bce77231411cbb468798",
+    };
+    try {
+      const pdaDetails = await getPdaDetails(data);
+      console.log("fetchPdaDetails:", pdaDetails);
+    } catch (error) {
+      console.error("Failed to fetch quotations:", error);
+    }
+  };
 
-  // useEffect(() => {
-  //   fetchPdaDetails();
-  // }, []);
+  useEffect(() => {
+    fetchPdaDetails();
+  }, []);
 
   return (
     <>
@@ -506,12 +530,6 @@ const CreatePDA = ({
                       PDA Date:
                     </label>
                     <div className="col-sm-7">
-                      {/* <Flatpickr
-                    data-enable-time
-                    value={date}
-                    onChange={(selectedDates) => setDate(selectedDates[0])}
-                    options={{ dateFormat: "Y-m-d H:i" }}
-                  /> */}
                       <input
                         type="text"
                         className="form-control pdad"
@@ -520,7 +538,7 @@ const CreatePDA = ({
                           pdaResponse?.createdAt
                             ? formatDate(pdaResponse.createdAt)
                             : ""
-                        } // Format date if available
+                        }
                         disabled
                       />
                     </div>
@@ -584,7 +602,6 @@ const CreatePDA = ({
           <div className="charge">
             <div className="rectangle"></div>
             <div>
-              {" "}
               <img src={Group}></img>
             </div>
           </div>
@@ -867,16 +884,15 @@ const CreatePDA = ({
                 </label>
                 <div>
                   <DatePicker
-                    dateFormat="dd/MM/yyyy hh:mm aa" // Set date format to dd/mm/yyyy
-                    selected={eta ? new Date(eta) : null}
+                    dateFormat="dd/MM/yyyy HH:mm" // 24-hour format
+                    selected={eta && new Date(eta)} // Inline date conversion for prefilled value
                     onChange={handleEtaChange}
                     showTimeSelect
-                    timeFormat="hh:mm aa"
+                    timeFormat="HH:mm" // 24-hour format
                     timeIntervals={15}
-                    className="form-control date-input" // Bootstrap class for styling
+                    className="form-control date-input"
                     id="eta-picker"
                     placeholderText="Select ETA"
-                    value={eta ? new Date(eta) : null}
                     autoComplete="off"
                   />
                 </div>
@@ -886,17 +902,16 @@ const CreatePDA = ({
                   ETD:
                 </label>
                 <DatePicker
-                  selected={etd ? new Date(etd) : null}
+                  dateFormat="dd/MM/yyyy HH:mm" // 24-hour format
+                  selected={etd && new Date(etd)} // Inline date conversion for prefilled value
                   onChange={handleEtdChange}
                   showTimeSelect
-                  timeFormat="hh:mm aa"
+                  timeFormat="HH:mm" // 24-hour format
                   timeIntervals={15}
-                  className="form-control date-input" // Bootstrap class for styling
+                  className="form-control date-input"
                   id="etd-picker"
                   placeholderText="Select ETD"
-                  value={etd ? new Date(etd) : null}
                   autoComplete="off"
-                  dateFormat="dd/MM/yyyy hh:mm aa" // Set date format to dd/mm/yyyy
                 />
               </div>
               <div className="col-4">
@@ -934,14 +949,30 @@ const CreatePDA = ({
               <React.Fragment>
                 <div className="buttons-wrapper">
                   <div className="left">
-                    <button
-                      className="btn btna generate-button"
-                      onClick={() => {
-                        handlePdaOpen();
-                      }}
-                    >
-                      Generate PDA
-                    </button>
+                    {pdaResponse?.pdaStatus >= 2 && (
+                      <>
+                        <button
+                          className="btn btna generate-button"
+                          onClick={() => {
+                            handlePdaOpen();
+                          }}
+                        >
+                          Generate PDA
+                        </button>
+                      </>
+                    )}
+                    {(pdaResponse === null ||
+                      pdaResponse === undefined ||
+                      pdaResponse?.pdaStatus <= 1) && (
+                      <button
+                        className="btn btna generate-button"
+                        onClick={() => {
+                          submitPda(1);
+                        }}
+                      >
+                        Save As Draft
+                      </button>
+                    )}
 
                     {(pdaResponse?.pdaStatus >= 3 || isApproved == true) && (
                       <>
@@ -953,22 +984,10 @@ const CreatePDA = ({
                         </button>
                       </>
                     )}
-                    {!pdaResponse && (
-                      <>
-                        <button
-                          className="btn btna generate-button "
-                          onClick={() => {
-                            submitPda(1);
-                          }}
-                        >
-                          Save As Draft
-                        </button>
-                      </>
-                    )}
                   </div>
 
                   <div className="right">
-                    {(pdaResponse?.pdaStatus >= 3 || isApproved == true) && (
+                    {pdaResponse?.pdaStatus >= 3 && isApproved == true && (
                       <>
                         <button
                           className="btn btna submit-button"
@@ -984,13 +1003,13 @@ const CreatePDA = ({
                     <button
                       className="btn btna submit-button"
                       onClick={() => {
-                        submitPda(2);
+                        submitPda(!pdaResponse ? 2 : 0);
                       }}
                     >
                       Submit
                     </button>
 
-                    {pdaResponse?.pdaStatus == 2 && isApproved == false && (
+                    {pdaResponse?.pdaStatus == 2 && (
                       <>
                         <button
                           className="btn btna generate-button"
