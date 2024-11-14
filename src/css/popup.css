@@ -20,6 +20,20 @@
   background-color: #0dcaf0;
   color:white;
 }
+.formlabelcolor::-webkit-input-placeholder { /* Chrome */
+  color: #636c7277;
+}
+.formlabelcolor::-ms-input-placeholder { /* IE 10+ */
+  color: #636c7277;
+}
+.formlabelcolor::-moz-placeholder { /* Firefox 19+ */
+  color: #636c7277;
+  opacity: 1;
+}
+.formlabelcolor::-moz-placeholder { /* Firefox 4 - 18 */
+  color: #636c7277;
+  opacity: 1;
+}
 .btncancel{
   max-width: 100%;
   width: 89px;

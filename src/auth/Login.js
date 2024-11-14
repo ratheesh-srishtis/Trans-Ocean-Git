@@ -292,6 +292,9 @@ const Login = () => {
             <a href="#">Policy</a> | <a href="#"> Terms & Conditions </a>{" "}
           </p>
         </div>
+        <div className="d-flex justify-content-center loginpageversion">
+          Version: 0.001
+        </div>
       </div>
 
       {openPopUp && (

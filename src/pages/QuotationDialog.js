@@ -248,12 +248,12 @@ const QuotationDialog = ({
               <div class="col">
                 <div class="mb-3">
                   <div class="col">
-                    <label for="exampleFormControlInput1" class="form-label">
+                    <label for="exampleFormControlInput1" class="form-label formlabelcolor">
                       EmailBody:
                     </label>
                     <textarea
                       rows="3"
-                      class="form-control"
+                      class="form-control formlabelcolor"
                       id="exampleFormControlInput1"
                       value={formData.emailbody}
                       onChange={(e) =>

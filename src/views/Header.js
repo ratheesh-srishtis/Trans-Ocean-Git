@@ -31,6 +31,7 @@ const Header = () => {
         <div className="header--wrapper">
           <div className="header--title">
             <h5>{getHeaderText()}</h5>
+            <div className="version"> Version: 0.001 </div>
           </div>
 
           <div className="d-flex flex-row-reverse ">
