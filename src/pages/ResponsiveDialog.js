@@ -108,11 +108,14 @@ const ResponsiveDialog = ({
         setSelectedService(services.find((service) => service?._id === value));
         setFirstFieldSelected(true);
         setSelectedServiceError(false);
+        setCharges([]);
+        setSubCharges([]);
         break;
       case "chargeType":
         setSelectedChargesType(charges.find((charge) => charge?._id === value));
         setSecondFieldSelected(true);
         setSelectedChargesTypeError(false);
+        setSubCharges([]);
         break;
       case "subChargeType":
         setSelectedSubhargesType(
@@ -140,9 +143,7 @@ const ResponsiveDialog = ({
     const fetchCharges = async () => {
       try {
         const response = await getCharges({
-          serviceId: selectedService?._id
-            ? selectedService?._id
-            : selectedService?.serviceId,
+          serviceId: selectedService?.serviceId || selectedService?._id,
         });
         setCharges(response?.charges);
         console.log("Fetched Charges:", response);
@@ -162,9 +163,7 @@ const ResponsiveDialog = ({
       // alert(selectedService?._id);
       try {
         const response = await getSubcharges({
-          chargeId: selectedChargesType?._id
-            ? selectedChargesType?._id
-            : selectedChargesType?.chargeId,
+          chargeId: selectedChargesType?.chargeId || selectedChargesType?._id,
         });
         setSubCharges(response?.subcharges);
         console.log("fetchSubCharges:", response);
@@ -673,6 +672,9 @@ const ResponsiveDialog = ({
   useEffect(() => {
     console.log(chargesArray, "chargesArray");
   }, [chargesArray]);
+  useEffect(() => {
+    console.log(remarks, "remarks");
+  }, [remarks]);
 
   const resetCharges = (event) => {
     setFirstFieldSelected(false);
@@ -879,7 +881,7 @@ const ResponsiveDialog = ({
                               type="text"
                               className="form-control vessel-voyage"
                               id="exampleFormControlInput1"
-                              placeholder="PerDay"
+                              placeholder=""
                               name="quantity"
                               value={selectedQuantity || ""}
                               onChange={handleInputChange}
@@ -947,7 +949,7 @@ const ResponsiveDialog = ({
                                 type="number"
                                 className="form-control vessel-voyage"
                                 id="exampleFormControlInput1/"
-                                placeholder="200.00"
+                                placeholder=""
                                 name="customerAmount"
                                 value={customerAmount || ""}
                                 onChange={handleInputChange}
@@ -975,7 +977,7 @@ const ResponsiveDialog = ({
                                 type="number"
                                 className="form-control vessel-voyage"
                                 id="exampleFormControlInput1"
-                                placeholder="50.00"
+                                placeholder=""
                                 name="customerVatAmount"
                                 value={customerVatAmount || ""}
                                 onChange={handleInputChange}
@@ -1007,7 +1009,7 @@ const ResponsiveDialog = ({
                                 type="number"
                                 className="form-control vessel-voyage"
                                 id="exampleFormControlInput1"
-                                placeholder="Total OMR"
+                                placeholder=""
                                 name="customerOmrAmount"
                                 value={customerTotalOmr}
                                 disabled
@@ -1028,7 +1030,7 @@ const ResponsiveDialog = ({
                                 type="number"
                                 className="form-control vessel-voyage"
                                 id="exampleFormControlInput1"
-                                placeholder="25.00"
+                                placeholder=""
                                 name="customerTotalUSD"
                                 value={customerTotalUSD || ""}
                                 onChange={handleInputChange}
@@ -1096,7 +1098,7 @@ const ResponsiveDialog = ({
                                 type="number"
                                 className="form-control vessel-voyage"
                                 id="exampleFormControlInput1"
-                                placeholder="200.00"
+                                placeholder=""
                                 name="vendorAmount"
                                 value={vendorAmount || ""}
                                 onChange={handleInputChange}
@@ -1124,7 +1126,7 @@ const ResponsiveDialog = ({
                                 type="number"
                                 className="form-control vessel-voyage"
                                 id="exampleFormControlInput1"
-                                placeholder="50.00"
+                                placeholder=""
                                 name="vendorVatAmount"
                                 value={vendorVatAmount || ""}
                                 onChange={handleInputChange}
@@ -1156,7 +1158,7 @@ const ResponsiveDialog = ({
                                 type="number"
                                 className="form-control vessel-voyage"
                                 id="exampleFormControlInput1"
-                                placeholder="Total OMR"
+                                placeholder=""
                                 name="vendorOmrAmount"
                                 value={vendorTotalOmr}
                                 disabled
@@ -1177,7 +1179,7 @@ const ResponsiveDialog = ({
                                 type="number"
                                 className="form-control vessel-voyage"
                                 id="exampleFormControlInput1"
-                                placeholder="25.00"
+                                placeholder=""
                                 name="vendorTotalUSD"
                                 value={vendorTotalUSD || ""}
                                 onChange={handleInputChange}
@@ -1209,7 +1211,7 @@ const ResponsiveDialog = ({
                                 rows="3"
                                 className="form-control"
                                 id="exampleFormControlInput1"
-                                placeholder="RO 0.0049/day"
+                                placeholder=""
                                 name="remarks"
                                 value={remarks || ""}
                                 onChange={handleInputChange}
@@ -1380,7 +1382,7 @@ const ResponsiveDialog = ({
                               </span>
                             </div>
 
-                            {isPrivateVendor && (
+                            {charge?.isPrivateVendor && (
                               <>
                                 <div className="vat col-6 ">
                                   <div className="marinehead d-flex">
@@ -1406,14 +1408,18 @@ const ResponsiveDialog = ({
                             )}
                           </div>
 
-                          <div className="row mb-3">
-                            <div className="col-1">
-                              <span className="marinehead">Remarks:</span>
-                            </div>
-                            <div className="col-11 remark_value">
-                              <span className="">{charge.remark}</span>
-                            </div>
-                          </div>
+                          {charge?.remark && (
+                            <>
+                              <div className="row mb-3">
+                                <div className="col-1">
+                                  <span className="marinehead">Remarks:</span>
+                                </div>
+                                <div className="col-11 remark_value">
+                                  <span className="">{charge?.remark}</span>
+                                </div>
+                              </div>
+                            </>
+                          )}
 
                           {/* <div key={index} className="tablesep">
                             <div className="col">
@@ -1706,7 +1712,7 @@ const ResponsiveDialog = ({
                           type="text"
                           className="form-control labelbox vesselbox"
                           id="exampleFormControlInput1"
-                          placeholder=" Per Day"
+                          placeholder=""
                           name="quantity"
                           value={selectedQuantity}
                           onChange={handleInputChange}
@@ -1775,7 +1781,7 @@ const ResponsiveDialog = ({
                           type="number"
                           className="form-control labelbox"
                           id="exampleFormControlInput1"
-                          placeholder="200.00"
+                          placeholder=""
                           name="customerAmount"
                           value={customerAmount || ""}
                           onChange={handleInputChange}
@@ -1801,7 +1807,7 @@ const ResponsiveDialog = ({
                           type="number"
                           className="form-control labelbox"
                           id="exampleFormControlInput1"
-                          placeholder=" 50.00"
+                          placeholder=""
                           name="customerVatAmount"
                           value={customerVatAmount || ""}
                           onChange={handleInputChange}
@@ -1830,7 +1836,7 @@ const ResponsiveDialog = ({
                           type="number"
                           className="form-control labelbox"
                           id="exampleFormControlInput1"
-                          placeholder=" 250.00"
+                          placeholder=""
                           name="customerOmrAmount"
                           value={customerTotalOmr}
                           disabled
@@ -1851,7 +1857,7 @@ const ResponsiveDialog = ({
                           type="number"
                           className="form-control labelbox"
                           id="exampleFormControlInput1"
-                          placeholder=" 25.00"
+                          placeholder=""
                           name="customerTotalUSD"
                           value={customerTotalUSD || ""}
                           onChange={handleInputChange}
@@ -1917,7 +1923,7 @@ const ResponsiveDialog = ({
                           type="number"
                           className="form-control labelbox"
                           id="exampleFormControlInput1"
-                          placeholder="200.00"
+                          placeholder=""
                           name="vendorAmount"
                           value={vendorAmount}
                           onChange={handleInputChange}
@@ -1943,7 +1949,7 @@ const ResponsiveDialog = ({
                           type="number"
                           className="form-control labelbox"
                           id="exampleFormControlInput1"
-                          placeholder=" 50.00"
+                          placeholder=""
                           name="vendorVatAmount"
                           value={vendorVatAmount}
                           onChange={handleInputChange}
@@ -1972,7 +1978,7 @@ const ResponsiveDialog = ({
                           type="number"
                           className="form-control labelbox"
                           id="exampleFormControlInput1"
-                          placeholder=" 250.00"
+                          placeholder=""
                           name="vendorOmrAmount"
                           value={vendorTotalOmr}
                           disabled
@@ -1993,7 +1999,7 @@ const ResponsiveDialog = ({
                           type="number"
                           className="form-control labelbox"
                           id="exampleFormControlInput1"
-                          placeholder=" 25.00"
+                          placeholder=""
                           name="vendorTotalUSD"
                           value={vendorTotalUSD}
                           onChange={handleInputChange}
