@@ -118,6 +118,16 @@ const QuotationDialog = ({
       console.log(response, "sendQuotationAPI_response");
       if (response?.status === true) {
         setMessage("Quotation sent successfully");
+        setFormData({
+          to: "",
+          subject: "",
+          cc: "",
+          bcc: "",
+          emailbody: "",
+          pdaId: "",
+          files: [],
+        });
+
         setOpenPopUp(true);
       } else {
         setMessage("Send quotation failed. please try again");

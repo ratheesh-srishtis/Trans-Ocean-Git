@@ -1003,12 +1003,13 @@ const CreatePDA = ({
                     <button
                       className="btn btna submit-button"
                       onClick={() => {
-                        submitPda(!pdaResponse ? 2 : 0);
+                        const newStatus =
+                          !pdaResponse || pdaResponse?.pdaStatus === 1 ? 2 : 0;
+                        submitPda(newStatus);
                       }}
                     >
                       Submit
                     </button>
-
                     {pdaResponse?.pdaStatus == 2 && (
                       <>
                         <button

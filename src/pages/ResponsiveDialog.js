@@ -1240,33 +1240,33 @@ const ResponsiveDialog = ({
                         </div>
                       </div>
                     </div>
-                  </>
-                )}
 
-                <div className="col-12 mt-5">
-                  <div className="footer-button d-flex justify-content-center ">
-                    {chargesArray.length == 0 && (
-                      <>
+                    <div className="col-12 mt-5">
+                      <div className="footer-button d-flex justify-content-center ">
+                        {chargesArray.length == 0 && (
+                          <>
+                            <button
+                              type="button"
+                              className="btn btncancel"
+                              onClick={onClose}
+                            >
+                              Cancel{" "}
+                            </button>
+                          </>
+                        )}
                         <button
                           type="button"
-                          className="btn btncancel"
-                          onClick={onClose}
+                          className="btn  generate-buttona "
+                          onClick={() => {
+                            addNewCharge();
+                          }}
                         >
-                          Cancel{" "}
+                          Add
                         </button>
-                      </>
-                    )}
-                    <button
-                      type="button"
-                      className="btn  generate-buttona "
-                      onClick={() => {
-                        addNewCharge();
-                      }}
-                    >
-                      Add
-                    </button>
-                  </div>
-                </div>
+                      </div>
+                    </div>
+                  </>
+                )}
 
                 {chargesArray?.length > 0 && (
                   <>
@@ -1599,9 +1599,9 @@ const ResponsiveDialog = ({
           {isEditcharge == true && (
             <>
               <div className="Anchoragecall">
-                <div className="row ">
-                  <div className="row align-items-start table">
-                    <div className="col-lg-3">
+                <div className="row mb-2">
+                  <div className="row align-items-start table left-spc">
+                    <div className="col-lg-3 ">
                       <label
                         for="exampleFormControlInput1"
                         className="form-label"

@@ -1,11 +1,26 @@
 import React from "react";
 import { useAuth } from "../context/AuthContext";
+import { useLocation } from "react-router-dom";
 
 const Header = () => {
   const { logout, loginResponse } = useAuth();
   const Rectangle = require("../assets/images/Rectangle 1393.png");
   const Notifications = require("../assets/images/Notifications.png");
   console.log(loginResponse, "loginResponseHEader");
+
+  const location = useLocation();
+
+  // Determine the heading text based on the current path
+  const getHeaderText = () => {
+    if (location.pathname.includes("/dashboard")) {
+      return "Dashboard";
+    } else if (location.pathname.includes("/create-pda")) {
+      return "Create New PDA";
+    }
+    // Add more conditions as needed for other routes
+    return "Page";
+  };
+
   return (
     // <header style={{ backgroundColor: "#f8f9fa", padding: "10px 20px" }}>
     //   <h1>My App</h1>
@@ -15,7 +30,7 @@ const Header = () => {
       <div className="main--content">
         <div className="header--wrapper">
           <div className="header--title">
-            <h5>Dashboard</h5>
+            <h5>{getHeaderText()}</h5>
           </div>
 
           <div className="d-flex flex-row-reverse ">
@@ -45,15 +60,15 @@ const Header = () => {
                     Finance
                   </a>
                 </li>
-                <li className="usersep"> 
+                <li className="usersep">
                   <a className="dropdown-item" href="#">
                     Operations
                   </a>
                 </li>
-                <li className="signoutmain" >
+                <li className="signoutmain" onClick={logout}>
                   <a className="dropdown-item" href="#">
-                  <i className="bi bi-box-arrow-left"></i>
-                   <span className="px-2">Signout</span> 
+                    <i className="bi bi-box-arrow-left"></i>
+                    <span className="px-2">Signout</span>
                   </a>
                 </li>
               </ul>

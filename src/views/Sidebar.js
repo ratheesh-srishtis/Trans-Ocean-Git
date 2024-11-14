@@ -76,7 +76,11 @@ const Sidebar = () => {
                     <li
                       key={perm}
                       onClick={() => handleNavigation(perm)}
-                      className={activeMenu === perm ? "active menulist menugap" : "menugap"}
+                      className={
+                        activeMenu === perm
+                          ? "active menulist menugap"
+                          : "menugap"
+                      }
                     >
                       <a>
                         <i
@@ -86,7 +90,11 @@ const Sidebar = () => {
                         ></i>
 
                         <span
-                          className={activeMenu === perm ? "active-span menulist " : "menulist"}
+                          className={
+                            activeMenu === perm
+                              ? "active-span menulist "
+                              : "menulist"
+                          }
                         >
                           {" "}
                           {menuItems[perm].label}

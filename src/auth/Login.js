@@ -109,7 +109,7 @@ const Login = () => {
                     <div>
                       <h3 className="text-center login_text">LOGIN</h3>
                     </div>
-
+                    {/* 
                     <div className="buttons">
                       <ul
                         className="nav nav-pills mb-3 button-row"
@@ -200,7 +200,7 @@ const Login = () => {
                         aria-labelledby="pills-contact-tab"
                         tabindex="0"
                       ></div>
-                    </div>
+                    </div> */}
 
                     <form onSubmit={handleSubmit}>
                       <div className="mb-3">
@@ -230,7 +230,7 @@ const Login = () => {
                           Password
                         </label>
                         <input
-                          type={passwordVisible ? 'text' : 'password'}
+                          type={passwordVisible ? "text" : "password"}
                           className="form-control"
                           id="exampleInputPassword1"
                           placeholder="********"
@@ -238,7 +238,17 @@ const Login = () => {
                           onChange={(e) => setPassword(e.target.value)} // Update password state
                           required
                         />
-                        <span className="password_icon"> <i onClick={togglePasswordVisibility} className={passwordVisible ? 'bi bi-eye-slash' : 'bi bi-eye'}> </i> </span>
+                        <span className="password_icon">
+                          {" "}
+                          <i
+                            onClick={togglePasswordVisibility}
+                            className={
+                              passwordVisible ? "bi bi-eye-slash" : "bi bi-eye"
+                            }
+                          >
+                            {" "}
+                          </i>{" "}
+                        </span>
                       </div>
 
                       <div className="d-flex justify-content-between">

@@ -71,7 +71,7 @@
   display: flex;
   justify-content: center;
   border: 1px solid #007bc1;
-  background-color: #E6F2F9;
+  background-color: #e6f2f9;
   padding-top: 5px;
   padding-right: 5px;
   margin-left: 16px;
@@ -93,9 +93,7 @@
 
 .book {
   color: #007ac1;
-
 }
-
 
 .circle {
   color: #007ac1;
@@ -103,9 +101,11 @@
   width: 30px;
 }
 
-.statusbadge {}
+.statusbadge {
+}
 
-.statusbadge {}
+.statusbadge {
+}
 
 .radio {
   position: relative;
@@ -194,11 +194,11 @@
 .btna {
   background-color: #007ac1;
   color: white;
-  margin-right: 20px
+  margin-right: 20px;
 }
 
 .generate-button {
-  color: #1EBBEE;
+  color: #1ebbee;
   margin-right: 20px;
 }
 
@@ -234,9 +234,11 @@
   padding-left: 55px;
 } */
 
-.eta {}
+.eta {
+}
 
-.etd {}
+.etd {
+}
 
 .btn:hover {
   anchor-name: none;
@@ -322,7 +324,6 @@
 }
 
 @media only screen and (max-width: 1354px) {
-
   .voyageblock {
     width: 100%;
     max-width: 100%;
@@ -369,7 +370,6 @@
 }
 
 @media only screen and (max-width: 1453px) {
-
   .voyageblock {
     width: 100%;
     max-width: 100%;
@@ -418,4 +418,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.left-spc {
+  margin-bottom: 15px;
 }
