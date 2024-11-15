@@ -89,6 +89,9 @@ const ResponsiveDialog = ({
   const [savedChargesArray, setSavedChargesArray] = useState([]);
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
+  const [updatedServiceName, setUpdatedServiceName] = useState("");
+  const [updatedChargename, setUpdatedChargename] = useState("");
+  const [updatedSubChargeName, setUpdatedSubChargeName] = useState("");
 
   const handleCheckboxChange = (e) => {
     setIsPrivateVendor(e.target.checked);
@@ -229,7 +232,10 @@ const ResponsiveDialog = ({
 
   const getItemName = (id, name) => {
     if (name == "service" && id) {
+      console.log(id, "id getItemName");
       const service = services.find((s) => s._id === id);
+      console.log(service, "service getItemName");
+
       return service ? service.serviceName : "Unknown Service";
     } else if (name == "customer" && id) {
       const customer = customers.find((s) => s._id === id);
@@ -382,21 +388,28 @@ const ResponsiveDialog = ({
         chargeName: selectedChargesType?.chargeName,
         subchargeName: selectedSubhargesType?.subchargeName,
       };
-      // setChargesArray([...chargesArray, chargesPayload]);
-      // setSavedChargesArray([...finalChargesArray, chargesPayload]);
       const updatedChargesArray = [...chargesArray, chargesPayload];
       setChargesArray(updatedChargesArray);
-
-      // Check if finalChargesArray is empty
+      console.log(updatedChargesArray, "updatedChargesArray addNewCharge");
       let updatedSavedChargesArray;
       if (finalChargesArray.length === 0) {
         // If finalChargesArray is empty, add chargesArray objects and chargesPayload to savedChargesArray
         updatedSavedChargesArray = [...updatedChargesArray];
+        console.log(
+          updatedSavedChargesArray,
+          "updatedSavedChargesArray if block"
+        );
       } else {
         // If finalChargesArray already has objects, add only finalChargesArray objects and chargesPayload
-        updatedSavedChargesArray = [...finalChargesArray, chargesPayload];
+        updatedSavedChargesArray = [
+          ...finalChargesArray,
+          ...updatedChargesArray,
+        ];
+        console.log(
+          updatedSavedChargesArray,
+          "updatedSavedChargesArray else block"
+        );
       }
-
       // Update savedChargesArray with the new array
       setSavedChargesArray(updatedSavedChargesArray);
 
@@ -520,22 +533,13 @@ const ResponsiveDialog = ({
       vendorVatAmount
     ) {
       let chargesPayload = {
-        serviceId: selectedService?._id
-          ? selectedService?._id
-          : selectedService?.serviceId,
-        chargeId: selectedChargesType?._id
-          ? selectedChargesType?._id
-          : selectedChargesType?.chargeId,
-        subchargeId: selectedSubhargesType?._id
-          ? selectedSubhargesType?._id
-          : selectedSubhargesType?.subchargeId,
+        serviceId: selectedService?.serviceId || selectedService?._id,
+        chargeId: selectedChargesType?.chargeId || selectedChargesType?._id,
+        subchargeId:
+          selectedSubhargesType?.subchargeId || selectedSubhargesType?._id,
         quantity: selectedQuantity,
-        customerId: selectedNewCustomer?._id
-          ? selectedNewCustomer?._id
-          : selectedNewCustomer?.customerId,
-        vendorId: selectedVendor?._id
-          ? selectedVendor?._id
-          : selectedVendor?.vendorId,
+        customerId: selectedNewCustomer?.customerId || selectedNewCustomer?._id,
+        vendorId: selectedVendor?.vendorId || selectedVendor?._id,
         customerOMR: Number(customerAmount),
         customerVAT: Number(customerVatAmount),
         customerTotalUSD: Number(customerTotalUSD),
@@ -545,11 +549,14 @@ const ResponsiveDialog = ({
         isPrivateVendor: isPrivateVendor,
         remark: remarks,
         pdaChargeId: editCharge?._id ? editCharge?._id : null,
-        serviceName: selectedService?.serviceName,
-        chargeName: selectedChargesType?.chargeName,
-        subchargeName: selectedSubhargesType?.subchargeName,
+        serviceName: getItemName(selectedService?.serviceId, "service"),
+        chargeName: getItemName(selectedChargesType?.chargeId, "chargeType"),
+        subchargeName: getItemName(
+          selectedSubhargesType?.subchargeId,
+          "subChargeType"
+        ),
       };
-      console.log(chargesPayload, "chargesPayload");
+      console.log(chargesPayload, "edit_charges_payload");
       if (index !== null) {
         const updatedChargesArray = finalChargesArray.map((charge, idx) =>
           idx === index ? chargesPayload : charge
@@ -574,56 +581,23 @@ const ResponsiveDialog = ({
   };
 
   const submitCharges = async () => {
-    let chargesPayload = {
-      serviceId: selectedService?._id
-        ? selectedService?._id
-        : selectedService?.serviceId,
-      chargeId: selectedChargesType?._id
-        ? selectedChargesType?._id
-        : selectedChargesType?.chargeId,
-      subchargeId: selectedSubhargesType?._id
-        ? selectedSubhargesType?._id
-        : selectedSubhargesType?.subchargeId,
-      quantity: selectedQuantity,
-      customerId: selectedNewCustomer?._id
-        ? selectedNewCustomer?._id
-        : selectedNewCustomer?.customerId,
-      vendorId: selectedVendor?._id
-        ? selectedVendor?._id
-        : selectedVendor?.vendorId,
-      customerOMR: Number(customerAmount),
-      customerVAT: Number(customerVatAmount),
-      customerTotalUSD: Number(customerTotalUSD),
-      vendorOMR: Number(vendorAmount),
-      vendorVAT: Number(vendorVatAmount),
-      vendorTotalUSD: Number(vendorTotalUSD),
-      isPrivateVendor: isPrivateVendor,
-      remark: remarks,
-      pdaChargeId: pdaResponse?._id ? pdaResponse?._id : null,
-      serviceName: selectedService?.serviceName,
-      chargeName: selectedChargesType?.chargeName,
-      subchargeName: selectedSubhargesType?.subchargeName,
-    };
-
     if (pdaResponse?._id) {
       try {
-        const updatedChargesArray = [...finalChargesArray, chargesPayload];
-        setSavedChargesArray(updatedChargesArray);
         let addChargesPaylod = {
           pdaId: pdaResponse?._id ? pdaResponse?._id : null,
-          charges: updatedChargesArray,
+          charges: chargesArray,
         };
         const response = await addPDACharges(addChargesPaylod);
         console.log("addPDACharges_response:", response);
-        onSubmit(updatedChargesArray);
+        onSubmit(response?.pdaServices);
       } catch (error) {
         console.error("Error fetching charges:", error);
       }
+    } else if (!pdaResponse) {
+      onSubmit(savedChargesArray);
+      setMessage("Charges saved successfully!");
+      setOpenPopUp(true);
     }
-
-    onSubmit(savedChargesArray);
-    setMessage("Charges saved successfully!");
-    setOpenPopUp(true);
   };
 
   useEffect(() => {
@@ -729,6 +703,9 @@ const ResponsiveDialog = ({
       setRemarks(editCharge?.remark);
       setSelectedNewCustomer(editCharge);
       setSelectedVendor(editCharge);
+      setUpdatedServiceName(editCharge?.serviceName);
+      setUpdatedChargename(editCharge?.chargeName);
+      setUpdatedSubChargeName(editCharge?.subchargeName);
     }
   }, [isEditcharge, open]);
 

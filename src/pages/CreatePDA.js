@@ -229,14 +229,7 @@ const CreatePDA = ({
 
   const handleSubmit = (chargesArray) => {
     console.log("chargesArray Submitted: ", chargesArray);
-    // Here you can add logic to handle form submission
     setFinalChargesArray(chargesArray);
-
-    // setFinalChargesArray((prevChargesArray) => [
-    //   ...prevChargesArray,
-    //   ...chargesArray,
-    // ]);
-
     handleClose();
   };
 
@@ -260,6 +253,7 @@ const CreatePDA = ({
   };
 
   const submitPda = async (status) => {
+    alert(status);
     console.log(isVessels, "isVessels submitPda");
     console.log(isServices, "isServices submitPda");
     console.log(selectedVessel, "selectedVessel submitPda");
@@ -302,6 +296,7 @@ const CreatePDA = ({
       console.log(pdaPayload, "pdaPayload");
       if (!pdaResponse?._id) {
         try {
+          alert();
           const response = await savePda(pdaPayload);
           setFullPdaResponse(response);
           console.log(response, "pda_full_response");
@@ -309,7 +304,6 @@ const CreatePDA = ({
             setPdaResponse(response?.pda);
             setPdaServicesResponse(response?.pdaServices);
             updateValues(response);
-            fetchPdaDetails();
             if (response?.pda?.pdaStatus == 1) {
               setMessage("PDA has been saved successfully");
               setOpenPopUp(true);
@@ -337,7 +331,6 @@ const CreatePDA = ({
             setPdaResponse(response?.pda);
             setPdaServicesResponse(response?.pdaServices);
             updateValues(response);
-            fetchPdaDetails();
             if (response?.pda?.pdaStatus == 2) {
               setMessage("PDA forwarded to the Finance Manager for Approval");
               setOpenPopUp(true);
@@ -365,6 +358,7 @@ const CreatePDA = ({
   };
 
   const updateValues = (response) => {
+    fetchPdaDetails(response?.pda?._id);
     console.log(response, "updateValues");
     setIsVessels(response?.pda?.isVessels);
     setIsServices(response?.pda?.isServices);
@@ -396,24 +390,19 @@ const CreatePDA = ({
     const selectedCustomer = customers.find(
       (customer) => customer._id === response?.pda?.customerId
     );
-
     if (selectedCustomer) {
       setSelectedCustomer(selectedCustomer);
     }
-
     const selectedVeselTypeID = vesselTypes.find(
       (vesselType) => vesselType._id === response?.pda?.vesselTypeId
     );
-
     if (selectedVeselTypeID) {
       setSelectedVesselType(selectedVeselTypeID);
     }
-
     setEta(response?.pda?.ETA);
     setEtd(response?.pda?.ETD);
     setStatus(response?.pda?.pdaStatus);
     setFinalChargesArray(response?.pdaServices);
-
     setFormData({
       vesselVoyageNumber: response?.pda?.vesselVoyageNumber || null,
       IMONumber: response?.pda?.IMONumber || null,
@@ -503,19 +492,15 @@ const CreatePDA = ({
 
   const fetchPdaDetails = async (id) => {
     let data = {
-      pdaId: "6735bce77231411cbb468798",
+      pdaId: id,
     };
     try {
       const pdaDetails = await getPdaDetails(data);
-      console.log("fetchPdaDetails:", pdaDetails);
+      console.log("PDADETAILS", pdaDetails);
     } catch (error) {
       console.error("Failed to fetch quotations:", error);
     }
   };
-
-  useEffect(() => {
-    fetchPdaDetails();
-  }, []);
 
   return (
     <>
@@ -887,11 +872,11 @@ const CreatePDA = ({
                 </label>
                 <div>
                   <DatePicker
-                    dateFormat="dd/MM/yyyy HH:mm" // 24-hour format
+                    dateFormat="dd/MM/yyyy hh:mm aa"
                     selected={eta && new Date(eta)} // Inline date conversion for prefilled value
                     onChange={handleEtaChange}
                     showTimeSelect
-                    timeFormat="HH:mm" // 24-hour format
+                    timeFormat="hh:mm aa"
                     timeIntervals={15}
                     className="form-control date-input"
                     id="eta-picker"
@@ -905,11 +890,11 @@ const CreatePDA = ({
                   ETD:
                 </label>
                 <DatePicker
-                  dateFormat="dd/MM/yyyy HH:mm" // 24-hour format
+                  dateFormat="dd/MM/yyyy hh:mm aa"
                   selected={etd && new Date(etd)} // Inline date conversion for prefilled value
                   onChange={handleEtdChange}
                   showTimeSelect
-                  timeFormat="HH:mm" // 24-hour format
+                  timeFormat="hh:mm aa"
                   timeIntervals={15}
                   className="form-control date-input"
                   id="etd-picker"

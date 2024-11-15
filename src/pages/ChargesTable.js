@@ -5,9 +5,8 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import { editChargeQuotation } from "../services/apiService";
 import { deleteQuotationCharge } from "../services/apiService";
+import PopUp from "./PopUp";
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
   return (
@@ -47,7 +46,8 @@ const ChargesTable = ({
   const [subCharges, setSubCharges] = useState([]);
   const [fetchedCharges, setFetchedCharges] = useState(new Set());
   const [fetchedSubCharges, setFetchedSubCharges] = useState(new Set());
-
+  const [openPopUp, setOpenPopUp] = useState(false);
+  const [message, setMessage] = useState("");
   console.log(chargesArray, "chargesArray ChargesTable");
 
   const totalValues = chargesArray.reduce(
@@ -168,7 +168,8 @@ const ChargesTable = ({
               (_, i) => i !== index
             );
             onSubmit(updatedChargesArray);
-            Swal.fire("Charge deleted successfully");
+            setMessage("Charge deleted successfully");
+            setOpenPopUp(true);
           } catch (error) {
             console.error("Error fetching charges:", error);
             Swal.fire("Error deleting charges");
@@ -178,7 +179,8 @@ const ChargesTable = ({
             (_, i) => i !== index
           );
           onSubmit(updatedChargesArray);
-          Swal.fire("Charge deleted successfully");
+          setMessage("Charge deleted successfully");
+          setOpenPopUp(true);
         }
       }
     });
@@ -359,7 +361,7 @@ const ChargesTable = ({
               {chargesArray?.length > 0 && (
                 <>
                   <tfoot>
-                    <tr>
+                    <tr className="bold-row">
                       <td colSpan={4}>Total Cost</td>
                       {/* <td>{vendorTotalValues.quantity}</td> */}
                       <td>{vendorTotalValues.vendorOMR}</td>
@@ -378,6 +380,10 @@ const ChargesTable = ({
           </div>
         </CustomTabPanel>
       </Box>
+
+      {openPopUp && (
+        <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
+      )}
     </>
   );
 };
