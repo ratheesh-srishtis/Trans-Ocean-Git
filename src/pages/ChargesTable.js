@@ -214,19 +214,19 @@ const ChargesTable = ({
         </Box>
         <CustomTabPanel value={valueTabs} index={0}>
           <div className="createtable">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>SL NO</th>
-                  <th>Service Type</th>
-                  <th>Charge Type</th>
-                  <th>Sub Charge Type</th>
+            <table className="table tableheadcolor">
+              <thead className="tableheadcolor">
+                <tr className="tableheadcolor">
+                  <th className="tableheadcolor" >SL NO</th>
+                  <th className="tableheadcolor">Service Type</th>
+                  <th className="tableheadcolor">Charge Type</th>
+                  <th className="tableheadcolor">Sub Charge Type</th>
                   {/* <th>Quantity</th> */}
-                  <th>Amount (OMR)</th>
-                  <th>VAT Amount</th>
-                  <th>Total OMR</th>
-                  <th>Total USD</th>
-                  <th>Actions</th> {/* Added Actions Column */}
+                  <th className="tableheadcolor">Amount (OMR)</th>
+                  <th className="tableheadcolor">VAT Amount</th>
+                  <th className="tableheadcolor">Total OMR</th>
+                  <th className="tableheadcolor">Total USD</th>
+                  <th className="tableheadcolor">Actions</th> {/* Added Actions Column */}
                 </tr>
               </thead>
               <tbody>
@@ -296,19 +296,19 @@ const ChargesTable = ({
         </CustomTabPanel>
         <CustomTabPanel value={valueTabs} index={1}>
           <div className="createtable">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>SL NO</th>
-                  <th>Service Type</th>
-                  <th>Charge Type</th>
-                  <th>Sub Charge Type</th>
+            <table className="table tableheadcolor ">
+              <thead className="tableheadcolor">
+                <tr className="tableheadcolor">
+                  <th className="tableheadcolor">SL NO</th>
+                  <th className="tableheadcolor">Service Type</th>
+                  <th className="tableheadcolor">Charge Type</th>
+                  <th className="tableheadcolor">Sub Charge Type</th>
                   {/* <th>Quantity</th> */}
-                  <th>Amount (OMR)</th>
-                  <th>VAT Amount</th>
-                  <th>Total OMR</th>
-                  <th>Total USD</th>
-                  <th>Actions</th> {/* Added Actions Column */}
+                  <th className="tableheadcolor">Amount (OMR)</th>
+                  <th className="tableheadcolor">VAT Amount</th>
+                  <th className="tableheadcolor">Total OMR</th>
+                  <th className="tableheadcolor">Total USD</th>
+                  <th className="tableheadcolor">Actions</th> {/* Added Actions Column */}
                 </tr>
               </thead>
               <tbody>

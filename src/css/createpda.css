@@ -13,7 +13,7 @@
 }
 
 .form-label {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   margin-bottom: 0rem;
 }
 
@@ -126,12 +126,12 @@
 .vessel {
   margin-right: 30px;
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
 }
 
 .service {
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
 }
 
 /* .vesselbox {
@@ -146,11 +146,11 @@
 
 .vesselbox,
 .vesselbox option {
-  font-size: 0.8rem !important;
+  font-size: 0.7rem !important;
 }
 
 .vessel-voyage {
-  font-size: 0.8rem !important;
+  font-size: 0.7rem !important;
 }
 
 .rectangle {
@@ -181,7 +181,7 @@
 #etd-picker::placeholder,
 #etd-picker,
 #eta-picker {
-  font-size: 0.8rem;
+  font-size: 0.7rem;
 }
 
 /* .addcharge-button {
@@ -426,5 +426,5 @@
 }
 
 .pda-date {
-  margin-left: 11px;
+  margin-left: 19px;
 }
