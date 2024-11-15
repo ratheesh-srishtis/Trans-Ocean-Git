@@ -208,3 +208,6 @@
 .vendor-class {
   align-items: baseline !important;
 }
+.bold-row td {
+  font-weight: bolder;
+}

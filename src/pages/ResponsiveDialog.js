@@ -40,6 +40,7 @@ const ResponsiveDialog = ({
   editIndex,
   pdaResponse,
   finalChargesArray,
+  fullPdaResponse,
 }) => {
   console.log(services, "services");
   console.log(pdaResponse, "pdaResponse_dialog");
@@ -543,7 +544,7 @@ const ResponsiveDialog = ({
         vendorTotalUSD: Number(vendorTotalUSD),
         isPrivateVendor: isPrivateVendor,
         remark: remarks,
-        pdaChargeId: pdaResponse?._id ? pdaResponse?._id : null,
+        pdaChargeId: editCharge?._id ? editCharge?._id : null,
         serviceName: selectedService?.serviceName,
         chargeName: selectedChargesType?.chargeName,
         subchargeName: selectedSubhargesType?.subchargeName,
@@ -752,7 +753,7 @@ const ResponsiveDialog = ({
             <i class="bi bi-x-lg "></i>
           </div>
         </div>
-        <DialogContent style={{ marginBottom: "30px" }}>
+        <DialogContent style={{ marginBottom: "60px" }}>
           {isEditcharge == false && (
             <>
               <div className="Anchoragecall">
@@ -869,7 +870,7 @@ const ResponsiveDialog = ({
                   <>
                     <div className="qq">
                       <div className="col-4">
-                        <div className="mb-5">
+                        <div className="mb-3">
                           <div className="col mt-2">
                             <label
                               for="exampleFormControlInput1"

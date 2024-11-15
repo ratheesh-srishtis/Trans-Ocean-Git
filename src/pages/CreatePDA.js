@@ -43,6 +43,7 @@ const CreatePDA = ({
   const [isEditcharge, setIsEditcharge] = useState(false);
   const [editCharge, setEditCharge] = useState(null);
   const [editIndex, setEditIndex] = useState(null);
+  const [fullPdaResponse, setFullPdaResponse] = useState(null);
   const [pdaResponse, setPdaResponse] = useState(null);
   const [pdaServicesResponse, setPdaServicesResponse] = useState(null);
   const [openPopUp, setOpenPopUp] = useState(false);
@@ -302,7 +303,8 @@ const CreatePDA = ({
       if (!pdaResponse?._id) {
         try {
           const response = await savePda(pdaPayload);
-          console.log(response, "login_response");
+          setFullPdaResponse(response);
+          console.log(response, "pda_full_response");
           if (response?.status == true) {
             setPdaResponse(response?.pda);
             setPdaServicesResponse(response?.pdaServices);
@@ -467,6 +469,10 @@ const CreatePDA = ({
   useEffect(() => {
     console.log(pdaResponse, "pdaResponse");
   }, [pdaResponse]);
+
+  useEffect(() => {
+    console.log(pdaServicesResponse, "pdaServicesResponse");
+  }, [pdaServicesResponse]);
   useEffect(() => {
     console.log(isCustomerApproved, "isCustomerApproved");
   }, [isCustomerApproved]);
@@ -528,22 +534,16 @@ const CreatePDA = ({
                   <div className="pdadate">
                     <label
                       for="inputPassword"
-                      className="col-sm-5  col-form-label text-nowrap"
+                      className="col-sm-4  col-form-label text-nowrap"
                     >
                       PDA Date:
                     </label>
-                    <div className="col-sm-7">
-                      <input
-                        type="text"
-                        className="form-control pdad"
-                        placeholder="PDA Date"
-                        value={
-                          pdaResponse?.createdAt
-                            ? formatDate(pdaResponse.createdAt)
-                            : ""
-                        }
-                        disabled
-                      />
+                    <div className="col-sm-4">
+                      <div className="fw-bolder pdafontweight pda-date">
+                        {pdaResponse?.createdAt
+                          ? formatDate(pdaResponse.createdAt)
+                          : ""}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -973,7 +973,9 @@ const CreatePDA = ({
                           submitPda(1);
                         }}
                       >
-                        Save As Draft
+                        {pdaResponse === null || pdaResponse === undefined
+                          ? " Save As Draft"
+                          : "Edit Draft"}
                       </button>
                     )}
 
@@ -1062,6 +1064,7 @@ const CreatePDA = ({
         editIndex={editIndex}
         pdaResponse={pdaResponse}
         finalChargesArray={finalChargesArray}
+        fullPdaResponse={fullPdaResponse}
       />
 
       <QuotationDialog

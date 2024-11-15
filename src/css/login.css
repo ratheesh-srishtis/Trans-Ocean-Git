@@ -19,10 +19,10 @@ body {
   top: 0;
   left: 0;
   bottom: 0;
-  max-width:100%;
-  width:174px;
-  height:100vh;
-  min-height:100%;
+  max-width: 100%;
+  width: 174px;
+  height: 100vh;
+  min-height: 100%;
   color: #fff;
   overflow: hidden;
   transition: all 0.5s linear;
@@ -83,7 +83,6 @@ body {
   cursor: pointer;
 }
 
-
 .menu a span {
   overflow: hidden;
   color: #737791;
@@ -134,7 +133,6 @@ body {
 .namefinance {
   font-size: 13px;
 }
-
 
 .notification {
   display: flex;
@@ -332,22 +330,22 @@ body {
   padding-bottom: 15px;
 } */
 
-.password_container{
+.password_container {
   position: relative;
 }
 
-.password_container{
+.password_container {
   position: relative;
 }
 
-.password_container input{
+.password_container input {
   padding-right: 30px;
 }
-.password_icon{
+.password_icon {
   position: absolute;
   bottom: 7px;
   right: 10px;
-}  
+}
 
 .addcharge-button {
   background-color: #007ac1;
@@ -456,14 +454,13 @@ td {
   margin: 10px 0px;
   font-size: 13px;
 }
-.copyright , .footerlinks{
-  margin:0px;
+.copyright,
+.footerlinks {
+  margin: 0px;
   /* padding:0px; */
-
 }
-.footerlinks.pl-2{
-  padding-left:15px;
-
+.footerlinks.pl-2 {
+  padding-left: 15px;
 }
 .transocean_login .nav-link {
   margin: 0 20px;
@@ -471,7 +468,7 @@ td {
 }
 
 .transocean_login .nav-pills .nav-link.active,
-.transocean_login .nav-pills .show>.nav-link {
+.transocean_login .nav-pills .show > .nav-link {
   background-color: #007bc1;
   color: white;
 }
@@ -489,16 +486,14 @@ td {
 
 .dropdown-toggle::after {
   display: inline-block;
-  margin-left: .255em;
+  margin-left: 0.255em;
   vertical-align: 6px;
   content: "";
-  border-top: .3em solid;
-  border-right: .3em solid transparent;
+  border-top: 0.3em solid;
+  border-right: 0.3em solid transparent;
   border-bottom: 0;
-  border-left: .3em solid transparent;
+  border-left: 0.3em solid transparent;
 }
-
-
 
 .transocean_login .forgotpassword {
   font-size: 13px;
@@ -526,8 +521,8 @@ td {
   justify-content: center;
   align-items: center;
 }
-.signoutmain{
-  padding-top:10px;
+.signoutmain {
+  padding-top: 10px;
 }
 
 .button-row {
@@ -535,119 +530,125 @@ td {
   justify-content: space-between;
   width: 100%;
 }
-.usersep{
+.usersep {
   border-bottom: 1px solid rgba(151, 151, 151, 0.313);
   padding-bottom: 12px;
-  
 }
-.version{
+.version {
   font-size: 10px;
 }
-.loginpageversion{
+.loginpageversion {
   font-size: 12px;
   margin-bottom: 20px;
 }
-.alignbox{
+.alignbox {
   display: flex;
   align-items: center;
   min-height: 90vh;
   padding: 45px 101px;
 }
 
-
-
 /* loginpage end */
 
-  @media only screen and (max-width: 1243px) {
-    .transocean_login .mainpng {
-      display: none !important;
-    }
+@media only screen and (max-width: 1243px) {
+  .transocean_login .mainpng {
+    display: none !important;
+  }
 
-    .notification h6 {
-      font-size: 13px;
-    }
+  .notification h6 {
+    font-size: 13px;
+  }
 
-    .notification.new {
-      /* font-size: 1px; */
-    }
+  .notification.new {
+    /* font-size: 1px; */
+  }
 
-    .transocean_login .maincard {
-      padding: 25px;
-      max-width: 80%;
-      margin: 0 auto;
-      background-color: #fff;
-    }
+  .transocean_login .maincard {
+    padding: 25px;
+    max-width: 80%;
+    margin: 0 auto;
+    background-color: #fff;
+  }
 
-    .transocean_login .group {
-      position: absolute;
-      z-index: -1;
-      left: 0;
-      top: 0;
-    }
+  .transocean_login .group {
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    top: 0;
+  }
 
-    .dashboard_cards {
-      border-radius: 10px;
-      padding: 5px 16px;
-    }
+  .dashboard_cards {
+    border-radius: 10px;
+    padding: 5px 16px;
+  }
 
-    .same-level {
-      height: auto;
-    }
+  .same-level {
+    height: auto;
+  }
 
-    /* .bottom-head {
+  /* .bottom-head {
             flex-direction: row;
             font-size: 13px;
         } */
- 
-    .transocean_login .logo {
-      height: 136px;
-      width: 200px;
-      margin-top: 100px;
-    }
 
-    .font {
-      font-size: 13px;
-    }
-
-    .transocean_login .nav-pills .nav-link {
-      border-radius: 0px;
-      border: 0.2px solid #c4bfbf;
-      color: rgb(0, 0, 0);
-      margin: 0px;
-      padding: 8px 15px;
-    }
-
-    .transocean_login .buttons {
-      padding-bottom: 10;
-    }
-
-    .transocean_login .login_text {
-      text-decoration: underline;
-      padding-bottom: 40px;
-    }
-
-    .transocean_login .bottom-head a,
-    .footerlinks a {
-      color: #4d5959 !important;
-      text-decoration: none;
-    }
-
-    .header--wrapper .btn-group {
-      margin-top: 10px;
-    }
-
-    .header--wrapper .downarrow {
-      margin-top: 10px;
-    }
-
-    .Signout {
-      border-top: 10px;
-      border-color: black;
-      position: absolute;
-      top: 650px;
-      left: 0;
-      width: 100%;
-    }
-
-
+  .transocean_login .logo {
+    height: 136px;
+    width: 200px;
+    margin-top: 100px;
   }
+
+  .font {
+    font-size: 13px;
+  }
+
+  .transocean_login .nav-pills .nav-link {
+    border-radius: 0px;
+    border: 0.2px solid #c4bfbf;
+    color: rgb(0, 0, 0);
+    margin: 0px;
+    padding: 8px 15px;
+  }
+
+  .transocean_login .buttons {
+    padding-bottom: 10;
+  }
+
+  .transocean_login .login_text {
+    text-decoration: underline;
+    padding-bottom: 40px;
+  }
+
+  .transocean_login .bottom-head a,
+  .footerlinks a {
+    color: #4d5959 !important;
+    text-decoration: none;
+  }
+
+  .header--wrapper .btn-group {
+    margin-top: 10px;
+  }
+
+  .header--wrapper .downarrow {
+    margin-top: 10px;
+  }
+
+  .Signout {
+    border-top: 10px;
+    border-color: black;
+    position: absolute;
+    top: 650px;
+    left: 0;
+    width: 100%;
+  }
+}
+
+.loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Ensures it appears above other content */
+}

@@ -277,7 +277,7 @@ const ChargesTable = ({
               {chargesArray?.length > 0 && (
                 <>
                   <tfoot>
-                    <tr>
+                    <tr className="bold-row">
                       <td colSpan={4}>Total Cost</td>
                       {/* <td>{totalValues.quantity}</td> */}
                       <td>{totalValues.customerOMR}</td>
