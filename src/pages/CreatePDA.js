@@ -11,6 +11,7 @@ import {
   changeQuotationStatus,
   editPDA,
   getPdaDetails,
+  getPdaFile,
 } from "../services/apiService";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -18,6 +19,10 @@ import PopUp from "./PopUp";
 import QuotationDialog from "./QuotationDialog";
 import PdaDialog from "./PdaDialog";
 import Remarks from "./Remarks";
+import { TextField, Button } from "@mui/material";
+import { LocalizationProvider, DateTimePicker } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 const CreatePDA = ({
   vessels,
   ports,
@@ -134,7 +139,12 @@ const CreatePDA = ({
 
   const handleEtaChange = (date) => {
     if (date) {
-      setEta(date.toISOString());
+      // Ensure the date remains in local time (UAE time in your case)
+      const isoDate = date.toISOString(); // This ensures UTC format
+      console.log(isoDate, "isoDate");
+      setEta(isoDate);
+    } else {
+      setEta(null);
     }
   };
 
@@ -253,7 +263,7 @@ const CreatePDA = ({
   };
 
   const submitPda = async (status) => {
-    alert(status);
+    // alert(status);
     console.log(isVessels, "isVessels submitPda");
     console.log(isServices, "isServices submitPda");
     console.log(selectedVessel, "selectedVessel submitPda");
@@ -283,7 +293,7 @@ const CreatePDA = ({
           ? selectedCustomer?._id
           : selectedCustomer,
         preparedUserId: loginResponse?.data?._id,
-        vesselVoyageNumber: formData?.vesselVoyageNo,
+        vesselVoyageNumber: formData?.vesselVoyageNumber,
         IMONumber: Number(formData?.IMONumber),
         LOA: Number(formData?.LOA),
         GRT: Number(formData?.GRT),
@@ -296,7 +306,7 @@ const CreatePDA = ({
       console.log(pdaPayload, "pdaPayload");
       if (!pdaResponse?._id) {
         try {
-          alert();
+          // alert();
           const response = await savePda(pdaPayload);
           setFullPdaResponse(response);
           console.log(response, "pda_full_response");
@@ -420,6 +430,7 @@ const CreatePDA = ({
     try {
       const response = await changeQuotationStatus(pdaPayload);
       console.log(response, "login_response");
+
       if (response?.status == true) {
         setPdaResponse(response?.pda);
         if (response?.pda?.pdaStatus == 3) {
@@ -501,6 +512,39 @@ const CreatePDA = ({
       console.error("Failed to fetch quotations:", error);
     }
   };
+
+  const [selectedEtaDateTime, setSelectedEtaDateTime] = useState(null);
+  const [selectedEtdDateTime, setSelectedEtdDateTime] = useState(null);
+
+  const handleETAChange = (newValue) => {
+    setSelectedEtaDateTime(newValue);
+  };
+
+  useEffect(() => {
+    if (selectedEtaDateTime) {
+      console.log(
+        selectedEtaDateTime.format("YYYY-MM-DD HH:mm"),
+        "State Updated"
+      );
+      let convertedEta = selectedEtaDateTime.format("YYYY-MM-DD HH:mm");
+      setEta(convertedEta);
+    }
+  }, [selectedEtaDateTime]);
+
+  const handleETDChange = (newValue) => {
+    setSelectedEtdDateTime(newValue);
+  };
+
+  useEffect(() => {
+    if (selectedEtdDateTime) {
+      console.log(
+        selectedEtdDateTime.format("YYYY-MM-DD HH:mm"),
+        "State Updated"
+      );
+      let convertedEta = selectedEtdDateTime.format("YYYY-MM-DD HH:mm");
+      setEtd(convertedEta);
+    }
+  }, [selectedEtdDateTime]);
 
   return (
     <>
@@ -739,18 +783,18 @@ const CreatePDA = ({
                   Vessel Voyage No:
                 </label>
                 <input
-                  name="vesselVoyageNo"
+                  name="vesselVoyageNumber"
                   type="number"
                   className="form-control vessel-voyage"
                   id="exampleFormControlInput1"
                   placeholder=""
-                  value={formData.vesselVoyageNo}
+                  value={formData.vesselVoyageNumber}
                   onChange={handleInputChange}
                 />
               </div>
             </div>
           </div>
-          <div className="thirdrow mb-3 row">
+          <div className="thirdrow mb-4 row">
             <div className="col-4">
               <div className="row">
                 <div className="col-6">
@@ -843,7 +887,7 @@ const CreatePDA = ({
           </div>
 
           <div className="imo">
-            <div className="row align-items-start">
+            <div className="row align-items-start mt-2">
               {/* <div className="col-5">
                 <div className="mb-3">
                   <label for="exampleFormControlInput1" className="form-label">
@@ -866,30 +910,68 @@ const CreatePDA = ({
                   </div>
                 </div>
               </div> */}
-              <div className="col-4">
-                <label for="exampleFormControlInput1" className="form-label">
+              <div className="col-4 ">
+                {/* <label for="exampleFormControlInput1" className="form-label">
                   ETA:
-                </label>
+                </label> */}
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "16px",
+                    }}
+                  >
+                    <DateTimePicker
+                      label="Select ETA"
+                      value={selectedEtaDateTime}
+                      onChange={handleETAChange}
+                      renderInput={(props) => <TextField {...props} />}
+                      ampm={false} // 24-hour format
+                      format="DD/MM/YYYY HH:mm"
+                    />
+                  </div>
+                </LocalizationProvider>
                 <div>
-                  <DatePicker
-                    dateFormat="dd/MM/yyyy hh:mm aa"
-                    selected={eta && new Date(eta)} // Inline date conversion for prefilled value
+                  {/* <DatePicker
+                    dateFormat="dd/MM/yyyy HH:mm"
+                    selected={eta ? new Date(eta) : null} // Inline date conversion for prefilled value
                     onChange={handleEtaChange}
                     showTimeSelect
-                    timeFormat="hh:mm aa"
+                    timeFormat="HH:mm"
                     timeIntervals={15}
                     className="form-control date-input"
                     id="eta-picker"
                     placeholderText="Select ETA"
                     autoComplete="off"
-                  />
+                  /> */}
                 </div>
               </div>
               <div className="col-4">
-                <label for="exampleFormControlInput1" className="form-label">
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "16px",
+                    }}
+                  >
+                    <DateTimePicker
+                      label="Select ETD"
+                      value={selectedEtdDateTime}
+                      onChange={handleETDChange}
+                      renderInput={(props) => <TextField {...props} />}
+                      ampm={false} // 24-hour format
+                      format="DD/MM/YYYY HH:mm"
+                    />
+                  </div>
+                </LocalizationProvider>
+
+                {/* <label for="exampleFormControlInput1" className="form-label">
                   ETD:
-                </label>
-                <DatePicker
+                </label> */}
+
+                {/* <DatePicker
                   dateFormat="dd/MM/yyyy hh:mm aa"
                   selected={etd && new Date(etd)} // Inline date conversion for prefilled value
                   onChange={handleEtdChange}
@@ -900,7 +982,7 @@ const CreatePDA = ({
                   id="etd-picker"
                   placeholderText="Select ETD"
                   autoComplete="off"
-                />
+                /> */}
               </div>
               <div className="col-4">
                 <button

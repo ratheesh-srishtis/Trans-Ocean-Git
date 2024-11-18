@@ -191,6 +191,7 @@
 
   .createtable tr td {
     font-size: 12px;
+    background-color: #f1f1f1;
   }
 }
 

@@ -187,3 +187,13 @@ export const getDashbordDetails = async (data) => {
     throw error;
   }
 };
+
+export const getPdaFile = async (data) => {
+  try {
+    const response = await axiosInstance.post("/generateQuotationPDF", data);
+    return response.data;
+  } catch (error) {
+    console.error("financeDashboard API Error:", error);
+    throw error;
+  }
+};
