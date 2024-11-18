@@ -721,6 +721,10 @@ const ResponsiveDialog = ({
     }
   };
 
+  function handleWheel(event) {
+    event.target.blur(); // Removes focus from the input to prevent scroll change
+  }
+
   return (
     <>
       <Dialog open={open} onClose={onClose} fullWidth maxWidth="lg">
@@ -931,6 +935,7 @@ const ResponsiveDialog = ({
                                 name="customerAmount"
                                 value={customerAmount || ""}
                                 onChange={handleInputChange}
+                                onWheel={handleWheel}
                               />
                             </div>
                             {customerAmountError && (
@@ -959,6 +964,7 @@ const ResponsiveDialog = ({
                                 name="customerVatAmount"
                                 value={customerVatAmount || ""}
                                 onChange={handleInputChange}
+                                onWheel={handleWheel}
                               />
                             </div>
                             {customerVatAmountError && (
@@ -991,6 +997,7 @@ const ResponsiveDialog = ({
                                 name="customerOmrAmount"
                                 value={customerTotalOmr}
                                 disabled
+                                onWheel={handleWheel}
                               />
                             </div>
                           </div>
@@ -1012,6 +1019,7 @@ const ResponsiveDialog = ({
                                 name="customerTotalUSD"
                                 value={customerTotalUSD || ""}
                                 onChange={handleInputChange}
+                                onWheel={handleWheel}
                               />
                             </div>
                             {customerTotalUSDError && (
@@ -1080,6 +1088,7 @@ const ResponsiveDialog = ({
                                 name="vendorAmount"
                                 value={vendorAmount || ""}
                                 onChange={handleInputChange}
+                                onWheel={handleWheel}
                               />
                             </div>
                             {vendorAmountError && (
@@ -1108,6 +1117,7 @@ const ResponsiveDialog = ({
                                 name="vendorVatAmount"
                                 value={vendorVatAmount || ""}
                                 onChange={handleInputChange}
+                                onWheel={handleWheel}
                               />
                             </div>
                             {vendorVatAmountError && (
@@ -1140,6 +1150,7 @@ const ResponsiveDialog = ({
                                 name="vendorOmrAmount"
                                 value={vendorTotalOmr}
                                 disabled
+                                onWheel={handleWheel}
                               />
                             </div>
                           </div>
@@ -1161,6 +1172,7 @@ const ResponsiveDialog = ({
                                 name="vendorTotalUSD"
                                 value={vendorTotalUSD || ""}
                                 onChange={handleInputChange}
+                                onWheel={handleWheel}
                               />
                             </div>
                             {vendorTotalUSDError && (
@@ -1763,6 +1775,7 @@ const ResponsiveDialog = ({
                           name="customerAmount"
                           value={customerAmount || ""}
                           onChange={handleInputChange}
+                          onWheel={handleWheel}
                         />
                         {customerAmountError && (
                           <>
@@ -1789,6 +1802,7 @@ const ResponsiveDialog = ({
                           name="customerVatAmount"
                           value={customerVatAmount || ""}
                           onChange={handleInputChange}
+                          onWheel={handleWheel}
                         />
                         {customerVatAmountError && (
                           <>
@@ -1818,6 +1832,7 @@ const ResponsiveDialog = ({
                           name="customerOmrAmount"
                           value={customerTotalOmr}
                           disabled
+                          onWheel={handleWheel}
                         />
                       </div>
                     </div>
@@ -1839,6 +1854,7 @@ const ResponsiveDialog = ({
                           name="customerTotalUSD"
                           value={customerTotalUSD || ""}
                           onChange={handleInputChange}
+                          onWheel={handleWheel}
                         />
                         {customerTotalUSDError && (
                           <>
@@ -1905,6 +1921,7 @@ const ResponsiveDialog = ({
                           name="vendorAmount"
                           value={vendorAmount}
                           onChange={handleInputChange}
+                          onWheel={handleWheel}
                         />
                         {vendorAmountError && (
                           <>
@@ -1931,6 +1948,7 @@ const ResponsiveDialog = ({
                           name="vendorVatAmount"
                           value={vendorVatAmount}
                           onChange={handleInputChange}
+                          onWheel={handleWheel}
                         />
                         {vendorVatAmountError && (
                           <>
@@ -1960,6 +1978,7 @@ const ResponsiveDialog = ({
                           name="vendorOmrAmount"
                           value={vendorTotalOmr}
                           disabled
+                          onWheel={handleWheel}
                         />
                       </div>
                     </div>
@@ -1981,6 +2000,7 @@ const ResponsiveDialog = ({
                           name="vendorTotalUSD"
                           value={vendorTotalUSD}
                           onChange={handleInputChange}
+                          onWheel={handleWheel}
                         />
                         {vendorTotalUSDError && (
                           <>

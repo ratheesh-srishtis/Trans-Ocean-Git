@@ -19,10 +19,7 @@ import PopUp from "./PopUp";
 import QuotationDialog from "./QuotationDialog";
 import PdaDialog from "./PdaDialog";
 import Remarks from "./Remarks";
-import { TextField, Button } from "@mui/material";
-import { LocalizationProvider, DateTimePicker } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
+import moment from "moment";
 const CreatePDA = ({
   vessels,
   ports,
@@ -138,19 +135,20 @@ const CreatePDA = ({
   // Handlers to update dates
 
   const handleEtaChange = (date) => {
+    // Convert selected date to ISO 8601 format
+
+    // console.log(moment(date).format("DD/MM/YYYY hh:mm"), "handleEtaChange");
+    // let formatedDate = moment(date).format("DD/MM/YYYY hh:mm");
+    // setEta(date);
+
     if (date) {
-      // Ensure the date remains in local time (UAE time in your case)
-      const isoDate = date.toISOString(); // This ensures UTC format
-      console.log(isoDate, "isoDate");
-      setEta(isoDate);
-    } else {
-      setEta(null);
+      setEta(date);
     }
   };
 
   const handleEtdChange = (date) => {
     if (date) {
-      setEtd(date.toISOString());
+      setEtd(date);
     }
   };
 
@@ -298,8 +296,8 @@ const CreatePDA = ({
         LOA: Number(formData?.LOA),
         GRT: Number(formData?.GRT),
         NRT: Number(formData?.NRT),
-        ETA: eta,
-        ETD: etd,
+        ETA: moment(eta).format("YYYY-MM-DD HH:mm "),
+        ETD: moment(etd).format("YYYY-MM-DD HH:mm "),
         pdaStatus: isCustomerApproved ? 5 : status,
         charges: finalChargesArray,
       };
@@ -409,8 +407,16 @@ const CreatePDA = ({
     if (selectedVeselTypeID) {
       setSelectedVesselType(selectedVeselTypeID);
     }
-    setEta(response?.pda?.ETA);
-    setEtd(response?.pda?.ETD);
+
+    const moment = require("moment");
+    const date = moment.utc(response?.pda?.ETA);
+    console.log(date.format("YYYY-MM-DD HH:mm:ss"), "Checkdate");
+    setEta(date.format("YYYY-MM-DD HH:mm:ss"));
+
+    const etd_date = moment.utc(response?.pda?.ETD);
+    console.log(etd_date.format("YYYY-MM-DD HH:mm:ss"), "Checkdate");
+    setEtd(etd_date.format("YYYY-MM-DD HH:mm:ss"));
+
     setStatus(response?.pda?.pdaStatus);
     setFinalChargesArray(response?.pdaServices);
     setFormData({
@@ -513,38 +519,9 @@ const CreatePDA = ({
     }
   };
 
-  const [selectedEtaDateTime, setSelectedEtaDateTime] = useState(null);
-  const [selectedEtdDateTime, setSelectedEtdDateTime] = useState(null);
-
-  const handleETAChange = (newValue) => {
-    setSelectedEtaDateTime(newValue);
-  };
-
-  useEffect(() => {
-    if (selectedEtaDateTime) {
-      console.log(
-        selectedEtaDateTime.format("YYYY-MM-DD HH:mm"),
-        "State Updated"
-      );
-      let convertedEta = selectedEtaDateTime.format("YYYY-MM-DD HH:mm");
-      setEta(convertedEta);
-    }
-  }, [selectedEtaDateTime]);
-
-  const handleETDChange = (newValue) => {
-    setSelectedEtdDateTime(newValue);
-  };
-
-  useEffect(() => {
-    if (selectedEtdDateTime) {
-      console.log(
-        selectedEtdDateTime.format("YYYY-MM-DD HH:mm"),
-        "State Updated"
-      );
-      let convertedEta = selectedEtdDateTime.format("YYYY-MM-DD HH:mm");
-      setEtd(convertedEta);
-    }
-  }, [selectedEtdDateTime]);
+  function handleWheel(event) {
+    event.target.blur(); // Removes focus from the input to prevent scroll change
+  }
 
   return (
     <>
@@ -790,11 +767,12 @@ const CreatePDA = ({
                   placeholder=""
                   value={formData.vesselVoyageNumber}
                   onChange={handleInputChange}
+                  onWheel={handleWheel}
                 />
               </div>
             </div>
           </div>
-          <div className="thirdrow mb-4 row">
+          <div className="thirdrow mb-3 row">
             <div className="col-4">
               <div className="row">
                 <div className="col-6">
@@ -810,6 +788,7 @@ const CreatePDA = ({
                     id="exampleFormControlInput1"
                     placeholder=""
                     readOnly={selectedVessel?.vesselName !== "TBA"} // Use readOnly instead of disabled
+                    onWheel={handleWheel}
                   />
                 </div>
                 <div className="col-6 voyage ">
@@ -825,6 +804,7 @@ const CreatePDA = ({
                     id="exampleFormControlInput1"
                     placeholder=""
                     readOnly={selectedVessel?.vesselName !== "TBA"} // Use readOnly instead of disabled
+                    onWheel={handleWheel}
                   />
                 </div>
               </div>
@@ -844,6 +824,7 @@ const CreatePDA = ({
                     id="exampleFormControlInput1"
                     placeholder=""
                     readOnly={selectedVessel?.vesselName !== "TBA"} // Use readOnly instead of disabled
+                    onWheel={handleWheel}
                   />
                 </div>
                 <div className="col-6 nrt ">
@@ -859,6 +840,7 @@ const CreatePDA = ({
                     id="exampleFormControlInput1"
                     placeholder=""
                     readOnly={selectedVessel?.vesselName !== "TBA"} // Use readOnly instead of disabled
+                    onWheel={handleWheel}
                   />
                 </div>
               </div>
@@ -887,7 +869,7 @@ const CreatePDA = ({
           </div>
 
           <div className="imo">
-            <div className="row align-items-start mt-2">
+            <div className="row align-items-start">
               {/* <div className="col-5">
                 <div className="mb-3">
                   <label for="exampleFormControlInput1" className="form-label">
@@ -910,79 +892,42 @@ const CreatePDA = ({
                   </div>
                 </div>
               </div> */}
-              <div className="col-4 ">
-                {/* <label for="exampleFormControlInput1" className="form-label">
+              <div className="col-4">
+                <label for="exampleFormControlInput1" className="form-label">
                   ETA:
-                </label> */}
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "16px",
-                    }}
-                  >
-                    <DateTimePicker
-                      label="Select ETA"
-                      value={selectedEtaDateTime}
-                      onChange={handleETAChange}
-                      renderInput={(props) => <TextField {...props} />}
-                      ampm={false} // 24-hour format
-                      format="DD/MM/YYYY HH:mm"
-                    />
-                  </div>
-                </LocalizationProvider>
+                </label>
                 <div>
-                  {/* <DatePicker
-                    dateFormat="dd/MM/yyyy HH:mm"
+                  <DatePicker
+                    dateFormat="dd/MM/yyyy HH:mm aa"
                     selected={eta ? new Date(eta) : null} // Inline date conversion for prefilled value
                     onChange={handleEtaChange}
                     showTimeSelect
-                    timeFormat="HH:mm"
+                    timeFormat="HH:mm aa"
                     timeIntervals={15}
                     className="form-control date-input"
                     id="eta-picker"
                     placeholderText="Select ETA"
                     autoComplete="off"
-                  /> */}
+                  />
                 </div>
               </div>
               <div className="col-4">
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "16px",
-                    }}
-                  >
-                    <DateTimePicker
-                      label="Select ETD"
-                      value={selectedEtdDateTime}
-                      onChange={handleETDChange}
-                      renderInput={(props) => <TextField {...props} />}
-                      ampm={false} // 24-hour format
-                      format="DD/MM/YYYY HH:mm"
-                    />
-                  </div>
-                </LocalizationProvider>
-
-                {/* <label for="exampleFormControlInput1" className="form-label">
+                <label for="exampleFormControlInput1" className="form-label">
                   ETD:
-                </label> */}
+                </label>
 
-                {/* <DatePicker
-                  dateFormat="dd/MM/yyyy hh:mm aa"
+                <DatePicker
+                  dateFormat="dd/MM/yyyy HH:mm aa"
                   selected={etd && new Date(etd)} // Inline date conversion for prefilled value
                   onChange={handleEtdChange}
                   showTimeSelect
-                  timeFormat="hh:mm aa"
+                  timeFormat="HH:mm aa"
                   timeIntervals={15}
                   className="form-control date-input"
                   id="etd-picker"
                   placeholderText="Select ETD"
                   autoComplete="off"
-                /> */}
+                />
               </div>
               <div className="col-4">
                 <button
