@@ -50,7 +50,7 @@ const ChargesTable = ({
   const [message, setMessage] = useState("");
   console.log(chargesArray, "chargesArray ChargesTable");
 
-  const totalValues = chargesArray.reduce(
+  const totalValues = chargesArray?.reduce(
     (totals, charge) => {
       totals.quantity += parseInt(charge.quantity);
       totals.customerOMR += parseFloat(charge.customerOMR);
@@ -63,7 +63,7 @@ const ChargesTable = ({
 
   console.log(totalValues, "totalValues");
 
-  const vendorTotalValues = chargesArray.reduce(
+  const vendorTotalValues = chargesArray?.reduce(
     (totals, charge) => {
       totals.quantity += parseInt(charge.quantity);
       totals.vendorOMR += parseFloat(charge.vendorOMR);
@@ -219,7 +219,7 @@ const ChargesTable = ({
             <table className="table tableheadcolor">
               <thead className="tableheadcolor">
                 <tr className="tableheadcolor">
-                  <th className="tableheadcolor" >SL NO</th>
+                  <th className="tableheadcolor">SL NO</th>
                   <th className="tableheadcolor">Service Type</th>
                   <th className="tableheadcolor">Charge Type</th>
                   <th className="tableheadcolor">Sub Charge Type</th>
@@ -228,7 +228,8 @@ const ChargesTable = ({
                   <th className="tableheadcolor">VAT Amount</th>
                   <th className="tableheadcolor">Total OMR</th>
                   <th className="tableheadcolor">Total USD</th>
-                  <th className="tableheadcolor">Actions</th> {/* Added Actions Column */}
+                  <th className="tableheadcolor">Actions</th>{" "}
+                  {/* Added Actions Column */}
                 </tr>
               </thead>
               <tbody>
@@ -310,7 +311,8 @@ const ChargesTable = ({
                   <th className="tableheadcolor">VAT Amount</th>
                   <th className="tableheadcolor">Total OMR</th>
                   <th className="tableheadcolor">Total USD</th>
-                  <th className="tableheadcolor">Actions</th> {/* Added Actions Column */}
+                  <th className="tableheadcolor">Actions</th>{" "}
+                  {/* Added Actions Column */}
                 </tr>
               </thead>
               <tbody>

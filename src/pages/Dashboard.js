@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getDashbordDetails } from "../services/apiService";
 import { Oval } from "react-loader-spinner"; // Import a loader type from react-loader-spinner
-const Dashboard = ({ counts }) => {
+const Dashboard = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-
   const handleNavigation = () => {
     navigate("/create-pda");
   };
@@ -13,6 +12,26 @@ const Dashboard = ({ counts }) => {
   const img_2 = require("../assets/images/2.png");
   const img_3 = require("../assets/images/3.png");
   const img_4 = require("../assets/images/4.png");
+
+  const [counts, setCounts] = useState(null);
+
+  const fetchDashboardDetails = async () => {
+    let data = {
+      filter: "all",
+    };
+    try {
+      const dashboardDetails = await getDashbordDetails(data);
+      console.log("dashboardDetails:", dashboardDetails);
+      setCounts(dashboardDetails);
+    } catch (error) {
+      console.error("Failed to fetch quotations:", error);
+    } finally {
+    }
+  };
+
+  useEffect(() => {
+    fetchDashboardDetails();
+  }, []);
 
   return (
     <>

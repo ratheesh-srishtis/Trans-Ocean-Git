@@ -39,30 +39,10 @@ const Content = () => {
     fetchPdaValues();
   }, []);
 
-  const [counts, setCounts] = useState(null);
-
-  const fetchDashboardDetails = async () => {
-    let data = {
-      filter: "all",
-    };
-    try {
-      const dashboardDetails = await getDashbordDetails(data);
-      console.log("dashboardDetails:", dashboardDetails);
-      setCounts(dashboardDetails);
-    } catch (error) {
-      console.error("Failed to fetch quotations:", error);
-    } finally {
-    }
-  };
-
-  useEffect(() => {
-    fetchDashboardDetails();
-  }, []);
-
   return (
     <Routes>
       <Route path="/" element={<Dashboard />} />
-      <Route path="/dashboard" element={<Dashboard counts={counts} />} />
+      <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/quotations" element={<Quotations />} />
       <Route path="/jobs" element={<Jobs />} />
       <Route path="/payments" element={<Payments />} />

@@ -20,6 +20,8 @@ import QuotationDialog from "./QuotationDialog";
 import PdaDialog from "./PdaDialog";
 import Remarks from "./Remarks";
 import moment from "moment";
+import { useLocation } from "react-router-dom";
+
 const CreatePDA = ({
   vessels,
   ports,
@@ -365,69 +367,6 @@ const CreatePDA = ({
     }
   };
 
-  const updateValues = (response) => {
-    fetchPdaDetails(response?.pda?._id);
-    console.log(response, "updateValues");
-    setIsVessels(response?.pda?.isVessels);
-    setIsServices(response?.pda?.isServices);
-
-    const selectedVessel = vessels.find(
-      (vessel) => vessel._id === response?.pda?.vesselId
-    );
-
-    if (selectedVessel) {
-      setSelectedVessel(selectedVessel);
-    }
-
-    const selectedPort = ports.find(
-      (port) => port._id === response?.pda?.portId
-    );
-
-    if (selectedPort) {
-      setSelectedPort(selectedPort);
-    }
-
-    const selectedCargo = cargos.find(
-      (cargo) => cargo._id === response?.pda?.cargoId
-    );
-
-    if (selectedCargo) {
-      setSelectedCargo(selectedCargo);
-    }
-
-    const selectedCustomer = customers.find(
-      (customer) => customer._id === response?.pda?.customerId
-    );
-    if (selectedCustomer) {
-      setSelectedCustomer(selectedCustomer);
-    }
-    const selectedVeselTypeID = vesselTypes.find(
-      (vesselType) => vesselType._id === response?.pda?.vesselTypeId
-    );
-    if (selectedVeselTypeID) {
-      setSelectedVesselType(selectedVeselTypeID);
-    }
-
-    const moment = require("moment");
-    const date = moment.utc(response?.pda?.ETA);
-    console.log(date.format("YYYY-MM-DD HH:mm:ss"), "Checkdate");
-    setEta(date.format("YYYY-MM-DD HH:mm:ss"));
-
-    const etd_date = moment.utc(response?.pda?.ETD);
-    console.log(etd_date.format("YYYY-MM-DD HH:mm:ss"), "Checkdate");
-    setEtd(etd_date.format("YYYY-MM-DD HH:mm:ss"));
-
-    setStatus(response?.pda?.pdaStatus);
-    setFinalChargesArray(response?.pdaServices);
-    setFormData({
-      vesselVoyageNumber: response?.pda?.vesselVoyageNumber || null,
-      IMONumber: response?.pda?.IMONumber || null,
-      LOA: response?.pda?.LOA || null,
-      GRT: response?.pda?.GRT || null,
-      NRT: response?.pda?.NRT || null,
-    });
-  };
-
   const updateQuotation = async (status) => {
     let pdaPayload = {
       pdaId: pdaResponse?._id,
@@ -522,6 +461,89 @@ const CreatePDA = ({
   function handleWheel(event) {
     event.target.blur(); // Removes focus from the input to prevent scroll change
   }
+
+  const location = useLocation();
+  const row = location.state?.row; // Access the passed row object
+  const [editData, setEditData] = useState(null);
+  console.log("Row data:", row);
+
+  useEffect(() => {
+    if (row) {
+      setEditData(row);
+    }
+  }, [row]);
+
+  useEffect(() => {
+    if (editData) {
+      updateValues({
+        pda: editData,
+      });
+      console.log(editData, "editData");
+    }
+  }, [editData]);
+
+  const updateValues = (response) => {
+    fetchPdaDetails(response?.pda?._id);
+    console.log(response, "updateValues");
+    setIsVessels(response?.pda?.isVessels);
+    setIsServices(response?.pda?.isServices);
+
+    const selectedVessel = vessels.find(
+      (vessel) => vessel._id === response?.pda?.vesselId
+    );
+
+    if (selectedVessel) {
+      setSelectedVessel(selectedVessel);
+    }
+
+    const selectedPort = ports.find(
+      (port) => port._id === response?.pda?.portId
+    );
+
+    if (selectedPort) {
+      setSelectedPort(selectedPort);
+    }
+
+    const selectedCargo = cargos.find(
+      (cargo) => cargo._id === response?.pda?.cargoId
+    );
+
+    if (selectedCargo) {
+      setSelectedCargo(selectedCargo);
+    }
+
+    const selectedCustomer = customers.find(
+      (customer) => customer._id === response?.pda?.customerId
+    );
+    if (selectedCustomer) {
+      setSelectedCustomer(selectedCustomer);
+    }
+    const selectedVeselTypeID = vesselTypes.find(
+      (vesselType) => vesselType._id === response?.pda?.vesselTypeId
+    );
+    if (selectedVeselTypeID) {
+      setSelectedVesselType(selectedVeselTypeID);
+    }
+
+    const moment = require("moment");
+    const date = moment.utc(response?.pda?.ETA);
+    console.log(date.format("YYYY-MM-DD HH:mm:ss"), "Checkdate");
+    setEta(date.format("YYYY-MM-DD HH:mm:ss"));
+
+    const etd_date = moment.utc(response?.pda?.ETD);
+    console.log(etd_date.format("YYYY-MM-DD HH:mm:ss"), "Checkdate");
+    setEtd(etd_date.format("YYYY-MM-DD HH:mm:ss"));
+
+    setStatus(response?.pda?.pdaStatus);
+    setFinalChargesArray(response?.pdaServices);
+    setFormData({
+      vesselVoyageNumber: response?.pda?.vesselVoyageNumber || null,
+      IMONumber: response?.pda?.IMONumber || null,
+      LOA: response?.pda?.LOA || null,
+      GRT: response?.pda?.GRT || null,
+      NRT: response?.pda?.NRT || null,
+    });
+  };
 
   return (
     <>
