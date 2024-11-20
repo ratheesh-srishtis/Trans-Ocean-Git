@@ -8,6 +8,7 @@ import Soa from "../pages/Soa";
 import CreatePDA from "../pages/CreatePDA";
 import { useAuth } from "../context/AuthContext";
 import { getAllPdaValuesApi, getDashbordDetails } from "../services/apiService";
+import UpdateJobs from "../pages/UpdateJobs";
 const Content = () => {
   const { loginResponse } = useAuth();
 
@@ -47,6 +48,7 @@ const Content = () => {
       <Route path="/jobs" element={<Jobs />} />
       <Route path="/payments" element={<Payments />} />
       <Route path="/soa" element={<Soa />} />
+      <Route path="/update-jobs" element={<UpdateJobs />} />
       <Route
         path="/create-pda"
         element={
