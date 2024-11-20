@@ -4,7 +4,7 @@ import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
-
+import "../css/quotation.css";
 import { getAllQuotations } from "../services/apiService";
 
 const Quotations = () => {
@@ -87,25 +87,87 @@ const Quotations = () => {
   };
 
   return (
-    <div style={{ height: "100vh", width: "100%" }}>
-      <DataGrid
-        rows={quotationsList.map((item) => ({
-          id: item._id, // Map _id to id
-          vessel: item.vesselId?.vesselName || "N/A",
-          port: item.portId?.portName || "N/A",
-          cargo: item.cargoId?.cargoName || "N/A",
-          date: formatDate(item.createdAt),
-          preparedBy: item.preparedUserId?._id || "N/A",
-          status: getStatusText(item.pdaStatus),
-          ...item,
-        }))}
-        columns={columns}
-        getRowId={(row) => row.id} // Use id field for unique row identification
-        disableSelectionOnClick // Disables checkbox selection to prevent empty column
-        hideFooterPagination // Removes footer pagination
-        disableColumnMenu // Removes column menu
-      />
-    </div>
+    <>
+      <div className="d-flex justify-content-between headerb mb-3 mt-3 ">
+      <div className="leftside"> 
+        <ul className="nav nav-underline gap-4 ">
+          <li className="nav-item">
+            <a
+              className="nav-link carduppercontent"
+              aria-current="page"
+              href="#"
+            >
+              All
+            </a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link carduppercontent" href="#">
+              Last 24 Hour
+            </a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link carduppercontent" href="#">
+              Last Week
+            </a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link carduppercontentlast" href="#">
+              Last Month
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="d-flex gap-3 rightside">
+        <div class=" search d-flex justify-content-around">
+          <i class="bi bi-search"></i>
+          Search
+        </div>
+        <div class=" filter d-flex justify-content-between">
+          <i class="bi bi-funnel-fill"></i>
+          filter
+          <i class="bi bi-caret-down-fill"></i>
+
+        </div>
+        <div class=" createbtn">
+          <button type="button" class="btn btn-info infobtn">
+            Create New PDA
+          </button>
+        </div>
+      </div>
+      </div>
+
+
+      <div className=" tablequo">
+        <DataGrid
+          rows={quotationsList.map((item) => ({
+            id: item._id, // Map _id to id
+            vessel: item.vesselId?.vesselName || "N/A",
+            port: item.portId?.portName || "N/A",
+            cargo: item.cargoId?.cargoName || "N/A",
+            date: formatDate(item.createdAt),
+            preparedBy: item.preparedUserId?._id || "N/A",
+            status: getStatusText(item.pdaStatus),
+            ...item,
+          }))}
+          columns={columns}
+          getRowId={(row) => row.id} // Use id field for unique row identification
+          disableSelectionOnClick // Disables checkbox selection to prevent empty column
+          hideFooterPagination // Removes footer pagination
+          disableColumnMenu // Removes column menu
+        />
+      </div>
+
+    </>
+
+
+
+
+
+
+
+
+
   );
 };
 
