@@ -685,7 +685,7 @@ const ResponsiveDialog = ({
   }, [isEditcharge, open]);
 
   useEffect(() => {
-    console.log(editCharge, "editCharge");
+    console.log(editCharge, "editCharge_deta");
     console.log(isEditcharge, "isEditcharge EDIT");
     console.log(open, "open EDIT");
     if (isEditcharge == true && open == true) {

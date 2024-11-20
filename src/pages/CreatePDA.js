@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "../css/createpda.css";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_green.css";
@@ -263,7 +263,6 @@ const CreatePDA = ({
   };
 
   const submitPda = async (status) => {
-    // alert(status);
     console.log(isVessels, "isVessels submitPda");
     console.log(isServices, "isServices submitPda");
     console.log(selectedVessel, "selectedVessel submitPda");
@@ -306,14 +305,14 @@ const CreatePDA = ({
       console.log(pdaPayload, "pdaPayload");
       if (!pdaResponse?._id) {
         try {
-          // alert();
           const response = await savePda(pdaPayload);
           setFullPdaResponse(response);
           console.log(response, "pda_full_response");
           if (response?.status == true) {
             setPdaResponse(response?.pda);
             setPdaServicesResponse(response?.pdaServices);
-            updateValues(response);
+            // updateValues(response);
+            fetchPdaDetails(response?.pda?._id);
             if (response?.pda?.pdaStatus == 1) {
               setMessage("PDA has been saved successfully");
               setOpenPopUp(true);
@@ -340,7 +339,8 @@ const CreatePDA = ({
           if (response?.status == true) {
             setPdaResponse(response?.pda);
             setPdaServicesResponse(response?.pdaServices);
-            updateValues(response);
+            // updateValues(response);
+            fetchPdaDetails(response?.pda?._id);
             if (response?.pda?.pdaStatus == 2) {
               setMessage("PDA forwarded to the Finance Manager for Approval");
               setOpenPopUp(true);
@@ -447,12 +447,15 @@ const CreatePDA = ({
   };
 
   const fetchPdaDetails = async (id) => {
+    // alert("fetchPdaDetails");
     let data = {
       pdaId: id,
     };
     try {
       const pdaDetails = await getPdaDetails(data);
       console.log("PDADETAILS", pdaDetails);
+      updateValues(pdaDetails);
+      setPdaResponse(pdaDetails?.pda);
     } catch (error) {
       console.error("Failed to fetch quotations:", error);
     }
@@ -463,28 +466,31 @@ const CreatePDA = ({
   }
 
   const location = useLocation();
+
   const row = location.state?.row; // Access the passed row object
   const [editData, setEditData] = useState(null);
+  const [fetchInitiated, setFetchInitiated] = useState(false); // State to track fetch initiation
+
   console.log("Row data:", row);
 
+  // Initialize `editData` when `row` is available
   useEffect(() => {
     if (row) {
       setEditData(row);
     }
   }, [row]);
 
+  // Fetch data only once when `editData` changes
   useEffect(() => {
-    if (editData) {
-      updateValues({
-        pda: editData,
-      });
-      console.log(editData, "editData");
+    if (editData && !fetchInitiated) {
+      setFetchInitiated(true); // Mark fetch as initiated
+      fetchPdaDetails(editData?._id);
     }
-  }, [editData]);
+  }, [editData, fetchInitiated]);
 
   const updateValues = (response) => {
-    fetchPdaDetails(response?.pda?._id);
     console.log(response, "updateValues");
+    console.log(response?.pda?.vesselId?._id, "  response?.pda?.vesselId?._id");
     setIsVessels(response?.pda?.isVessels);
     setIsServices(response?.pda?.isServices);
 
@@ -1013,7 +1019,7 @@ const CreatePDA = ({
                       </button>
                     )}
 
-                    {(pdaResponse?.pdaStatus >= 3 || isApproved == true) && (
+                    {/* {(pdaResponse?.pdaStatus >= 3 || isApproved == true) && (
                       <>
                         <button className="btn btna generate-button">
                           Generate Invoice
@@ -1022,7 +1028,7 @@ const CreatePDA = ({
                           Send Invoice
                         </button>
                       </>
-                    )}
+                    )} */}
                   </div>
 
                   <div className="right">

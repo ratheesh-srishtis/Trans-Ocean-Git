@@ -76,7 +76,7 @@ const PdaDialog = ({
     <>
       <Dialog open={open} onClose={onClose} fullWidth maxWidth="lg">
         <div className="d-flex justify-content-between" onClick={onClose}>
-          <DialogTitle>PDA</DialogTitle>
+          <DialogTitle></DialogTitle>
           <div className="closeicon">
             <i class="bi bi-x-lg "></i>
           </div>

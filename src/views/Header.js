@@ -51,7 +51,7 @@ const Header = () => {
                 aria-expanded="false"
               ></button>
               <ul className="dropdown-menu">
-                <li>
+                {/* <li>
                   <a className="dropdown-item" href="#">
                     Admin
                   </a>
@@ -65,7 +65,7 @@ const Header = () => {
                   <a className="dropdown-item" href="#">
                     Operations
                   </a>
-                </li>
+                </li> */}
                 <li className="signoutmain" onClick={logout}>
                   <a className="dropdown-item" href="#">
                     <i className="bi bi-box-arrow-left"></i>
