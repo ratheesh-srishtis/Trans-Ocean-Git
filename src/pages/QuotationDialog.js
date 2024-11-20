@@ -60,7 +60,8 @@ const QuotationDialog = ({
     subject: "",
     cc: "",
     bcc: "",
-    emailbody: "",
+    emailbody:
+      "I am writing to seek your approval for the Quotation. Please find attached a copy of the signed quotation for your records. Once approved, we will proceed with the Quotation as per our standard procedures. Thank you for your prompt attention to this matter.",
     pdaId: "",
     files: [],
   });
@@ -75,6 +76,8 @@ const QuotationDialog = ({
       ...prevFormData,
       files: [...prevFormData.files, ...uploadedFiles], // append files to the existing array
     }));
+
+    e.target.value = null;
   };
 
   const handleMenuOpen = (event, index) => {
@@ -151,7 +154,7 @@ const QuotationDialog = ({
     <>
       <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
         <div className="d-flex justify-content-between">
-          <DialogTitle>Send Quotation</DialogTitle>
+          <DialogTitle></DialogTitle>
           <div className="closeicon" onClick={onClose}>
             <i class="bi bi-x-lg "></i>
           </div>
@@ -248,7 +251,10 @@ const QuotationDialog = ({
               <div class="col">
                 <div class="mb-3">
                   <div class="col">
-                    <label for="exampleFormControlInput1" class="form-label formlabelcolor">
+                    <label
+                      for="exampleFormControlInput1"
+                      class="form-label formlabelcolor"
+                    >
                       EmailBody:
                     </label>
                     <textarea
@@ -259,7 +265,7 @@ const QuotationDialog = ({
                       onChange={(e) =>
                         setFormData({ ...formData, emailbody: e.target.value })
                       }
-                      placeholder="I am writing to seek your approval for the Quotation. Please find attached a copy of the signed quotation for your records. Once approved, we will proceed with the Quotation as per our standard procedures. Thank you for your prompt attention to this matter."
+                      placeholder=""
                     ></textarea>
                   </div>
                 </div>
