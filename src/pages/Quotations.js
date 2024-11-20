@@ -89,52 +89,56 @@ const Quotations = () => {
   return (
     <>
       <div className="d-flex justify-content-between headerb mb-3 mt-3 ">
-      <div className="leftside"> 
-        <ul className="nav nav-underline gap-4 ">
-          <li className="nav-item">
-            <a
-              className="nav-link carduppercontent"
-              aria-current="page"
-              href="#"
-            >
-              All
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link carduppercontent" href="#">
-              Last 24 Hour
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link carduppercontent" href="#">
-              Last Week
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link carduppercontentlast" href="#">
-              Last Month
-            </a>
-          </li>
-        </ul>
-      </div>
+        <div className="leftside">
+          <ul className="nav nav-underline gap-4 ">
+            <li className="nav-item">
+              <a
+                className="nav-link carduppercontent"
+                aria-current="page"
+                href="#"
+              >
+                All
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link carduppercontent" href="#">
+                Last 24 Hour
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link carduppercontent" href="#">
+                Last Week
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link carduppercontentlast" href="#">
+                Last Month
+              </a>
+            </li>
+          </ul>
+        </div>
 
-      <div class="d-flex gap-3 rightside">
-        <div class=" search d-flex justify-content-around">
-          <i class="bi bi-search"></i>
-          Search
-        </div>
-        <div class=" filter d-flex justify-content-between">
-          <i class="bi bi-funnel-fill"></i>
-          filter
-          <i class="bi bi-caret-down-fill"></i>
+        <div class="d-flex gap-3 rightside">
+          <div class="">
+            <input type="email" class="form-control search" id="exampleFormControlInput1" placeholder="Search" />
+            <i class="bi bi-search searchicon"></i>
+          </div>
+          <div class="">
+          <i class="bi bi-funnel-fill filtericon"></i>
+            <select class="form-select form-select-sm filter" aria-label="Small select example">
+              <option value="1" className="filtervalue">Draft</option>
+              <option value="2">Submitted</option>
+              <option value="3">Waiting for FM Approval</option>
+              <option value="3">Internally Approved</option>
+            </select>
 
+          </div>
+          <div class=" createbtn">
+            <button type="button" class="btn btn-info infobtn">
+              Create New PDA
+            </button>
+          </div>
         </div>
-        <div class=" createbtn">
-          <button type="button" class="btn btn-info infobtn">
-            Create New PDA
-          </button>
-        </div>
-      </div>
       </div>
 
 
