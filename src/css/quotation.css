@@ -7,15 +7,10 @@
 }
 
 .filter {
-    border: 1px solid #80808041;
-    width: 250px;
-    padding: 0px 10px 0px 39px;
+    padding: 0px 10px;
     align-items: center;
     height: 33px;
-    border-radius: 5px;
     font-size: 13px;
-    position:relative;
-
 }
 
 .search {
@@ -25,6 +20,7 @@
     align-items: center;
     border-radius: 5px;
     font-size: 13px;
+    padding-right: 36px;
 }
 
 .rightside {}
@@ -37,24 +33,64 @@
     align-items: center;
 }
 
-.searchicon{
+.searchicon {
     position: absolute;
     top: 91px;
     right: 427px;
 
 }
-.filtervalue{
+
+.filtervalue {
     padding-left: 0px !important;
 }
-.filtericon{
-    position: absolute;
-    top: 91px;
-    right: 365px;
-    z-index: 1;
+
+.filtericon {}
+
+.filtermain {
+    position: relative;
+    border: 1px solid #80808041;
+    width: 250px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+
 }
-.filtername{
+.filtermain .filter,.filtermain .filter:focus {
+    border:0 !important;
+box-shadow: inherit !important;
+outline:0 !important;
+}
+
+.form-select.form-select-sm option{
+    padding-left: 5px !important;
+}
+
+
+
+
+
+.filtermain .form-select .form-select-sm {
+    padding-right: 30px;
+
+}
+
+/* ul { 
+    height: 30px;
+    width: 350px;
+    border: 1px #000 solid;
+}
+ul li { padding: 5px 18px; z-index: 2; }
+ul li:not(.init) { float: left; width: 350px; display: none; background: #ddd; }
+ul li:not(.init):hover, ul li.selected:not(.init) { background: #09f; }
+li.init { cursor: pointer; }
+
+a#submit { z-index: 1; } */
+
+
+.filtername {
     padding-left: 50px;
 }
+
 .tablequo {
 
     min-width: 1082px;
@@ -78,13 +114,13 @@
 }
 
 .css-1umw9bq-MuiSvgIcon-root {
- 
+
     font-size: 19px;
 }
 
 .MuiDataGrid-root.MuiDataGrid-root--densityStandard.MuiDataGrid-root--noToolbar.MuiDataGrid-withBorderColor.css-5wdp45-MuiDataGrid-root {
 
-    --DataGrid-width: 1096.32px ;
+    --DataGrid-width: 1096.32px;
     --DataGrid-hasScrollX: 0;
     --DataGrid-hasScrollY: 0;
     --DataGrid-scrollbarSize: 15px;
@@ -99,6 +135,7 @@
     --height: 52px;
 
 }
+
 .css-1umw9bq-MuiSvgIcon-root {
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -115,11 +152,12 @@
     fill: currentColor;
     font-size: 1rem !important;
 }
+
 .css-5wdp45-MuiDataGrid-root .MuiDataGrid-columnHeaders {
     /* width: var(--DataGrid-rowWidth); */
     min-width: 1079px;
-    max-width:1079px;
-   min-width: 100%;
-    width:100% ;
-    
+    max-width: 1079px;
+    min-width: 100%;
+    width: 100%;
+
 }
