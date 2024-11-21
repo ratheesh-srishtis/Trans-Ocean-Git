@@ -258,8 +258,8 @@ const Quotations = () => {
           </ul>
         </div>
 
-        <div className="d-flex gap-3 rightside">
-          <div className="">
+        <div class="d-flex gap-3 rightside">
+          <div class=" searchmain">
             <input
               type="email"
               className="form-control search"
