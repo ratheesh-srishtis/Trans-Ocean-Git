@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import "../css/quotation.css";
 import { getAllQuotations } from "../services/apiService";
 import $ from "jquery";
+import { IconButton, TextField } from "@mui/material";
 
 const Quotations = () => {
   const navigate = useNavigate();
@@ -195,7 +196,7 @@ $("ul").on("click", "li:not(.init)", function() {
         </div>
 
         <div class="d-flex gap-3 rightside">
-          <div class="">
+          <div class=" searchmain">
             <input
               type="email"
               class="form-control search"
