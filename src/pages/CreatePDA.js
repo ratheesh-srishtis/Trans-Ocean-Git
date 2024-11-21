@@ -600,12 +600,12 @@ const CreatePDA = ({
                   {pdaResponse?.pdaStatus != 1 && (
                     <>
                       <span className="badge statusbadge ">
-                        <i class="bi bi-check2-circle circle"></i>{" "}
+                        <i className="bi bi-check2-circle circle"></i>{" "}
                       </span>{" "}
                     </>
                   )}
 
-                  <div class="pdabadge">
+                  <div className="pdabadge">
                     {pdaResponse?.pdaStatus == 1
                       ? "Draft PDA"
                       : pdaResponse?.pdaStatus == 2

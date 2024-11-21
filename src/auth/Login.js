@@ -92,7 +92,7 @@ const Login = () => {
       <div>
         <div className="transocean_login">
           <div className="group">
-            <img class="logoside" src={Group}></img>
+            <img className="logoside" src={Group}></img>
           </div>
           <div className="container">
             <div className="row alignbox">

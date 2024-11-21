@@ -44,19 +44,19 @@ const Remarks = ({ open, onClose }) => {
         <div className="d-flex justify-content-between">
           <DialogTitle>Remarks</DialogTitle>
           <div className="closeicon" onClick={onClose}>
-            <i class="bi bi-x-lg "></i>
+            <i className="bi bi-x-lg "></i>
           </div>
         </div>
 
         <DialogContent>
-          <div class="Anchoragecall">
-            <div class="row ">
-              <div class="col">
-                <div class="mb-3">
-                  <div class="col">
+          <div className="Anchoragecall">
+            <div className="row ">
+              <div className="col">
+                <div className="mb-3">
+                  <div className="col">
                     <textarea
                       rows="5"
-                      class="form-control"
+                      className="form-control"
                       id="exampleFormControlInput1"
                       placeholder="Remarks"
                     ></textarea>
@@ -64,10 +64,10 @@ const Remarks = ({ open, onClose }) => {
                 </div>
               </div>
             </div>
-            <div class="firstfooter d-flex justify-content-end">
+            <div className="firstfooter d-flex justify-content-end">
               <button
                 type="button"
-                class="btn add-button"
+                className="btn add-button"
                 onClick={handleSubmit}
               >
                 OK

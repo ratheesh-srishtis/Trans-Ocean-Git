@@ -9,6 +9,7 @@ import {
   Grid,
   Button,
 } from "@mui/material";
+import Loader from "./Loader";
 import "../css/addcharges.css";
 import "../css/editcharges.css";
 import "../css/sendquotation.css";
@@ -50,29 +51,33 @@ const PdaDialog = ({
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
   const [pdfData, setPdfData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false); // Loader state
 
   const fetchPdaFile = async () => {
-    alert("fetchPdaFile");
     if (pdaResponse?._id) {
-      let data = {
-        pdaId: pdaResponse?._id,
-      };
+      setIsLoading(true);
+
+      let data = { pdaId: pdaResponse?._id };
       try {
         const pdaFile = await getPdaFile(data);
-        setPdfData(pdaFile);
-        console.log("pdaFile", pdaFile);
+        console.log("pdaFile", pdaFile); // Use pdaFile directly
+        setPdfData(pdaFile); // Update state for future renders
+        setIsLoading(false);
       } catch (error) {
         console.error("Failed to fetch quotations:", error);
+        setIsLoading(false);
       }
     }
   };
 
-  useEffect(() => {
-    fetchPdaFile();
-  }, [pdaResponse]);
+  // useEffect(() => {
+  //   fetchPdaFile();
+  // }, [pdaResponse]);
 
   useEffect(() => {
+    console.log(open, "open");
     if (open == true) {
+      setPdfData(null);
       fetchPdaFile();
     }
   }, [open]);
@@ -87,28 +92,29 @@ const PdaDialog = ({
         <div className="d-flex justify-content-between" onClick={onClose}>
           <DialogTitle></DialogTitle>
           <div className="closeicon">
-            <i class="bi bi-x-lg "></i>
+            <i className="bi bi-x-lg "></i>
           </div>
         </div>
         <DialogContent>
-          {pdfData?.status ? (
-            <iframe
-              src={`${pdfData.pdfPath}#toolbar=0&navpanes=0&scrollbar=0`}
-              title="PDF Viewer"
-              style={{
-                width: "100%",
-                height: "700px",
-                border: "none",
-              }}
-            />
-          ) : (
-            <p>No PDF available to display</p>
+          {pdfData?.status && (
+            <>
+              <iframe
+                src={`${pdfData.pdfPath}#toolbar=0&navpanes=0&scrollbar=0`}
+                title="PDF Viewer"
+                style={{
+                  width: "100%",
+                  height: "700px",
+                  border: "none",
+                }}
+              />
+            </>
           )}
         </DialogContent>
       </Dialog>
       {openPopUp && (
         <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
       )}{" "}
+      <Loader isLoading={isLoading} />
     </>
   );
 };

@@ -12,8 +12,8 @@ const PopUp = ({ message, closePopup }) => {
         <div className="message">
           <p>{message}</p>
         </div>
-        <div class="firstfooter d-flex justify-content-Center">
-          <button type="button" class="btn add-button" onClick={closePopup}>
+        <div className="firstfooter d-flex justify-content-Center">
+          <button type="button" className="btn add-button" onClick={closePopup}>
             OK
           </button>
         </div>
