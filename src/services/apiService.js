@@ -158,9 +158,9 @@ export const sendQuotationAPI = async (userData) => {
 };
 
 // Get All Quotations API function
-export const getAllQuotations = async () => {
+export const getAllQuotations = async (data) => {
   try {
-    const response = await axiosInstance.post("/getAllQuotations");
+    const response = await axiosInstance.post("/getAllQuotations", data);
     return response.data;
   } catch (error) {
     console.error("Get All Quotations API Error:", error);

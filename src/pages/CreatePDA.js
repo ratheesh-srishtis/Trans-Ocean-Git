@@ -437,6 +437,10 @@ const CreatePDA = ({
     console.log(finalChargesArray, "finalChargesArray_CREATEPDA");
   }, [finalChargesArray]);
 
+  useEffect(() => {
+    console.log(isApproved, "isApproved");
+  }, [isApproved]);
+
   // Function to format the date
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -493,6 +497,10 @@ const CreatePDA = ({
     console.log(response?.pda?.vesselId?._id, "  response?.pda?.vesselId?._id");
     setIsVessels(response?.pda?.isVessels);
     setIsServices(response?.pda?.isServices);
+
+    if (response?.pda?.pdaStatus == 3 || response?.pda?.pdaStatus == 5) {
+      setIsApproved(true);
+    }
 
     const selectedVessel = vessels.find(
       (vessel) => vessel._id === response?.pda?.vesselId
