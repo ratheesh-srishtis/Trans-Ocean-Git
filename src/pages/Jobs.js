@@ -89,54 +89,52 @@ const Jobs = () => {
   return (
     <>
       <div className="d-flex justify-content-between headerb mb-3 mt-3 ">
-      <div className="leftside"> 
-        <ul className="nav nav-underline gap-4 ">
-          <li className="nav-item">
-            <a
-              className="nav-link carduppercontent"
-              aria-current="page"
-              href="#"
-            >
-              All
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link carduppercontent" href="#">
-              Last 24 Hour
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link carduppercontent" href="#">
-              Last Week
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link carduppercontentlast" href="#">
-              Last Month
-            </a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="d-flex gap-3 rightside">
-        <div class=" search d-flex justify-content-around">
-          <i class="bi bi-search"></i>
-          Search
+        <div className="leftside">
+          <ul className="nav nav-underline gap-4 ">
+            <li className="nav-item">
+              <a
+                className="nav-link carduppercontent"
+                aria-current="page"
+                href="#"
+              >
+                All
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link carduppercontent" href="#">
+                Last 24 Hour
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link carduppercontent" href="#">
+                Last Week
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link carduppercontentlast" href="#">
+                Last Month
+              </a>
+            </li>
+          </ul>
         </div>
-        <div class=" filter d-flex justify-content-between">
-          <i class="bi bi-funnel-fill"></i>
-          filter
-          <i class="bi bi-caret-down-fill"></i>
 
-        </div>
-        <div class=" createbtn">
-          <button type="button" class="btn btn-info infobtn">
-            Create New PDA
-          </button>
+        <div className="d-flex gap-3 rightside">
+          <div className=" search d-flex justify-content-around">
+            <i className="bi bi-search"></i>
+            Search
+          </div>
+          <div className=" filter d-flex justify-content-between">
+            <i className="bi bi-funnel-fill"></i>
+            filter
+            <i className="bi bi-caret-down-fill"></i>
+          </div>
+          <div className=" createbtn">
+            <button type="button" className="btn btn-info infobtn">
+              Create New PDA
+            </button>
+          </div>
         </div>
       </div>
-      </div>
-
 
       <div className=" tablequo">
         <DataGrid
@@ -157,17 +155,7 @@ const Jobs = () => {
           disableColumnMenu // Removes column menu
         />
       </div>
-
     </>
-
-
-
-
-
-
-
-
-
   );
 };
 

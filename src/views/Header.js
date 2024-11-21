@@ -12,10 +12,13 @@ const Header = () => {
 
   // Determine the heading text based on the current path
   const getHeaderText = () => {
+    console.log(location.pathname, "location.pathname");
     if (location.pathname.includes("/dashboard")) {
       return "Dashboard";
     } else if (location.pathname.includes("/create-pda")) {
       return "Create New PDA";
+    } else if (location.pathname == "/") {
+      return "Dashboard";
     }
     // Add more conditions as needed for other routes
     return "Page";
@@ -88,7 +91,7 @@ const Header = () => {
               <div className="notification">
                 <div>
                   <i className="bi bi-exclamation-triangle-fill alert"></i>
-                  <span class="new"> New Message</span>
+                  <span className="new"> New Message</span>
                   <h6> PDA’s are ready for Verification and Approval</h6>
                 </div>
                 <div>

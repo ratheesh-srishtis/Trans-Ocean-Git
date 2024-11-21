@@ -156,23 +156,26 @@ const QuotationDialog = ({
         <div className="d-flex justify-content-between">
           <DialogTitle></DialogTitle>
           <div className="closeicon" onClick={onClose}>
-            <i class="bi bi-x-lg "></i>
+            <i className="bi bi-x-lg "></i>
           </div>
         </div>
 
         <DialogContent>
-          <div class="Anchoragecall">
-            <div class="toaddress ">
-              <div class="row align-items-start">
-                <div class="col">
-                  <div class="mb-3">
-                    <div class="col">
-                      <label for="exampleFormControlInput1" class="form-label">
+          <div className="Anchoragecall">
+            <div className="toaddress ">
+              <div className="row align-items-start">
+                <div className="col">
+                  <div className="mb-3">
+                    <div className="col">
+                      <label
+                        for="exampleFormControlInput1"
+                        className="form-label"
+                      >
                         To Address:
                       </label>
                       <input
                         type="email"
-                        class="form-control vessel-voyage"
+                        className="form-control vessel-voyage"
                         id="exampleFormControlInput1"
                         placeholder=""
                         value={formData.to}
@@ -183,15 +186,18 @@ const QuotationDialog = ({
                     </div>
                   </div>
                 </div>
-                <div class="col">
-                  <div class="mb-3">
-                    <div class="col">
-                      <label for="exampleFormControlInput1" class="form-label">
+                <div className="col">
+                  <div className="mb-3">
+                    <div className="col">
+                      <label
+                        for="exampleFormControlInput1"
+                        className="form-label"
+                      >
                         Cc:
                       </label>
                       <input
                         type="email"
-                        class="form-control vessel-voyage"
+                        className="form-control vessel-voyage"
                         id="exampleFormControlInput1"
                         placeholder=""
                         value={formData.cc}
@@ -204,17 +210,20 @@ const QuotationDialog = ({
                 </div>
               </div>
             </div>
-            <div class="ccbcc ">
-              <div class="row align-items-start">
-                <div class="col">
-                  <div class="mb-3">
-                    <div class="col">
-                      <label for="exampleFormControlInput1" class="form-label">
+            <div className="ccbcc ">
+              <div className="row align-items-start">
+                <div className="col">
+                  <div className="mb-3">
+                    <div className="col">
+                      <label
+                        for="exampleFormControlInput1"
+                        className="form-label"
+                      >
                         Bcc:
                       </label>
                       <input
                         type="email"
-                        class="form-control vessel-voyage"
+                        className="form-control vessel-voyage"
                         id="exampleFormControlInput1"
                         placeholder=""
                         value={formData.bcc}
@@ -225,15 +234,18 @@ const QuotationDialog = ({
                     </div>
                   </div>
                 </div>
-                <div class="col">
-                  <div class="mb-3">
-                    <div class="col">
-                      <label for="exampleFormControlInput1" class="form-label">
+                <div className="col">
+                  <div className="mb-3">
+                    <div className="col">
+                      <label
+                        for="exampleFormControlInput1"
+                        className="form-label"
+                      >
                         Subject:
                       </label>
                       <input
                         type="email"
-                        class="form-control vessel-voyage"
+                        className="form-control vessel-voyage"
                         id="exampleFormControlInput1"
                         placeholder=""
                         value={formData.subject}
@@ -247,19 +259,19 @@ const QuotationDialog = ({
               </div>
             </div>
 
-            <div class="row ">
-              <div class="col">
-                <div class="mb-3">
-                  <div class="col">
+            <div className="row ">
+              <div className="col">
+                <div className="mb-3">
+                  <div className="col">
                     <label
                       for="exampleFormControlInput1"
-                      class="form-label formlabelcolor"
+                      className="form-label formlabelcolor"
                     >
                       EmailBody:
                     </label>
                     <textarea
                       rows="3"
-                      class="form-control formlabelcolor"
+                      className="form-control formlabelcolor"
                       id="exampleFormControlInput1"
                       value={formData.emailbody}
                       onChange={(e) =>
@@ -271,24 +283,24 @@ const QuotationDialog = ({
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="mb-3">
-                <div class="col">
-                  <label for="exampleFormControlInput1" class="form-label">
+            <div className="row">
+              <div className="mb-3">
+                <div className="col">
+                  <label for="exampleFormControlInput1" className="form-label">
                     Attachments:
                   </label>
-                  <div class="rectangle-quotation">
-                    <div class="invoice">Quotation PDF</div>
-                    <div class="Attach">
-                      <i class="bi bi-filetype-pdf"></i>
+                  <div className="rectangle-quotation">
+                    <div className="invoice">Quotation PDF</div>
+                    <div className="Attach">
+                      <i className="bi bi-filetype-pdf"></i>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="mb-3">
-                <div class="col">
+            <div className="row">
+              <div className="mb-3">
+                <div className="col">
                   <div style={{ marginTop: 16 }}>
                     <input
                       type="file"
@@ -351,10 +363,10 @@ const QuotationDialog = ({
                 </div>
               </div>
             </div>
-            <div class="firstfooter d-flex justify-content-end">
+            <div className="firstfooter d-flex justify-content-end">
               <button
                 type="button"
-                class="btn add-button"
+                className="btn add-button"
                 onClick={handleSubmit}
               >
                 OK

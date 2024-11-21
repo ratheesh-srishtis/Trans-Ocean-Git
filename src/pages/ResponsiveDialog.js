@@ -732,7 +732,7 @@ const ResponsiveDialog = ({
         <div className="d-flex justify-content-between" onClick={onClose}>
           <DialogTitle>{isEditcharge ? "Update" : "Add"} Charges</DialogTitle>
           <div className="closeicon">
-            <i class="bi bi-x-lg "></i>
+            <i className="bi bi-x-lg "></i>
           </div>
         </div>
         <DialogContent style={{ marginBottom: "60px" }}>
@@ -866,7 +866,7 @@ const ResponsiveDialog = ({
                               id="exampleFormControlInput1"
                               placeholder=""
                               name="quantity"
-                              value={selectedQuantity || ""}
+                              value={selectedQuantity}
                               onChange={handleInputChange}
                             />
                           </div>
@@ -934,7 +934,7 @@ const ResponsiveDialog = ({
                                 id="exampleFormControlInput1/"
                                 placeholder=""
                                 name="customerAmount"
-                                value={customerAmount || ""}
+                                value={customerAmount}
                                 onChange={handleInputChange}
                                 onWheel={handleWheel}
                               />
@@ -963,7 +963,7 @@ const ResponsiveDialog = ({
                                 id="exampleFormControlInput1"
                                 placeholder=""
                                 name="customerVatAmount"
-                                value={customerVatAmount || ""}
+                                value={customerVatAmount}
                                 onChange={handleInputChange}
                                 onWheel={handleWheel}
                               />
@@ -1018,7 +1018,7 @@ const ResponsiveDialog = ({
                                 id="exampleFormControlInput1"
                                 placeholder=""
                                 name="customerTotalUSD"
-                                value={customerTotalUSD || ""}
+                                value={customerTotalUSD}
                                 onChange={handleInputChange}
                                 onWheel={handleWheel}
                               />
@@ -1115,7 +1115,7 @@ const ResponsiveDialog = ({
                                 id="exampleFormControlInput1"
                                 placeholder=""
                                 name="vendorVatAmount"
-                                value={vendorVatAmount || ""}
+                                value={vendorVatAmount}
                                 onChange={handleInputChange}
                                 onWheel={handleWheel}
                               />
@@ -1170,7 +1170,7 @@ const ResponsiveDialog = ({
                                 id="exampleFormControlInput1"
                                 placeholder=""
                                 name="vendorTotalUSD"
-                                value={vendorTotalUSD || ""}
+                                value={vendorTotalUSD}
                                 onChange={handleInputChange}
                                 onWheel={handleWheel}
                               />
@@ -1203,7 +1203,7 @@ const ResponsiveDialog = ({
                                 id="exampleFormControlInput1"
                                 placeholder=""
                                 name="remarks"
-                                value={remarks || ""}
+                                value={remarks}
                                 onChange={handleInputChange}
                               ></textarea>
                             </div>
@@ -1773,7 +1773,7 @@ const ResponsiveDialog = ({
                           id="exampleFormControlInput1"
                           placeholder=""
                           name="customerAmount"
-                          value={customerAmount || ""}
+                          value={customerAmount}
                           onChange={handleInputChange}
                           onWheel={handleWheel}
                         />
@@ -1800,7 +1800,7 @@ const ResponsiveDialog = ({
                           id="exampleFormControlInput1"
                           placeholder=""
                           name="customerVatAmount"
-                          value={customerVatAmount || ""}
+                          value={customerVatAmount}
                           onChange={handleInputChange}
                           onWheel={handleWheel}
                         />
@@ -1852,7 +1852,7 @@ const ResponsiveDialog = ({
                           id="exampleFormControlInput1"
                           placeholder=""
                           name="customerTotalUSD"
-                          value={customerTotalUSD || ""}
+                          value={customerTotalUSD}
                           onChange={handleInputChange}
                           onWheel={handleWheel}
                         />

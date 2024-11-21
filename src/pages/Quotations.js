@@ -4,9 +4,13 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
 import "../css/quotation.css";
-import { getAllQuotations } from "../services/apiService";
-import $ from "jquery";
+import { getAllQuotations, deleteQuotation } from "../services/apiService";
 import { IconButton, TextField } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import Loader from "./Loader";
+import Swal from "sweetalert2";
+import PopUp from "./PopUp";
+import $ from "jquery";
 
 const Quotations = () => {
   const navigate = useNavigate();
@@ -17,22 +21,27 @@ const Quotations = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
   const [pageSize, setPageSize] = useState(10); // Default rows per page
-
-  const fetchQuotations = async () => {
+  const [isLoading, setIsLoading] = useState(false); // Loader state
+  const [openPopUp, setOpenPopUp] = useState(false);
+  const [message, setMessage] = useState("");
+  const fetchQuotations = async (type) => {
     try {
+      setIsLoading(true);
       let userData = {
-        filter: "all",
+        filter: type,
       };
       const quotations = await getAllQuotations(userData);
       console.log("Quotations:", quotations);
       setQuotationsList(quotations?.pda || []);
+      setIsLoading(false);
     } catch (error) {
       console.error("Failed to fetch quotations:", error);
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchQuotations();
+    fetchQuotations("all");
   }, []);
 
   const formatDate = (date) => {
@@ -76,7 +85,7 @@ const Quotations = () => {
           </IconButton>
           <IconButton
             color="secondary"
-            onClick={() => handleDelete(params.row._id)}
+            onClick={() => handleDelete(params.row)}
           >
             <DeleteIcon />
           </IconButton>
@@ -90,21 +99,17 @@ const Quotations = () => {
     navigate("/create-pda", { state: { row } });
   };
 
-  const handleDelete = (_id) => {
-    setQuotationsList((prevData) => prevData.filter((row) => row._id !== _id));
-  };
+  $("ul").on("click", ".init", function () {
+    $(this).closest("ul").children("li:not(.init)").toggle();
+  });
 
-  $("ul").on("click", ".init", function() {
-    $(this).closest("ul").children('li:not(.init)').toggle();
-});
-
-var allOptions = $("ul").children('li:not(.init)');
-$("ul").on("click", "li:not(.init)", function() {
-    allOptions.removeClass('selected');
-    $(this).addClass('selected');
-    $("ul").children('.init').html($(this).html());
+  var allOptions = $("ul").children("li:not(.init)");
+  $("ul").on("click", "li:not(.init)", function () {
+    allOptions.removeClass("selected");
+    $(this).addClass("selected");
+    $("ul").children(".init").html($(this).html());
     allOptions.toggle();
-});
+  });
   const handleNavigation = () => {
     navigate("/create-pda");
   };
@@ -125,7 +130,7 @@ $("ul").on("click", "li:not(.init)", function() {
       item.cargoId?.cargoName
         ?.toLowerCase()
         .includes(searchTerm.toLowerCase()) ||
-      item.preparedUserId?._id
+      item.preparedUserId?.name
         ?.toLowerCase()
         .includes(searchTerm.toLowerCase()) ||
       getStatusText(item.pdaStatus)
@@ -150,6 +155,9 @@ $("ul").on("click", "li:not(.init)", function() {
   useEffect(() => {
     console.log(selectedStatus, "selectedStatus");
   }, [selectedStatus]);
+  useEffect(() => {
+    console.log(filteredQuotations, "filteredQuotations");
+  }, [filteredQuotations]);
 
   const handleSelectChange = (event) => {
     const { name, value } = event.target;
@@ -163,32 +171,87 @@ $("ul").on("click", "li:not(.init)", function() {
     }
   };
 
+  const NoRowsOverlay = () => (
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100%",
+        color: "gray",
+      }}
+    >
+      <Typography>No Quotations available for given terms</Typography>
+    </Box>
+  );
+
+  const handleDelete = async (item) => {
+    console.log(item, "item handleDelete");
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        if (item?._id) {
+          try {
+            let payload = {
+              pdaId: item?._id,
+            };
+            const response = await deleteQuotation(payload);
+            console.log("Fetched Charges:", response);
+            setMessage("Charge deleted successfully");
+            setOpenPopUp(true);
+            fetchQuotations("all");
+          } catch (error) {
+            console.error("Error fetching charges:", error);
+            Swal.fire("Error deleting charges");
+            fetchQuotations("all");
+          }
+        }
+      }
+    });
+  };
+
   return (
     <>
       <div className="d-flex justify-content-between headerb mb-3 mt-3 ">
         <div className="leftside">
           <ul className="nav nav-underline gap-4 ">
-            <li className="nav-item">
+            <li className="nav-item nav-item-filter">
               <a
                 className="nav-link carduppercontent"
                 aria-current="page"
-                href="#"
+                onClick={() => fetchQuotations("all")}
               >
                 All
               </a>
             </li>
-            <li className="nav-item">
-              <a className="nav-link carduppercontent" href="#">
+            <li className="nav-item nav-item-filter">
+              <a
+                className="nav-link carduppercontent"
+                onClick={() => fetchQuotations("day")}
+              >
                 Last 24 Hour
               </a>
             </li>
-            <li className="nav-item">
-              <a className="nav-link carduppercontent" href="#">
+            <li className="nav-item nav-item-filter">
+              <a
+                className="nav-link carduppercontent"
+                onClick={() => fetchQuotations("week")}
+              >
                 Last Week
               </a>
             </li>
-            <li className="nav-item">
-              <a className="nav-link carduppercontentlast" href="#">
+            <li className="nav-item nav-item-filter">
+              <a
+                className="nav-link carduppercontentlast"
+                onClick={() => fetchQuotations("month")}
+              >
                 Last Month
               </a>
             </li>
@@ -199,31 +262,37 @@ $("ul").on("click", "li:not(.init)", function() {
           <div class=" searchmain">
             <input
               type="email"
-              class="form-control search"
+              className="form-control search"
               id="exampleFormControlInput1"
               placeholder="Search"
+              value={searchTerm}
+              onChange={handleSearch}
             />
-            <i class="bi bi-search searchicon"></i>
+            <i className="bi bi-search searchicon"></i>
           </div>
           <div class=" filtermain ">
-          <i class="bi bi-funnel-fill filtericon"></i>
-            <select class="form-select form-select-sm filter" aria-label="Small select example">
-              <option value="1" className="filtervalue">Draft</option>
-              <option value="2" className="filtervalue">Submitted</option>
-              <option value="3" className="filtervalue">Waiting for FM Approval</option>
-              <option value="3" className="filtervalue">Internally Approved</option>
+            <i class="bi bi-funnel-fill filtericon"></i>
+            <select
+              class="form-select form-select-sm filter"
+              aria-label="Small select example"
+              name="status"
+              onChange={handleSelectChange}
+              value={selectedStatus}
+            >
+              <option value="">All</option>
+              {statusList?.map((status) => (
+                <option key={status} value={status}>
+                  {status}
+                </option>
+              ))}
             </select>
-{/* <div>
-<ul class="list-unstyled filter">
-    <li class="init">[SELECT]</li>
-    <li data-value="value 1">Option 1</li>
-    <li data-value="value 2">Option 2</li>
-    <li data-value="value 3">Option 3</li>
-</ul>
-</div> */}
           </div>
-          <div class=" createbtn">
-            <button type="button" class="btn btn-info infobtn">
+          <div className=" createbtn">
+            <button
+              type="button"
+              onClick={() => handleNavigation()}
+              className="btn btn-info infobtn"
+            >
               Create New PDA
             </button>
           </div>
@@ -256,16 +325,20 @@ $("ul").on("click", "li:not(.init)", function() {
           </select> */}
 
         <DataGrid
-          rows={filteredQuotations.map((item) => ({
-            id: item._id,
-            vessel: item.vesselId?.vesselName || "N/A",
-            port: item.portId?.portName || "N/A",
-            cargo: item.cargoId?.cargoName || "N/A",
-            date: formatDate(item.createdAt),
-            preparedBy: item.preparedUserId?._id || "N/A",
-            status: getStatusText(item.pdaStatus),
-            ...item,
-          }))}
+          rows={
+            filteredQuotations.length > 0
+              ? filteredQuotations.map((item) => ({
+                  id: item._id,
+                  vessel: item.vesselId?.vesselName || "N/A",
+                  port: item.portId?.portName || "N/A",
+                  cargo: item.cargoId?.cargoName || "N/A",
+                  date: formatDate(item.createdAt),
+                  preparedBy: item.preparedUserId?.name || "N/A",
+                  status: getStatusText(item.pdaStatus),
+                  ...item,
+                }))
+              : []
+          }
           columns={columns}
           getRowId={(row) => row.id} // Use id field for unique row identification
           disableSelectionOnClick // Disables checkbox selection to prevent empty column
@@ -274,6 +347,9 @@ $("ul").on("click", "li:not(.init)", function() {
           pageSize={pageSize}
           onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
           rowsPerPageOptions={[5, 10, 20]} // Options for rows per page
+          components={{
+            NoRowsOverlay,
+          }}
           sx={{
             "& .MuiDataGrid-footerContainer": {
               justifyContent: "center",
@@ -281,7 +357,20 @@ $("ul").on("click", "li:not(.init)", function() {
             },
           }}
         />
+
+        {filteredQuotations?.length == 0 && (
+          <>
+            <div className="no-data">
+              <p>No Quotations available for given terms</p>
+            </div>
+          </>
+        )}
       </div>
+
+      <Loader isLoading={isLoading} />
+      {openPopUp && (
+        <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
+      )}
     </>
   );
 };
