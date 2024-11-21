@@ -5,7 +5,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
 import "../css/quotation.css";
 import { getAllQuotations } from "../services/apiService";
-import { IconButton, TextField } from "@mui/material";
+import $ from "jquery";
 
 const Quotations = () => {
   const navigate = useNavigate();
@@ -93,6 +93,17 @@ const Quotations = () => {
     setQuotationsList((prevData) => prevData.filter((row) => row._id !== _id));
   };
 
+  $("ul").on("click", ".init", function() {
+    $(this).closest("ul").children('li:not(.init)').toggle();
+});
+
+var allOptions = $("ul").children('li:not(.init)');
+$("ul").on("click", "li:not(.init)", function() {
+    allOptions.removeClass('selected');
+    $(this).addClass('selected');
+    $("ul").children('.init').html($(this).html());
+    allOptions.toggle();
+});
   const handleNavigation = () => {
     navigate("/create-pda");
   };
@@ -193,19 +204,22 @@ const Quotations = () => {
             />
             <i class="bi bi-search searchicon"></i>
           </div>
-          <div class="">
-            <i class="bi bi-funnel-fill filtericon"></i>
-            <select
-              class="form-select form-select-sm filter"
-              aria-label="Small select example"
-            >
-              <option value="1" className="filtervalue">
-                Draft
-              </option>
-              <option value="2">Submitted</option>
-              <option value="3">Waiting for FM Approval</option>
-              <option value="3">Internally Approved</option>
+          <div class=" filtermain ">
+          <i class="bi bi-funnel-fill filtericon"></i>
+            <select class="form-select form-select-sm filter" aria-label="Small select example">
+              <option value="1" className="filtervalue">Draft</option>
+              <option value="2" className="filtervalue">Submitted</option>
+              <option value="3" className="filtervalue">Waiting for FM Approval</option>
+              <option value="3" className="filtervalue">Internally Approved</option>
             </select>
+{/* <div>
+<ul class="list-unstyled filter">
+    <li class="init">[SELECT]</li>
+    <li data-value="value 1">Option 1</li>
+    <li data-value="value 2">Option 2</li>
+    <li data-value="value 3">Option 3</li>
+</ul>
+</div> */}
           </div>
           <div class=" createbtn">
             <button type="button" class="btn btn-info infobtn">
