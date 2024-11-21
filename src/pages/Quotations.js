@@ -184,23 +184,31 @@ const Quotations = () => {
         </div>
 
         <div class="d-flex gap-3 rightside">
-          <div class=" search d-flex justify-content-around">
-            <i class="bi bi-search"></i>
-            Search
+          <div class="">
+            <input
+              type="email"
+              class="form-control search"
+              id="exampleFormControlInput1"
+              placeholder="Search"
+            />
+            <i class="bi bi-search searchicon"></i>
           </div>
-
-          <div class=" filter d-flex justify-content-between">
-            <i class="bi bi-funnel-fill"></i>
-            filter
-            <i class="bi bi-caret-down-fill"></i>
-          </div>
-
-          <div class=" createbtn">
-            <button
-              type="button"
-              class="btn btn-info infobtn"
-              onClick={() => handleNavigation()}
+          <div class="">
+            <i class="bi bi-funnel-fill filtericon"></i>
+            <select
+              class="form-select form-select-sm filter"
+              aria-label="Small select example"
             >
+              <option value="1" className="filtervalue">
+                Draft
+              </option>
+              <option value="2">Submitted</option>
+              <option value="3">Waiting for FM Approval</option>
+              <option value="3">Internally Approved</option>
+            </select>
+          </div>
+          <div class=" createbtn">
+            <button type="button" class="btn btn-info infobtn">
               Create New PDA
             </button>
           </div>

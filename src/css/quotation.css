@@ -8,12 +8,13 @@
 
 .filter {
     border: 1px solid #80808041;
-    width: 150px;
-    padding: 0px 10px 0px 10px;
+    width: 250px;
+    padding: 0px 10px 0px 39px;
     align-items: center;
     height: 33px;
     border-radius: 5px;
     font-size: 13px;
+    position:relative;
 
 }
 
@@ -36,6 +37,24 @@
     align-items: center;
 }
 
+.searchicon{
+    position: absolute;
+    top: 91px;
+    right: 427px;
+
+}
+.filtervalue{
+    padding-left: 0px !important;
+}
+.filtericon{
+    position: absolute;
+    top: 91px;
+    right: 365px;
+    z-index: 1;
+}
+.filtername{
+    padding-left: 50px;
+}
 .tablequo {
 
     min-width: 1082px;
