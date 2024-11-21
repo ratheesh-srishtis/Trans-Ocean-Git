@@ -52,22 +52,31 @@ const PdaDialog = ({
   const [pdfData, setPdfData] = useState(null);
 
   const fetchPdaFile = async () => {
-    // alert("fetchPdaFile");
-    let data = {
-      pdaId: pdaResponse?._id,
-    };
-    try {
-      const pdaFile = await getPdaFile(data);
-      setPdfData(pdaFile);
-      console.log("pdaFile", pdaFile);
-    } catch (error) {
-      console.error("Failed to fetch quotations:", error);
+    alert("fetchPdaFile");
+    if (pdaResponse?._id) {
+      let data = {
+        pdaId: pdaResponse?._id,
+      };
+      try {
+        const pdaFile = await getPdaFile(data);
+        setPdfData(pdaFile);
+        console.log("pdaFile", pdaFile);
+      } catch (error) {
+        console.error("Failed to fetch quotations:", error);
+      }
     }
   };
 
   useEffect(() => {
     fetchPdaFile();
   }, [pdaResponse]);
+
+  useEffect(() => {
+    if (open == true) {
+      fetchPdaFile();
+    }
+  }, [open]);
+
   useEffect(() => {
     console.log(pdfData, "pdfData");
   }, [pdfData]);

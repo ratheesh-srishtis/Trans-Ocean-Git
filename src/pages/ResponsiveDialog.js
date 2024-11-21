@@ -195,6 +195,7 @@ const ResponsiveDialog = ({
     } else if (name === "customerOmrAmount") {
       setCustomerOmrAmount(value);
     } else if (name === "vendorAmount") {
+      // alert(value, name);
       setVendorAmount(value);
       setVendorAmountError(false);
     } else if (name === "vendorOmrAmount") {
@@ -1086,9 +1087,8 @@ const ResponsiveDialog = ({
                                 id="exampleFormControlInput1"
                                 placeholder=""
                                 name="vendorAmount"
-                                value={vendorAmount || ""}
+                                value={vendorAmount}
                                 onChange={handleInputChange}
-                                onWheel={handleWheel}
                               />
                             </div>
                             {vendorAmountError && (
@@ -1921,7 +1921,6 @@ const ResponsiveDialog = ({
                           name="vendorAmount"
                           value={vendorAmount}
                           onChange={handleInputChange}
-                          onWheel={handleWheel}
                         />
                         {vendorAmountError && (
                           <>

@@ -157,10 +157,10 @@ const ChargesTable = ({
       if (result.isConfirmed) {
         console.log("Delete:", charge);
         // Implement your delete logic here (e.g., API call to delete the charge)
-        if (charge?.pdaChargeId) {
+        if (charge?._id) {
           try {
             let chargesPayload = {
-              pdaChargeId: charge?.pdaChargeId,
+              pdaChargeId: charge?._id,
             };
             const response = await deleteQuotationCharge(chargesPayload);
             console.log("Fetched Charges:", response);
