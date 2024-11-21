@@ -17,6 +17,14 @@ const Header = () => {
       return "Dashboard";
     } else if (location.pathname.includes("/create-pda")) {
       return "Create New PDA";
+    } else if (location.pathname.includes("/quotations")) {
+      return "Quotations";
+    } else if (location.pathname.includes("/jobs")) {
+      return "Jobs";
+    } else if (location.pathname.includes("/payments")) {
+      return "Payments";
+    } else if (location.pathname.includes("/soa")) {
+      return "Soa";
     } else if (location.pathname == "/") {
       return "Dashboard";
     }
@@ -34,7 +42,7 @@ const Header = () => {
         <div className="header--wrapper">
           <div className="header--title">
             <h5>{getHeaderText()}</h5>
-            <div className="version"> Version: 0.011</div>
+            <div className="version"> Version: 0.4</div>
           </div>
 
           <div className="d-flex flex-row-reverse ">
