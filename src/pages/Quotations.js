@@ -80,13 +80,13 @@ const Quotations = () => {
       renderCell: (params) => (
         <>
           <IconButton color="primary" onClick={() => handleEdit(params.row)}>
-            <EditIcon sx={{ fontSize: "19px" }}  />
+            <EditIcon sx={{ fontSize: "19px" }} />
           </IconButton>
           <IconButton
             color="secondary"
             onClick={() => handleDelete(params.row)}
           >
-            <DeleteIcon  sx={{ fontSize: "19px" }}  />
+            <DeleteIcon sx={{ fontSize: "19px" }} />
           </IconButton>
         </>
       ),
@@ -206,6 +206,13 @@ const Quotations = () => {
     });
   };
 
+  const handleRowClick = (row) => {
+    console.log("Row clicked:", row); // Log the clicked row data
+    // Perform your desired action here
+    // alert(`You clicked on item with ID: ${row.id}`);
+    navigate("/view-quotation");
+  };
+
   return (
     <>
       <div className="d-flex justify-content-between headerb mb-3 mt-3 ">
@@ -312,67 +319,62 @@ const Quotations = () => {
               </option>
             ))}
           </select> */}
-          <div
-     className="quotation-outer-div"
-    >
-      <div>
-      <DataGrid
-          rows={
-            filteredQuotations.length > 0
-              ? filteredQuotations.map((item) => ({
-                  id: item._id,
-                  vessel: item.vesselId?.vesselName || "N/A",
-                  port: item.portId?.portName || "N/A",
-                  cargo: item.cargoId?.cargoName || "N/A",
-                  date: formatDate(item.createdAt),
-                  preparedBy: item.preparedUserId?.name || "N/A",
-                  status: getStatusText(item.pdaStatus),
-                  ...item,
-                }))
-              : []
-          }
-          columns={columns}
-          getRowId={(row) => row.id} // Use id field for unique row identification
-          disableSelectionOnClick // Disables checkbox selection to prevent empty column
-          disableColumnMenu // Removes column menu
-          pagination
-          pageSize={pageSize}
-          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-          rowsPerPageOptions={[5, 10, 20]} // Options for rows per page
-          components={{
-            NoRowsOverlay,
-          }}
-          sx={{
-            "& .MuiDataGrid-root": {
-              border: "none",
-            },
-            "& .MuiDataGrid-footerContainer": {
-              justifyContent: "flex-start", // Align pagination with table
-              padding: "0 16px", // Match horizontal padding with columns
-              borderTop: "1px solid rgba(224, 224, 224, 1)", // Add border for better alignmen
-            },
-            "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: "#eee !important", // Set gray background color
-              color: "#000000", // Set white text color for contrast
-              fontWeight: "bold", // Optional: Make the text bold
-            },
-            "& .MuiDataGrid-cell": {
-              whiteSpace: "nowrap", 
-              overflow: "hidden",
-              textOverflow: "ellipsis", 
-            },
+        <div className="quotation-outer-div">
+          <div>
+            <DataGrid
+              rows={
+                filteredQuotations.length > 0
+                  ? filteredQuotations.map((item) => ({
+                      id: item._id,
+                      vessel: item.vesselId?.vesselName || "N/A",
+                      port: item.portId?.portName || "N/A",
+                      cargo: item.cargoId?.cargoName || "N/A",
+                      date: formatDate(item.createdAt),
+                      preparedBy: item.preparedUserId?.name || "N/A",
+                      status: getStatusText(item.pdaStatus),
+                      ...item,
+                    }))
+                  : []
+              }
+              columns={columns}
+              getRowId={(row) => row.id} // Use id field for unique row identification
+              disableSelectionOnClick // Disables checkbox selection to prevent empty column
+              disableColumnMenu // Removes column menu
+              pagination
+              pageSize={pageSize}
+              onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+              rowsPerPageOptions={[5, 10, 20]} // Options for rows per page
+              components={{
+                NoRowsOverlay,
+              }}
+              onRowClick={(params) => handleRowClick(params.row)} // Trigger function on row click
+              sx={{
+                "& .MuiDataGrid-root": {
+                  border: "none",
+                },
+                "& .MuiDataGrid-footerContainer": {
+                  justifyContent: "flex-start", // Align pagination with table
+                  padding: "0 16px", // Match horizontal padding with columns
+                  borderTop: "1px solid rgba(224, 224, 224, 1)", // Add border for better alignmen
+                },
+                "& .MuiDataGrid-columnHeaders": {
+                  backgroundColor: "#eee !important", // Set gray background color
+                  color: "#000000", // Set white text color for contrast
+                  fontWeight: "bold", // Optional: Make the text bold
+                },
+                "& .MuiDataGrid-cell": {
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                },
 
-            "& .MuiTablePagination-root": {
-              margin: 0, // Remove default margins
-            },
-          
-          
-          }}
-        />
-
-      </div>
-    </div>
-       
+                "& .MuiTablePagination-root": {
+                  margin: 0, // Remove default margins
+                },
+              }}
+            />
+          </div>
+        </div>
 
         {filteredQuotations?.length == 0 && (
           <>

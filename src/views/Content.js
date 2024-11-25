@@ -9,6 +9,7 @@ import CreatePDA from "../pages/CreatePDA";
 import { useAuth } from "../context/AuthContext";
 import { getAllPdaValuesApi, getDashbordDetails } from "../services/apiService";
 import UpdateJobs from "../pages/UpdateJobs";
+import ViewQuotation from "../pages/ViewQuotation";
 const Content = () => {
   const { loginResponse } = useAuth();
 
@@ -49,6 +50,7 @@ const Content = () => {
       <Route path="/payments" element={<Payments />} />
       <Route path="/soa" element={<Soa />} />
       <Route path="/update-jobs" element={<UpdateJobs />} />
+      <Route path="/view-quotation" element={<ViewQuotation />} />
       <Route
         path="/create-pda"
         element={
