@@ -126,7 +126,8 @@ const QuotationDialog = ({
           subject: "",
           cc: "",
           bcc: "",
-          emailbody: "",
+          emailbody:
+            "I am writing to seek your approval for the Quotation. Please find attached a copy of the signed quotation for your records. Once approved, we will proceed with the Quotation as per our standard procedures. Thank you for your prompt attention to this matter.",
           pdaId: "",
           files: [],
         });
