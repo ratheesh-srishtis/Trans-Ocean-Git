@@ -68,6 +68,11 @@ const QuotationDialog = ({
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedFileIndex, setSelectedFileIndex] = useState(null);
 
+  const [toError, setToError] = useState(false);
+  const [subjectError, setSubjectError] = useState(false);
+  const [emailBodyError, setEmailBodyError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const handleFileUpload = (e) => {
     const uploadedFiles = Array.from(e.target.files);
 
@@ -101,8 +106,30 @@ const QuotationDialog = ({
   };
 
   const handleSubmit = async () => {
-    const formDataToSend = new FormData();
+    const { to, subject, emailbody } = formData;
+    if (!to.trim()) {
+      setToError(true);
+    }
+    if (!subject.trim()) {
+      setSubjectError(true);
+    }
+    if (!emailbody.trim()) {
+      setEmailBodyError(true);
+    }
 
+    // Check if email address is valid
+    if (!emailRegex.test(to)) {
+      setEmailError(true);
+      return;
+    }
+
+    if (!to.trim() || !subject.trim() || !emailbody.trim()) {
+      setMessage("Please fill all the required fields");
+      setOpenPopUp(true);
+      return;
+    }
+
+    const formDataToSend = new FormData();
     // Append each file to FormData
     formData.files.forEach((file) => {
       formDataToSend.append("files", file); // 'files' is the key expected on the server side
@@ -174,16 +201,45 @@ const QuotationDialog = ({
                       >
                         To Address:
                       </label>
-                      <input
+                      {/* <input
                         type="email"
                         className="form-control vessel-voyage"
                         id="exampleFormControlInput1"
                         placeholder=""
                         value={formData.to}
-                        onChange={(e) =>
-                          setFormData({ ...formData, to: e.target.value })
-                        }
+                        onChange={(e) => {
+                          setFormData({ ...formData, to: e.target.value });
+                          setToError(false);
+                        }}
+                      /> */}
+
+                      <input
+                        type="email"
+                        className={`form-control vessel-voyage ${
+                          emailError ? "is-invalid" : ""
+                        }`}
+                        id="exampleFormControlInput1"
+                        placeholder="Enter recipient's email"
+                        value={formData.to}
+                        onChange={(e) => {
+                          setFormData({ ...formData, to: e.target.value });
+                          setToError(false); // Clear "to" error on change
+                          setEmailError(false); // Clear email error on change
+                        }}
                       />
+
+                      {toError && (
+                        <>
+                          <div className="invalid">Please enter to address</div>
+                        </>
+                      )}
+                      {emailError && (
+                        <>
+                          <div className="invalid">
+                            Please enter a valid email address.
+                          </div>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -250,10 +306,16 @@ const QuotationDialog = ({
                         id="exampleFormControlInput1"
                         placeholder=""
                         value={formData.subject}
-                        onChange={(e) =>
-                          setFormData({ ...formData, subject: e.target.value })
-                        }
+                        onChange={(e) => {
+                          setFormData({ ...formData, subject: e.target.value });
+                          setSubjectError(false);
+                        }}
                       />
+                      {subjectError && (
+                        <>
+                          <div className="invalid">Please enter subject</div>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -275,11 +337,17 @@ const QuotationDialog = ({
                       className="form-control formlabelcolor"
                       id="exampleFormControlInput1"
                       value={formData.emailbody}
-                      onChange={(e) =>
-                        setFormData({ ...formData, emailbody: e.target.value })
-                      }
+                      onChange={(e) => {
+                        setFormData({ ...formData, emailbody: e.target.value });
+                        setEmailBodyError(false);
+                      }}
                       placeholder=""
                     ></textarea>
+                    {emailBodyError && (
+                      <>
+                        <div className="invalid">Please enter emailbody</div>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>

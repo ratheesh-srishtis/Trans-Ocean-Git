@@ -186,7 +186,7 @@ const CreatePDA = ({
         GRT: selectedVessel?.GRT,
         NRT: selectedVessel?.NRT,
       }));
-    } else {
+    } else if (selectedVessel?.vesselName == "TBA" && editData == null) {
       setFormData((prevFormData) => ({
         ...prevFormData,
         IMONumber: "",
@@ -486,6 +486,7 @@ const CreatePDA = ({
 
   // Fetch data only once when `editData` changes
   useEffect(() => {
+    console.log(editData, "editData");
     if (editData && !fetchInitiated) {
       setFetchInitiated(true); // Mark fetch as initiated
       fetchPdaDetails(editData?._id);
