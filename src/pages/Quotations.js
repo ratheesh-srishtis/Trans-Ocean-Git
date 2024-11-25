@@ -76,17 +76,17 @@ const Quotations = () => {
     {
       field: "actions",
       headerName: "Action",
-      flex: 1,
+      flex: 0,
       renderCell: (params) => (
         <>
           <IconButton color="primary" onClick={() => handleEdit(params.row)}>
-            <EditIcon />
+            <EditIcon sx={{ fontSize: "19px" }}  />
           </IconButton>
           <IconButton
             color="secondary"
             onClick={() => handleDelete(params.row)}
           >
-            <DeleteIcon />
+            <DeleteIcon  sx={{ fontSize: "19px" }}  />
           </IconButton>
         </>
       ),
@@ -311,8 +311,11 @@ const Quotations = () => {
               </option>
             ))}
           </select> */}
-
-        <DataGrid
+          <div
+     className="quotation-outer-div"
+    >
+      <div>
+      <DataGrid
           rows={
             filteredQuotations.length > 0
               ? filteredQuotations.map((item) => ({
@@ -339,12 +342,36 @@ const Quotations = () => {
             NoRowsOverlay,
           }}
           sx={{
-            "& .MuiDataGrid-footerContainer": {
-              justifyContent: "center",
-              padding: "10px",
+            "& .MuiDataGrid-root": {
+              border: "none",
             },
+            "& .MuiDataGrid-footerContainer": {
+              justifyContent: "flex-start", // Align pagination with table
+              padding: "0 16px", // Match horizontal padding with columns
+              borderTop: "1px solid rgba(224, 224, 224, 1)", // Add border for better alignmen
+            },
+            "& .MuiDataGrid-columnHeaders": {
+              backgroundColor: "#eee !important", // Set gray background color
+              color: "#000000", // Set white text color for contrast
+              fontWeight: "bold", // Optional: Make the text bold
+            },
+            "& .MuiDataGrid-cell": {
+              whiteSpace: "nowrap", 
+              overflow: "hidden",
+              textOverflow: "ellipsis", 
+            },
+
+            "& .MuiTablePagination-root": {
+              margin: 0, // Remove default margins
+            },
+          
+          
           }}
         />
+
+      </div>
+    </div>
+       
 
         {filteredQuotations?.length == 0 && (
           <>
