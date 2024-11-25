@@ -114,6 +114,7 @@ const ResponsiveDialog = ({
         setSelectedServiceError(false);
         setCharges([]);
         setSubCharges([]);
+        setSelectedChargesType(null);
         break;
       case "chargeType":
         setSelectedChargesType(charges.find((charge) => charge?._id === value));

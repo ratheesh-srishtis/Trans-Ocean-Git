@@ -52,7 +52,7 @@ const Header = () => {
                 type="button"
                 className="admin-button text-start namefinance"
               >
-                Finance
+                {loginResponse?.data?.userRole?.role}
                 <div className="nameuser">{loginResponse?.data?.name}</div>
               </button>
               <button
