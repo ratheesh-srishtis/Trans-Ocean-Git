@@ -12,6 +12,10 @@
   box-shadow: 0 0 0 0.25rem rgba(72, 72, 72, 0.25);
 }
 
+/* .form-select option{
+  color:rgb(139, 139, 139) !important;
+} */
+
 .form-label {
   font-size: 0.8rem;
   margin-bottom: 0rem;
@@ -243,7 +247,7 @@
 
 .btn:hover {
   anchor-name: none;
-  color: white;
+  color: #007ac1;
   background-color: #ffffff;
   border-color: #007ac1;
 }

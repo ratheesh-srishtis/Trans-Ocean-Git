@@ -199,9 +199,14 @@ body {
   font-size: 13px;
 }
 
-.createb {
-  font-size: 13px;
+
+
+.infobtn{
+  background-color:#1ebbee;
+
 }
+
+
 
 .carduppercontentlast {
   font-size: 13px;
@@ -402,7 +407,7 @@ td {
 
 .transocean_login .login_text {
   text-decoration: underline;
-  padding-bottom: 50px;
+  padding-bottom: 15px;
 }
 
 .transocean_login .form-control {

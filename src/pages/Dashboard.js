@@ -66,7 +66,7 @@ const Dashboard = () => {
             </ul>
             <button
               type="button"
-              className="btn btn-primary"
+              className="btn infobtn"
               onClick={() => handleNavigation()}
             >
               <div className="createb"> Create New PDA </div>
