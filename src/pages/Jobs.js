@@ -119,10 +119,7 @@ const Jobs = () => {
         </div>
 
         <div className="d-flex gap-3 rightside">
-          <div className=" search d-flex justify-content-around">
-            <i className="bi bi-search"></i>
-            Search
-          </div>
+
           <div className=" filter d-flex justify-content-between">
             <i className="bi bi-funnel-fill"></i>
             filter
