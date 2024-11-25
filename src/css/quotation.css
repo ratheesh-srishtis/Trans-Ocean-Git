@@ -14,7 +14,25 @@
 .searchmain {
   position: relative;
 }
+.pdabadge {
+  font-size: 13px;
+  color:#007bc1;
+  margin-top:2px;
+}
 
+.draft-pda-jobs {
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  border: 1px solid #007bc1;
+  background-color: #e6f2f9;
+  padding: 4px;
+  padding-right: 19px;
+  margin-left: 23px;
+}
+.statusbadge i {
+  font-size: 15px;
+}
 .search {
   border: 1px solid #80808041;
   width: 150px;
@@ -26,7 +44,7 @@
 }
 
 .rightside {
-  margin-right: 30px;
+  margin-right: 23px;
 }
 
 
@@ -61,12 +79,32 @@
   display: flex;
   align-items: center;
 }
+
+.filtermainjobs{
+  position: relative;
+  border: 1px solid #80808041;
+  width: 220px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.filtermainjobs .filter, .filtermainjobs .filter:focus {
+  border: 0 !important;
+  box-shadow: inherit !important;
+  outline: 0 !important;
+}
+
+
+
+
 .filtermain .filter,
 .filtermain .filter:focus {
   border: 0 !important;
   box-shadow: inherit !important;
   outline: 0 !important;
 }
+
 
 .form-select.form-select-sm option {
   padding-left: 5px !important;

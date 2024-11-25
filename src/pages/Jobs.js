@@ -209,8 +209,8 @@ const Jobs = () => {
   return (
     <>
       <div className="d-flex justify-content-between headerb mb-3 mt-3 ">
-        <div className="leftside">
-          <ul className="nav nav-underline gap-4 ">
+        <div className="leftside d-flex">
+          <ul className="nav nav-underline gap-3 ">
             <li className="nav-item nav-item-filter">
               <a
                 className="nav-link carduppercontent"
@@ -245,41 +245,43 @@ const Jobs = () => {
               </a>
             </li>
           </ul>
+          <div class="draft-pda-jobs ">
+            <span class="badge statusbadge ">
+            <i className="bi bi-check2-circle circle"></i>
+            </span>
+            <div class="pdabadge">Assigned to Operations</div>
+          </div>
         </div>
 
-        <div class="d-flex gap-3 rightside">
+        <div class="d-flex gap-2 rightside">
+
           <div class=" searchmain">
             <input
               type="email"
               className="form-control search"
               id="exampleFormControlInput1"
               placeholder="Search"
-              value={searchTerm}
-              onChange={handleSearch}
             />
             <i className="bi bi-search searchicon"></i>
           </div>
-          <div class=" filtermain ">
+          <div class=" filtermainjobs ">
             <i class="bi bi-funnel-fill filtericon"></i>
             <select
               class="form-select form-select-sm filter"
               aria-label="Small select example"
               name="status"
-              onChange={handleSelectChange}
-              value={selectedStatus}
             >
-              <option value="">All</option>
-              {statusList?.map((status) => (
-                <option key={status} value={status}>
-                  {status}
-                </option>
-              ))}
+              <option value="">Filter By Status</option>
+              <option value="">Customer Approved</option>
+              <option value="">Pending From OPS</option>
+              <option value="">Operations Completed</option>
+              <option value="">NO Approvals Required</option>
+
             </select>
           </div>
           <div className=" createbtn">
             <button
               type="button"
-              onClick={() => handleNavigation()}
               className="btn btn-info infobtn"
             >
               Create New PDA
