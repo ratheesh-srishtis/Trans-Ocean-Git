@@ -89,44 +89,82 @@ const Jobs = () => {
   return (
     <>
       <div className="d-flex justify-content-between headerb mb-3 mt-3 ">
-        <div className="leftside">
-          <ul className="nav nav-underline gap-4 ">
-            <li className="nav-item">
+        <div className="leftside d-flex">
+          <ul className="nav nav-underline gap-3 ">
+            <li className="nav-item nav-item-filter">
               <a
                 className="nav-link carduppercontent"
                 aria-current="page"
-                href="#"
+                onClick={() => fetchQuotations("all")}
               >
                 All
               </a>
             </li>
-            <li className="nav-item">
-              <a className="nav-link carduppercontent" href="#">
+            <li className="nav-item nav-item-filter">
+              <a
+                className="nav-link carduppercontent"
+                onClick={() => fetchQuotations("day")}
+              >
                 Last 24 Hour
               </a>
             </li>
-            <li className="nav-item">
-              <a className="nav-link carduppercontent" href="#">
+            <li className="nav-item nav-item-filter">
+              <a
+                className="nav-link carduppercontent"
+                onClick={() => fetchQuotations("week")}
+              >
                 Last Week
               </a>
             </li>
-            <li className="nav-item">
-              <a className="nav-link carduppercontentlast" href="#">
+            <li className="nav-item nav-item-filter">
+              <a
+                className="nav-link carduppercontentlast"
+                onClick={() => fetchQuotations("month")}
+              >
                 Last Month
               </a>
             </li>
           </ul>
+          <div class="draft-pda-jobs ">
+            <span class="badge statusbadge ">
+            <i className="bi bi-check2-circle circle"></i>
+            </span>
+            <div class="pdabadge">Assigned to Operations</div>
+          </div>
         </div>
 
-        <div className="d-flex gap-3 rightside">
+        <div class="d-flex gap-2 rightside">
 
-          <div className=" filter d-flex justify-content-between">
-            <i className="bi bi-funnel-fill"></i>
-            filter
-            <i className="bi bi-caret-down-fill"></i>
+          <div class=" searchmain">
+            <input
+              type="email"
+              className="form-control search"
+              id="exampleFormControlInput1"
+              placeholder="Search"
+            />
+            <i className="bi bi-search searchicon"></i>
+          </div>
+          <div class=" filtermainjobs ">
+            <i class="bi bi-funnel-fill filtericon"></i>
+            <select
+              class="form-select form-select-sm filter"
+              aria-label="Small select example"
+              name="status"
+            >
+              <option value="">Filter By Status</option>
+              <option value="">Customer Approved</option>
+              <option value="">Pending From OPS</option>
+              <option value="">Operations Completed</option>
+              <option value="">NO Approvals Required</option>
+
+            </select>
           </div>
           <div className=" createbtn">
-            <button type="button" className="btn btn-info infobtn">
+            <button
+              type="button"
+
+              className="btn btn-info infobtn"
+            >
               Create New PDA
             </button>
           </div>
