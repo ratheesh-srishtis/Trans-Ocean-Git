@@ -41,6 +41,10 @@ const Content = () => {
     fetchPdaValues();
   }, []);
 
+  useEffect(() => {
+    console.log(customers, "customers");
+  }, [customers]);
+
   return (
     <Routes>
       <Route path="/" element={<Dashboard />} />
@@ -50,7 +54,20 @@ const Content = () => {
       <Route path="/payments" element={<Payments />} />
       <Route path="/soa" element={<Soa />} />
       <Route path="/update-jobs" element={<UpdateJobs />} />
-      <Route path="/view-quotation" element={<ViewQuotation />} />
+      <Route
+        path="/view-quotation"
+        element={
+          <ViewQuotation
+            vessels={vessels}
+            ports={ports}
+            cargos={cargos}
+            vesselTypes={vesselTypes}
+            services={services}
+            customers={customers}
+            loginResponse={loginResponse}
+          />
+        }
+      />
       <Route
         path="/create-pda"
         element={

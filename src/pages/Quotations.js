@@ -19,7 +19,6 @@ const Quotations = () => {
   const [statusList, setStatusList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
-  const [pageSize, setPageSize] = useState(10); // Default rows per page
   const [isLoading, setIsLoading] = useState(false); // Loader state
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
@@ -66,7 +65,25 @@ const Quotations = () => {
   };
 
   const columns = [
-    { field: "pdaNumber", headerName: "Job ID", flex: 1 },
+    {
+      field: "pdaNumber",
+      headerName: "Job ID",
+      flex: 1,
+      renderCell: (params) => (
+        <div
+          style={{
+            color: "#1EBBEE",
+            cursor: "pointer",
+            textDecoration: "none",
+            "&:hover": {
+              textDecoration: "underline",
+            },
+          }}
+        >
+          {params.value}
+        </div>
+      ),
+    },
     { field: "vessel", headerName: "Vessel Name", flex: 2 },
     { field: "date", headerName: "Date", flex: 1 },
     { field: "port", headerName: "Port Name", flex: 2 },
@@ -206,11 +223,12 @@ const Quotations = () => {
     });
   };
 
-  const handleRowClick = (row) => {
-    console.log("Row clicked:", row); // Log the clicked row data
-    // Perform your desired action here
-    // alert(`You clicked on item with ID: ${row.id}`);
-    navigate("/view-quotation");
+  const handleCellClick = (params, event) => {
+    console.log(params, "params");
+    if (params.field === "pdaNumber") {
+      let row = params.row;
+      navigate("/view-quotation", { state: { row } });
+    }
   };
 
   return (
@@ -296,29 +314,6 @@ const Quotations = () => {
       </div>
 
       <div className=" tablequo">
-        {/* <TextField
-            variant="outlined"
-            size="small"
-            fullWidth
-            placeholder="Search..."
-            value={searchTerm}
-            onChange={handleSearch}
-          /> */}
-
-        {/* <select
-            name="status"
-            className="form-select vesselbox"
-            onChange={handleSelectChange}
-            aria-label="Default select example" 
-            value={selectedStatus}
-          >
-            <option value="">Filter</option>
-            {statusList?.map((status) => (
-              <option key={status} value={status}>
-                {status}
-              </option>
-            ))}
-          </select> */}
         <div className="quotation-outer-div">
           <div>
             <DataGrid
@@ -340,22 +335,13 @@ const Quotations = () => {
               getRowId={(row) => row.id} // Use id field for unique row identification
               disableSelectionOnClick // Disables checkbox selection to prevent empty column
               disableColumnMenu // Removes column menu
-              pagination
-              pageSize={pageSize}
-              onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-              rowsPerPageOptions={[5, 10, 20]} // Options for rows per page
               components={{
                 NoRowsOverlay,
               }}
-              onRowClick={(params) => handleRowClick(params.row)} // Trigger function on row click
+              onCellClick={handleCellClick}
               sx={{
                 "& .MuiDataGrid-root": {
                   border: "none",
-                },
-                "& .MuiDataGrid-footerContainer": {
-                  justifyContent: "flex-start", // Align pagination with table
-                  padding: "0 16px", // Match horizontal padding with columns
-                  borderTop: "1px solid rgba(224, 224, 224, 1)", // Add border for better alignmen
                 },
                 "& .MuiDataGrid-columnHeaders": {
                   backgroundColor: "#eee !important", // Set gray background color
@@ -367,9 +353,18 @@ const Quotations = () => {
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                 },
-
-                "& .MuiTablePagination-root": {
-                  margin: 0, // Remove default margins
+                "& .MuiTablePagination-toolbar": {
+                  alignItems: "baseline", // Apply align-items baseline
+                },
+              }}
+              pagination // Enables pagination
+              pageSizeOptions={[5, 10, 20]} // Sets available page size options
+              initialState={{
+                pagination: {
+                  paginationModel: {
+                    pageSize: 5, // Default page size
+                    page: 0, // Default page index
+                  },
                 },
               }}
             />
