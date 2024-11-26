@@ -247,14 +247,13 @@ const Jobs = () => {
           </ul>
           <div class="draft-pda-jobs ">
             <span class="badge statusbadge ">
-            <i className="bi bi-check2-circle circle"></i>
+              <i className="bi bi-check2-circle circle"></i>
             </span>
             <div class="pdabadge">Assigned to Operations</div>
           </div>
         </div>
 
         <div class="d-flex gap-2 rightside">
-
           <div class=" searchmain">
             <input
               type="email"
@@ -276,14 +275,10 @@ const Jobs = () => {
               <option value="">Pending From OPS</option>
               <option value="">Operations Completed</option>
               <option value="">NO Approvals Required</option>
-
             </select>
           </div>
           <div className=" createbtn">
-            <button
-              type="button"
-              className="btn btn-info infobtn"
-            >
+            <button type="button" className="btn btn-info infobtn">
               Create New PDA
             </button>
           </div>
@@ -335,10 +330,6 @@ const Jobs = () => {
               getRowId={(row) => row.id} // Use id field for unique row identification
               disableSelectionOnClick // Disables checkbox selection to prevent empty column
               disableColumnMenu // Removes column menu
-              pagination
-              pageSize={pageSize}
-              onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-              rowsPerPageOptions={[5, 10, 20]} // Options for rows per page
               components={{
                 NoRowsOverlay,
               }}
