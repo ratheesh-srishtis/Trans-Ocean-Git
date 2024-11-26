@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import "../css/createpda.css";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_green.css";
 import DatePicker from "react-datepicker";
@@ -32,7 +31,7 @@ const ViewQuotation = ({
   customers,
   loginResponse,
 }) => {
-  const Group = require("../assets/images/Group 1000002975.png");
+  const Group = require("../assets/images/viewquo.png");
   const [selectedVessel, setSelectedVessel] = useState(null);
   const [selectedPort, setSelectedPort] = useState(null);
   const [selectedVesselError, setSelectedVesselError] = useState(false);
@@ -563,7 +562,76 @@ const ViewQuotation = ({
 
   return (
     <>
-      <div>Quotation view</div>
+      <div className="pda-no">
+        <div className=" pdarow ">
+          <div class="pdanumber ">
+            <span> PDA No:</span>
+            <span class="fw-bolder pdafontweight">20240483</span>
+          </div>
+          <div class="d-flex justify-content-start back">
+            <div class="pdadate">
+              <label for="inputPassword" class="col-sm-4  col-form-label text-nowrap">PDA Date:</label>
+              <div class="col-sm-4">
+                <div class="fw-bolder pdafontweight pda-date">25/11/2024</div>
+              </div>
+            </div>
+          </div>
+          {/* <div class="draft-pda ">
+          <span class="badge statusbadge ">
+            <i class="bi bi-book-fill book"></i></span>
+          <div class="pdabadge">Draft PDA</div>
+        </div> */}
+        </div>
+        <div className="charge">
+          <div className="rectangle"></div>
+          <div>
+            <img src={Group}></img>
+          </div>
+        </div>
+<div className="row viewquocontent">
+<div className=" col-4 viewhead">
+ <span > VesselName:</span> <span className="viewans"> JimeiShunhao</span>
+</div>
+<div className=" col-4 viewhead">
+ <span > PortName:</span> <span className="viewans"> Port Khalid</span>
+</div>
+<div className=" col-4 viewhead">
+ <span > Cargo:</span> <span className="viewans"> Anthracite Coal</span>
+</div>
+</div>
+<div className="row viewquocontent">
+<div className=" col-4 viewhead">
+ <span > IMO No:</span> <span className="viewans"> 9105578</span>
+</div>
+<div className=" col-4 viewhead">
+ <span > GRT:</span> <span className="viewans"> 30,363</span>
+</div>
+<div className=" col-4 viewhead">
+ <span > ETD:</span> <span className="viewans"> TBA</span>
+</div>
+</div>
+<div className="row viewquocontent">
+<div className=" col-4 viewhead">
+ <span > LOA:</span> <span className="viewans"> 180.99</span>
+</div>
+<div className=" col-4 viewhead">
+ <span > NRT:</span> <span className="viewans"> 17,363</span>
+</div>
+<div className=" col-4 viewhead">
+ <span > ETA:</span> <span className="viewans"> TBA</span>
+</div>
+</div>
+<div className="row viewquocontent">
+<div className=" col-4 viewhead">
+ <span > Service:</span> <span className="viewans"> Crew Change</span>
+</div>
+<div className=" col-4 viewhead">
+ <span > Customer Name:</span> <span className="viewans"> Norok Shipping</span>
+</div>
+
+</div>
+
+      </div>
     </>
   );
 };

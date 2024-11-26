@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getDashbordDetails } from "../services/apiService";
 import { Oval } from "react-loader-spinner"; // Import a loader type from react-loader-spinner
 import { useAuth } from "../context/AuthContext";
+import OpsDashboard from "./Operations/OpsDashboard";
 const Dashboard = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -124,7 +125,7 @@ const Dashboard = () => {
 
       {userType == "operations" && (
         <>
-          <div>operations dashboard</div>
+          <OpsDashboard/>
         </>
       )}
     </>
