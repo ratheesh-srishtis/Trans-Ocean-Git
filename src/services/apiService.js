@@ -207,3 +207,13 @@ export const getPdaFile = async (data) => {
     throw error;
   }
 };
+
+export const getAllJobs = async (data) => {
+  try {
+    const response = await axiosInstance.post("/getAllJobs", data);
+    return response.data;
+  } catch (error) {
+    console.error("financeDashboard API Error:", error);
+    throw error;
+  }
+};
