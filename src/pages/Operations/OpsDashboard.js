@@ -34,7 +34,7 @@ const OpsDashboard = () => {
   }, [jobsList]);
 
   const handleJobClick = (row) => {
-    navigate("/view-operation", { state: { row } });
+    navigate("/edit-operation", { state: { row } });
   };
 
   return (
