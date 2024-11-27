@@ -55,38 +55,9 @@ const Login = () => {
     // }
   };
 
-  const forgotPassword = async () => {
-    setLoading(true);
-    try {
-      try {
-        let userData = {
-          email: email,
-        };
-        const response = await forgotUserPassword(userData);
-        console.log(response, "login_response");
-        if (response?.status == true) {
-          toast.success("Logged in successfully!", {
-            position: "top-center",
-            autoClose: 2000,
-          });
-        } else {
-          toast.error("Login failed. Please try again", {
-            position: "top-center",
-            autoClose: 2000,
-          });
-        }
-      } catch (error) {}
-    } catch (error) {
-      console.error("Login failed:", error);
-      toast.error("Login failed. Please try again", {
-        position: "top-center",
-        autoClose: 2000,
-      });
-    } finally {
-      setLoading(false);
-    }
+  const sendotp = () => {
+    navigate("/send-otp");
   };
-
   return (
     <>
       <div>
@@ -269,7 +240,12 @@ const Login = () => {
                         </div>
                         <div>
                           <h6 className="forgotpassword">
-                            <a href="#" className="">
+                            <a
+                              onClick={() => {
+                                sendotp();
+                              }}
+                              className=""
+                            >
                               Forgot Password?
                             </a>
                           </h6>

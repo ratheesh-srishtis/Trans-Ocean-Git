@@ -13,9 +13,20 @@ const Sidebar = () => {
 
   const navigate = useNavigate();
   const [activeMenu, setActiveMenu] = useState("dashboard");
+  const [showSubmenu, setShowSubmenu] = useState(false);
+
   const [menuList, setMenuList] = useState([]);
 
   const handleNavigation = (menuItem) => {
+    if (menuItem === "settings") {
+      // Toggle the submenu for settings
+      setShowSubmenu((prev) => !prev);
+    } else {
+      setShowSubmenu(false); // Close the submenu if another menu item is clicked
+    }
+
+    setActiveMenu(menuItem);
+
     setActiveMenu(menuItem); // Update the active menu item
     switch (menuItem) {
       case "dashboard":
@@ -100,6 +111,22 @@ const Sidebar = () => {
                           {menuItems[perm].label}
                         </span>
                       </a>
+                      {/* Show submenu for settings */}
+                      {perm === "settings" && showSubmenu && (
+                        <div className="submenu">
+                          <ul>
+                            <li onClick={() => navigate("/profile")}>
+                              Profile
+                            </li>
+                            <li onClick={() => navigate("/account")}>
+                              Account
+                            </li>
+                            <li onClick={() => navigate("/preferences")}>
+                              Preferences
+                            </li>
+                          </ul>
+                        </div>
+                      )}
                     </li>
                   )
               )}

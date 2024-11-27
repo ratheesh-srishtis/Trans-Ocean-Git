@@ -199,14 +199,9 @@ body {
   font-size: 13px;
 }
 
-
-
-.infobtn{
-  background-color:#1ebbee;
-
+.infobtn {
+  background-color: #1ebbee;
 }
-
-
 
 .carduppercontentlast {
   font-size: 13px;
@@ -502,6 +497,7 @@ td {
 
 .transocean_login .forgotpassword {
   font-size: 13px;
+  cursor: pointer;
 }
 
 .menulist {

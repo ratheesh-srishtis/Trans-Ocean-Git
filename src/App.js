@@ -10,6 +10,9 @@ import { getAllPdaValuesApi, getDashbordDetails } from "./services/apiService";
 import Sidebar from "./views/Sidebar";
 import Header from "./views/Header";
 import Content from "./views/Content";
+import SendOTP from "./auth/SendOTP";
+import OtpVerification from "./auth/OtpVerification";
+import ResetPassword from "./auth/ResetPassword";
 const App = () => {
   // State variables for each select option
   const [vessels, setVessels] = useState([]);
@@ -47,6 +50,9 @@ const App = () => {
           <AuthProvider>
             <Routes>
               <Route path="/login" element={<Login />} />
+              <Route path="/send-otp" element={<SendOTP />} />
+              <Route path="/otp-verification" element={<OtpVerification />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
               <Route
                 path="/*"
                 element={

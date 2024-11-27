@@ -59,6 +59,28 @@ export const forgotUserPassword = async (userData) => {
   }
 };
 
+// validateOTP api
+export const validateOTP = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/validateOTP", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+// validateOTP api
+export const resetUserPassword = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/resetUserPassword", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
 // Add more API functions here as needed
 
 export const getCharges = async (userData) => {
