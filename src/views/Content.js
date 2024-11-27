@@ -12,6 +12,10 @@ import UpdateJobs from "../pages/UpdateJobs";
 import ViewQuotation from "../pages/ViewQuotation";
 import ViewOperations from "../pages/Operations/ViewOperations";
 import EditOperation from "../pages/Operations/EditOperation";
+import RolesSettings from "../settings/RolesSettings";
+import UserSettings from "../settings/UserSettings";
+import PortSettings from "../settings/PortSettings";
+import VesselsSettings from "../settings/VesselsSettings";
 const Content = () => {
   const { loginResponse } = useAuth();
 
@@ -86,6 +90,10 @@ const Content = () => {
           />
         }
       />
+      <Route path="/roles-settings" element={<RolesSettings />} />
+      <Route path="/user-settings" element={<UserSettings />} />
+      <Route path="/ports-settings" element={<PortSettings />} />
+      <Route path="/vessels-settings" element={<VesselsSettings />} />
     </Routes>
   );
 };

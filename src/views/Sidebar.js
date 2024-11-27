@@ -115,14 +115,17 @@ const Sidebar = () => {
                       {perm === "settings" && showSubmenu && (
                         <div className="submenu">
                           <ul>
-                            <li onClick={() => navigate("/profile")}>
-                              Profile
+                            <li onClick={() => navigate("/roles-settings")}>
+                              Roles
                             </li>
-                            <li onClick={() => navigate("/account")}>
-                              Account
+                            <li onClick={() => navigate("/user-settings")}>
+                              User
                             </li>
-                            <li onClick={() => navigate("/preferences")}>
-                              Preferences
+                            <li onClick={() => navigate("/vessels-settings")}>
+                              Vessels
+                            </li>
+                            <li onClick={() => navigate("/ports-settings")}>
+                              Ports
                             </li>
                           </ul>
                         </div>
