@@ -74,17 +74,18 @@ const RolesSettings = () => {
 
   return (
     <>
-      RolesSettings
-      <button
-        onClick={() => {
-          openDialog();
-        }}
-      >
-        Add Role
-      </button>
+
+     <div className="d-flex justify-content-end mb-3 mt-3">
+     <button onClick={() => {
+        openDialog();
+      }} class="btn btna submit-button btnfsize">Add Role</button>
+     </div>
+
+
+
       <AddRole open={open} onClose={handleClose} />
       <div>
-        <p>Listing table example</p>
+
         <div>
           <Box sx={{ height: 400, width: "100%" }}>
             <DataGrid
