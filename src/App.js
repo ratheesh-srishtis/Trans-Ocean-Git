@@ -60,7 +60,7 @@ const App = () => {
                     <div
                       style={{
                         display: "flex",
-                        height: "100vh",
+                        height: "123vh",
                       }}
                     >
                       <Sidebar />
