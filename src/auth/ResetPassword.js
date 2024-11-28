@@ -134,12 +134,12 @@ const ResetPassword = () => {
 
                         {newPasswordVisible ? (
                           <span
-                            className="bi bi-eye "
+                            className="bi bi-eye reseteyeicon "
                             onClick={toggleNewPasswordVisibility}
                           ></span>
                         ) : (
                           <span
-                            className="bi bi-eye-slash "
+                            className="bi bi-eye-slash  reseteyeicon"
                             onClick={toggleNewPasswordVisibility}
                           ></span>
                         )}
@@ -169,12 +169,12 @@ const ResetPassword = () => {
                         />
                         {confirmPasswordVisible ? (
                           <span
-                            className="bi bi-eye "
+                            className="bi bi-eye reseteyeicon"
                             onClick={toggleConfirmPasswordVisibility}
                           ></span>
                         ) : (
                           <span
-                            className="bi bi-eye-slash "
+                            className="bi bi-eye-slash reseteyeicon"
                             onClick={toggleConfirmPasswordVisibility}
                           ></span>
                         )}
