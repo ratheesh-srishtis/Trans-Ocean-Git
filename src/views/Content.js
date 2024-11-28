@@ -32,6 +32,20 @@ const Content = () => {
       try {
         const response = await getAllPdaValuesApi();
         if (response.status) {
+          localStorage.setItem(
+            "vessels_list",
+            JSON.stringify(response.vessels)
+          );
+          localStorage.setItem("ports_list", JSON.stringify(response.ports));
+          localStorage.setItem("cargos_list", JSON.stringify(response.cargos));
+          localStorage.setItem(
+            "customers_list",
+            JSON.stringify(response.customers)
+          );
+          localStorage.setItem(
+            "vessel_types_list",
+            JSON.stringify(response.vesselTypes)
+          );
           setVessels(response.vessels);
           setPorts(response.ports);
           setCargos(response.cargos);
