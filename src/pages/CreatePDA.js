@@ -398,17 +398,23 @@ const CreatePDA = ({
 
   useEffect(() => {
     const handleBeforeUnload = (event) => {
-      alert("If you reload, your changes may not be saved.");
-
       event.preventDefault();
       event.returnValue = "";
+      localStorage.setItem("reloadIntent", "true");
     };
-
     window.addEventListener("beforeunload", handleBeforeUnload);
-
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
+  }, []);
+
+  useEffect(() => {
+    const reloadIntent = localStorage.getItem("reloadIntent");
+    if (reloadIntent === "true") {
+      // alert("fetchPdaDetails");
+      fetchPdaDetails(localStorage.getItem("PDA_ID"));
+      localStorage.removeItem("reloadIntent");
+    }
   }, []);
 
   useEffect(() => {
@@ -451,7 +457,7 @@ const CreatePDA = ({
   };
 
   const fetchPdaDetails = async (id) => {
-    // alert("fetchPdaDetails");
+    localStorage?.setItem("PDA_ID", id);
     let data = {
       pdaId: id,
     };
@@ -495,47 +501,68 @@ const CreatePDA = ({
 
   const updateValues = (response) => {
     console.log(response, "updateValues");
-    console.log(response?.pda?.vesselId?._id, "  response?.pda?.vesselId?._id");
     setIsVessels(response?.pda?.isVessels);
     setIsServices(response?.pda?.isServices);
 
     if (response?.pda?.pdaStatus == 3 || response?.pda?.pdaStatus == 5) {
       setIsApproved(true);
     }
+    console.log(vessels, "vessels_out");
 
-    const selectedVessel = vessels.find(
-      (vessel) => vessel._id === response?.pda?.vesselId
-    );
-
+    let selectedVessel;
+    if (response?.pda?.vesselId) {
+      let vessels_list = localStorage.getItem("vessels_list");
+      selectedVessel = JSON.parse(vessels_list).find((vessel) => {
+        return vessel._id == response?.pda?.vesselId;
+      });
+    }
     if (selectedVessel) {
       setSelectedVessel(selectedVessel);
     }
 
-    const selectedPort = ports.find(
-      (port) => port._id === response?.pda?.portId
-    );
-
+    let selectedPort;
+    if (response?.pda?.portId) {
+      let ports_list = localStorage.getItem("ports_list");
+      selectedPort = JSON.parse(ports_list).find(
+        (port) => port._id == response?.pda?.portId
+      );
+    }
     if (selectedPort) {
       setSelectedPort(selectedPort);
     }
 
-    const selectedCargo = cargos.find(
-      (cargo) => cargo._id === response?.pda?.cargoId
-    );
+    let selectedCargo;
+    if (response?.pda?.cargoId) {
+      let cargos_list = localStorage.getItem("cargos_list");
+      selectedCargo = JSON.parse(cargos_list).find(
+        (cargo) => cargo._id === response?.pda?.cargoId
+      );
+    }
 
     if (selectedCargo) {
       setSelectedCargo(selectedCargo);
     }
 
-    const selectedCustomer = customers.find(
-      (customer) => customer._id === response?.pda?.customerId
-    );
+    let selectedCustomer;
+    if (response?.pda?.customerId) {
+      let customers_list = localStorage.getItem("customers_list");
+      selectedCustomer = JSON.parse(customers_list).find(
+        (customer) => customer._id === response?.pda?.customerId
+      );
+    }
+
     if (selectedCustomer) {
       setSelectedCustomer(selectedCustomer);
     }
-    const selectedVeselTypeID = vesselTypes.find(
-      (vesselType) => vesselType._id === response?.pda?.vesselTypeId
-    );
+
+    let selectedVeselTypeID;
+    if (response?.pda?.vesselTypeId) {
+      let vessel_types_list = localStorage.getItem("vessel_types_list");
+      selectedVeselTypeID = JSON.parse(vessel_types_list).find(
+        (vesselType) => vesselType._id === response?.pda?.vesselTypeId
+      );
+    }
+
     if (selectedVeselTypeID) {
       setSelectedVesselType(selectedVeselTypeID);
     }

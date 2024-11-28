@@ -70,7 +70,7 @@ const Sidebar = () => {
     settings: { label: "Settings", icon: "bi bi-gear" },
   };
 
-  const userPermissions = loginResponse?.data?.userRole?.permissions || [];
+  const userPermissions = loginResponse?.permission || [];
 
   return (
     <>
