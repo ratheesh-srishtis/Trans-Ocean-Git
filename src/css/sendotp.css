@@ -10,6 +10,7 @@
 }
 .otptext {
   text-decoration: none;
+  cursor: pointer;
 }
 .otpform {
   width: 70px;

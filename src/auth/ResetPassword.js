@@ -124,7 +124,7 @@ const ResetPassword = () => {
                           type={newPasswordVisible ? "text" : "password"}
                           className="form-control fieldwidth"
                           id="newPassword"
-                          placeholder="**********"
+                          placeholder=""
                           value={password}
                           onChange={(e) => {
                             setPassword(e.target.value);
@@ -160,7 +160,7 @@ const ResetPassword = () => {
                           type={confirmPasswordVisible ? "text" : "password"}
                           className="form-control fieldwidth"
                           id="confirmPassword"
-                          placeholder="**********"
+                          placeholder=""
                           value={confirmPassword}
                           onChange={(e) => {
                             setConfirmPassword(e.target.value);
