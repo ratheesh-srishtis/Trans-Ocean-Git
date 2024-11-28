@@ -4,7 +4,7 @@ import "../css/otpverification.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { validateOTP } from "../services/apiService";
+import { validateOTP, forgotUserPassword } from "../services/apiService";
 import PopUp from "../pages/PopUp";
 import { useLocation } from "react-router-dom";
 const OtpVerification = () => {
@@ -21,6 +21,7 @@ const OtpVerification = () => {
   const Group = require("../assets/images/Group 1000002969.png");
   const mian = require("../assets/images/mian.png");
   const [loading, setLoading] = useState(false);
+  const [isResendOtp, setIsResendOtp] = useState(false);
 
   // State to track the selected tab
   const [selectedTab, setSelectedTab] = useState("Finance");
@@ -94,6 +95,7 @@ const OtpVerification = () => {
         const response = await validateOTP(userData);
         console.log(response, "login_response");
         if (response?.status == true) {
+          setIsResendOtp(false);
           setUserId(response?.user);
           setMessage(`${response?.message}`);
           setOpenPopUp(true);
@@ -110,9 +112,39 @@ const OtpVerification = () => {
     setIsLoading(true);
   };
 
+  const SendEmailOtp = async () => {
+    if (emailOrUsername) {
+      setLoading(true);
+      try {
+        try {
+          let userData = {
+            email: emailOrUsername,
+          };
+          const response = await forgotUserPassword(userData);
+          console.log(response, "login_response");
+          if (response?.status == true) {
+            setIsResendOtp(true);
+            setMessage(`${"Otp resent successfully"}`);
+            setOpenPopUp(true);
+          } else {
+            setMessage(`${response?.message}`);
+            setOpenPopUp(true);
+          }
+        } catch (error) {}
+      } catch (error) {
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
   const handlePopupClose = () => {
-    setOpenPopUp(false);
-    navigate("/reset-password", { state: { userId } });
+    if (isResendOtp == false) {
+      setOpenPopUp(false);
+      navigate("/reset-password", { state: { userId } });
+    } else {
+      setOpenPopUp(false);
+    }
   };
 
   useEffect(() => {
@@ -133,14 +165,12 @@ const OtpVerification = () => {
                   <img className="mainpng" src={mian} alt=""></img>
                 </div>
               </div>
-
               <div class="col-lg-6 same-level">
                 <div class="logincard">
                   <div class="maincard">
                     <div>
                       <h3 class="text-center login_text">OTP Verification</h3>
                     </div>
-
                     {/* <div class="mb-5  ">
                       <label for="exampleInputEmail1" class="form-label">
                         Enter OTP{" "}
@@ -176,7 +206,6 @@ const OtpVerification = () => {
                         />
                       </div>
                     </div> */}
-
                     <div>
                       <div onPaste={handlePaste} className="otp-boxes">
                         {otp.map((value, index) => (
@@ -204,8 +233,12 @@ const OtpVerification = () => {
                     </div>
 
                     <div class="resendotp mb-3 mt-3">
-                      <a href="" class="otptext">
-                        {" "}
+                      <a
+                        class="otptext"
+                        onClick={() => {
+                          SendEmailOtp();
+                        }}
+                      >
                         Resend OTP?
                       </a>
                     </div>

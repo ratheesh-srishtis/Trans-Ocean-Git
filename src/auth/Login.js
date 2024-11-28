@@ -185,7 +185,7 @@ const Login = () => {
                           type="text"
                           className="form-control"
                           id="exampleInputEmail1"
-                          placeholder="Username"
+                          placeholder=""
                           aria-describedby="emailHelp"
                           value={emailOrUsername}
                           onChange={(e) => setEmailOrUsername(e.target.value)} // Update email/username state
@@ -204,7 +204,7 @@ const Login = () => {
                           type={passwordVisible ? "text" : "password"}
                           className="form-control"
                           id="exampleInputPassword1"
-                          placeholder="********"
+                          placeholder=""
                           value={password}
                           onChange={(e) => setPassword(e.target.value)} // Update password state
                           required
