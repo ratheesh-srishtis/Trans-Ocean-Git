@@ -433,6 +433,11 @@ td {
   justify-content: center;
 }
 
+.transocean_login .btn-primary:hover {
+  background-color: #007bc1;
+  color:white;
+}
+
 .transocean_login .group {
   position: absolute;
   left: 0;
