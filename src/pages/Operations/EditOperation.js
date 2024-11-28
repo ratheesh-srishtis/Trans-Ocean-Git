@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import "../../css/editOperation.css";
 import { getPdaDetails } from "../../services/apiService";
 import ChargesTable from "../ChargesTable";
+import AddJobs from "./AddJobs";
 const EditOperation = ({
   vessels,
   ports,
@@ -287,14 +288,19 @@ const EditOperation = ({
             </button>
             <button class="btn btna submit-button btnfsize">Completed</button>
             <button class="btn btna submit-button btnfsize">Save</button>
-            <button class="btn btna submit-button btnfsize">
+            <button
+              class="btn btna submit-button btnfsize"
+              onClick={() => {
+                openDialog();
+              }}
+            >
               Open Dialog Test
             </button>
           </div>
         </div>
       </div>
 
-      {/* <AddRole open={open} onClose={handleClose} /> */}
+      <AddJobs open={open} onClose={handleClose} />
     </>
   );
 };
