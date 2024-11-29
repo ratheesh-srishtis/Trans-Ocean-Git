@@ -42,7 +42,7 @@ const Header = () => {
         <div className="header--wrapper">
           <div className="header--title">
             <h5>{getHeaderText()}</h5>
-            <div className="version"> Version: 0.005</div>
+            <div className="version"> Version: 0.006</div>
           </div>
 
           <div className="d-flex flex-row-reverse ">
@@ -52,7 +52,7 @@ const Header = () => {
                 type="button"
                 className="admin-button text-start namefinance"
               >
-                {loginResponse?.data?.userRole?.role}
+                {loginResponse?.data?.userRole?.roleType}
                 <div className="nameuser">{loginResponse?.data?.name}</div>
               </button>
               <button

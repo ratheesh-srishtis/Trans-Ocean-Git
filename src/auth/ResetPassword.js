@@ -46,10 +46,20 @@ const ResetPassword = () => {
   console.log("userId:", userId);
 
   const [password, setPassword] = useState("");
+  const [passwordEmptyError, setPasswordEmptyError] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPasswordEmptyError, setConfirmPasswordEmptyError] =
+    useState(false);
+
   const [passwordError, setPasswordError] = useState(false);
 
   const handleSubmit = async () => {
+    if (password == null || password == "") {
+      setPasswordEmptyError(true);
+    }
+    if (confirmPassword == null || confirmPassword == "") {
+      setConfirmPasswordEmptyError(true);
+    }
     if (password !== confirmPassword) {
       setPasswordError(true);
       return;
@@ -129,9 +139,9 @@ const ResetPassword = () => {
                           onChange={(e) => {
                             setPassword(e.target.value);
                             setPasswordError(false);
+                            setPasswordEmptyError(false);
                           }}
                         />
-
                         {newPasswordVisible ? (
                           <span
                             className="bi bi-eye reseteyeicon "
@@ -149,6 +159,9 @@ const ResetPassword = () => {
                           Please enter the same password
                         </div>
                       )}
+                      {passwordEmptyError && (
+                        <div className="invalid">Please enter new password</div>
+                      )}
                     </div>
 
                     <div className="mb-3">
@@ -165,6 +178,7 @@ const ResetPassword = () => {
                           onChange={(e) => {
                             setConfirmPassword(e.target.value);
                             setPasswordError(false);
+                            setConfirmPasswordEmptyError(false);
                           }}
                         />
                         {confirmPasswordVisible ? (
@@ -182,6 +196,11 @@ const ResetPassword = () => {
                       {passwordError && (
                         <div className="invalid">
                           Please enter the same password
+                        </div>
+                      )}
+                      {confirmPasswordEmptyError && (
+                        <div className="invalid">
+                          Please enter confirm password
                         </div>
                       )}
                     </div>

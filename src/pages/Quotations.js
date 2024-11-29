@@ -210,12 +210,12 @@ const Quotations = () => {
             };
             const response = await deleteQuotation(payload);
             console.log("Fetched Charges:", response);
-            setMessage("Charge deleted successfully");
+            setMessage("Quotation has been successfully deleted");
             setOpenPopUp(true);
             fetchQuotations("all");
           } catch (error) {
             console.error("Error fetching charges:", error);
-            Swal.fire("Error deleting charges");
+            Swal.fire("Error deleting quotation");
             fetchQuotations("all");
           }
         }
