@@ -99,7 +99,8 @@ const OtpVerification = () => {
           setUserId(response?.user);
           setMessage(`${response?.message}`);
           setOpenPopUp(true);
-        } else {
+        } else if (response?.status == false) {
+          setIsResendOtp(true);
           setMessage(`${response?.message}`);
           setOpenPopUp(true);
         }
@@ -126,8 +127,8 @@ const OtpVerification = () => {
             setIsResendOtp(true);
             setMessage(`${"OTP has been successfully resent"}`);
             setOpenPopUp(true);
-          } else {
-            setIsResendOtp(false);
+          } else if (response?.status == false) {
+            setIsResendOtp(true);
             setMessage(`${response?.message}`);
             setOpenPopUp(true);
           }
@@ -226,7 +227,8 @@ const OtpVerification = () => {
                               height: "40px",
                               fontSize: "24px",
                               textAlign: "center",
-                              marginRight: index === otp.length - 1 ? "0px" : "10px",
+                              marginRight:
+                                index === otp.length - 1 ? "0px" : "10px",
                             }}
                           />
                         ))}
@@ -247,6 +249,7 @@ const OtpVerification = () => {
                       type="submit"
                       class="btn btn-primary w-100"
                       onClick={handleVerify}
+                      disabled={otp.some((value) => value === "")} // Disable if any value in otp is empty
                     >
                       Submit
                     </button>
