@@ -432,107 +432,96 @@ const ResponsiveDialog = ({
 
   const editCharges = async (index) => {
     // Individual checks for each field
-    if (!selectedService || selectedService === "" || !selectedService) {
+    if (selectedService == null || selectedService === "") {
       setSelectedServiceError(true);
     } else {
       setSelectedServiceError(false);
     }
-    if (
-      !selectedChargesType ||
-      selectedChargesType === "" ||
-      !selectedChargesType
-    ) {
+    if (selectedChargesType == null || selectedChargesType === "") {
       setSelectedChargesTypeError(true);
     } else {
       setSelectedChargesTypeError(false);
     }
-    if (
-      !selectedSubhargesType ||
-      selectedSubhargesType === "" ||
-      !selectedSubhargesType
-    ) {
+    if (selectedSubhargesType == null || selectedSubhargesType === "") {
       setSelectedSubhargesTypeError(true);
     } else {
       setSelectedSubhargesTypeError(false);
     }
 
-    if (!selectedQuantity || selectedQuantity === "") {
+    if (selectedQuantity == null || selectedQuantity === "") {
       setSelectedQuantityError(true);
     } else {
       setSelectedQuantityError(false);
     }
 
-    if (
-      !selectedNewCustomer ||
-      selectedNewCustomer === "" ||
-      !selectedNewCustomer
-    ) {
+    if (selectedNewCustomer == null || selectedNewCustomer === "") {
       setSelectedNewCustomerError(true);
     } else {
       setSelectedNewCustomerError(false);
     }
 
-    if (!customerAmount || customerAmount === "" || !customerAmount) {
+    if (customerAmount == null || customerAmount === "") {
       setCustomerAmountError(true);
     } else {
       setCustomerAmountError(false);
     }
 
-    if (!customerTotalUSD || customerTotalUSD === "" || !customerTotalUSD) {
+    if (customerTotalUSD == null || customerTotalUSD === "") {
       setCustomerTotalUSDError(true);
     } else {
       setCustomerTotalUSDError(false);
     }
 
-    if (!customerVatAmount || customerVatAmount === "" || !customerVatAmount) {
+    if (customerVatAmount == null || customerVatAmount === "") {
       setCustomerVatAmountError(true);
     } else {
       setCustomerVatAmountError(false);
     }
 
-    if (!selectedVendor || selectedVendor === "" || !selectedVendor) {
+    if (selectedVendor == null || selectedVendor === "") {
       setSelectedVendorError(true);
     } else {
       setSelectedVendorError(false);
     }
 
-    if (!vendorAmount || vendorAmount === "" || !vendorAmount) {
+    if (vendorAmount == null || vendorAmount === "") {
       setVendorAmountError(true);
     } else {
       setVendorAmountError(false);
     }
 
-    if (!vendorTotalUSD || vendorTotalUSD === "" || !vendorTotalUSD) {
+    if (vendorTotalUSD == null || vendorTotalUSD === "") {
       setVendorTotalUSDError(true);
     } else {
       setVendorTotalUSDError(false);
     }
 
-    if (!vendorVatAmount || vendorVatAmount === "" || !vendorVatAmount) {
+    if (vendorVatAmount == null || vendorVatAmount === "") {
       setVendorVatAmountError(true);
     } else {
       setVendorVatAmountError(false);
     }
 
-    if (!customerTotalOmr || customerTotalOmr === "" || !customerTotalOmr) {
+    if (customerTotalOmr == null || customerTotalOmr === "") {
       setCustomerTotalOmrError(true);
     } else {
       setCustomerTotalOmrError(false);
     }
+    let isValidNumber = (value) => value !== null && value !== undefined;
 
     if (
       selectedService &&
       selectedChargesType &&
       selectedSubhargesType &&
-      selectedQuantity &&
       selectedNewCustomer &&
-      customerAmount &&
-      customerTotalUSD &&
-      customerVatAmount &&
       selectedVendor &&
-      vendorAmount &&
-      vendorTotalUSD &&
-      vendorVatAmount
+      isValidNumber(selectedQuantity) &&
+      isValidNumber(customerAmount) &&
+      isValidNumber(customerTotalUSD) &&
+      isValidNumber(customerVatAmount) &&
+      isValidNumber(vendorAmount) &&
+      isValidNumber(vendorTotalUSD) &&
+      isValidNumber(vendorVatAmount)
     ) {
       let chargesPayload = {
         serviceId: selectedService?.serviceId || selectedService?._id,

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Dashboard from "../pages/Dashboard";
 import Quotations from "../pages/Quotations";
-import Jobs from "../pages/Jobs";
 import Payments from "../pages/Payments";
 import Soa from "../pages/Soa";
 import CreatePDA from "../pages/CreatePDA";
@@ -16,6 +15,7 @@ import RolesSettings from "../settings/RolesSettings";
 import UserSettings from "../settings/UserSettings";
 import PortSettings from "../settings/PortSettings";
 import VesselsSettings from "../settings/VesselsSettings";
+import OpsList from "../pages/Operations/OpsList";
 const Content = () => {
   const { loginResponse } = useAuth();
 
@@ -70,12 +70,12 @@ const Content = () => {
       <Route path="/" element={<Dashboard />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/quotations" element={<Quotations />} />
-      <Route path="/jobs" element={<Jobs />} />
       <Route path="/payments" element={<Payments />} />
       <Route path="/soa" element={<Soa />} />
       <Route path="/update-jobs" element={<UpdateJobs />} />
       <Route path="/view-operation" element={<ViewOperations />} />
       <Route path="/edit-operation" element={<EditOperation />} />
+      <Route path="/jobs" element={<OpsList />} />
       <Route
         path="/view-quotation"
         element={

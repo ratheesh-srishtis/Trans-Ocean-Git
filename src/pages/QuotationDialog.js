@@ -228,12 +228,12 @@ const QuotationDialog = ({
                         }}
                       />
 
-                      {toError && (
+                      {/* {toError && (
                         <>
                           <div className="invalid">Please enter to address</div>
                         </>
-                      )}
-                      {emailError && (
+                      )} */}
+                      {(toError || emailError) && (
                         <>
                           <div className="invalid">
                             Please enter a valid email address.

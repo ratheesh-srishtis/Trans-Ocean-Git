@@ -124,9 +124,10 @@ const OtpVerification = () => {
           console.log(response, "login_response");
           if (response?.status == true) {
             setIsResendOtp(true);
-            setMessage(`${"Otp resent successfully"}`);
+            setMessage(`${"OTP has been successfully resent"}`);
             setOpenPopUp(true);
           } else {
+            setIsResendOtp(false);
             setMessage(`${response?.message}`);
             setOpenPopUp(true);
           }

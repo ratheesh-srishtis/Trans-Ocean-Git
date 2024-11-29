@@ -8,6 +8,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const handleNavigation = () => {
+    localStorage.removeItem("PDA_ID");
     navigate("/create-pda");
   };
   const { logout, loginResponse } = useAuth();
@@ -125,7 +126,7 @@ const Dashboard = () => {
 
       {userType == "operations" && (
         <>
-          <OpsDashboard/>
+          <OpsDashboard />
         </>
       )}
     </>
