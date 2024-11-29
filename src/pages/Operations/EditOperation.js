@@ -282,7 +282,7 @@ const EditOperation = ({
               Generate PDF
             </button>
           </div>
-          <div class="right">
+          <div class="right d-flex">
             <button class="btn btna submit-button btnfsize">
               Final Report
             </button>

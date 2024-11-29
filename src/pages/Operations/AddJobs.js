@@ -1,5 +1,6 @@
 // ResponsiveDialog.js
 import React, { useState, useEffect } from "react";
+import '../../css/addjobs.css'
 import {
   Dialog,
   DialogActions,

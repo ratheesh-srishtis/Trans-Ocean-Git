@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
-import "../css/otpverification.css";
+import "../css/login.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -39,7 +39,7 @@ const OtpVerification = () => {
   const [message, setMessage] = useState("");
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  const [otp, setOtp] = useState(["", "", "", "", "", "", "", ""]);
+  const [otp, setOtp] = useState(["", "", "", ""]);
   const inputRefs = useRef([]);
   const [isLoading, setIsLoading] = useState(false);
   const [userId, setUserId] = useState(null);
@@ -48,7 +48,7 @@ const OtpVerification = () => {
     const newOtp = [...otp];
     newOtp[index] = value;
 
-    if (value && index < 7) {
+    if (value && index < 3) {
       inputRefs.current[index + 1].focus();
     }
 
@@ -67,14 +67,14 @@ const OtpVerification = () => {
     const pastedData = e.clipboardData.getData("Text").split("");
     if (pastedData.length === 8) {
       setOtp(pastedData);
-      inputRefs.current[7].focus();
+      inputRefs.current[3].focus();
     }
   };
 
   const handleVerify = () => {
     const newOTP = otp.join("");
     resetPassword(newOTP);
-    setOtp(["", "", "", "", "", "", "", ""]);
+    setOtp(["", "", "", ""]);
     inputRefs.current[0].focus();
   };
 
@@ -159,7 +159,7 @@ const OtpVerification = () => {
             <img className="logoside" src={Group}></img>
           </div>
           <div class="container">
-            <div class="row">
+            <div class="row alignboxotp">
               <div class="col-lg-6 same-level">
                 <div class="d-flex flex-column mb-3">
                   <img className="logo" src={Logo}></img>
@@ -222,11 +222,11 @@ const OtpVerification = () => {
                             onKeyDown={(e) => handleKeyDown(e, index)}
                             ref={(el) => (inputRefs.current[index] = el)}
                             style={{
-                              width: "50px",
-                              height: "50px",
+                              width: "40px",
+                              height: "40px",
                               fontSize: "24px",
                               textAlign: "center",
-                              marginRight: "10px",
+                              marginRight: index === otp.length - 1 ? "0px" : "10px",
                             }}
                           />
                         ))}

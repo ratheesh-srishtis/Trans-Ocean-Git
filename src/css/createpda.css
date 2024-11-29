@@ -151,6 +151,7 @@
 .vesselbox,
 .vesselbox option {
   font-size: 0.7rem !important;
+  padding-right: 34px !important;
 }
 
 .vessel-voyage {

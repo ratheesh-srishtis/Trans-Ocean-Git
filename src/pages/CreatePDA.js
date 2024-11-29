@@ -1067,7 +1067,7 @@ const CreatePDA = ({
                     )} */}
                   </div>
 
-                  <div className="right">
+                  <div className="right d-flex">
                     {pdaResponse?.pdaStatus >= 3 && isApproved == true && (
                       <>
                         <button

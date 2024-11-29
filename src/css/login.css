@@ -7,6 +7,59 @@ body {
   font-family: "poppins", sans-serif;
 }
 
+.resendotp {
+  display: flex;
+  justify-content: center;
+}
+.otptext {
+  text-decoration: none;
+  font-size: 13px;
+}
+.otpform {
+  width: 70px;
+  height: 70px;
+  /* display: block;
+  border-radius: 30px;
+  padding: 10px 30px;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5; */
+  /* color: var(--bs-body-color);
+  background-color: var(--bs-body-bg);
+  background-clip: padding-box;
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius);
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; */
+}
+
+.otp {
+  /* display: flex;
+  justify-content: space-between; */
+}
+
+.pass {
+  display: flex;
+}
+
+.fieldwidth {
+  width: 300px;
+  position: relative;
+}
+
+.eyeicon {
+  margin-top: 10px;
+  padding-left: 10px;
+}
+
+.reseteyeicon {
+  top: 7px;
+  position: relative;
+  right: 24px;
+}
+
+
+
+
 .side-logo {
   margin-bottom: 22px;
   align-content: center;
@@ -343,7 +396,7 @@ body {
 }
 .password_icon {
   position: absolute;
-  bottom: 7px;
+  bottom: 3px;
   right: 10px;
 }
 
@@ -403,7 +456,10 @@ td {
 .transocean_login .login_text {
   text-decoration: underline;
   padding-bottom: 15px;
+  font-size: 19px;
 }
+
+
 
 .transocean_login .form-control {
   width: 400px;
@@ -413,10 +469,13 @@ td {
 .transocean_login .form-check {
   display: flex;
   justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 .transocean_login .form-check-input {
   margin: 0 5px 0 -25px;
+  margin-bottom: 2px;
 }
 
 .transocean_login .buttons {
@@ -501,8 +560,9 @@ td {
 }
 
 .transocean_login .forgotpassword {
-  font-size: 13px;
+  font-size: 11px;
   cursor: pointer;
+  margin-top: 6px;
 }
 
 .menulist {
@@ -518,7 +578,7 @@ td {
 }
 
 .transocean_login .rememberme {
-  font-size: 13px;
+  font-size: 11px;
 }
 
 .same-level {
@@ -545,13 +605,23 @@ td {
 }
 .loginpageversion {
   font-size: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 }
 .alignbox {
   display: flex;
   align-items: center;
-  min-height: 90vh;
-  padding: 45px 101px;
+  min-height: 89vh;
+  padding: 0px 101px;
+}
+.alignboxotp{
+  display: flex;
+  align-items: center;
+  min-height: 89vh;
+  padding: 0px 150px;
+}
+.otp-boxes{
+  display: flex;
+  justify-content: center;
 }
 
 /* loginpage end */

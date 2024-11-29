@@ -1259,7 +1259,7 @@ const ResponsiveDialog = ({
                           </div>
 
                           <div className="row mb-3">
-                            <div className="col-6">
+                            <div className="col-7">
                               <span className="marinehead">Charge type:</span>
                               <span className="subvalue">
                                 {/* {getItemName(
@@ -1281,7 +1281,7 @@ const ResponsiveDialog = ({
                                 </span>
                               </div>
                             </div>
-                            <div className="col-6">
+                            <div className="col-3">
                               <span className="marinehead">Quantity:</span>
                               <span className="subvalue">
                                 {charge?.quantity}
