@@ -116,6 +116,7 @@ const Quotations = () => {
   };
 
   const handleNavigation = () => {
+    localStorage.removeItem("PDA_ID");
     navigate("/create-pda");
   };
 

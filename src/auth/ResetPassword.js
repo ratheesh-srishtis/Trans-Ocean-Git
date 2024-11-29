@@ -12,6 +12,7 @@ const ResetPassword = () => {
   const navigate = useNavigate();
   console.log("test");
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [responseStatus, setResponseStatus] = useState(null);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -64,26 +65,38 @@ const ResetPassword = () => {
       setPasswordError(true);
       return;
     }
-    try {
+    if (
+      password != null &&
+      password != "" &&
+      confirmPassword != null &&
+      confirmPassword != ""
+    ) {
       try {
-        const userData = {
-          userId: userId, // Replace with dynamic userId if needed
-          password,
-        };
-        console.log(userData, "userData");
-        const response = await resetUserPassword(userData);
-        console.log(response, "login_response");
-        if (response?.status == true) {
-          setMessage(`${response?.message}`);
-          setOpenPopUp(true);
-        } else {
-          setMessage(`${response?.message}`);
-          setOpenPopUp(true);
-        }
-      } catch (error) {}
-    } catch (error) {
-    } finally {
-      setLoading(false);
+        try {
+          const userData = {
+            userId: userId, // Replace with dynamic userId if needed
+            password,
+          };
+          console.log(userData, "userData");
+          const response = await resetUserPassword(userData);
+          console.log(response, "login_response");
+          if (response?.status == true) {
+            setResponseStatus(true); // Save status as true
+            setMessage(`${response?.message}`);
+            setOpenPopUp(true);
+          } else {
+            setResponseStatus(false); // Save status as true
+            setMessage(`${response?.message}`);
+            setOpenPopUp(true);
+          }
+        } catch (error) {}
+      } catch (error) {
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      setMessage("Please fill all the required fields");
+      setOpenPopUp(true);
     }
   };
 
@@ -95,11 +108,6 @@ const ResetPassword = () => {
   };
   const toggleConfirmPasswordVisibility = () => {
     setConfirmPasswordVisible(!confirmPasswordVisible);
-  };
-
-  const handlePopupClose = () => {
-    setOpenPopUp(false);
-    navigate("/login");
   };
 
   return (
@@ -154,11 +162,7 @@ const ResetPassword = () => {
                           ></span>
                         )}
                       </div>
-                      {passwordError && (
-                        <div className="invalid">
-                          Please enter the same password
-                        </div>
-                      )}
+
                       {passwordEmptyError && (
                         <div className="invalid">Please enter new password</div>
                       )}
@@ -198,11 +202,11 @@ const ResetPassword = () => {
                           Please enter the same password
                         </div>
                       )}
-                      {confirmPasswordEmptyError && (
+                      {/* {confirmPasswordEmptyError && (
                         <div className="invalid">
                           Please enter confirm password
                         </div>
-                      )}
+                      )} */}
                     </div>
 
                     <button
@@ -227,7 +231,17 @@ const ResetPassword = () => {
           </p>
         </div>
       </div>
-      {openPopUp && <PopUp message={message} closePopup={handlePopupClose} />}
+      {openPopUp && (
+        <PopUp
+          message={message}
+          closePopup={() => {
+            setOpenPopUp(false);
+            if (responseStatus === true) {
+              navigate("/login"); // Navigate only if the status is true
+            }
+          }}
+        />
+      )}
     </>
   );
 };
