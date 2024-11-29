@@ -183,7 +183,7 @@ const Login = () => {
                         </label>
                         <input
                           type="text"
-                          className="form-control"
+                          className="form-control vessel-voyage"
                           id="exampleInputEmail1"
                           placeholder=""
                           aria-describedby="emailHelp"
@@ -202,7 +202,7 @@ const Login = () => {
                         </label>
                         <input
                           type={passwordVisible ? "text" : "password"}
-                          className="form-control"
+                          className="form-control vessel-voyage"
                           id="exampleInputPassword1"
                           placeholder=""
                           value={password}
@@ -226,7 +226,7 @@ const Login = () => {
                         <div className="mb-3 form-check">
                           <input
                             type="checkbox"
-                            className="form-check-input"
+                            className="form-check-input rememberme"
                             id="exampleCheck1"
                             checked={rememberMe}
                             onChange={(e) => setRememberMe(e.target.checked)} // Update rememberMe state
