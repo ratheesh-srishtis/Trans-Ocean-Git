@@ -726,12 +726,12 @@ const CreatePDA = ({
                 <div className="vessel-select">
                   <select
                     name="vessel"
-                    className="form-select vesselbox"
+                    className="form-select vesselbox vboxholder .custom-select"
                     onChange={handleSelectChange}
                     aria-label="Default select example"
                     value={selectedVessel?._id}
                   >
-                    <option value="">Choose Vessel name</option>
+                    <option  disabled selected value="">Choose Vessel name</option>
                     {vessels.map((vessel) => (
                       <option key={vessel._id} value={vessel._id}>
                         {vessel.vesselName}
@@ -752,7 +752,7 @@ const CreatePDA = ({
                 <div className="vessel-select">
                   <select
                     name="port"
-                    className="form-select vesselbox"
+                    className="form-select vesselbox vboxholder"
                     onChange={handleSelectChange}
                     aria-label="Default select example"
                     value={selectedPort?._id}
@@ -783,8 +783,9 @@ const CreatePDA = ({
                   <div className="vessel-select">
                     <select
                       name="cargo"
-                      className="form-select vesselbox"
+                      className="form-select vesselbox vboxholder"
                       onChange={handleSelectChange}
+                      
                       aria-label="Default select example"
                       value={selectedCargo?._id}
                     >
@@ -805,7 +806,7 @@ const CreatePDA = ({
                 <div className="vessel-select">
                   <select
                     name="vesselType"
-                    className="form-select vesselbox"
+                    className="form-select vesselbox vboxholder"
                     onChange={handleSelectChange}
                     aria-label="Default select example"
                     value={selectedVesselType?._id}
@@ -828,7 +829,7 @@ const CreatePDA = ({
                   type="number"
                   className="form-control vessel-voyage"
                   id="exampleFormControlInput1"
-                  placeholder=""
+                  placeholder=" "
                   value={formData.vesselVoyageNumber}
                   onChange={handleInputChange}
                   onWheel={handleWheel}
@@ -850,7 +851,7 @@ const CreatePDA = ({
                     onChange={handleInputChange}
                     className="form-control vessel-voyage voyageblock"
                     id="exampleFormControlInput1"
-                    placeholder=""
+                    placeholder=" "
                     readOnly={selectedVessel?.vesselName !== "TBA"} // Use readOnly instead of disabled
                     onWheel={handleWheel}
                   />
@@ -866,7 +867,7 @@ const CreatePDA = ({
                     onChange={handleInputChange}
                     className="form-control vessel-voyage voyageblock"
                     id="exampleFormControlInput1"
-                    placeholder=""
+                    placeholder=" "
                     readOnly={selectedVessel?.vesselName !== "TBA"} // Use readOnly instead of disabled
                     onWheel={handleWheel}
                   />
@@ -886,7 +887,7 @@ const CreatePDA = ({
                     onChange={handleInputChange}
                     className="form-control vessel-voyage voyageblock"
                     id="exampleFormControlInput1"
-                    placeholder=""
+                    placeholder=" "
                     readOnly={selectedVessel?.vesselName !== "TBA"} // Use readOnly instead of disabled
                     onWheel={handleWheel}
                   />
@@ -916,7 +917,7 @@ const CreatePDA = ({
               <div className="vessel-select">
                 <select
                   name="customer"
-                  className="form-select vesselbox"
+                  className="form-select vesselbox vboxholder"
                   onChange={handleSelectChange}
                   aria-label="Default select example"
                   value={selectedCustomer?._id}
