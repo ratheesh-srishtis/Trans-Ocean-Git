@@ -124,7 +124,7 @@ const EditOperation = ({
               <div class="vessel-select">
                 <select
                   name="vessel"
-                  class="form-select vesselbox"
+                  class="form-select vesselbox vesselbox:placeholder"
                   aria-label="Default select example"
                 >
                   <option value="">Choose Vessel name</option>
