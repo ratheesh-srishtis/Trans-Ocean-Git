@@ -1025,7 +1025,7 @@ const ResponsiveDialog = ({
                       </div>
                     </div>
                     <div className="customerhead">
-                      <div className="headname">Vendor Charges</div>
+                      <div className="headnamevendor">Vendor Charges</div>
                       <div className="customerrectangle"></div>
                     </div>
                     <div className="row ">
@@ -1680,7 +1680,7 @@ const ResponsiveDialog = ({
                         </>
                       )}
                     </div>
-                    <div className="col-lg-3">
+                    <div className="col-lg-3 quantitypadding">
                       <label
                         for="exampleFormControlInput1"
                         className="form-label"

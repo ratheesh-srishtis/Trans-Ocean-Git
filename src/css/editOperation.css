@@ -56,3 +56,16 @@
     font-size: 13px;
 }
 
+.submbtn{
+    width:100%;
+    display:flex;
+    justify-content: center;
+    color: #ffffff;
+    background-color: #1ebbee;
+    border-color: #1ebbee;
+    align-items: center;
+    height:37px;
+}
+.btnjobrole{
+    margin-top: 24px;
+}
