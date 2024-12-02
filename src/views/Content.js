@@ -25,12 +25,14 @@ const Content = () => {
   const [vesselTypes, setVesselTypes] = useState([]);
   const [services, setServices] = useState([]);
   const [customers, setCustomers] = useState([]);
+  const [employees, setEmployees] = useState([]);
 
   // Fetch PDA values on component mount
   useEffect(() => {
     const fetchPdaValues = async () => {
       try {
         const response = await getAllPdaValuesApi();
+        console.log(response, "response");
         if (response.status) {
           localStorage.setItem(
             "vessels_list",
@@ -46,12 +48,17 @@ const Content = () => {
             "vessel_types_list",
             JSON.stringify(response.vesselTypes)
           );
+          localStorage.setItem(
+            "employees_list",
+            JSON.stringify(response.employees)
+          );
           setVessels(response.vessels);
           setPorts(response.ports);
           setCargos(response.cargos);
           setVesselTypes(response.vesselTypes);
           setServices(response.services);
           setCustomers(response.customers);
+          setEmployees(response.employees);
         }
       } catch (error) {
         console.error("Error fetching PDA values:", error);
@@ -74,7 +81,20 @@ const Content = () => {
       <Route path="/soa" element={<Soa />} />
       <Route path="/update-jobs" element={<UpdateJobs />} />
       <Route path="/view-operation" element={<ViewOperations />} />
-      <Route path="/edit-operation" element={<EditOperation />} />
+      <Route
+        path="/edit-operation"
+        element={
+          <EditOperation
+            vessels={vessels}
+            ports={ports}
+            cargos={cargos}
+            vesselTypes={vesselTypes}
+            services={services}
+            customers={customers}
+            employees={employees}
+          />
+        }
+      />
       <Route path="/jobs" element={<OpsList />} />
       <Route
         path="/view-quotation"

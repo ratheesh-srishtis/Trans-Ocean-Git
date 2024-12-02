@@ -239,3 +239,17 @@ export const getAllJobs = async (data) => {
     throw error;
   }
 };
+
+export const uploadDocuments = async (formData) => {
+  try {
+    const response = await axiosInstance.post("/uploadDocuments", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data", // Required for file uploads
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("uploadDocuments API Error:", error);
+    throw error;
+  }
+};

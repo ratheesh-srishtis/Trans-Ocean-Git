@@ -59,9 +59,6 @@ body {
   cursor:pointer;
 }
 
-
-
-
 .side-logo {
   margin-bottom: 22px;
   align-content: center;
@@ -260,6 +257,7 @@ body {
 
 .carduppercontentlast {
   font-size: 13px;
+  cursor: pointer;
 }
 
 .pending-quot {
@@ -462,8 +460,6 @@ td {
   font-size: 19px;
 }
 
-
-
 .transocean_login .form-control {
   width: 400px;
   max-width: 100%;
@@ -497,7 +493,7 @@ td {
 
 .transocean_login .btn-primary:hover {
   background-color: #007bc1;
-  color:white;
+  color: white;
 }
 
 .transocean_login .group {
@@ -616,13 +612,13 @@ td {
   min-height: 89vh;
   padding: 0px 101px;
 }
-.alignboxotp{
+.alignboxotp {
   display: flex;
   align-items: center;
   min-height: 89vh;
   padding: 0px 150px;
 }
-.otp-boxes{
+.otp-boxes {
   display: flex;
   justify-content: center;
 }

@@ -16,6 +16,7 @@ import PopUp from "../PopUp";
 import Loader from "../Loader";
 const OpsList = () => {
   const navigate = useNavigate();
+  const [selectedTab, setSelectedTab] = useState("all");
 
   const [selectedRows, setSelectedRows] = useState([]);
   const [quotationsList, setQuotationsList] = useState([]);
@@ -26,6 +27,8 @@ const OpsList = () => {
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
   const fetchQuotations = async (type) => {
+    setSelectedTab(type);
+
     try {
       setIsLoading(true);
       let userData = {
@@ -62,6 +65,10 @@ const OpsList = () => {
         return "Rejected By Finance Manager";
       case 5:
         return "Customer Approved";
+      case 6:
+        return "Pending from operations";
+      case 7:
+        return "Operations Completed";
       default:
         return "Unknown Status";
     }
@@ -87,11 +94,11 @@ const OpsList = () => {
         </div>
       ),
     },
-    { field: "vessel", headerName: "Vessel Name", flex: 2 },
-    { field: "date", headerName: "Date", flex: 1 },
+    { field: "date", headerName: "Date", flex: 2 },
+    { field: "vessel", headerName: "Vessel Name", flex: 1 },
     { field: "port", headerName: "Port Name", flex: 2 },
     { field: "cargo", headerName: "Cargo", flex: 2 },
-    { field: "preparedBy", headerName: "Prepared By", flex: 1 },
+    { field: "AssignedTo", headerName: "Assigned To", flex: 1 },
     { field: "status", headerName: "Status", flex: 2 },
     {
       field: "actions",
@@ -115,7 +122,7 @@ const OpsList = () => {
 
   const handleEdit = (row) => {
     console.log("Edit row", row);
-    navigate("/create-pda", { state: { row } });
+    navigate("/edit-operation", { state: { row } });
   };
 
   const handleNavigation = () => {
@@ -228,9 +235,9 @@ const OpsList = () => {
 
   const handleCellClick = (params, event) => {
     console.log(params, "params");
-    if (params.field === "pdaNumber") {
+    if (params.field === "JobId") {
       let row = params.row;
-      navigate("/view-quotation", { state: { row } });
+      navigate("/view-operation", { state: { row } });
     }
   };
 
@@ -241,7 +248,9 @@ const OpsList = () => {
           <ul className="nav nav-underline gap-4 ">
             <li className="nav-item nav-item-filter">
               <a
-                className="nav-link carduppercontent"
+                className={`nav-link carduppercontent ${
+                  selectedTab === "all" ? "active-nav-style" : ""
+                }`}
                 aria-current="page"
                 onClick={() => fetchQuotations("all")}
               >
@@ -250,7 +259,9 @@ const OpsList = () => {
             </li>
             <li className="nav-item nav-item-filter">
               <a
-                className="nav-link carduppercontent"
+                className={`nav-link carduppercontent ${
+                  selectedTab === "day" ? "active-nav-style" : ""
+                }`}
                 onClick={() => fetchQuotations("day")}
               >
                 Last 24 Hour
@@ -258,7 +269,9 @@ const OpsList = () => {
             </li>
             <li className="nav-item nav-item-filter">
               <a
-                className="nav-link carduppercontent"
+                className={`nav-link carduppercontent ${
+                  selectedTab === "week" ? "active-nav-style" : ""
+                }`}
                 onClick={() => fetchQuotations("week")}
               >
                 Last Week
@@ -266,7 +279,9 @@ const OpsList = () => {
             </li>
             <li className="nav-item nav-item-filter">
               <a
-                className="nav-link carduppercontentlast"
+                className={`nav-link carduppercontent ${
+                  selectedTab === "month" ? "active-nav-style" : ""
+                }`}
                 onClick={() => fetchQuotations("month")}
               >
                 Last Month
@@ -329,7 +344,7 @@ const OpsList = () => {
                       port: item.portId?.portName || "N/A",
                       cargo: item.cargoId?.cargoName || "N/A",
                       date: formatDate(item.createdAt),
-                      preparedBy: item.preparedUserId?.name || "N/A",
+                      AssignedTo: item.assignedEmployee?.employeeName || "N/A",
                       status: getStatusText(item.pdaStatus),
                       ...item,
                     }))
