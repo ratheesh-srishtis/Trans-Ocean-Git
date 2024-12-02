@@ -49,12 +49,14 @@ body {
 .eyeicon {
   margin-top: 10px;
   padding-left: 10px;
+  cursor:pointer;
 }
 
 .reseteyeicon {
   top: 7px;
   position: relative;
   right: 24px;
+  cursor:pointer;
 }
 
 .side-logo {
@@ -396,6 +398,7 @@ body {
   position: absolute;
   bottom: 3px;
   right: 10px;
+  cursor:pointer;
 }
 
 .addcharge-button {

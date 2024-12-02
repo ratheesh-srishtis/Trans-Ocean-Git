@@ -745,7 +745,7 @@ const ResponsiveDialog = ({
                             selectedService ? selectedService?._id : "default"
                           }
                           name="service"
-                          className="form-select vesselbox"
+                          className="form-select vesselbox vesselbox:placeholder "
                           onChange={handleSelectChange}
                           aria-label="Default select example"
                           value={selectedService ? selectedService?._id : null}
@@ -776,7 +776,7 @@ const ResponsiveDialog = ({
                           <div className="vessel-select">
                             <select
                               name="chargeType"
-                              className="form-select vesselbox"
+                              className="form-select vesselbox vesselbox:placeholder"
                               onChange={handleSelectChange}
                               aria-label="Default select example"
                               value={selectedChargesType?._id}
@@ -813,7 +813,7 @@ const ResponsiveDialog = ({
                           <div className="vessel-select">
                             <select
                               name="subChargeType"
-                              className="form-select vesselbox"
+                              className="form-select vesselbox "
                               onChange={handleSelectChange}
                               aria-label="Default select example"
                               value={selectedSubhargesType?._id}
