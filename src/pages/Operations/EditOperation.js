@@ -242,20 +242,7 @@ const EditOperation = ({
           </div>
         </div>
         {/* fifthrowdocumentsupload */}
-        <div class="typesofcall-row ">
-          <div class="row align-items-start">
-            <div class="mb-2">
-              <label for="formFile" class="form-label">
-                Documents Upload:
-              </label>
-              <input
-                class="form-control documentsfsize"
-                type="file"
-                id="formFile"
-              ></input>
-            </div>
-          </div>
-        </div>
+  
         {/* sixthrowremarks */}
         <div class="row align-items-start">
           <div class="col">
