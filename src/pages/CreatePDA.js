@@ -54,11 +54,11 @@ const CreatePDA = ({
   const [message, setMessage] = useState("");
 
   const [formData, setFormData] = useState({
-    vesselVoyageNumber: null,
-    IMONumber: null,
-    LOA: null,
-    GRT: null,
-    NRT: null,
+    vesselVoyageNumber: "",
+    IMONumber: "",
+    LOA: "",
+    GRT: "",
+    NRT: "",
   });
 
   // Boolean states for each option
@@ -101,6 +101,16 @@ const CreatePDA = ({
       case "vessel":
         setSelectedVessel(vessels.find((vessel) => vessel._id === value));
         setSelectedVesselError(false);
+        console.log(value, "value_VESSEL");
+        if (value == "672b44d13b3ccd84503dde97") {
+          setFormData((prevFormData) => ({
+            ...prevFormData,
+            IMONumber: "",
+            LOA: "",
+            GRT: "",
+            NRT: "",
+          }));
+        }
         break;
       case "port":
         setSelectedPort(ports.find((port) => port._id === value));
@@ -176,6 +186,54 @@ const CreatePDA = ({
     etd,
   ]);
 
+  // useEffect(() => {
+  //   console.log(selectedVessel, "selectedVessel");
+  //   if (
+  //     selectedVessel?.vesselName !== "TBA" &&
+  //     pdaResponse == null &&
+  //     editData == null
+  //   ) {
+  //     setFormData((prevFormData) => ({
+  //       ...prevFormData,
+  //       IMONumber: selectedVessel?.IMONumber,
+  //       LOA: selectedVessel?.LOA,
+  //       GRT: selectedVessel?.GRT,
+  //       NRT: selectedVessel?.NRT,
+  //     }));
+  //   } else if (
+  //     selectedVessel?.vesselName == "TBA" &&
+  //     editData == null &&
+  //     pdaResponse == null
+  //   ) {
+  //     alert("tba block");
+  //     setFormData((prevFormData) => ({
+  //       ...prevFormData,
+  //       IMONumber: "",
+  //       LOA: "",
+  //       GRT: "",
+  //       NRT: "",
+  //     }));
+  //   } else if (selectedVessel?.vesselName == "TBA" && editData) {
+  //     alert("tba block");
+  //     setFormData((prevFormData) => ({
+  //       ...prevFormData,
+  //       IMONumber: selectedVessel?.IMONumber,
+  //       LOA: selectedVessel?.LOA,
+  //       GRT: selectedVessel?.GRT,
+  //       NRT: selectedVessel?.NRT,
+  //     }));
+  //   } else if (selectedVessel?.vesselName == "TBA" && pdaResponse) {
+  //     alert("tba pdaResponse block");
+  //     setFormData((prevFormData) => ({
+  //       ...prevFormData,
+  //       IMONumber: pdaResponse?.IMONumber,
+  //       LOA: pdaResponse?.LOA,
+  //       GRT: pdaResponse?.GRT,
+  //       NRT: pdaResponse?.NRT,
+  //     }));
+  //   }
+  // }, [selectedVessel]); // Only re-run when selectedVessel changes
+
   useEffect(() => {
     console.log(selectedVessel, "selectedVessel");
     if (selectedVessel?.vesselName !== "TBA") {
@@ -185,14 +243,6 @@ const CreatePDA = ({
         LOA: selectedVessel?.LOA,
         GRT: selectedVessel?.GRT,
         NRT: selectedVessel?.NRT,
-      }));
-    } else if (selectedVessel?.vesselName == "TBA" && editData == null) {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        IMONumber: "",
-        LOA: "",
-        GRT: "",
-        NRT: "",
       }));
     }
   }, [selectedVessel]); // Only re-run when selectedVessel changes
@@ -579,11 +629,11 @@ const CreatePDA = ({
     setStatus(response?.pda?.pdaStatus);
     setFinalChargesArray(response?.pdaServices);
     setFormData({
-      vesselVoyageNumber: response?.pda?.vesselVoyageNumber || null,
-      IMONumber: response?.pda?.IMONumber || null,
-      LOA: response?.pda?.LOA || null,
-      GRT: response?.pda?.GRT || null,
-      NRT: response?.pda?.NRT || null,
+      vesselVoyageNumber: response?.pda?.vesselVoyageNumber,
+      IMONumber: response?.pda?.IMONumber,
+      LOA: response?.pda?.LOA,
+      GRT: response?.pda?.GRT,
+      NRT: response?.pda?.NRT,
     });
   };
 

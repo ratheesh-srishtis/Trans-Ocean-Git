@@ -22,7 +22,11 @@ const Quotations = () => {
   const [isLoading, setIsLoading] = useState(false); // Loader state
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
+  const [selectedTab, setSelectedTab] = useState("all");
+
   const fetchQuotations = async (type) => {
+    setSelectedTab(type);
+
     try {
       setIsLoading(true);
       let userData = {
@@ -239,7 +243,9 @@ const Quotations = () => {
           <ul className="nav nav-underline gap-4 ">
             <li className="nav-item nav-item-filter">
               <a
-                className="nav-link carduppercontent"
+                className={`nav-link carduppercontent ${
+                  selectedTab === "all" ? "active-nav-style" : ""
+                }`}
                 aria-current="page"
                 onClick={() => fetchQuotations("all")}
               >
@@ -248,7 +254,9 @@ const Quotations = () => {
             </li>
             <li className="nav-item nav-item-filter">
               <a
-                className="nav-link carduppercontent"
+                className={`nav-link carduppercontent ${
+                  selectedTab === "day" ? "active-nav-style" : ""
+                }`}
                 onClick={() => fetchQuotations("day")}
               >
                 Last 24 Hour
@@ -256,7 +264,9 @@ const Quotations = () => {
             </li>
             <li className="nav-item nav-item-filter">
               <a
-                className="nav-link carduppercontent"
+                className={`nav-link carduppercontent ${
+                  selectedTab === "week" ? "active-nav-style" : ""
+                }`}
                 onClick={() => fetchQuotations("week")}
               >
                 Last Week
@@ -264,7 +274,9 @@ const Quotations = () => {
             </li>
             <li className="nav-item nav-item-filter">
               <a
-                className="nav-link carduppercontentlast"
+                className={`nav-link carduppercontentlast ${
+                  selectedTab === "month" ? "active-nav-style" : ""
+                }`}
                 onClick={() => fetchQuotations("month")}
               >
                 Last Month

@@ -8,8 +8,9 @@ const OpsDashboard = () => {
   const [isLoading, setIsLoading] = useState(false); // Loader state
   const [jobsList, setJobsList] = useState([]); // Loader state
   const navigate = useNavigate();
-
+  const [selectedTab, setSelectedTab] = useState("all");
   const fetchAllJObs = async (type) => {
+    setSelectedTab(type);
     try {
       setIsLoading(true);
       let userData = {
@@ -48,7 +49,9 @@ const OpsDashboard = () => {
           <ul className="nav nav-underline gap-3 ">
             <li className="nav-item nav-item-filter">
               <a
-                className="nav-link carduppercontent"
+                className={`nav-link carduppercontent ${
+                  selectedTab === "all" ? "active-nav-style" : ""
+                }`}
                 aria-current="page"
                 onClick={() => fetchAllJObs("all")}
               >
@@ -57,7 +60,9 @@ const OpsDashboard = () => {
             </li>
             <li className="nav-item nav-item-filter">
               <a
-                className="nav-link carduppercontent"
+                className={`nav-link carduppercontent ${
+                  selectedTab === "day" ? "active-nav-style" : ""
+                }`}
                 onClick={() => fetchAllJObs("day")}
               >
                 Last 24 Hour
@@ -158,7 +163,11 @@ const OpsDashboard = () => {
                 })}
             </>
           )}
-
+          {jobsList?.length == 0 && (
+            <>
+              <p>No Jobs available</p>{" "}
+            </>
+          )}
           {/* <div class=" col-3 shadow p-3 mb-5 bg-body-tertiary rounded">
             <div class="d-flex justify-content-between">
               <div>

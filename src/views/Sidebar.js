@@ -11,6 +11,14 @@ const Sidebar = () => {
 
   const Logo = require("../assets/images/LOGO.png");
 
+  const [lastPath, setLastPath] = useState("");
+
+  useEffect(() => {
+    const path = window.location.pathname;
+    const lastSegment = path.substring(path.lastIndexOf("/") + 1);
+    setLastPath(lastSegment);
+  }, []);
+
   const navigate = useNavigate();
   const [activeMenu, setActiveMenu] = useState("dashboard");
   const [showSubmenu, setShowSubmenu] = useState(false);
@@ -24,9 +32,11 @@ const Sidebar = () => {
     } else {
       setShowSubmenu(false); // Close the submenu if another menu item is clicked
     }
-
-    setActiveMenu(menuItem);
-
+    if (lastPath == menuItem) {
+      setActiveMenu(lastPath);
+    } else if (lastPath != menuItem) {
+      setActiveMenu(menuItem);
+    }
     setActiveMenu(menuItem); // Update the active menu item
     switch (menuItem) {
       case "dashboard":
@@ -115,16 +125,28 @@ const Sidebar = () => {
                       {perm === "settings" && showSubmenu && (
                         <div className="submenu">
                           <ul className="settingsmenu">
-                            <li className="menusub" onClick={() => navigate("/roles-settings")}>
+                            <li
+                              className="menusub"
+                              onClick={() => navigate("/roles-settings")}
+                            >
                               Roles
                             </li>
-                            <li  className="menusub" onClick={() => navigate("/user-settings")}>
+                            <li
+                              className="menusub"
+                              onClick={() => navigate("/user-settings")}
+                            >
                               User
                             </li>
-                            <li className="menusub" onClick={() => navigate("/vessels-settings")}>
+                            <li
+                              className="menusub"
+                              onClick={() => navigate("/vessels-settings")}
+                            >
                               Vessels
                             </li>
-                            <li className="menusub" onClick={() => navigate("/ports-settings")}>
+                            <li
+                              className="menusub"
+                              onClick={() => navigate("/ports-settings")}
+                            >
                               Ports
                             </li>
                           </ul>
