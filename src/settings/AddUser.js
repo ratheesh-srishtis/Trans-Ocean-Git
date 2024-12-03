@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import { getAllUserRoles, saveUser,editUser } from "../services/apiService";
 import PopUp from "../pages/PopUp";
-
+import Swal from "sweetalert2";
 const AddUser = ({ open, onAddUser,onClose,editMode, userSet }) => {
   const [RolesList, setRolesList] = useState([]);
   const [formData, setFormData] = useState({
@@ -104,6 +104,7 @@ const AddUser = ({ open, onAddUser,onClose,editMode, userSet }) => {
         onClose();
       }
       else{
+       
         setMessage(response.message);
         setOpenPopUp(true);
         setclosePopup(true);

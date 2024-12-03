@@ -102,8 +102,8 @@ const RolesSettings = () => {
   );
 
   const columns = [
-    { field: "roleType", headerName: "Role Type", width: 130 },
-    { field: "role", headerName: "Role", width: 130 },
+    { field: "roleType", headerName: "Role Type", flex:2 },
+    { field: "role", headerName: "Role", flex:2 },
     {
       field: "actions",
       headerName: "Action",

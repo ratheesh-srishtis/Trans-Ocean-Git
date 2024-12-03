@@ -105,11 +105,11 @@ const VesselsSettings = () => {
   );
 
   const columns = [
-    { field: "vesselName", headerName: "Vessel Name"},
-    { field: "imoNumber", headerName: "IMO Number"},
-    { field: "loa", headerName: "LOA"},
-    { field: "grt", headerName: "GRT"},
-    { field: "nrt", headerName: "NRT"},
+    { field: "vesselName", headerName: "Vessel Name",flex:2},
+    { field: "imoNumber", headerName: "IMO Number",flex:2},
+    { field: "loa", headerName: "LOA",flex:2},
+    { field: "grt", headerName: "GRT",flex:2},
+    { field: "nrt", headerName: "NRT",flex:2},
     {
       field: "actions",
       headerName: "Action",

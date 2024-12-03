@@ -103,10 +103,10 @@ const UserSettings = () => {
   );
 
   const columns = [
-    { field: "name", headerName: "Name" },
-    { field: "username", headerName: "User Name" },
-    { field: "email", headerName: "Email" },
-    { field: "role", headerName: "Role" },
+    { field: "name", headerName: "Name",flex:2 },
+    { field: "username", headerName: "User Name",flex:2 },
+    { field: "email", headerName: "Email",flex:2 },
+    { field: "role", headerName: "Role",flex:2 },
    
     {
       field: "actions",

@@ -380,3 +380,45 @@ export const deleteVessel = async (userData) => {
   }
 };
 
+/* Port Settings */
+
+export const getAllPorts = async (data) => {
+  try {
+    const response = await axiosInstance.post("/getAllPorts", data);
+    return response.data;
+  } catch (error) {
+    console.error("List all users API Error:", error);
+    throw error;
+  }
+};
+export const savePort = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/savePort", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+export const editPort = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/editPort", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+export const deletePort = async (userData) => {
+  try {
+    const response = await axiosInstance.post(
+      "/deletePort",
+      userData
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
