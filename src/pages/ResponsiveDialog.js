@@ -1258,8 +1258,9 @@ const ResponsiveDialog = ({
                             {charge?.serviceName}
                           </div>
 
-                          <div className="row mb-3">
-                            <div className="col-7">
+
+<div className="row mb-3">
+<div className="col-6">
                               <span className="marinehead">Charge type:</span>
                               <span className="subvalue">
                                 {/* {getItemName(
@@ -1268,7 +1269,19 @@ const ResponsiveDialog = ({
                                 )} */}
                                 {charge?.chargeName}
                               </span>
-                              <div className="mt-2">
+                              </div>
+<div className="col-6">
+                              <span className="marinehead">Quantity:</span>
+                              <span className="subvalue">
+                                {charge?.quantity}
+                              </span>
+                            </div>
+
+
+</div>
+<div className="row mb-3">
+<div className="col-12">
+<div className="mt-2">
                                 <span className="marinehead">
                                   Sub charge Type:
                                 </span>
@@ -1280,14 +1293,27 @@ const ResponsiveDialog = ({
                                   {charge?.subchargeName}
                                 </span>
                               </div>
-                            </div>
-                            <div className="col-3">
-                              <span className="marinehead">Quantity:</span>
-                              <span className="subvalue">
-                                {charge?.quantity}
-                              </span>
-                            </div>
-                          </div>
+                              </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                           <div className="row mb-3">
                             <div className="col-6 table_seperation">
