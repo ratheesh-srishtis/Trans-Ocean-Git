@@ -4,10 +4,8 @@ import "../../css/editOperation.css";
 import {
   getPdaDetails,
   uploadDocuments,
-  savePda,
+  editPDA,
 } from "../../services/apiService";
-import ChargesTable from "../ChargesTable";
-import AddJobs from "./AddJobs";
 import Loader from "../Loader";
 import PopUp from "../PopUp";
 import {
@@ -41,16 +39,19 @@ const EditOperation = ({
   const [fetchInitiated, setFetchInitiated] = useState(false); // State to track fetch initiation
   const [finalChargesArray, setFinalChargesArray] = useState([]);
 
+  const [selectedPdaId, setSelectedPdaId] = useState(null);
+  const [selectedPdaStatus, setSelectedPdaStatus] = useState(null);
   const [selectedVessel, setSelectedVessel] = useState(null);
   const [selectedPort, setSelectedPort] = useState(null);
   const [selectedCargo, setSelectedCargo] = useState(null);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
-  const [selectedStatus, setSelectedStatus] = useState(null);
+  const [selectedStatus, setSelectedStatus] = useState(selectedPdaStatus);
   const [assignedTo, setAssignedTo] = useState(null);
   const [remarks, setRemarks] = useState(null);
 
   const [selectedVesselError, setSelectedVesselError] = useState(false);
   const [selectedPortError, setSelectedPortError] = useState(false);
+  const [assignedToError, setAssignedToError] = useState(false);
   const [selectedCargoError, setSelectedCargoError] = useState(false);
 
   console.log("Row data:", row);
@@ -100,6 +101,14 @@ const EditOperation = ({
   const updateValues = (response) => {
     console.log(response, "updateValues");
     setFinalChargesArray(response?.pdaServices);
+    setSelectedPdaId(response?.pda?._id);
+    setSelectedPdaStatus(response?.pda?.pdaStatus);
+    setRemarks(response?.pda?.remark);
+    setUploadedFiles((prevFiles) => [
+      ...prevFiles,
+      ...response?.pda?.documents,
+    ]); // Append new files to existing ones
+
     let selectedVessel;
     if (response?.pda?.vesselId) {
       let vessels_list = localStorage.getItem("vessels_list");
@@ -151,20 +160,6 @@ const EditOperation = ({
     }
   };
 
-  const [open, setOpen] = useState(false);
-
-  const openDialog = () => {
-    handleClickOpen();
-  };
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const handleSelectChange = (event) => {
     const { name, value } = event.target;
     console.log(value, "value");
@@ -184,6 +179,7 @@ const EditOperation = ({
         setSelectedEmployee(
           employees.find((employee) => employee._id === value)
         );
+        setAssignedToError(false);
         break;
       case "status":
         setSelectedStatus(value);
@@ -242,20 +238,28 @@ const EditOperation = ({
     if (!selectedPort) {
       setSelectedPortError(true);
     }
-    if (selectedVessel && selectedPort) {
+    if (!selectedEmployee && selectedStatus == 6) {
+      setAssignedToError(true);
+    }
+    if (
+      selectedVessel &&
+      selectedPort &&
+      (selectedStatus !== "6" || selectedEmployee)
+    ) {
       let pdaPayload = {
-        pdaId: "",
+        pdaId: editData?._id,
         vesselId: selectedVessel?._id ? selectedVessel?._id : selectedVessel,
         portId: selectedPort?._id ? selectedPort?._id : selectedPort,
         cargoId: selectedCargo?._id ? selectedCargo?._id : selectedCargo,
         assignedEmployee: selectedEmployee?._id,
         documents: uploadedFiles,
         charges: finalChargesArray,
+        pdaStatus: Number(selectedStatus),
         remark: remarks,
       };
       console.log(pdaPayload, "pdaPayload");
       try {
-        const response = await savePda(pdaPayload);
+        const response = await editPDA(pdaPayload);
         if (response?.status == true) {
           fetchPdaDetails(response?.pda?._id);
         } else {
@@ -276,7 +280,6 @@ const EditOperation = ({
   const handleSubmit = (chargesArray) => {
     console.log("chargesArray Submitted: ", chargesArray);
     setFinalChargesArray(chargesArray);
-    handleClose();
   };
 
   const handleEdit = (charges, index) => {};
@@ -285,7 +288,18 @@ const EditOperation = ({
     console.log(selectedCargo, "selectedCargo");
     console.log(selectedStatus, "selectedStatus");
     console.log(uploadedFiles, "uploadedFiles");
-  }, [selectedCargo, selectedStatus, uploadedFiles]);
+    console.log(selectedEmployee, "selectedEmployee");
+    console.log(selectedPdaId, "selectedPdaId");
+    console.log(selectedPdaStatus, "selectedPdaStatus");
+    setSelectedStatus(selectedPdaStatus);
+  }, [
+    selectedCargo,
+    selectedStatus,
+    uploadedFiles,
+    selectedEmployee,
+    selectedPdaId,
+    selectedPdaStatus,
+  ]);
 
   return (
     <>
@@ -342,6 +356,11 @@ const EditOperation = ({
                   ))}
                 </select>
               </div>
+              {selectedVesselError && (
+                <>
+                  <div className="invalid">Please select vessel</div>
+                </>
+              )}
             </div>
             <div class="col">
               <label for="exampleFormControlInput1" class="form-label">
@@ -363,6 +382,11 @@ const EditOperation = ({
                   ))}
                 </select>
               </div>
+              {selectedPortError && (
+                <>
+                  <div className="invalid">Please select port</div>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -372,7 +396,7 @@ const EditOperation = ({
             <div class="col ">
               <label for="exampleFormControlInput1" class="form-label">
                 {" "}
-                Cargo <span class="required"> * </span> :
+                Cargo :
               </label>
               <div class="vessel-select">
                 <select
@@ -393,7 +417,13 @@ const EditOperation = ({
             </div>
             <div class="col">
               <label for="exampleFormControlInput1" class="form-label">
-                Assigned To:
+                Assigned To{" "}
+                {selectedStatus == 6 && (
+                  <>
+                    <span class="required"> * </span>
+                  </>
+                )}{" "}
+                :
               </label>
               <select
                 name="employee"
@@ -409,7 +439,13 @@ const EditOperation = ({
                   </option>
                 ))}
               </select>
+              {assignedToError && (
+                <>
+                  <div className="invalid">Please select assigned to</div>
+                </>
+              )}
             </div>
+
             <div class="col">
               <label for="exampleFormControlInput1" class="form-label">
                 Status <span class="required"> </span> :
@@ -420,10 +456,12 @@ const EditOperation = ({
                   class="form-select vesselbox"
                   onChange={handleSelectChange}
                   aria-label="Default select example"
+                  value={selectedStatus}
                 >
-                  <option value="">Choose Status</option>
-                  <option value="5">Open </option>
-                  <option value="6">In Progress </option>
+                  <option value={5} disabled={selectedPdaStatus == 6}>
+                    Open{" "}
+                  </option>
+                  <option value={6}>In Progress </option>
                 </select>
               </div>
             </div>
@@ -495,6 +533,7 @@ const EditOperation = ({
                   placeholder=""
                   name="remarks"
                   onChange={handleInputChange}
+                  value={remarks}
                 ></textarea>
               </div>
             </div>
@@ -529,14 +568,13 @@ const EditOperation = ({
               Final Report
             </button>
             <button class="btn btna submit-button btnfsize">Completed</button>
-            <button class="btn btna submit-button btnfsize">Save</button>
             <button
               class="btn btna submit-button btnfsize"
               onClick={() => {
-                openDialog();
+                submitJobs();
               }}
             >
-              Open Dialog Test
+              Save
             </button>
           </div>
         </div>
@@ -544,7 +582,6 @@ const EditOperation = ({
       {openPopUp && (
         <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
       )}{" "}
-      <AddJobs open={open} onClose={handleClose} />
       <Loader isLoading={isLoading} />
     </>
   );

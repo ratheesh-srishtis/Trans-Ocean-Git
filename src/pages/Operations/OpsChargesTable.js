@@ -10,6 +10,8 @@ import {
   deleteQuotationCharge,
 } from "../../services/apiService";
 import PopUp from "../PopUp";
+import AddJobs from "./AddJobs";
+import "../../css/addjobs.css";
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
   return (
@@ -194,6 +196,20 @@ const OpsChargesTable = ({
     setValueTabs(newValue);
   };
 
+  const [open, setOpen] = useState(false);
+
+  const openDialog = () => {
+    handleClickOpen();
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <>
       <div className="createtable">
@@ -212,7 +228,14 @@ const OpsChargesTable = ({
             {chargesArray?.length > 0 &&
               chargesArray.map((charge, index) => (
                 <tr key={index} onClick={() => handleRowClick(charge)}>
-                  <td>{index + 1}</td>
+                  <td
+                    onClick={() => {
+                      openDialog();
+                    }}
+                    className="addjob-click"
+                  >
+                    {index + 1}
+                  </td>
                   <td>
                     {charge.serviceId
                       ? getItemName(charge.serviceId, "service")
@@ -233,33 +256,15 @@ const OpsChargesTable = ({
                       ? getItemName(charge.subchargeId, "subChargeType")
                       : ""}
                   </td>
-                  <td className="subsub">
-                    {charge.subchargeId
-                      ? getItemName(charge.subchargeId, "subChargeType")
-                      : ""}
-                  </td>
+                  {/* <td className="subsub">{charge?.remark}</td> */}
                   {/* <td>{charge.quantity}</td> */}
                 </tr>
               ))}
           </tbody>
-          {chargesArray?.length > 0 && (
-            <>
-              <tfoot>
-                <tr className="bold-row">
-                  <td colSpan={4}>Total Cost</td>
-                  {/* <td>{totalValues.quantity}</td> */}
-                  <td>{totalValues.customerOMR}</td>
-                  <td>{totalValues.customerVAT}</td>
-                  <td>{totalValues.customerOMR + totalValues?.customerVAT}</td>
-                  <td>{totalValues?.customerTotalUSD}</td>
-                  <td></td> {/* Empty cell for footer */}
-                </tr>
-              </tfoot>
-            </>
-          )}
         </table>
       </div>
 
+      <AddJobs open={open} onClose={handleClose} />
       {openPopUp && (
         <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
       )}
