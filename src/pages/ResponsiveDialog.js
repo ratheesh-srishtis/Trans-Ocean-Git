@@ -625,12 +625,12 @@ const ResponsiveDialog = ({
 
   useEffect(() => {
     let total = Number(customerAmount) + Number(customerVatAmount);
-    setCustomerTotalOmr(total);
+    setCustomerTotalOmr(total.toFixed(3));
   }, [customerAmount, customerVatAmount]);
 
   useEffect(() => {
     let total = Number(vendorAmount) + Number(vendorVatAmount);
-    setVendorTotalOmr(total);
+    setVendorTotalOmr(total.toFixed(3));
   }, [vendorAmount, vendorVatAmount]);
 
   const submitEditCharges = () => {};
@@ -1258,9 +1258,8 @@ const ResponsiveDialog = ({
                             {charge?.serviceName}
                           </div>
 
-
-<div className="row mb-3">
-<div className="col-6">
+                          <div className="row mb-3">
+                            <div className="col-6">
                               <span className="marinehead">Charge type:</span>
                               <span className="subvalue">
                                 {/* {getItemName(
@@ -1269,19 +1268,17 @@ const ResponsiveDialog = ({
                                 )} */}
                                 {charge?.chargeName}
                               </span>
-                              </div>
-<div className="col-6">
+                            </div>
+                            <div className="col-6">
                               <span className="marinehead">Quantity:</span>
                               <span className="subvalue">
                                 {charge?.quantity}
                               </span>
                             </div>
-
-
-</div>
-<div className="row mb-3">
-<div className="col-12">
-<div className="mt-2">
+                          </div>
+                          <div className="row mb-3">
+                            <div className="col-12">
+                              <div className="mt-2">
                                 <span className="marinehead">
                                   Sub charge Type:
                                 </span>
@@ -1293,27 +1290,8 @@ const ResponsiveDialog = ({
                                   {charge?.subchargeName}
                                 </span>
                               </div>
-                              </div>
-
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                            </div>
+                          </div>
 
                           <div className="row mb-3">
                             <div className="col-6 table_seperation">
@@ -1337,54 +1315,58 @@ const ResponsiveDialog = ({
                             <div className="omr col-6 table_seperation">
                               <span className="marinehead">Amount (OMR):</span>
                               <span className="subvalue">
-                                {charge.customerOMR}
+                                {charge.customerOMR.toFixed(3)}
                               </span>
                             </div>
                             <div className="omr col-6">
                               <span className="marinehead">Amount (OMR):</span>
                               <span className="subvalue">
-                                {charge.vendorOMR}
+                                {charge.vendorOMR.toFixed(3)}
                               </span>
                             </div>
 
                             <div className="vat col-6 table_seperation">
                               <span className="marinehead">VAT Amount:</span>
                               <span className="subvalue">
-                                {charge.customerVAT}
+                                {charge.customerVAT.toFixed(3)}
                               </span>
                             </div>
                             <div className="vat col-6">
                               <span className="marinehead">VAT Amount:</span>
                               <span className="subvalue">
-                                {charge.vendorVAT}
+                                {charge.vendorVAT.toFixed(3)}
                               </span>
                             </div>
 
                             <div className="omr col-6 table_seperation">
                               <span className="marinehead">Total (OMR):</span>
                               <span className="subvalue">
-                                {Number(charge.customerOMR) +
-                                  Number(charge.customerVAT)}
+                                {(
+                                  Number(charge.customerOMR) +
+                                  Number(charge.customerVAT)
+                                ).toFixed(3)}
                               </span>
                             </div>
                             <div className="omr col-6">
                               <span className="marinehead">Total (OMR):</span>
                               <span className="subvalue">
-                                {Number(charge.vendorOMR) +
-                                  Number(charge.vendorVAT)}
+                                {(
+                                  Number(charge.vendorOMR) +
+                                  Number(charge.vendorVAT)
+                                ).toFixed(3)}
                               </span>
                             </div>
 
                             <div className="vat col-6 table_seperation">
                               <span className="marinehead">Total USD:</span>
                               <span className="subvalue">
-                                {charge.customerTotalUSD}
+                                {charge.customerTotalUSD.toFixed(2)}
                               </span>
                             </div>
                             <div className="vat col-6">
                               <span className="marinehead">Total USD:</span>
                               <span className="subvalue">
-                                {charge.vendorTotalUSD}
+                                {charge.vendorTotalUSD.toFixed(2)}
                               </span>
                             </div>
 
