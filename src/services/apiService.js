@@ -240,6 +240,187 @@ export const getAllJobs = async (data) => {
   }
 };
 
+export const getAllUserRoles = async (data) => {
+  try {
+    const response = await axiosInstance.post("/getAllRoles", data);
+    return response.data;
+  } catch (error) {
+    console.error("List all roles API Error:", error);
+    throw error;
+  }
+};
+
+export const getAllPermissions = async (data) => {
+  try {
+    const response = await axiosInstance.post("/getAllPermissions", data);
+    return response.data;
+  } catch (error) {
+    console.error("List all permissions API Error:", error);
+    throw error;
+  }
+};
+
+export const saveUserRole = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/saveUserRole", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+export const deleteUserRole = async (userData) => {
+  try {
+    const response = await axiosInstance.post(
+      "/deleteUserRole",
+      userData
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+
+export const editUserRole = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/editUserRole", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+/* user settings */
+
+export const getAllUsers = async (data) => {
+  try {
+    const response = await axiosInstance.post("/getAllUsers", data);
+    return response.data;
+  } catch (error) {
+    console.error("List all users API Error:", error);
+    throw error;
+  }
+};
+export const saveUser = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/saveUser", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+export const editUser = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/editUser", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+export const deleteUser = async (userData) => {
+  try {
+    const response = await axiosInstance.post(
+      "/deleteUser",
+      userData
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+/* vessel settings */
+
+export const getAllVessels = async (data) => {
+  try {
+    const response = await axiosInstance.post("/getAllVessels", data);
+    return response.data;
+  } catch (error) {
+    console.error("List all users API Error:", error);
+    throw error;
+  }
+};
+export const saveVessel = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/saveVessel", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+export const editVessel = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/editVessel", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+export const deleteVessel = async (userData) => {
+  try {
+    const response = await axiosInstance.post(
+      "/deleteVessel",
+      userData
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+/* Port Settings */
+
+export const getAllPorts = async (data) => {
+  try {
+    const response = await axiosInstance.post("/getAllPorts", data);
+    return response.data;
+  } catch (error) {
+    console.error("List all users API Error:", error);
+    throw error;
+  }
+};
+export const savePort = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/savePort", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+export const editPort = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/editPort", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+export const deletePort = async (userData) => {
+  try {
+    const response = await axiosInstance.post(
+      "/deletePort",
+      userData
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+
 export const uploadDocuments = async (formData) => {
   try {
     const response = await axiosInstance.post("/uploadDocuments", formData, {
