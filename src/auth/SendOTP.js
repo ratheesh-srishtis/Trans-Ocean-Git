@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import "../css/sendotp.css";
+import "../css/login.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -81,7 +81,7 @@ const SendOTP = () => {
             <img className="logoside" src={Group}></img>
           </div>
           <div class="container">
-            <div class="row">
+            <div class="row alignbox">
               <div class="col-lg-6 same-level">
                 <div class="d-flex flex-column mb-3">
                   <img className="logo" src={Logo}></img>

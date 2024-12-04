@@ -22,7 +22,11 @@ const Quotations = () => {
   const [isLoading, setIsLoading] = useState(false); // Loader state
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
+  const [selectedTab, setSelectedTab] = useState("all");
+
   const fetchQuotations = async (type) => {
+    setSelectedTab(type);
+
     try {
       setIsLoading(true);
       let userData = {
@@ -116,6 +120,7 @@ const Quotations = () => {
   };
 
   const handleNavigation = () => {
+    localStorage.removeItem("PDA_ID");
     navigate("/create-pda");
   };
 
@@ -210,12 +215,12 @@ const Quotations = () => {
             };
             const response = await deleteQuotation(payload);
             console.log("Fetched Charges:", response);
-            setMessage("Charge deleted successfully");
+            setMessage("Quotation has been successfully deleted");
             setOpenPopUp(true);
             fetchQuotations("all");
           } catch (error) {
             console.error("Error fetching charges:", error);
-            Swal.fire("Error deleting charges");
+            Swal.fire("Error deleting quotation");
             fetchQuotations("all");
           }
         }
@@ -238,7 +243,9 @@ const Quotations = () => {
           <ul className="nav nav-underline gap-4 ">
             <li className="nav-item nav-item-filter">
               <a
-                className="nav-link carduppercontent"
+                className={`nav-link carduppercontent ${
+                  selectedTab === "all" ? "active-nav-style" : ""
+                }`}
                 aria-current="page"
                 onClick={() => fetchQuotations("all")}
               >
@@ -247,7 +254,9 @@ const Quotations = () => {
             </li>
             <li className="nav-item nav-item-filter">
               <a
-                className="nav-link carduppercontent"
+                className={`nav-link carduppercontent ${
+                  selectedTab === "day" ? "active-nav-style" : ""
+                }`}
                 onClick={() => fetchQuotations("day")}
               >
                 Last 24 Hour
@@ -255,7 +264,9 @@ const Quotations = () => {
             </li>
             <li className="nav-item nav-item-filter">
               <a
-                className="nav-link carduppercontent"
+                className={`nav-link carduppercontent ${
+                  selectedTab === "week" ? "active-nav-style" : ""
+                }`}
                 onClick={() => fetchQuotations("week")}
               >
                 Last Week
@@ -263,7 +274,9 @@ const Quotations = () => {
             </li>
             <li className="nav-item nav-item-filter">
               <a
-                className="nav-link carduppercontentlast"
+                className={`nav-link carduppercontentlast ${
+                  selectedTab === "month" ? "active-nav-style" : ""
+                }`}
                 onClick={() => fetchQuotations("month")}
               >
                 Last Month

@@ -247,7 +247,7 @@ const ChargesTable = ({
                           ? getItemName(charge.chargeId, "chargeType")
                           : ""}
                       </td>
-                      <td>
+                      <td className="subsub">
                         {charge.subchargeId
                           ? getItemName(charge.subchargeId, "subChargeType")
                           : ""}
@@ -330,7 +330,7 @@ const ChargesTable = ({
                           ? getItemName(charge.chargeId, "chargeType")
                           : ""}
                       </td>
-                      <td>
+                      <td className="subsub">
                         {charge.subchargeId
                           ? getItemName(charge.subchargeId, "subChargeType")
                           : ""}

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Dashboard from "../pages/Dashboard";
 import Quotations from "../pages/Quotations";
-import Jobs from "../pages/Jobs";
 import Payments from "../pages/Payments";
 import Soa from "../pages/Soa";
 import CreatePDA from "../pages/CreatePDA";
@@ -16,6 +15,7 @@ import RolesSettings from "../settings/RolesSettings";
 import UserSettings from "../settings/UserSettings";
 import PortSettings from "../settings/PortSettings";
 import VesselsSettings from "../settings/VesselsSettings";
+import OpsList from "../pages/Operations/OpsList";
 const Content = () => {
   const { loginResponse } = useAuth();
 
@@ -25,12 +25,14 @@ const Content = () => {
   const [vesselTypes, setVesselTypes] = useState([]);
   const [services, setServices] = useState([]);
   const [customers, setCustomers] = useState([]);
+  const [employees, setEmployees] = useState([]);
 
   // Fetch PDA values on component mount
   useEffect(() => {
     const fetchPdaValues = async () => {
       try {
         const response = await getAllPdaValuesApi();
+        console.log(response, "response");
         if (response.status) {
           localStorage.setItem(
             "vessels_list",
@@ -46,12 +48,17 @@ const Content = () => {
             "vessel_types_list",
             JSON.stringify(response.vesselTypes)
           );
+          localStorage.setItem(
+            "employees_list",
+            JSON.stringify(response.employees)
+          );
           setVessels(response.vessels);
           setPorts(response.ports);
           setCargos(response.cargos);
           setVesselTypes(response.vesselTypes);
           setServices(response.services);
           setCustomers(response.customers);
+          setEmployees(response.employees);
         }
       } catch (error) {
         console.error("Error fetching PDA values:", error);
@@ -70,12 +77,25 @@ const Content = () => {
       <Route path="/" element={<Dashboard />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/quotations" element={<Quotations />} />
-      <Route path="/jobs" element={<Jobs />} />
       <Route path="/payments" element={<Payments />} />
       <Route path="/soa" element={<Soa />} />
       <Route path="/update-jobs" element={<UpdateJobs />} />
       <Route path="/view-operation" element={<ViewOperations />} />
-      <Route path="/edit-operation" element={<EditOperation />} />
+      <Route
+        path="/edit-operation"
+        element={
+          <EditOperation
+            vessels={vessels}
+            ports={ports}
+            cargos={cargos}
+            vesselTypes={vesselTypes}
+            services={services}
+            customers={customers}
+            employees={employees}
+          />
+        }
+      />
+      <Route path="/jobs" element={<OpsList />} />
       <Route
         path="/view-quotation"
         element={

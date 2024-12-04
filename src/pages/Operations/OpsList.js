@@ -3,33 +3,38 @@ import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
-import "../css/quotation.css";
-import { getAllQuotations, deleteQuotation } from "../services/apiService";
+import "../../css/quotation.css";
+import {
+  getAllQuotations,
+  deleteQuotation,
+  getAllJobs,
+} from "../../services/apiService";
 import { IconButton, TextField } from "@mui/material";
 import { Box, Typography } from "@mui/material";
-import Loader from "./Loader";
 import Swal from "sweetalert2";
-import PopUp from "./PopUp";
-
-const Jobs = () => {
+import PopUp from "../PopUp";
+import Loader from "../Loader";
+const OpsList = () => {
   const navigate = useNavigate();
+  const [selectedTab, setSelectedTab] = useState("all");
 
   const [selectedRows, setSelectedRows] = useState([]);
   const [quotationsList, setQuotationsList] = useState([]);
   const [statusList, setStatusList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
-  const [pageSize, setPageSize] = useState(10); // Default rows per page
   const [isLoading, setIsLoading] = useState(false); // Loader state
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
   const fetchQuotations = async (type) => {
+    setSelectedTab(type);
+
     try {
       setIsLoading(true);
       let userData = {
         filter: type,
       };
-      const quotations = await getAllQuotations(userData);
+      const quotations = await getAllJobs(userData);
       console.log("Quotations:", quotations);
       setQuotationsList(quotations?.pda || []);
       setIsLoading(false);
@@ -60,18 +65,40 @@ const Jobs = () => {
         return "Rejected By Finance Manager";
       case 5:
         return "Customer Approved";
+      case 6:
+        return "Pending from operations";
+      case 7:
+        return "Operations Completed";
       default:
         return "Unknown Status";
     }
   };
 
   const columns = [
-    { field: "pdaNumber", headerName: "Job ID", flex: 1 },
-    { field: "vessel", headerName: "Vessel Name", flex: 2 },
-    { field: "date", headerName: "Date", flex: 1 },
+    {
+      field: "JobId",
+      headerName: "Job ID",
+      flex: 1,
+      renderCell: (params) => (
+        <div
+          style={{
+            color: "#1EBBEE",
+            cursor: "pointer",
+            textDecoration: "none",
+            "&:hover": {
+              textDecoration: "underline",
+            },
+          }}
+        >
+          {params.value}
+        </div>
+      ),
+    },
+    { field: "date", headerName: "Date", flex: 2 },
+    { field: "vessel", headerName: "Vessel Name", flex: 1 },
     { field: "port", headerName: "Port Name", flex: 2 },
     { field: "cargo", headerName: "Cargo", flex: 2 },
-    { field: "preparedBy", headerName: "Prepared By", flex: 1 },
+    { field: "AssignedTo", headerName: "Assigned To", flex: 1 },
     { field: "status", headerName: "Status", flex: 2 },
     {
       field: "actions",
@@ -95,7 +122,7 @@ const Jobs = () => {
 
   const handleEdit = (row) => {
     console.log("Edit row", row);
-    navigate("/create-pda", { state: { row } });
+    navigate("/edit-operation", { state: { row } });
   };
 
   const handleNavigation = () => {
@@ -206,14 +233,24 @@ const Jobs = () => {
     });
   };
 
+  const handleCellClick = (params, event) => {
+    console.log(params, "params");
+    if (params.field === "JobId") {
+      let row = params.row;
+      navigate("/view-operation", { state: { row } });
+    }
+  };
+
   return (
     <>
       <div className="d-flex justify-content-between headerb mb-3 mt-3 ">
-        <div className="leftside d-flex">
-          <ul className="nav nav-underline gap-3 ">
+        <div className="leftside">
+          <ul className="nav nav-underline gap-4 ">
             <li className="nav-item nav-item-filter">
               <a
-                className="nav-link carduppercontent"
+                className={`nav-link carduppercontent ${
+                  selectedTab === "all" ? "active-nav-style" : ""
+                }`}
                 aria-current="page"
                 onClick={() => fetchQuotations("all")}
               >
@@ -222,7 +259,9 @@ const Jobs = () => {
             </li>
             <li className="nav-item nav-item-filter">
               <a
-                className="nav-link carduppercontent"
+                className={`nav-link carduppercontent ${
+                  selectedTab === "day" ? "active-nav-style" : ""
+                }`}
                 onClick={() => fetchQuotations("day")}
               >
                 Last 24 Hour
@@ -230,7 +269,9 @@ const Jobs = () => {
             </li>
             <li className="nav-item nav-item-filter">
               <a
-                className="nav-link carduppercontent"
+                className={`nav-link carduppercontent ${
+                  selectedTab === "week" ? "active-nav-style" : ""
+                }`}
                 onClick={() => fetchQuotations("week")}
               >
                 Last Week
@@ -238,47 +279,52 @@ const Jobs = () => {
             </li>
             <li className="nav-item nav-item-filter">
               <a
-                className="nav-link carduppercontentlast"
+                className={`nav-link carduppercontent ${
+                  selectedTab === "month" ? "active-nav-style" : ""
+                }`}
                 onClick={() => fetchQuotations("month")}
               >
                 Last Month
               </a>
             </li>
           </ul>
-          <div class="draft-pda-jobs ">
-            <span class="badge statusbadge ">
-              <i className="bi bi-check2-circle circle"></i>
-            </span>
-            <div class="pdabadge">Assigned to Operations</div>
-          </div>
         </div>
 
-        <div class="d-flex gap-2 rightside">
+        <div class="d-flex gap-3 rightside">
           <div class=" searchmain">
             <input
               type="email"
               className="form-control search"
               id="exampleFormControlInput1"
               placeholder="Search"
+              value={searchTerm}
+              onChange={handleSearch}
             />
             <i className="bi bi-search searchicon"></i>
           </div>
-          <div class=" filtermainjobs ">
+          <div class=" filtermain ">
             <i class="bi bi-funnel-fill filtericon"></i>
             <select
               class="form-select form-select-sm filter"
               aria-label="Small select example"
               name="status"
+              onChange={handleSelectChange}
+              value={selectedStatus}
             >
-              <option value="">Filter By Status</option>
-              <option value="">Customer Approved</option>
-              <option value="">Pending From OPS</option>
-              <option value="">Operations Completed</option>
-              <option value="">NO Approvals Required</option>
+              <option value="">All</option>
+              {statusList?.map((status) => (
+                <option key={status} value={status}>
+                  {status}
+                </option>
+              ))}
             </select>
           </div>
           <div className=" createbtn">
-            <button type="button" className="btn btn-info infobtn">
+            <button
+              type="button"
+              onClick={() => handleNavigation()}
+              className="btn btn-info infobtn"
+            >
               Create New PDA
             </button>
           </div>
@@ -286,29 +332,6 @@ const Jobs = () => {
       </div>
 
       <div className=" tablequo">
-        {/* <TextField
-            variant="outlined"
-            size="small"
-            fullWidth
-            placeholder="Search..."
-            value={searchTerm}
-            onChange={handleSearch}
-          /> */}
-
-        {/* <select
-            name="status"
-            className="form-select vesselbox"
-            onChange={handleSelectChange}
-            aria-label="Default select example" 
-            value={selectedStatus}
-          >
-            <option value="">Filter</option>
-            {statusList?.map((status) => (
-              <option key={status} value={status}>
-                {status}
-              </option>
-            ))}
-          </select> */}
         <div className="quotation-outer-div">
           <div>
             <DataGrid
@@ -316,16 +339,18 @@ const Jobs = () => {
                 filteredQuotations.length > 0
                   ? filteredQuotations.map((item) => ({
                       id: item._id,
+                      JobId: item.jobId,
                       vessel: item.vesselId?.vesselName || "N/A",
                       port: item.portId?.portName || "N/A",
                       cargo: item.cargoId?.cargoName || "N/A",
                       date: formatDate(item.createdAt),
-                      preparedBy: item.preparedUserId?.name || "N/A",
+                      AssignedTo: item.assignedEmployee?.employeeName || "N/A",
                       status: getStatusText(item.pdaStatus),
                       ...item,
                     }))
                   : []
               }
+              jobId
               columns={columns}
               getRowId={(row) => row.id} // Use id field for unique row identification
               disableSelectionOnClick // Disables checkbox selection to prevent empty column
@@ -333,14 +358,10 @@ const Jobs = () => {
               components={{
                 NoRowsOverlay,
               }}
+              onCellClick={handleCellClick}
               sx={{
                 "& .MuiDataGrid-root": {
                   border: "none",
-                },
-                "& .MuiDataGrid-footerContainer": {
-                  justifyContent: "flex-start", // Align pagination with table
-                  padding: "0 16px", // Match horizontal padding with columns
-                  borderTop: "1px solid rgba(224, 224, 224, 1)", // Add border for better alignmen
                 },
                 "& .MuiDataGrid-columnHeaders": {
                   backgroundColor: "#eee !important", // Set gray background color
@@ -352,9 +373,18 @@ const Jobs = () => {
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                 },
-
-                "& .MuiTablePagination-root": {
-                  margin: 0, // Remove default margins
+                "& .MuiTablePagination-toolbar": {
+                  alignItems: "baseline", // Apply align-items baseline
+                },
+              }}
+              pagination // Enables pagination
+              pageSizeOptions={[5, 10, 20]} // Sets available page size options
+              initialState={{
+                pagination: {
+                  paginationModel: {
+                    pageSize: 5, // Default page size
+                    page: 0, // Default page index
+                  },
                 },
               }}
             />
@@ -378,4 +408,4 @@ const Jobs = () => {
   );
 };
 
-export default Jobs;
+export default OpsList;
