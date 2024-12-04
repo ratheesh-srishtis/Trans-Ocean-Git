@@ -26,6 +26,7 @@ const Content = () => {
   const [services, setServices] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [employees, setEmployees] = useState([]);
+  const [templates, setTemplates] = useState([]);
 
   // Fetch PDA values on component mount
   useEffect(() => {
@@ -59,6 +60,7 @@ const Content = () => {
           setServices(response.services);
           setCustomers(response.customers);
           setEmployees(response.employees);
+          setTemplates(response.templates);
         }
       } catch (error) {
         console.error("Error fetching PDA values:", error);
@@ -79,7 +81,10 @@ const Content = () => {
       <Route path="/quotations" element={<Quotations />} />
       <Route path="/payments" element={<Payments />} />
       <Route path="/soa" element={<Soa />} />
-      <Route path="/update-jobs" element={<UpdateJobs />} />
+      <Route
+        path="/update-jobs"
+        element={<UpdateJobs templates={templates} />}
+      />
       <Route path="/view-operation" element={<ViewOperations />} />
       <Route
         path="/edit-operation"
@@ -92,6 +97,7 @@ const Content = () => {
             services={services}
             customers={customers}
             employees={employees}
+            templates={templates}
           />
         }
       />

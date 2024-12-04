@@ -46,6 +46,7 @@ const OpsChargesTable = ({
   onEdit,
   pdaResponse,
   onSubmit,
+  templates,
 }) => {
   const [charges, setCharges] = useState([]);
   const [subCharges, setSubCharges] = useState([]);
@@ -198,8 +199,8 @@ const OpsChargesTable = ({
 
   const [open, setOpen] = useState(false);
 
-  const openDialog = () => {
-    handleClickOpen();
+  const openDialog = (charge) => {
+    handleClickOpen(charge);
   };
 
   const handleClickOpen = () => {
@@ -230,7 +231,7 @@ const OpsChargesTable = ({
                 <tr key={index} onClick={() => handleRowClick(charge)}>
                   <td
                     onClick={() => {
-                      openDialog();
+                      openDialog(charge);
                     }}
                     className="addjob-click"
                   >
@@ -264,7 +265,7 @@ const OpsChargesTable = ({
         </table>
       </div>
 
-      <AddJobs open={open} onClose={handleClose} />
+      <AddJobs open={open} onClose={handleClose} templates={templates} />
       {openPopUp && (
         <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
       )}

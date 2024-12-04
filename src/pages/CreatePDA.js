@@ -287,6 +287,35 @@ const CreatePDA = ({
     setRemarksOpen(false);
   };
 
+  const handleRemarksSubmit = async () => {
+    let pdaPayload = {
+      pdaId: pdaResponse?._id,
+      status: "4",
+    };
+    try {
+      const response = await changeQuotationStatus(pdaPayload);
+      console.log(response, "login_response");
+      if (response?.status == true) {
+        setPdaResponse(response?.pda);
+        if (response?.pda?.pdaStatus == 4) {
+          setIsApproved(true);
+          setMessage("PDA has been Rejected by Finance Manager");
+          setOpenPopUp(true);
+          setRemarksOpen(false);
+        }
+      } else {
+        setMessage("PDA failed. Please try again");
+        setOpenPopUp(true);
+        setRemarksOpen(false);
+      }
+    } catch (error) {
+      setMessage("PDA failed. Please try again");
+      setOpenPopUp(true);
+      setRemarksOpen(false);
+    } finally {
+    }
+  };
+
   const handleSubmit = (chargesArray) => {
     console.log("chargesArray Submitted: ", chargesArray);
     setFinalChargesArray(chargesArray);
@@ -418,31 +447,34 @@ const CreatePDA = ({
   };
 
   const updateQuotation = async (status) => {
-    let pdaPayload = {
-      pdaId: pdaResponse?._id,
-      status: status,
-    };
-    try {
-      const response = await changeQuotationStatus(pdaPayload);
-      console.log(response, "login_response");
-
-      if (response?.status == true) {
-        setPdaResponse(response?.pda);
-        if (response?.pda?.pdaStatus == 3) {
-          setIsApproved(true);
-          setMessage("PDA has been internally approved");
+    if (status == "3") {
+      let pdaPayload = {
+        pdaId: pdaResponse?._id,
+        status: status,
+      };
+      try {
+        const response = await changeQuotationStatus(pdaPayload);
+        console.log(response, "login_response");
+        if (response?.status == true) {
+          setPdaResponse(response?.pda);
+          if (response?.pda?.pdaStatus == 3) {
+            setIsApproved(true);
+            setMessage("PDA has been internally approved");
+            setOpenPopUp(true);
+          } else if (response?.pda?.pdaStatus == 4) {
+            handleRemarksOpen();
+          }
+        } else {
+          setMessage("PDA failed. Please try again");
           setOpenPopUp(true);
-        } else if (response?.pda?.pdaStatus == 4) {
-          handleRemarksOpen();
         }
-      } else {
+      } catch (error) {
         setMessage("PDA failed. Please try again");
         setOpenPopUp(true);
+      } finally {
       }
-    } catch (error) {
-      setMessage("PDA failed. Please try again");
-      setOpenPopUp(true);
-    } finally {
+    } else if (status == "4") {
+      handleRemarksOpen();
     }
   };
 
@@ -781,7 +813,9 @@ const CreatePDA = ({
                     aria-label="Default select example"
                     value={selectedVessel?._id}
                   >
-                    <option  disabled selected value="">Choose Vessel name</option>
+                    <option disabled selected value="">
+                      Choose Vessel name
+                    </option>
                     {vessels.map((vessel) => (
                       <option key={vessel._id} value={vessel._id}>
                         {vessel.vesselName}
@@ -835,7 +869,6 @@ const CreatePDA = ({
                       name="cargo"
                       className="form-select vesselbox vboxholder"
                       onChange={handleSelectChange}
-                      
                       aria-label="Default select example"
                       value={selectedCargo?._id}
                     >
@@ -1215,7 +1248,12 @@ const CreatePDA = ({
         editIndex={editIndex}
         pdaResponse={pdaResponse}
       />
-      <Remarks open={remarksOpen} onClose={handleRemarksClose} />
+
+      <Remarks
+        open={remarksOpen}
+        onClose={handleRemarksClose}
+        onRemarksSubmit={handleRemarksSubmit}
+      />
       <PdaDialog
         open={generatePDAOpen}
         onClose={handlePdaClose}
