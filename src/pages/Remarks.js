@@ -29,13 +29,11 @@ import {
   Paper,
 } from "@mui/material";
 import { AttachFile, Delete, Visibility } from "@mui/icons-material";
-const Remarks = ({ open, onClose }) => {
+const Remarks = ({ open, onClose, onRemarksSubmit }) => {
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
   const handleSubmit = async () => {
-    setMessage("PDA has been Rejected by Finance Manager");
-    setOpenPopUp(true);
-    onClose();
+    onRemarksSubmit();
   };
 
   return (
