@@ -50,31 +50,78 @@ const ChargesTable = ({
   const [message, setMessage] = useState("");
   console.log(chargesArray, "chargesArray ChargesTable");
 
+  // const totalValues = chargesArray?.reduce(
+  //   (totals, charge) => {
+  //     totals.quantity += parseInt(charge.quantity);
+  //     totals.customerOMR += parseFloat(charge.customerOMR);
+  //     totals.customerVAT += parseFloat(charge.customerVAT);
+  //     totals.customerTotalUSD += parseFloat(charge.customerTotalUSD);
+
+  //     // Round to 2 decimal places
+  //     totals.customerOMR = totals.customerOMR.toFixed(3);
+  //     totals.customerVAT = totals.customerVAT.toFixed(3);
+  //     totals.customerTotalUSD = totals.customerTotalUSD.toFixed(2);
+
+  //     return totals;
+  //   },
+  //   { quantity: 0, customerOMR: 0, customerVAT: 0, customerTotalUSD: 0 }
+  // );
+
   const totalValues = chargesArray?.reduce(
     (totals, charge) => {
-      totals.quantity += parseInt(charge.quantity);
-      totals.customerOMR += parseFloat(charge.customerOMR);
-      totals.customerVAT += parseFloat(charge.customerVAT);
-      totals.customerTotalUSD += parseFloat(charge.customerTotalUSD);
+      totals.quantity += parseInt(charge.quantity || 0, 10); // Default to 0 if null/undefined
+      totals.customerOMR += parseFloat(charge.customerOMR || 0);
+      totals.customerVAT += parseFloat(charge.customerVAT || 0);
+      totals.customerTotalUSD += parseFloat(charge.customerTotalUSD || 0);
       return totals;
     },
     { quantity: 0, customerOMR: 0, customerVAT: 0, customerTotalUSD: 0 }
   );
 
-  console.log(totalValues, "totalValues");
+  const formattedTotals = {
+    quantity: totalValues.quantity,
+    customerOMR: totalValues.customerOMR.toFixed(3),
+    customerVAT: totalValues.customerVAT.toFixed(3),
+    customerTotalUSD: totalValues.customerTotalUSD.toFixed(2),
+  };
+
+  // const vendorTotalValues = chargesArray?.reduce(
+  //   (totals, charge) => {
+  //     totals.quantity += parseInt(charge.quantity);
+  //     totals.vendorOMR += parseFloat(charge.vendorOMR);
+  //     totals.vendorVAT += parseFloat(charge.vendorVAT);
+  //     totals.vendorTotalUSD += parseFloat(charge.vendorTotalUSD);
+
+  //     // Round to 2 decimal places
+  //     totals.vendorOMR = totals.vendorOMR.toFixed(3);
+  //     totals.vendorVAT = totals.vendorVAT.toFixed(3);
+  //     totals.vendorTotalUSD = totals.vendorTotalUSD.toFixed(2);
+
+  //     return totals;
+  //   },
+  //   { quantity: 0, vendorOMR: 0, vendorVAT: 0, vendorTotalUSD: 0 }
+  // );
+
+  // console.log(vendorTotalValues, "vendorTotalValues");
 
   const vendorTotalValues = chargesArray?.reduce(
     (totals, charge) => {
-      totals.quantity += parseInt(charge.quantity);
-      totals.vendorOMR += parseFloat(charge.vendorOMR);
-      totals.vendorVAT += parseFloat(charge.vendorVAT);
-      totals.vendorTotalUSD += parseFloat(charge.vendorTotalUSD);
+      totals.quantity += parseInt(charge.quantity || 0, 10); // Default to 0 if null/undefined
+      totals.vendorOMR += parseFloat(charge.vendorOMR || 0);
+      totals.vendorVAT += parseFloat(charge.vendorVAT || 0);
+      totals.vendorTotalUSD += parseFloat(charge.vendorTotalUSD || 0);
       return totals;
     },
     { quantity: 0, vendorOMR: 0, vendorVAT: 0, vendorTotalUSD: 0 }
   );
 
-  console.log(vendorTotalValues, "vendorTotalValues");
+  // Format totals after calculations
+  const formattedVendorTotals = {
+    quantity: vendorTotalValues.quantity,
+    vendorOMR: vendorTotalValues.vendorOMR.toFixed(3),
+    vendorVAT: vendorTotalValues.vendorVAT.toFixed(3),
+    vendorTotalUSD: vendorTotalValues.vendorTotalUSD.toFixed(2),
+  };
 
   const handleRowClick = (charge) => {
     console.log(charge);
@@ -253,13 +300,15 @@ const ChargesTable = ({
                           : ""}
                       </td>
                       {/* <td>{charge.quantity}</td> */}
-                      <td>{charge.customerOMR}</td>
-                      <td>{charge.customerVAT}</td>
+                      <td>{charge.customerOMR.toFixed(3)}</td>
+                      <td>{charge.customerVAT.toFixed(3)}</td>
                       <td>
-                        {parseFloat(charge.customerOMR) +
-                          parseFloat(charge.customerVAT)}
+                        {(
+                          parseFloat(charge.customerOMR) +
+                          parseFloat(charge.customerVAT)
+                        ).toFixed(3)}
                       </td>
-                      <td>{charge.customerTotalUSD}</td>
+                      <td>{charge.customerTotalUSD.toFixed(2)}</td>
                       <td>
                         {/* Edit and Delete Buttons */}
 
@@ -277,18 +326,40 @@ const ChargesTable = ({
                     </tr>
                   ))}
               </tbody>
+              {/* {chargesArray?.length > 0 && (
+                <>
+                  <tfoot>
+                    <tr className="bold-row">
+                      <td colSpan={4}>Total Cost</td>
+                      <td>{totalValues.customerOMR}</td>
+                      <td>{totalValues.customerVAT}</td>
+                      <td>
+                        {(
+                          (parseFloat(totalValues.customerOMR) || 0) +
+                          (parseFloat(totalValues.customerVAT) || 0)
+                        ).toFixed(3)}
+                      </td>
+                      <td>{totalValues?.customerTotalUSD}</td>
+                      <td></td>
+                    </tr>
+                  </tfoot>
+                </>
+              )} */}
               {chargesArray?.length > 0 && (
                 <>
                   <tfoot>
                     <tr className="bold-row">
                       <td colSpan={4}>Total Cost</td>
-                      {/* <td>{totalValues.quantity}</td> */}
-                      <td>{totalValues.customerOMR}</td>
-                      <td>{totalValues.customerVAT}</td>
+                      {/* Use formatted totals */}
+                      <td>{formattedTotals.customerOMR}</td>
+                      <td>{formattedTotals.customerVAT}</td>
                       <td>
-                        {totalValues.customerOMR + totalValues?.customerVAT}
+                        {(
+                          parseFloat(formattedTotals.customerOMR) +
+                          parseFloat(formattedTotals.customerVAT)
+                        ).toFixed(3)}
                       </td>
-                      <td>{totalValues?.customerTotalUSD}</td>
+                      <td>{formattedTotals.customerTotalUSD}</td>
                       <td></td> {/* Empty cell for footer */}
                     </tr>
                   </tfoot>
@@ -336,13 +407,15 @@ const ChargesTable = ({
                           : ""}
                       </td>
                       {/* <td>{charge.quantity}</td> */}
-                      <td>{charge.vendorOMR}</td>
-                      <td>{charge.vendorVAT}</td>
+                      <td>{charge.vendorOMR.toFixed(3)}</td>
+                      <td>{charge.vendorVAT.toFixed(3)}</td>
                       <td>
-                        {parseFloat(charge.vendorOMR) +
-                          parseFloat(charge.vendorVAT)}
+                        {(
+                          parseFloat(charge.vendorOMR) +
+                          parseFloat(charge.vendorVAT)
+                        ).toFixed(3)}
                       </td>
-                      <td>{charge.vendorTotalUSD}</td>
+                      <td>{charge.vendorTotalUSD.toFixed(2)}</td>
                       <td>
                         {/* Edit and Delete Buttons */}
 
@@ -360,19 +433,41 @@ const ChargesTable = ({
                     </tr>
                   ))}
               </tbody>
+              {/* {chargesArray?.length > 0 && (
+                <>
+                  <tfoot>
+                    <tr className="bold-row">
+                      <td colSpan={4}>Total Cost</td>
+                      <td>{vendorTotalValues.vendorOMR}</td>
+                      <td>{vendorTotalValues.vendorVAT}</td>
+                      <td>
+                        {(
+                          (parseFloat(vendorTotalValues.vendorOMR) || 0) +
+                          (parseFloat(vendorTotalValues.vendorVAT) || 0)
+                        ).toFixed(3)}
+                      </td>
+                      <td>{vendorTotalValues?.vendorTotalUSD}</td>
+                      <td></td>
+                    </tr>
+                  </tfoot>
+                </>
+              )} */}
               {chargesArray?.length > 0 && (
                 <>
                   <tfoot>
                     <tr className="bold-row">
                       <td colSpan={4}>Total Cost</td>
-                      {/* <td>{vendorTotalValues.quantity}</td> */}
-                      <td>{vendorTotalValues.vendorOMR}</td>
-                      <td>{vendorTotalValues.vendorVAT}</td>
+                      {/* Use formatted totals */}
+                      {/* <td>{formattedVendorTotals.quantity}</td> */}
+                      <td>{formattedVendorTotals.vendorOMR}</td>
+                      <td>{formattedVendorTotals.vendorVAT}</td>
                       <td>
-                        {vendorTotalValues.vendorOMR +
-                          vendorTotalValues?.vendorVAT}
+                        {(
+                          parseFloat(formattedVendorTotals.vendorOMR) +
+                          parseFloat(formattedVendorTotals.vendorVAT)
+                        ).toFixed(3)}
                       </td>
-                      <td>{vendorTotalValues?.vendorTotalUSD}</td>
+                      <td>{formattedVendorTotals.vendorTotalUSD}</td>
                       <td></td> {/* Empty cell for footer */}
                     </tr>
                   </tfoot>
