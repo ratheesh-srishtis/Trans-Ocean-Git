@@ -153,7 +153,13 @@ const Sidebar = () => {
                               className="menusub"
                               onClick={() => navigate("/vessel-type-settings")}
                             >
-                              Ports
+                              Vessel Types
+                            </li>
+                            <li
+                              className="menusub"
+                              onClick={() => navigate("/customer-settings")}
+                            >
+                              Customers
                             </li>
                           </ul>
                         </div>

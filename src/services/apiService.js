@@ -420,6 +420,88 @@ export const deletePort = async (userData) => {
   }
 };
 
+/* vessel Type settings */
+
+export const getAllVesselTypes = async (data) => {
+  try {
+    const response = await axiosInstance.post("/getAllVesselTypes", data);
+    return response.data;
+  } catch (error) {
+    console.error("List all users API Error:", error);
+    throw error;
+  }
+};
+export const saveVesselType = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/saveVesselType", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+export const editVesselType = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/editVesselType", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+export const deleteVesselType = async (userData) => {
+  try {
+    const response = await axiosInstance.post(
+      "/deleteVesselType",
+      userData
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+/* customer settings */
+export const getAllCustomers = async (data) => {
+  try {
+    const response = await axiosInstance.post("/getAllCustomers", data);
+    return response.data;
+  } catch (error) {
+    console.error("List all users API Error:", error);
+    throw error;
+  }
+};
+export const saveCustomer = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/saveCustomer", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+export const editCustomer = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/editCustomer", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+export const deleteCustomer = async (userData) => {
+  try {
+    const response = await axiosInstance.post(
+      "/deleteCustomer",
+      userData
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
 
 export const uploadDocuments = async (formData) => {
   try {
