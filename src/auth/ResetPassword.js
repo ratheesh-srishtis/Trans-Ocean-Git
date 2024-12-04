@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import "../css/resetpassword.css";
+import "../css/login.css";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -12,6 +12,7 @@ const ResetPassword = () => {
   const navigate = useNavigate();
   console.log("test");
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [responseStatus, setResponseStatus] = useState(null);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -46,34 +47,56 @@ const ResetPassword = () => {
   console.log("userId:", userId);
 
   const [password, setPassword] = useState("");
+  const [passwordEmptyError, setPasswordEmptyError] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPasswordEmptyError, setConfirmPasswordEmptyError] =
+    useState(false);
+
   const [passwordError, setPasswordError] = useState(false);
 
   const handleSubmit = async () => {
+    if (password == null || password == "") {
+      setPasswordEmptyError(true);
+    }
+    if (confirmPassword == null || confirmPassword == "") {
+      setConfirmPasswordEmptyError(true);
+    }
     if (password !== confirmPassword) {
       setPasswordError(true);
       return;
     }
-    try {
+    if (
+      password != null &&
+      password != "" &&
+      confirmPassword != null &&
+      confirmPassword != ""
+    ) {
       try {
-        const userData = {
-          userId: userId, // Replace with dynamic userId if needed
-          password,
-        };
-        console.log(userData, "userData");
-        const response = await resetUserPassword(userData);
-        console.log(response, "login_response");
-        if (response?.status == true) {
-          setMessage(`${response?.message}`);
-          setOpenPopUp(true);
-        } else {
-          setMessage(`${response?.message}`);
-          setOpenPopUp(true);
-        }
-      } catch (error) {}
-    } catch (error) {
-    } finally {
-      setLoading(false);
+        try {
+          const userData = {
+            userId: userId, // Replace with dynamic userId if needed
+            password,
+          };
+          console.log(userData, "userData");
+          const response = await resetUserPassword(userData);
+          console.log(response, "login_response");
+          if (response?.status == true) {
+            setResponseStatus(true); // Save status as true
+            setMessage(`${response?.message}`);
+            setOpenPopUp(true);
+          } else {
+            setResponseStatus(false); // Save status as true
+            setMessage(`${response?.message}`);
+            setOpenPopUp(true);
+          }
+        } catch (error) {}
+      } catch (error) {
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      setMessage("Please fill all the required fields");
+      setOpenPopUp(true);
     }
   };
 
@@ -87,11 +110,6 @@ const ResetPassword = () => {
     setConfirmPasswordVisible(!confirmPasswordVisible);
   };
 
-  const handlePopupClose = () => {
-    setOpenPopUp(false);
-    navigate("/login");
-  };
-
   return (
     <>
       <div>
@@ -100,7 +118,7 @@ const ResetPassword = () => {
             <img className="logoside" src={Group}></img>
           </div>
           <div class="container">
-            <div class="row">
+            <div class="row alignbox">
               <div class="col-lg-6 same-level">
                 <div class="d-flex flex-column mb-3">
                   <img className="logo" src={Logo}></img>
@@ -124,14 +142,14 @@ const ResetPassword = () => {
                           type={newPasswordVisible ? "text" : "password"}
                           className="form-control fieldwidth"
                           id="newPassword"
-                          placeholder="**********"
+                          placeholder=""
                           value={password}
                           onChange={(e) => {
                             setPassword(e.target.value);
                             setPasswordError(false);
+                            setPasswordEmptyError(false);
                           }}
                         />
-
                         {newPasswordVisible ? (
                           <span
                             className="bi bi-eye reseteyeicon "
@@ -144,10 +162,9 @@ const ResetPassword = () => {
                           ></span>
                         )}
                       </div>
-                      {passwordError && (
-                        <div className="invalid">
-                          Please enter the same password
-                        </div>
+
+                      {passwordEmptyError && (
+                        <div className="invalid">Please enter new password</div>
                       )}
                     </div>
 
@@ -160,11 +177,12 @@ const ResetPassword = () => {
                           type={confirmPasswordVisible ? "text" : "password"}
                           className="form-control fieldwidth"
                           id="confirmPassword"
-                          placeholder="**********"
+                          placeholder=""
                           value={confirmPassword}
                           onChange={(e) => {
                             setConfirmPassword(e.target.value);
                             setPasswordError(false);
+                            setConfirmPasswordEmptyError(false);
                           }}
                         />
                         {confirmPasswordVisible ? (
@@ -184,6 +202,11 @@ const ResetPassword = () => {
                           Please enter the same password
                         </div>
                       )}
+                      {/* {confirmPasswordEmptyError && (
+                        <div className="invalid">
+                          Please enter confirm password
+                        </div>
+                      )} */}
                     </div>
 
                     <button
@@ -208,7 +231,17 @@ const ResetPassword = () => {
           </p>
         </div>
       </div>
-      {openPopUp && <PopUp message={message} closePopup={handlePopupClose} />}
+      {openPopUp && (
+        <PopUp
+          message={message}
+          closePopup={() => {
+            setOpenPopUp(false);
+            if (responseStatus === true) {
+              navigate("/login"); // Navigate only if the status is true
+            }
+          }}
+        />
+      )}
     </>
   );
 };

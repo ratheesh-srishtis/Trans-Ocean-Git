@@ -4,14 +4,21 @@ import { getDashbordDetails } from "../services/apiService";
 import { Oval } from "react-loader-spinner"; // Import a loader type from react-loader-spinner
 import { useAuth } from "../context/AuthContext";
 import OpsDashboard from "./Operations/OpsDashboard";
+import PopUp from "./PopUp";
+import Loader from "./Loader";
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const handleNavigation = () => {
+    localStorage.removeItem("PDA_ID");
     navigate("/create-pda");
   };
   const { logout, loginResponse } = useAuth();
   console.log(loginResponse, "loginResponse_dashboard");
+  const [selectedTab, setSelectedTab] = useState("all");
+  const [openPopUp, setOpenPopUp] = useState(false);
+
+  const [message, setMessage] = useState("");
 
   const img_1 = require("../assets/images/1.png");
   const img_2 = require("../assets/images/2.png");
@@ -21,22 +28,26 @@ const Dashboard = () => {
   const [counts, setCounts] = useState(null);
   const [userType, setUserType] = useState(null);
 
-  const fetchDashboardDetails = async () => {
+  const fetchDashboardDetails = async (type) => {
+    setSelectedTab(type);
+    setIsLoading(true);
     let data = {
-      filter: "all",
+      filter: type,
     };
     try {
       const dashboardDetails = await getDashbordDetails(data);
       console.log("dashboardDetails:", dashboardDetails);
       setCounts(dashboardDetails);
+      setIsLoading(false);
     } catch (error) {
       console.error("Failed to fetch quotations:", error);
+      setIsLoading(false);
     } finally {
     }
   };
 
   useEffect(() => {
-    fetchDashboardDetails();
+    fetchDashboardDetails("all");
   }, []);
 
   useEffect(() => {
@@ -57,25 +68,42 @@ const Dashboard = () => {
                 <ul className="nav nav-underline gap-4">
                   <li className="nav-item">
                     <a
-                      className="nav-link carduppercontent"
+                      className={`nav-link carduppercontent ${
+                        selectedTab === "all" ? "active-nav-style" : ""
+                      }`}
                       aria-current="page"
-                      href="#"
+                      onClick={() => fetchDashboardDetails("all")}
                     >
                       All
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link carduppercontent" href="#">
+                    <a
+                      className={`nav-link carduppercontent ${
+                        selectedTab === "day" ? "active-nav-style" : ""
+                      }`}
+                      onClick={() => fetchDashboardDetails("day")}
+                    >
                       Last 24 Hour
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link carduppercontent" href="#">
+                    <a
+                      className={`nav-link carduppercontent ${
+                        selectedTab === "week" ? "active-nav-style" : ""
+                      }`}
+                      onClick={() => fetchDashboardDetails("week")}
+                    >
                       Last Week
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link carduppercontentlast" href="#">
+                    <a
+                      className={`nav-link carduppercontent ${
+                        selectedTab === "month" ? "active-nav-style" : ""
+                      }`}
+                      onClick={() => fetchDashboardDetails("month")}
+                    >
                       Last Month
                     </a>
                   </li>
@@ -125,8 +153,13 @@ const Dashboard = () => {
 
       {userType == "operations" && (
         <>
-          <OpsDashboard/>
+          <OpsDashboard />
         </>
+      )}
+      <Loader isLoading={isLoading} />
+
+      {openPopUp && (
+        <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
       )}
     </>
   );

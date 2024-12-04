@@ -74,7 +74,8 @@
 .filtermain {
   position: relative;
   border: 1px solid #80808041;
-  width: 250px;
+  width: 355px;
+  max-width: 100%;
   border-radius: 5px;
   display: flex;
   align-items: center;

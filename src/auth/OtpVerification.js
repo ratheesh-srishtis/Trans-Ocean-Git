@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
-import "../css/otpverification.css";
+import "../css/login.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { validateOTP } from "../services/apiService";
+import { validateOTP, forgotUserPassword } from "../services/apiService";
 import PopUp from "../pages/PopUp";
 import { useLocation } from "react-router-dom";
 const OtpVerification = () => {
@@ -21,6 +21,7 @@ const OtpVerification = () => {
   const Group = require("../assets/images/Group 1000002969.png");
   const mian = require("../assets/images/mian.png");
   const [loading, setLoading] = useState(false);
+  const [isResendOtp, setIsResendOtp] = useState(false);
 
   // State to track the selected tab
   const [selectedTab, setSelectedTab] = useState("Finance");
@@ -38,7 +39,7 @@ const OtpVerification = () => {
   const [message, setMessage] = useState("");
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  const [otp, setOtp] = useState(["", "", "", "", "", "", "", ""]);
+  const [otp, setOtp] = useState(["", "", "", ""]);
   const inputRefs = useRef([]);
   const [isLoading, setIsLoading] = useState(false);
   const [userId, setUserId] = useState(null);
@@ -47,7 +48,7 @@ const OtpVerification = () => {
     const newOtp = [...otp];
     newOtp[index] = value;
 
-    if (value && index < 7) {
+    if (value && index < 3) {
       inputRefs.current[index + 1].focus();
     }
 
@@ -66,14 +67,14 @@ const OtpVerification = () => {
     const pastedData = e.clipboardData.getData("Text").split("");
     if (pastedData.length === 8) {
       setOtp(pastedData);
-      inputRefs.current[7].focus();
+      inputRefs.current[3].focus();
     }
   };
 
   const handleVerify = () => {
     const newOTP = otp.join("");
     resetPassword(newOTP);
-    setOtp(["", "", "", "", "", "", "", ""]);
+    setOtp(["", "", "", ""]);
     inputRefs.current[0].focus();
   };
 
@@ -94,10 +95,12 @@ const OtpVerification = () => {
         const response = await validateOTP(userData);
         console.log(response, "login_response");
         if (response?.status == true) {
+          setIsResendOtp(false);
           setUserId(response?.user);
           setMessage(`${response?.message}`);
           setOpenPopUp(true);
-        } else {
+        } else if (response?.status == false) {
+          setIsResendOtp(true);
           setMessage(`${response?.message}`);
           setOpenPopUp(true);
         }
@@ -110,9 +113,40 @@ const OtpVerification = () => {
     setIsLoading(true);
   };
 
+  const SendEmailOtp = async () => {
+    if (emailOrUsername) {
+      setLoading(true);
+      try {
+        try {
+          let userData = {
+            email: emailOrUsername,
+          };
+          const response = await forgotUserPassword(userData);
+          console.log(response, "login_response");
+          if (response?.status == true) {
+            setIsResendOtp(true);
+            setMessage(`${"OTP has been successfully resent"}`);
+            setOpenPopUp(true);
+          } else if (response?.status == false) {
+            setIsResendOtp(true);
+            setMessage(`${response?.message}`);
+            setOpenPopUp(true);
+          }
+        } catch (error) {}
+      } catch (error) {
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
   const handlePopupClose = () => {
-    setOpenPopUp(false);
-    navigate("/reset-password", { state: { userId } });
+    if (isResendOtp == false) {
+      setOpenPopUp(false);
+      navigate("/reset-password", { state: { userId } });
+    } else {
+      setOpenPopUp(false);
+    }
   };
 
   useEffect(() => {
@@ -126,21 +160,19 @@ const OtpVerification = () => {
             <img className="logoside" src={Group}></img>
           </div>
           <div class="container">
-            <div class="row">
+            <div class="row alignboxotp">
               <div class="col-lg-6 same-level">
                 <div class="d-flex flex-column mb-3">
                   <img className="logo" src={Logo}></img>
                   <img className="mainpng" src={mian} alt=""></img>
                 </div>
               </div>
-
               <div class="col-lg-6 same-level">
                 <div class="logincard">
                   <div class="maincard">
                     <div>
                       <h3 class="text-center login_text">OTP Verification</h3>
                     </div>
-
                     {/* <div class="mb-5  ">
                       <label for="exampleInputEmail1" class="form-label">
                         Enter OTP{" "}
@@ -176,7 +208,6 @@ const OtpVerification = () => {
                         />
                       </div>
                     </div> */}
-
                     <div>
                       <div onPaste={handlePaste} className="otp-boxes">
                         {otp.map((value, index) => (
@@ -192,11 +223,12 @@ const OtpVerification = () => {
                             onKeyDown={(e) => handleKeyDown(e, index)}
                             ref={(el) => (inputRefs.current[index] = el)}
                             style={{
-                              width: "50px",
-                              height: "50px",
+                              width: "40px",
+                              height: "40px",
                               fontSize: "24px",
                               textAlign: "center",
-                              marginRight: "10px",
+                              marginRight:
+                                index === otp.length - 1 ? "0px" : "10px",
                             }}
                           />
                         ))}
@@ -204,8 +236,12 @@ const OtpVerification = () => {
                     </div>
 
                     <div class="resendotp mb-3 mt-3">
-                      <a href="" class="otptext">
-                        {" "}
+                      <a
+                        class="otptext"
+                        onClick={() => {
+                          SendEmailOtp();
+                        }}
+                      >
                         Resend OTP?
                       </a>
                     </div>
@@ -213,6 +249,7 @@ const OtpVerification = () => {
                       type="submit"
                       class="btn btn-primary w-100"
                       onClick={handleVerify}
+                      disabled={otp.some((value) => value === "")} // Disable if any value in otp is empty
                     >
                       Submit
                     </button>

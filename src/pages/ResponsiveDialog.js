@@ -432,107 +432,96 @@ const ResponsiveDialog = ({
 
   const editCharges = async (index) => {
     // Individual checks for each field
-    if (!selectedService || selectedService === "" || !selectedService) {
+    if (selectedService == null || selectedService === "") {
       setSelectedServiceError(true);
     } else {
       setSelectedServiceError(false);
     }
-    if (
-      !selectedChargesType ||
-      selectedChargesType === "" ||
-      !selectedChargesType
-    ) {
+    if (selectedChargesType == null || selectedChargesType === "") {
       setSelectedChargesTypeError(true);
     } else {
       setSelectedChargesTypeError(false);
     }
-    if (
-      !selectedSubhargesType ||
-      selectedSubhargesType === "" ||
-      !selectedSubhargesType
-    ) {
+    if (selectedSubhargesType == null || selectedSubhargesType === "") {
       setSelectedSubhargesTypeError(true);
     } else {
       setSelectedSubhargesTypeError(false);
     }
 
-    if (!selectedQuantity || selectedQuantity === "") {
+    if (selectedQuantity == null || selectedQuantity === "") {
       setSelectedQuantityError(true);
     } else {
       setSelectedQuantityError(false);
     }
 
-    if (
-      !selectedNewCustomer ||
-      selectedNewCustomer === "" ||
-      !selectedNewCustomer
-    ) {
+    if (selectedNewCustomer == null || selectedNewCustomer === "") {
       setSelectedNewCustomerError(true);
     } else {
       setSelectedNewCustomerError(false);
     }
 
-    if (!customerAmount || customerAmount === "" || !customerAmount) {
+    if (customerAmount == null || customerAmount === "") {
       setCustomerAmountError(true);
     } else {
       setCustomerAmountError(false);
     }
 
-    if (!customerTotalUSD || customerTotalUSD === "" || !customerTotalUSD) {
+    if (customerTotalUSD == null || customerTotalUSD === "") {
       setCustomerTotalUSDError(true);
     } else {
       setCustomerTotalUSDError(false);
     }
 
-    if (!customerVatAmount || customerVatAmount === "" || !customerVatAmount) {
+    if (customerVatAmount == null || customerVatAmount === "") {
       setCustomerVatAmountError(true);
     } else {
       setCustomerVatAmountError(false);
     }
 
-    if (!selectedVendor || selectedVendor === "" || !selectedVendor) {
+    if (selectedVendor == null || selectedVendor === "") {
       setSelectedVendorError(true);
     } else {
       setSelectedVendorError(false);
     }
 
-    if (!vendorAmount || vendorAmount === "" || !vendorAmount) {
+    if (vendorAmount == null || vendorAmount === "") {
       setVendorAmountError(true);
     } else {
       setVendorAmountError(false);
     }
 
-    if (!vendorTotalUSD || vendorTotalUSD === "" || !vendorTotalUSD) {
+    if (vendorTotalUSD == null || vendorTotalUSD === "") {
       setVendorTotalUSDError(true);
     } else {
       setVendorTotalUSDError(false);
     }
 
-    if (!vendorVatAmount || vendorVatAmount === "" || !vendorVatAmount) {
+    if (vendorVatAmount == null || vendorVatAmount === "") {
       setVendorVatAmountError(true);
     } else {
       setVendorVatAmountError(false);
     }
 
-    if (!customerTotalOmr || customerTotalOmr === "" || !customerTotalOmr) {
+    if (customerTotalOmr == null || customerTotalOmr === "") {
       setCustomerTotalOmrError(true);
     } else {
       setCustomerTotalOmrError(false);
     }
+    let isValidNumber = (value) => value !== null && value !== undefined;
 
     if (
       selectedService &&
       selectedChargesType &&
       selectedSubhargesType &&
-      selectedQuantity &&
       selectedNewCustomer &&
-      customerAmount &&
-      customerTotalUSD &&
-      customerVatAmount &&
       selectedVendor &&
-      vendorAmount &&
-      vendorTotalUSD &&
-      vendorVatAmount
+      isValidNumber(selectedQuantity) &&
+      isValidNumber(customerAmount) &&
+      isValidNumber(customerTotalUSD) &&
+      isValidNumber(customerVatAmount) &&
+      isValidNumber(vendorAmount) &&
+      isValidNumber(vendorTotalUSD) &&
+      isValidNumber(vendorVatAmount)
     ) {
       let chargesPayload = {
         serviceId: selectedService?.serviceId || selectedService?._id,
@@ -756,7 +745,7 @@ const ResponsiveDialog = ({
                             selectedService ? selectedService?._id : "default"
                           }
                           name="service"
-                          className="form-select vesselbox"
+                          className="form-select vesselbox vesselbox:placeholder "
                           onChange={handleSelectChange}
                           aria-label="Default select example"
                           value={selectedService ? selectedService?._id : null}
@@ -787,7 +776,7 @@ const ResponsiveDialog = ({
                           <div className="vessel-select">
                             <select
                               name="chargeType"
-                              className="form-select vesselbox"
+                              className="form-select vesselbox vesselbox:placeholder"
                               onChange={handleSelectChange}
                               aria-label="Default select example"
                               value={selectedChargesType?._id}
@@ -824,7 +813,7 @@ const ResponsiveDialog = ({
                           <div className="vessel-select">
                             <select
                               name="subChargeType"
-                              className="form-select vesselbox"
+                              className="form-select vesselbox "
                               onChange={handleSelectChange}
                               aria-label="Default select example"
                               value={selectedSubhargesType?._id}
@@ -1036,7 +1025,7 @@ const ResponsiveDialog = ({
                       </div>
                     </div>
                     <div className="customerhead">
-                      <div className="headname">Vendor Charges</div>
+                      <div className="headnamevendor">Vendor Charges</div>
                       <div className="customerrectangle"></div>
                     </div>
                     <div className="row ">
@@ -1269,8 +1258,9 @@ const ResponsiveDialog = ({
                             {charge?.serviceName}
                           </div>
 
-                          <div className="row mb-3">
-                            <div className="col-6">
+
+<div className="row mb-3">
+<div className="col-6">
                               <span className="marinehead">Charge type:</span>
                               <span className="subvalue">
                                 {/* {getItemName(
@@ -1279,7 +1269,19 @@ const ResponsiveDialog = ({
                                 )} */}
                                 {charge?.chargeName}
                               </span>
-                              <div className="mt-2">
+                              </div>
+<div className="col-6">
+                              <span className="marinehead">Quantity:</span>
+                              <span className="subvalue">
+                                {charge?.quantity}
+                              </span>
+                            </div>
+
+
+</div>
+<div className="row mb-3">
+<div className="col-12">
+<div className="mt-2">
                                 <span className="marinehead">
                                   Sub charge Type:
                                 </span>
@@ -1291,14 +1293,27 @@ const ResponsiveDialog = ({
                                   {charge?.subchargeName}
                                 </span>
                               </div>
-                            </div>
-                            <div className="col-6">
-                              <span className="marinehead">Quantity:</span>
-                              <span className="subvalue">
-                                {charge?.quantity}
-                              </span>
-                            </div>
-                          </div>
+                              </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                           <div className="row mb-3">
                             <div className="col-6 table_seperation">
@@ -1691,7 +1706,7 @@ const ResponsiveDialog = ({
                         </>
                       )}
                     </div>
-                    <div className="col-lg-3">
+                    <div className="col-lg-3 quantitypadding">
                       <label
                         for="exampleFormControlInput1"
                         className="form-label"

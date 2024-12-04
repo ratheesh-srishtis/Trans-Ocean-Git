@@ -239,9 +239,7 @@ export const getAllJobs = async (data) => {
     throw error;
   }
 };
-  /**  Settings Services **/
-    
-   /* user settings */
+
 export const getAllUserRoles = async (data) => {
   try {
     const response = await axiosInstance.post("/getAllRoles", data);
@@ -422,3 +420,17 @@ export const deletePort = async (userData) => {
   }
 };
 
+
+export const uploadDocuments = async (formData) => {
+  try {
+    const response = await axiosInstance.post("/uploadDocuments", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data", // Required for file uploads
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("uploadDocuments API Error:", error);
+    throw error;
+  }
+};

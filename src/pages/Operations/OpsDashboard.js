@@ -8,8 +8,9 @@ const OpsDashboard = () => {
   const [isLoading, setIsLoading] = useState(false); // Loader state
   const [jobsList, setJobsList] = useState([]); // Loader state
   const navigate = useNavigate();
-
+  const [selectedTab, setSelectedTab] = useState("all");
   const fetchAllJObs = async (type) => {
+    setSelectedTab(type);
     try {
       setIsLoading(true);
       let userData = {
@@ -33,8 +34,12 @@ const OpsDashboard = () => {
     console.log(jobsList, "jobsList");
   }, [jobsList]);
 
-  const handleJobClick = (row) => {
+  const handleEditJob = (row) => {
     navigate("/edit-operation", { state: { row } });
+  };
+
+  const handleJobClick = (row) => {
+    navigate("/view-operation", { state: { row } });
   };
 
   return (
@@ -43,12 +48,25 @@ const OpsDashboard = () => {
         <div className="leftside d-flex">
           <ul className="nav nav-underline gap-3 ">
             <li className="nav-item nav-item-filter">
-              <a className="nav-link carduppercontent" aria-current="page">
+              <a
+                className={`nav-link carduppercontent ${
+                  selectedTab === "all" ? "active-nav-style" : ""
+                }`}
+                aria-current="page"
+                onClick={() => fetchAllJObs("all")}
+              >
                 All
               </a>
             </li>
             <li className="nav-item nav-item-filter">
-              <a className="nav-link carduppercontent">Last 24 Hour</a>
+              <a
+                className={`nav-link carduppercontent ${
+                  selectedTab === "day" ? "active-nav-style" : ""
+                }`}
+                onClick={() => fetchAllJObs("day")}
+              >
+                Last 24 Hour
+              </a>
             </li>
           </ul>
         </div>
@@ -132,7 +150,10 @@ const OpsDashboard = () => {
                             View Detail >>>
                           </div>
                           <div className="d-flex">
-                            <i class="bi bi-pencil-square dashedit"></i>
+                            <i
+                              class="bi bi-pencil-square dashedit"
+                              onClick={() => handleEditJob(job)}
+                            ></i>
                             <i class="bi bi-trash-fill dashdelete"></i>
                           </div>
                         </div>
@@ -142,7 +163,11 @@ const OpsDashboard = () => {
                 })}
             </>
           )}
-
+          {jobsList?.length == 0 && (
+            <>
+              <p>No Jobs available</p>{" "}
+            </>
+          )}
           {/* <div class=" col-3 shadow p-3 mb-5 bg-body-tertiary rounded">
             <div class="d-flex justify-content-between">
               <div>

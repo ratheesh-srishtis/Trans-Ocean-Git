@@ -141,17 +141,18 @@ const ViewQuotation = ({
             <span> ETA:</span> <span className="viewans"> {editData?.ETA}</span>
           </div>
         </div>
-        <div className="row viewquocontent">
-          {/* <div className=" col-4 viewhead">
-            <span> Service:</span> <span className="viewans"> Crew Change</span>
-          </div> */}
-          <div className=" col-4 viewhead">
-            <span> Customer Name:</span>{" "}
-            <span className="viewans">
-              {getItemName(editData?.customerId, "customer")}
-            </span>
-          </div>
-        </div>
+        {editData?.customerId && (
+          <>
+            <div className="row viewquocontent">
+              <div className=" col-4 viewhead">
+                <span> Customer Name:</span>{" "}
+                <span className="viewans">
+                  {getItemName(editData?.customerId, "customer")}
+                </span>
+              </div>
+            </div>
+          </>
+        )}
       </div>
       <div className="charges-table">
         <div className="row mt-4">

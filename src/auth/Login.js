@@ -183,9 +183,9 @@ const Login = () => {
                         </label>
                         <input
                           type="text"
-                          className="form-control"
+                          className="form-control vessel-voyage"
                           id="exampleInputEmail1"
-                          placeholder="Username"
+                          placeholder=""
                           aria-describedby="emailHelp"
                           value={emailOrUsername}
                           onChange={(e) => setEmailOrUsername(e.target.value)} // Update email/username state
@@ -202,9 +202,9 @@ const Login = () => {
                         </label>
                         <input
                           type={passwordVisible ? "text" : "password"}
-                          className="form-control"
+                          className="form-control vessel-voyage"
                           id="exampleInputPassword1"
-                          placeholder="********"
+                          placeholder=""
                           value={password}
                           onChange={(e) => setPassword(e.target.value)} // Update password state
                           required
@@ -226,7 +226,7 @@ const Login = () => {
                         <div className="mb-3 form-check">
                           <input
                             type="checkbox"
-                            className="form-check-input"
+                            className="form-check-input rememberme"
                             id="exampleCheck1"
                             checked={rememberMe}
                             onChange={(e) => setRememberMe(e.target.checked)} // Update rememberMe state
@@ -269,7 +269,7 @@ const Login = () => {
           </p>
         </div>
         <div className="d-flex justify-content-center loginpageversion">
-          Version: 0.005
+          Version: 0.009
         </div>
       </div>
 

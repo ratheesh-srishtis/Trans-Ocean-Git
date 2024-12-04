@@ -73,16 +73,40 @@ const QuotationDialog = ({
   const [emailBodyError, setEmailBodyError] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  // const handleFileUpload = (e) => {
+  //   const uploadedFiles = Array.from(e.target.files);
+
+  //   // Update the state with the files
+  //   setFormData((prevFormData) => ({
+  //     ...prevFormData,
+  //     files: [...prevFormData.files, ...uploadedFiles], // append files to the existing array
+  //   }));
+
+  //   e.target.value = null;
+  // };
+
   const handleFileUpload = (e) => {
     const uploadedFiles = Array.from(e.target.files);
 
-    // Update the state with the files
+    // Filter files larger than 5MB (5 * 1024 * 1024 bytes)
+    const validFiles = uploadedFiles.filter(
+      (file) => file.size <= 5 * 1024 * 1024
+    );
+
+    // Notify the user if some files were rejected
+    if (uploadedFiles.length !== validFiles.length) {
+      setMessage("Some files exceed the 5MB size limit and were not added.");
+      setOpenPopUp(true);
+    }
+
+    // Update the state with valid files
     setFormData((prevFormData) => ({
       ...prevFormData,
-      files: [...prevFormData.files, ...uploadedFiles], // append files to the existing array
+      files: [...(prevFormData.files || []), ...validFiles], // Append valid files to the existing array
     }));
 
-    e.target.value = null;
+    e.target.value = null; // Reset the input
   };
 
   const handleMenuOpen = (event, index) => {
@@ -228,12 +252,12 @@ const QuotationDialog = ({
                         }}
                       />
 
-                      {toError && (
+                      {/* {toError && (
                         <>
                           <div className="invalid">Please enter to address</div>
                         </>
-                      )}
-                      {emailError && (
+                      )} */}
+                      {(toError || emailError) && (
                         <>
                           <div className="invalid">
                             Please enter a valid email address.
