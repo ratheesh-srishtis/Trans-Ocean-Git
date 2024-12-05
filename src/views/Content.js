@@ -15,6 +15,8 @@ import RolesSettings from "../settings/RolesSettings";
 import UserSettings from "../settings/UserSettings";
 import PortSettings from "../settings/PortSettings";
 import VesselsSettings from "../settings/VesselsSettings";
+import VesselTypeSettings from "../settings/VesselTypeSettings";
+import CustomerSettings from "../settings/CustomerSettings";
 import OpsList from "../pages/Operations/OpsList";
 const Content = () => {
   const { loginResponse } = useAuth();
@@ -134,6 +136,8 @@ const Content = () => {
       <Route path="/user-settings" element={<UserSettings />} />
       <Route path="/ports-settings" element={<PortSettings />} />
       <Route path="/vessels-settings" element={<VesselsSettings />} />
+      <Route path="/vessel-type-settings" element={<VesselTypeSettings />} />
+      <Route path="/customer-settings" element={<CustomerSettings />} />
     </Routes>
   );
 };
