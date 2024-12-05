@@ -14,15 +14,39 @@ import BerthReport from "./Templates/BerthReport";
 import CrewChangeList from "./Templates/CrewChangeList";
 import LoadingReport from "./Templates/LoadingReport";
 import OKTBReport from "./Templates/OKTBReport";
-const AddJobs = ({ open, onClose, templates }) => {
+import {
+  getCharges,
+  getSubcharges,
+  uploadDocuments,
+} from "../../services/apiService";
+import {
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemSecondaryAction,
+  Paper,
+} from "@mui/material";
+import { Delete, Visibility } from "@mui/icons-material";
+const AddJobs = ({
+  open,
+  onClose,
+  templates,
+  charge,
+  services,
+  ports,
+  customers,
+  editChargeQuotation,
+}) => {
   console.log(templates, "templates");
+  console.log(charge, "AddJobs_charge");
   const [selectedTemplate, setSelectedTemplate] = useState("");
   const [isBerthReportOpen, setIsBerthReportOpen] = useState(false);
   const [isCrewChangeListOpen, setIsCrewChangeListOpen] = useState(false);
   const [isLoadingReportOpen, setIsLoadingReportOpen] = useState(false);
   const [isOKTBOpen, setIsOKTBOpen] = useState(false);
 
-  const handleSelectChange = (event) => {
+  const handleTemplateChange = (event) => {
     setSelectedTemplate(event.target.value);
   };
 
@@ -48,6 +72,215 @@ const AddJobs = ({ open, onClose, templates }) => {
     setIsLoadingReportOpen(false);
     setIsOKTBOpen(false);
   };
+  const [selectedStatus, setSelectedStatus] = useState(charge?.status);
+  const [selectedServiceError, setSelectedServiceError] = useState(false);
+  const [selectedChargesTypeError, setSelectedChargesTypeError] =
+    useState(false);
+  const [selectedSubhargesTypeError, setSelectedSubhargesTypeError] =
+    useState(false);
+  const [selectedQuantityError, setSelectedQuantityError] = useState(false);
+  const [selectedNewCustomerError, setSelectedNewCustomerError] =
+    useState(false);
+  const [firstFieldSelected, setFirstFieldSelected] = useState(false);
+  const [secondFieldSelected, setSecondFieldSelected] = useState(false);
+  const [thirdFieldSelected, setThirdFieldSelected] = useState(false);
+  const [selectedService, setSelectedService] = useState("");
+  const [selectedChargesType, setSelectedChargesType] = useState(null);
+  const [selectedSubhargesType, setSelectedSubhargesType] = useState(null);
+  const [selectedVendor, setSelectedVendor] = useState(null);
+  const [selectedNewCustomer, setSelectedNewCustomer] = useState(null);
+  const [remarks, setRemarks] = useState(null);
+  const [charges, setCharges] = useState([]);
+  const [subCharges, setSubCharges] = useState([]);
+  const [openPopUp, setOpenPopUp] = useState(false);
+  const [message, setMessage] = useState("");
+  const [updatedServiceName, setUpdatedServiceName] = useState("");
+  const [updatedChargename, setUpdatedChargename] = useState("");
+  const [updatedSubChargeName, setUpdatedSubChargeName] = useState("");
+  const [selectedVendorError, setSelectedVendorError] = useState(false);
+
+  const handleSelectChange = (event) => {
+    const { name, value } = event.target;
+    switch (name) {
+      case "service":
+        setSelectedService(services.find((service) => service?._id === value));
+        setFirstFieldSelected(true);
+        setSelectedServiceError(false);
+        setCharges([]);
+        setSubCharges([]);
+        setSelectedChargesType(null);
+        break;
+      case "chargeType":
+        setSelectedChargesType(charges.find((charge) => charge?._id === value));
+        setSecondFieldSelected(true);
+        setSelectedChargesTypeError(false);
+        setSubCharges([]);
+        break;
+      case "subChargeType":
+        setSelectedSubhargesType(
+          subCharges.find((subCharge) => subCharge?._id === value)
+        );
+        setThirdFieldSelected(true);
+        setSelectedSubhargesTypeError(false);
+        break;
+      case "customer":
+        setSelectedNewCustomer(
+          customers.find((customer) => customer?._id === value)
+        );
+        setSelectedNewCustomerError(false);
+        break;
+      case "vendor":
+        setSelectedVendor(ports.find((port) => port?._id === value));
+        setSelectedVendorError(false);
+        break;
+      case "status":
+        setSelectedStatus(value);
+        break;
+      default:
+        break;
+    }
+  };
+
+  useEffect(() => {
+    const fetchCharges = async () => {
+      try {
+        const response = await getCharges({
+          serviceId: selectedService?.serviceId || selectedService?._id,
+        });
+        setCharges(response?.charges);
+        console.log("Fetched Charges:", response);
+      } catch (error) {
+        console.error("Error fetching PDA values:", error);
+      }
+    };
+
+    if (selectedService) {
+      fetchCharges();
+      console.log(selectedService, "selectedService");
+    }
+  }, [selectedService]);
+
+  useEffect(() => {
+    const fetchSubCharges = async () => {
+      // alert(selectedService?._id);
+      try {
+        const response = await getSubcharges({
+          chargeId: selectedChargesType?.chargeId || selectedChargesType?._id,
+        });
+        setSubCharges(response?.subcharges);
+        console.log("fetchSubCharges:", response);
+      } catch (error) {
+        console.error("Error fetching PDA values:", error);
+      }
+    };
+    if (selectedChargesType) {
+      fetchSubCharges();
+      console.log(selectedChargesType, "selectedChargesType");
+    }
+  }, [selectedChargesType]);
+
+  const [uploadStatus, setUploadStatus] = useState("");
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+
+  const documentsUpload = async (event) => {
+    if (event.target.files && event.target.files.length > 0) {
+      const formData = new FormData();
+
+      // Append all selected files to FormData
+      Array.from(event.target.files).forEach((file) => {
+        formData.append("files", file); // "files" is the expected key for your API
+      });
+
+      try {
+        setUploadStatus("Uploading...");
+        const response = await uploadDocuments(formData);
+        if (response.status) {
+          setUploadStatus("Upload successful!");
+          setUploadedFiles((prevFiles) => [...prevFiles, ...response.data]); // Append new files to existing ones
+        } else {
+          setUploadStatus("Upload failed. Please try again.");
+        }
+      } catch (error) {
+        console.error("File upload error:", error);
+        setUploadStatus("An error occurred during upload.");
+      }
+    }
+  };
+
+  const handleFileDelete = (fileToDelete) => {
+    setUploadedFiles((prevFiles) =>
+      prevFiles.filter((file) => file !== fileToDelete)
+    );
+  };
+
+  const editCharges = async () => {
+    // Individual checks for each field
+    if (selectedService == null || selectedService === "") {
+      setSelectedServiceError(true);
+    } else {
+      setSelectedServiceError(false);
+    }
+    if (selectedChargesType == null || selectedChargesType === "") {
+      setSelectedChargesTypeError(true);
+    } else {
+      setSelectedChargesTypeError(false);
+    }
+    if (selectedSubhargesType == null || selectedSubhargesType === "") {
+      setSelectedSubhargesTypeError(true);
+    } else {
+      setSelectedSubhargesTypeError(false);
+    }
+
+    if (selectedVendor == null || selectedVendor === "") {
+      setSelectedVendorError(true);
+    } else {
+      setSelectedVendorError(false);
+    }
+    if (
+      selectedService &&
+      selectedChargesType &&
+      selectedSubhargesType &&
+      selectedVendor
+    ) {
+      let chargesPayload = {
+        serviceId: selectedService?.serviceId || selectedService?._id,
+        chargeId: selectedChargesType?.chargeId || selectedChargesType?._id,
+        subchargeId:
+          selectedSubhargesType?.subchargeId || selectedSubhargesType?._id,
+        vendorId: selectedVendor?.vendorId || selectedVendor?._id,
+        remark: remarks,
+        status: selectedStatus,
+        documents: uploadedFiles,
+      };
+      console.log(chargesPayload, "edit_charges_payload");
+      try {
+        const response = await editChargeQuotation(chargesPayload);
+        setMessage("Charge updated successfully");
+        setOpenPopUp(true);
+        console.log("Fetched Charges:", response);
+        onClose();
+      } catch (error) {
+        console.error("Error fetching charges:", error);
+        setMessage("Failed to update charges");
+        setOpenPopUp(true);
+      }
+    } else {
+      setMessage("Please fill all the required fields");
+      setOpenPopUp(true);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "remarks") {
+      setRemarks(value);
+    }
+  };
+
+  useEffect(() => {
+    setRemarks(charge?.remark);
+    setUploadedFiles((prevFiles) => [...prevFiles, ...charge?.documents]); // Append new files to existing ones
+  }, [charge]);
 
   return (
     <>
@@ -64,7 +297,7 @@ const AddJobs = ({ open, onClose, templates }) => {
           maxWidth="lg"
         >
           <div className="d-flex justify-content-between " onClick={onClose}>
-            <DialogTitle>Edit Job</DialogTitle>
+            <DialogTitle>Update Charge</DialogTitle>
             <div className="closeicon">
               <i className="bi bi-x-lg "></i>
             </div>
@@ -79,191 +312,247 @@ const AddJobs = ({ open, onClose, templates }) => {
                   </label>
                   <div class="vessel-select">
                     <select
-                      name="vessel"
-                      class="form-select vesselbox"
-                      aria-label="Default select example"
-                    >
-                      <option value="">Choose Services </option>
-                      <option value="671a62f13b3ccd845029310b">
-                        Anchorage Call{" "}
-                      </option>
-                      <option value="671a63363b3ccd8450293160">
-                        CSO Terminal (CARGO){" "}
-                      </option>
-                      <option value="671a63823b3ccd84502931bf">
-                        Husbandry Services{" "}
-                      </option>
-                      <option value="672b44d13b3ccd84503dde97">
-                        Bunker Call{" "}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-4">
-                  <label for="exampleFormControlInput1" class="form-label">
-                    Job Name <span class="required"> </span> :
-                  </label>
-                  <div class="vessel-select">
-                    <select
-                      name="vessel"
-                      class="form-select vesselbox"
-                      aria-label="Default select example"
-                    >
-                      <option value="">Choose Job Name </option>
-                      <option value="671a62f13b3ccd845029310b">
-                        Marine Charges{" "}
-                      </option>
-                      <option value="671a63363b3ccd8450293160">
-                        Others Port Related Charges{" "}
-                      </option>
-                      <option value="671a63823b3ccd84502931bf">AMNAS </option>
-                      <option value="672b44d13b3ccd84503dde97">
-                        Husbandry Services{" "}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-4">
-                  <label for="exampleFormControlInput1" class="form-label">
-                    {" "}
-                    Sub Job Type <span class="required"> </span> :
-                  </label>
-                  <div class="vessel-select">
-                    <select
-                      name="vessel"
-                      class="form-select vesselbox"
-                      aria-label="Default select example"
-                    >
-                      <option value="">Choose Job Type </option>
-                      <option value="671a62f13b3ccd845029310b">
-                        Port Charges{" "}
-                      </option>
-                      <option value="671a63363b3ccd8450293160">
-                        Pilot Charges{" "}
-                      </option>
-                      <option value="671a63823b3ccd84502931bf">
-                        Tug Charges{" "}
-                      </option>
-                      <option value="672b44d13b3ccd84503dde97">
-                        Environmental Fee{" "}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="typesofcall-row ">
-              <div class="row mb-3 align-items-start">
-                <div class="col-4">
-                  <label for="exampleFormControlInput1" class="form-label">
-                    {" "}
-                    Status <span class="required"> </span> :
-                  </label>
-                  <div class="vessel-select">
-                    <select
-                      name="vessel"
-                      class="form-select vesselbox"
-                      aria-label="Default select example"
-                    >
-                      <option value="">Choose Status </option>
-                      <option value="671a62f13b3ccd845029310b">Open </option>
-                      <option value="671a63363b3ccd8450293160">Closed </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-4">
-                  <label for="exampleFormControlInput1" class="form-label">
-                    Vendor Name <span class="required"> </span> :
-                  </label>
-                  <div class="vessel-select">
-                    <select
-                      name="vessel"
-                      class="form-select vesselbox"
-                      aria-label="Default select example"
-                    >
-                      <option value="">Choose Vendor Name</option>
-                      <option value="671a62f13b3ccd845029310b">
-                        Sohar port{" "}
-                      </option>
-                      <option value="671a63363b3ccd8450293160">
-                        Port of Khalid{" "}
-                      </option>
-                      <option value="671a63823b3ccd84502931bf">
-                        Port of Salalah{" "}
-                      </option>
-                      <option value="672b44d13b3ccd84503dde97">
-                        Port of Shinas{" "}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-4">
-                  <label for="exampleFormControlInput1" class="form-label">
-                    {" "}
-                    Templates <span class="required"> </span> :
-                  </label>
-                  <div class="vessel-select">
-                    <select
-                      name="template"
+                      name="service"
                       className="form-select vesselbox"
-                      aria-label="Default select example"
-                      value={selectedTemplate}
                       onChange={handleSelectChange}
+                      aria-label="Default select example"
+                      value={selectedService?.serviceId || selectedService?._id}
                     >
-                      <option value="">Choose Template</option>
-                      {templates.map((template) => (
-                        <option key={template._id} value={template._id}>
-                          {template.templateName}
+                      <option value="">Choose Services</option>
+                      {services.map((service) => (
+                        <option key={service._id} value={service._id}>
+                          {service.serviceName}
                         </option>
                       ))}
                     </select>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div class="typesofcall-row ">
-              <div class="row align-items-start">
-                <div class="mb-2">
-                  <label for="formFile" class="form-label">
-                    Documents Upload:
-                  </label>
-                  <input
-                    class="form-control documentsfsize"
-                    type="file"
-                    id="formFile"
-                  ></input>
-                </div>
-              </div>
-            </div>
-            <div class=" typesofcall-row">
-              <div class="row align-items-start">
-                <div class="col-8 ">
-                  <div class="mb-3">
-                    <div class="col">
+
+                {firstFieldSelected && (
+                  <>
+                    <div class="col-4">
                       <label for="exampleFormControlInput1" class="form-label">
-                        Remarks:
+                        Charges Type <span class="required"> </span> :
                       </label>
-                      <textarea
-                        rows="1"
-                        class="form-control"
-                        id="exampleFormControlInput1"
-                        placeholder=""
-                        name="remarks"
-                      ></textarea>
+                      <div class="vessel-select">
+                        <select
+                          name="chargeType"
+                          className="form-select vesselbox vesselbox:placeholder"
+                          onChange={handleSelectChange}
+                          aria-label="Default select example"
+                          value={selectedChargesType?._id}
+                        >
+                          <option value="">Choose Charge Type</option>
+                          {charges?.map((charge) => (
+                            <option key={charge._id} value={charge._id}>
+                              {charge.chargeName}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      {selectedChargesTypeError && (
+                        <>
+                          <div className="invalid">
+                            Please select charges type
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </>
+                )}
+
+                {secondFieldSelected && (
+                  <>
+                    <div class="col-4">
+                      <label for="exampleFormControlInput1" class="form-label">
+                        {" "}
+                        Sub Charges Type <span class="required"> </span> :
+                      </label>
+                      <div class="vessel-select">
+                        <select
+                          name="subChargeType"
+                          className="form-select vesselbox "
+                          onChange={handleSelectChange}
+                          aria-label="Default select example"
+                          value={selectedSubhargesType?._id}
+                        >
+                          <option value="">Choose Sub Charge Type</option>
+                          {subCharges?.map((charge) => (
+                            <option key={charge._id} value={charge._id}>
+                              {charge.subchargeName}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      {selectedSubhargesTypeError && (
+                        <>
+                          <div className="invalid">
+                            Please select sub charges type
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+
+            {thirdFieldSelected && (
+              <>
+                <div class="typesofcall-row ">
+                  <div class="row mb-3 align-items-start">
+                    <div class="col-4">
+                      <label for="exampleFormControlInput1" class="form-label">
+                        {" "}
+                        Status <span class="required"> </span> :
+                      </label>
+                      <div class="vessel-select">
+                        <select
+                          name="status"
+                          class="form-select vesselbox"
+                          onChange={handleSelectChange}
+                          aria-label="Default select example"
+                          value={selectedStatus}
+                        >
+                          <option value={1}>Open </option>
+                          <option value={2}>In Progress </option>
+                          <option value={3}>In Progress </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <label for="exampleFormControlInput1" class="form-label">
+                        Vendor Name <span class="required"> </span> :
+                      </label>
+                      <div class="vessel-select">
+                        <select
+                          name="vendor"
+                          className="form-select vesselbox"
+                          onChange={handleSelectChange}
+                          aria-label="Default select example"
+                          value={selectedVendor?._id}
+                        >
+                          <option value="">Choose Vendor</option>
+                          {ports?.map((port) => (
+                            <option key={port._id} value={port._id}>
+                              {port.portName}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <label for="exampleFormControlInput1" class="form-label">
+                        {" "}
+                        Templates <span class="required"> </span> :
+                      </label>
+                      <div class="vessel-select">
+                        <select
+                          name="template"
+                          className="form-select vesselbox"
+                          aria-label="Default select example"
+                          value={selectedTemplate}
+                          onChange={handleTemplateChange}
+                        >
+                          <option value="">Choose Template</option>
+                          {templates.map((template) => (
+                            <option key={template._id} value={template._id}>
+                              {template.templateName}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div className="btnjobrole col-4">
-                  <button
-                    className="btn btna submit-button btnfsize"
-                    onClick={handleOpenTemplate}
-                    disabled={!selectedTemplate}
-                  >
-                    Open Template
-                  </button>
+                <div class="typesofcall-row ">
+                  <div class="row align-items-start">
+                    <div class="mb-2">
+                      <label for="formFile" class="form-label">
+                        Documents Upload:
+                      </label>
+                      <input
+                        class="form-control documentsfsize"
+                        type="file"
+                        id="portofolio"
+                        accept="image/*"
+                        multiple
+                        onChange={documentsUpload}
+                      ></input>
+                    </div>
+                    {uploadedFiles?.length > 0 && (
+                      <>
+                        <Paper
+                          elevation={1}
+                          style={{ marginTop: 16, padding: 8 }}
+                        >
+                          <List>
+                            {uploadedFiles.map((file, index) => (
+                              <ListItem key={index}>
+                                <ListItemText primary={file} />
+                                <ListItemSecondaryAction>
+                                  <IconButton
+                                    edge="end"
+                                    onClick={() =>
+                                      window.open(
+                                        `https://hybrid.sicsglobal.com/${file}`,
+                                        "_blank"
+                                      )
+                                    }
+                                  >
+                                    <Visibility />
+                                  </IconButton>
+                                  <IconButton
+                                    edge="end"
+                                    onClick={() => handleFileDelete(file)} // Pass the file to the delete function
+                                  >
+                                    <Delete />
+                                  </IconButton>
+                                </ListItemSecondaryAction>
+                              </ListItem>
+                            ))}
+                          </List>
+                        </Paper>
+                      </>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </div>
+                <div class=" typesofcall-row">
+                  <div class="row align-items-start">
+                    <div class="col-8 ">
+                      <div class="mb-3">
+                        <div class="col">
+                          <label
+                            for="exampleFormControlInput1"
+                            class="form-label"
+                          >
+                            Remarks:
+                          </label>
+                          <textarea
+                            rows="1"
+                            class="form-control"
+                            id="exampleFormControlInput1"
+                            placeholder=""
+                            name="remarks"
+                            onChange={handleInputChange}
+                            value={remarks}
+                          ></textarea>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="btnjobrole col-4">
+                      <button
+                        className="btn btna submit-button btnfsize"
+                        onClick={handleOpenTemplate}
+                        disabled={!selectedTemplate}
+                      >
+                        Open Template
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
 
             <div className="col-12 mt-5">
               <div className="footer-button d-flex justify-content-center ">
@@ -271,7 +560,13 @@ const AddJobs = ({ open, onClose, templates }) => {
                   Close
                 </button>
 
-                <button type="button" className="btn  generate-buttona ">
+                <button
+                  type="button"
+                  className="btn  generate-buttona "
+                  onClick={() => {
+                    editCharges();
+                  }}
+                >
                   Submit
                 </button>
               </div>
