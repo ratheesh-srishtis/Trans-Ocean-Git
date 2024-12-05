@@ -54,6 +54,8 @@ const OpsChargesTable = ({
   const [fetchedSubCharges, setFetchedSubCharges] = useState(new Set());
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
+  const [selectedCharge, setSelectedCharge] = useState(null); // State to hold the selected charge
+
   console.log(chargesArray, "chargesArray ChargesTable");
 
   const totalValues = chargesArray?.reduce(
@@ -200,7 +202,8 @@ const OpsChargesTable = ({
   const [open, setOpen] = useState(false);
 
   const openDialog = (charge) => {
-    handleClickOpen(charge);
+    setSelectedCharge(charge); // Set the selected charge
+    handleClickOpen();
   };
 
   const handleClickOpen = () => {
@@ -209,6 +212,7 @@ const OpsChargesTable = ({
 
   const handleClose = () => {
     setOpen(false);
+    setSelectedCharge(null); // Clear the selected charge
   };
 
   return (
@@ -265,7 +269,15 @@ const OpsChargesTable = ({
         </table>
       </div>
 
-      <AddJobs open={open} onClose={handleClose} templates={templates} />
+      <AddJobs
+        open={open}
+        onClose={handleClose}
+        templates={templates}
+        charge={selectedCharge}
+        services={services}
+        ports={ports}
+        customers={customers}
+      />
       {openPopUp && (
         <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
       )}
