@@ -28,6 +28,7 @@ const EditOperation = ({
   customers,
   employees,
   templates,
+  vendors,
 }) => {
   const Group = require("../../assets/images/upjobs.png");
   const location = useLocation();
@@ -552,6 +553,7 @@ const EditOperation = ({
                 ports={ports}
                 onEdit={handleEdit}
                 templates={templates}
+                vendors={vendors}
               />
             </div>
           </div>

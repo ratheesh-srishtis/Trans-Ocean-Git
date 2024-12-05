@@ -29,6 +29,7 @@ const Content = () => {
   const [customers, setCustomers] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [templates, setTemplates] = useState([]);
+  const [vendors, setVendors] = useState([]);
 
   // Fetch PDA values on component mount
   useEffect(() => {
@@ -55,6 +56,10 @@ const Content = () => {
             "employees_list",
             JSON.stringify(response.employees)
           );
+          localStorage.setItem(
+            "vendors_list",
+            JSON.stringify(response.vendors)
+          );
           setVessels(response.vessels);
           setPorts(response.ports);
           setCargos(response.cargos);
@@ -62,6 +67,7 @@ const Content = () => {
           setServices(response.services);
           setCustomers(response.customers);
           setEmployees(response.employees);
+          setVendors(response.vendors);
           setTemplates(response.templates);
         }
       } catch (error) {
@@ -100,6 +106,7 @@ const Content = () => {
             customers={customers}
             employees={employees}
             templates={templates}
+            vendors={vendors}
           />
         }
       />
@@ -115,6 +122,7 @@ const Content = () => {
             services={services}
             customers={customers}
             loginResponse={loginResponse}
+            vendors={vendors}
           />
         }
       />
@@ -129,6 +137,7 @@ const Content = () => {
             services={services}
             customers={customers}
             loginResponse={loginResponse}
+            vendors={vendors}
           />
         }
       />

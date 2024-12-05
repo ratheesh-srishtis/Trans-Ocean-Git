@@ -41,6 +41,7 @@ const ResponsiveDialog = ({
   pdaResponse,
   finalChargesArray,
   fullPdaResponse,
+  vendors,
 }) => {
   console.log(services, "services");
   console.log(pdaResponse, "pdaResponse_dialog");
@@ -136,7 +137,7 @@ const ResponsiveDialog = ({
         setSelectedNewCustomerError(false);
         break;
       case "vendor":
-        setSelectedVendor(ports.find((port) => port?._id === value));
+        setSelectedVendor(vendors.find((vendor) => vendor?._id === value));
         setSelectedVendorError(false);
         break;
       default:
@@ -243,8 +244,8 @@ const ResponsiveDialog = ({
       const customer = customers.find((s) => s._id === id);
       return customer ? customer.customerName : "Unknown Customer";
     } else if (name == "vendor" && id) {
-      const port = ports.find((s) => s._id === id);
-      return port ? port.portName : "Unknown port";
+      const vendor = vendors.find((s) => s._id === id);
+      return vendor ? vendor.vendorName : "Unknown vendor";
     } else if (name == "chargeType" && id) {
       const charge = charges.find((s) => s._id === id);
       console.log(charge, "chargegetItemName");
@@ -1046,9 +1047,9 @@ const ResponsiveDialog = ({
                               value={selectedVendor?._id}
                             >
                               <option value="">Choose Vendor</option>
-                              {ports?.map((port) => (
-                                <option key={port._id} value={port._id}>
-                                  {port.portName}
+                              {vendors?.map((vendor) => (
+                                <option key={vendor._id} value={vendor._id}>
+                                  {vendor.vendorName}
                                 </option>
                               ))}
                             </select>
@@ -1888,9 +1889,9 @@ const ResponsiveDialog = ({
                           }
                         >
                           <option value="">Choose Vendor</option>
-                          {ports?.map((port) => (
-                            <option key={port._id} value={port._id}>
-                              {port.portName}
+                          {vendors?.map((vendor) => (
+                            <option key={vendor._id} value={vendor._id}>
+                              {vendor.vendorName}
                             </option>
                           ))}
                         </select>

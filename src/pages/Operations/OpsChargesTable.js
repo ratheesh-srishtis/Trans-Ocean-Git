@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -47,6 +47,7 @@ const OpsChargesTable = ({
   pdaResponse,
   onSubmit,
   templates,
+  vendors,
 }) => {
   const [charges, setCharges] = useState([]);
   const [subCharges, setSubCharges] = useState([]);
@@ -215,6 +216,10 @@ const OpsChargesTable = ({
     setSelectedCharge(null); // Clear the selected charge
   };
 
+  useEffect(() => {
+    console.log(selectedCharge, "selectedCharge");
+  }, [selectedCharge]);
+
   return (
     <>
       <div className="createtable">
@@ -277,6 +282,7 @@ const OpsChargesTable = ({
         services={services}
         ports={ports}
         customers={customers}
+        vendors={vendors}
       />
       {openPopUp && (
         <PopUp message={message} closePopup={() => setOpenPopUp(false)} />

@@ -41,6 +41,7 @@ const ChargesTable = ({
   onEdit,
   pdaResponse,
   onSubmit,
+  vendors,
 }) => {
   const [charges, setCharges] = useState([]);
   const [subCharges, setSubCharges] = useState([]);
@@ -168,8 +169,8 @@ const ChargesTable = ({
       const customer = customers.find((s) => s._id === id);
       return customer ? customer.customerName : "Unknown Customer";
     } else if (name === "vendor") {
-      const port = ports.find((s) => s._id === id);
-      return port ? port.portName : "Unknown port";
+      const vendor = vendors.find((s) => s._id === id);
+      return vendor ? vendor.vendorName : "Unknown vendor";
     } else if (name === "chargeType") {
       if (id) {
         fetchSubCharges(id);

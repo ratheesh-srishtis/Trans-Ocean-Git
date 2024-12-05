@@ -30,6 +30,7 @@ const CreatePDA = ({
   services,
   customers,
   loginResponse,
+  vendors,
 }) => {
   const Group = require("../assets/images/Group 1000002975.png");
   const [selectedVessel, setSelectedVessel] = useState(null);
@@ -1225,6 +1226,7 @@ const CreatePDA = ({
         pdaResponse={pdaResponse}
         finalChargesArray={finalChargesArray}
         fullPdaResponse={fullPdaResponse}
+        vendors={vendors}
       />
 
       <QuotationDialog

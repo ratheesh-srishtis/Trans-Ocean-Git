@@ -37,6 +37,7 @@ const AddJobs = ({
   ports,
   customers,
   editChargeQuotation,
+  vendors,
 }) => {
   console.log(templates, "templates");
   console.log(charge, "AddJobs_charge");
@@ -130,7 +131,7 @@ const AddJobs = ({
         setSelectedNewCustomerError(false);
         break;
       case "vendor":
-        setSelectedVendor(ports.find((port) => port?._id === value));
+        setSelectedVendor(vendors.find((vendor) => vendor?._id === value));
         setSelectedVendorError(false);
         break;
       case "status":
@@ -278,8 +279,11 @@ const AddJobs = ({
   };
 
   useEffect(() => {
-    setRemarks(charge?.remark);
-    setUploadedFiles((prevFiles) => [...prevFiles, ...charge?.documents]); // Append new files to existing ones
+    setRemarks(charge?.remark || ""); // Handle null/undefined charge
+    setUploadedFiles((prevFiles) => [
+      ...prevFiles,
+      ...(charge?.documents || []), // Use empty array as fallback
+    ]);
   }, [charge]);
 
   return (
@@ -433,9 +437,9 @@ const AddJobs = ({
                           value={selectedVendor?._id}
                         >
                           <option value="">Choose Vendor</option>
-                          {ports?.map((port) => (
-                            <option key={port._id} value={port._id}>
-                              {port.portName}
+                          {vendors?.map((vendor) => (
+                            <option key={vendor._id} value={vendor._id}>
+                              {vendor.vendorName}
                             </option>
                           ))}
                         </select>
