@@ -503,6 +503,129 @@ export const deleteCustomer = async (userData) => {
   }
 };
 
+/* charge settings */
+export const getAllCharges = async (data) => {
+  try {
+    const response = await axiosInstance.post("/getAllCharges", data);
+    return response.data;
+  } catch (error) {
+    console.error("List all users API Error:", error);
+    throw error;
+  }
+};
+export const saveCharge = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/saveCharge", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+export const editCharge = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/editCharge", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+export const deleteCharge = async (userData) => {
+  try {
+    const response = await axiosInstance.post(
+      "/deleteCharge",
+      userData
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+/* service settings */
+export const getAllServices = async (data) => {
+  try {
+    const response = await axiosInstance.post("/getAllServices", data);
+    return response.data;
+  } catch (error) {
+    console.error("List all users API Error:", error);
+    throw error;
+  }
+};
+export const saveService = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/saveService", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+export const editService = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/editService", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+export const deleteService = async (userData) => {
+  try {
+    const response = await axiosInstance.post(
+      "/deleteService",
+      userData
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+/* cargo settings */
+export const getAllCargos = async (data) => {
+  try {
+    const response = await axiosInstance.post("/getAllCargos", data);
+    return response.data;
+  } catch (error) {
+    console.error("List all users API Error:", error);
+    throw error;
+  }
+};
+export const saveCargo = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/saveCargo", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+export const editCargo = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/editCargo", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+export const deleteCargo = async (userData) => {
+  try {
+    const response = await axiosInstance.post(
+      "/deleteCargo",
+      userData
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
 export const uploadDocuments = async (formData) => {
   try {
     const response = await axiosInstance.post("/uploadDocuments", formData, {
