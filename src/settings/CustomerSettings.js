@@ -1,37 +1,37 @@
 import React, {useState,useEffect} from "react";
 import "../css/PortSettings.css";
-import AddVesselType from "./AddVesselType";
+import AddCustomer from "./AddCustomer";
 import { Box, Typography, IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { getAllVesselTypes, deleteVesselType } from "../services/apiService";
+import { getAllCustomers, deleteCustomer } from "../services/apiService";
 import Swal from "sweetalert2";
 import Loader from "../pages/Loader";
 import PopUp from "../pages/PopUp";
 
-const VesselTypeSettings = () => {
+const CustomerSettings = () => {
   const [selectedRow, setSelectedRow] = useState(null);
   const [open, setOpen] = useState(false);
-  const [VesselTypeList, setVesselTypeList] = useState([]);
+  const [CustomerList, setCustomerList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [openPopUp, setOpenPopUp] = useState(false);
   const [editMode, setEditMode] = useState(false);
-  const fetchVesselTypeList = async () => {
+  const fetchCustomerList = async () => {
     try {
       setIsLoading(true);
-      const listallvesseltype = await getAllVesselTypes();
-      setVesselTypeList(listallvesseltype?.vesselType || []);
+      const listallcustomers = await getAllCustomers();
+      setCustomerList(listallcustomers?.customers || []);
       setIsLoading(false);
     } catch (error) {
-      console.error("Failed to fetch vesselType", error);
+      console.error("Failed to fetch customers", error);
       setIsLoading(false);
     }
   };
 
-  useEffect(() => {console.log("DDD");
-    fetchVesselTypeList();
+  useEffect(() => {
+    fetchCustomerList();
   }, []);
 
   const openDialog = () => {
@@ -44,8 +44,8 @@ const VesselTypeSettings = () => {
     setSelectedRow(null);
   };
 
-  const handleAddvesselType = (newPort) => {
-    fetchVesselTypeList();
+  const handleAddcustomers = (newPort) => {
+    fetchCustomerList();
     setOpen(false); // Close the popup after adding the role
   };
 
@@ -68,16 +68,16 @@ const VesselTypeSettings = () => {
         if (item?._id) {
           try {
             let payload = {
-              vesselTypeId: item?._id,
+              customerId: item?._id,
               
             };
-            const response = await deleteVesselType(payload);
+            const response = await deleteCustomer(payload);
             setMessage(response.message);
             setOpenPopUp(true);
-            fetchVesselTypeList();
+            fetchCustomerList();
           } catch (error) {
             Swal.fire("Error deleting VesselType");
-            fetchVesselTypeList();
+            fetchCustomerList();
           }
         }
       }
@@ -97,7 +97,7 @@ const VesselTypeSettings = () => {
     </Box>
   );
   const columns = [
-    { field: "vesselType", headerName: "Vessel Types", flex:1 },
+    { field: "customername", headerName: "Customers", flex:1 },
     
     {
       field: "actions",
@@ -124,17 +124,17 @@ const VesselTypeSettings = () => {
       <div className="d-flex justify-content-end mb-3 mt-3">
      <button onClick={() => {
         openDialog();
-      }} class="btn btna submit-button btnfsize">Add VesselType</button>
+      }} class="btn btna submit-button btnfsize">Add Customer</button>
      </div>
 
 
 
-      <AddVesselType open={open} onAddVesselType={handleAddvesselType} onClose={handleClose} editMode={editMode} vesselTypeSet={selectedRow}/>
+      <AddCustomer open={open} onAddCustomer={handleAddcustomers} onClose={handleClose} editMode={editMode} customerSet={selectedRow}/>
       <div>
         <DataGrid
-          rows={VesselTypeList.map((item) => ({
+          rows={CustomerList.map((item) => ({
             id: item._id,
-            vesselType: item.vesselType || 'N/A',
+            customername: item.customerName || 'N/A',
            ...item,
           }))}
           columns={columns}
@@ -174,7 +174,7 @@ const VesselTypeSettings = () => {
           }}
         />
       </div>
-      {VesselTypeList?.length === 0 && (
+      {CustomerList?.length === 0 && (
         <div className="no-data">
           <p>No Data Found</p>
         </div>
@@ -188,4 +188,4 @@ const VesselTypeSettings = () => {
   );
 };
 
-export default VesselTypeSettings;
+export default CustomerSettings;
