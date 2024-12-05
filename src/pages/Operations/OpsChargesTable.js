@@ -261,7 +261,7 @@ const OpsChargesTable = ({
                       ? getItemName(charge.subchargeId, "subChargeType")
                       : ""}
                   </td>
-                  {/* <td className="subsub">{charge?.remark}</td> */}
+                  <td className="subsub">{charge?.remark}</td>
                   {/* <td>{charge.quantity}</td> */}
                 </tr>
               ))}
