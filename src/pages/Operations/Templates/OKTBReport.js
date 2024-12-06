@@ -144,8 +144,8 @@ const OKTBReport = ({ open, onClose, templates }) => {
                 </div>
               </div>
 
-              <div className="date">
-                <div className="col-4 queheada">
+              <div className="date  ">
+                <div className="col-4 queheading">
                   <div> Date:</div>
                   <DatePicker
                     dateFormat="dd/MM/yyyy HH:mm aa"
@@ -154,7 +154,7 @@ const OKTBReport = ({ open, onClose, templates }) => {
                     showTimeSelect
                     timeFormat="HH:mm aa"
                     timeIntervals={15}
-                    className="form-control date-input"
+                    className="form-control date-input dateinwidth"
                     id="date-picker"
                     placeholderText="Select ETA"
                     autoComplete="off"
@@ -199,6 +199,7 @@ const OKTBReport = ({ open, onClose, templates }) => {
                       type="text"
                       class="form-control passwidth"
                       id="exampleFormControlInput1"
+                      rows="1"
                       placeholder=""
                       name="passengers_name"
                       value={passengersName}

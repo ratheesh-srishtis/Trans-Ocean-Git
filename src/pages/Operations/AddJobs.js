@@ -28,6 +28,8 @@ import {
   Paper,
 } from "@mui/material";
 import { Delete, Visibility } from "@mui/icons-material";
+import ProvisionDeliveryNotes from "./Templates/ProvisionDeliveryNotes";
+import Transportationreciept from "./Templates/Transportationreciept";
 const AddJobs = ({
   open,
   onClose,
@@ -46,6 +48,8 @@ const AddJobs = ({
   const [isCrewChangeListOpen, setIsCrewChangeListOpen] = useState(false);
   const [isLoadingReportOpen, setIsLoadingReportOpen] = useState(false);
   const [isOKTBOpen, setIsOKTBOpen] = useState(false);
+  const [isProvisionOpen, setIsProvisionOpen] = useState(false);
+  const [isTransportationOpen, setIsTransportationOpen] = useState(false);
 
   const handleTemplateChange = (event) => {
     setSelectedTemplate(event.target.value);
@@ -65,6 +69,12 @@ const AddJobs = ({
     } else if (selectedTemplate === "6745c91e3b3ccd845065a12b") {
       setIsOKTBOpen(true);
     }
+    else if (selectedTemplate === "675182753b3ccd8450734a09") {
+      setIsProvisionOpen(true);
+    }
+    else if (selectedTemplate === "675182483b3ccd84507349d7") {
+      setIsTransportationOpen(true);
+    }
   };
 
   const handleCloseAllDialogs = () => {
@@ -72,6 +82,8 @@ const AddJobs = ({
     setIsCrewChangeListOpen(false);
     setIsLoadingReportOpen(false);
     setIsOKTBOpen(false);
+    setIsProvisionOpen(false);
+    setIsTransportationOpen(false);
   };
   const [selectedStatus, setSelectedStatus] = useState(charge?.status);
   const [selectedServiceError, setSelectedServiceError] = useState(false);
@@ -596,6 +608,12 @@ const AddJobs = ({
       )}
       {isOKTBOpen && (
         <OKTBReport open={isOKTBOpen} onClose={handleCloseAllDialogs} />
+      )}
+      {isProvisionOpen && (
+        <ProvisionDeliveryNotes open={isProvisionOpen} onClose={handleCloseAllDialogs} />
+      )}
+      {isTransportationOpen && (
+        <Transportationreciept open={isTransportationOpen} onClose={handleCloseAllDialogs} />
       )}
     </>
   );
