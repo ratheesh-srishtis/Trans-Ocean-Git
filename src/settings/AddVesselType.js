@@ -5,7 +5,7 @@ import { saveVesselType,editVesselType } from "../services/apiService";
 import PopUp from "../pages/PopUp";
 const AddVesselType = ({ open, onAddVesselType,onClose,editMode, vesselTypeSet }) => {
   const [formData, setFormData] = useState({
-    port: '',
+    vesselType: '',
     
   });
   const [errors, setErrors] = useState({});
@@ -63,13 +63,13 @@ const AddVesselType = ({ open, onAddVesselType,onClose,editMode, vesselTypeSet }
         setOpenPopUp(true);
       }
       
-      setFormData({ portName: ""});
+      setFormData({ vesselType: ""});
       onAddVesselType(formData);
       onClose();
     } catch (error) {
       setMessage("API Failed");
       setOpenPopUp(true);
-      console.error("Error saving/updating port", error);
+      console.error("Error saving/updating vessel type", error);
     }
   };
 

@@ -17,6 +17,9 @@ import PortSettings from "../settings/PortSettings";
 import VesselsSettings from "../settings/VesselsSettings";
 import VesselTypeSettings from "../settings/VesselTypeSettings";
 import CustomerSettings from "../settings/CustomerSettings";
+import ServiceSettings from "../settings/ServiceSettings";
+import ChargesSettings from "../settings/ChargesSettings";
+import CargoSettings from "../settings/CargoSettings";
 import OpsList from "../pages/Operations/OpsList";
 const Content = () => {
   const { loginResponse } = useAuth();
@@ -147,6 +150,9 @@ const Content = () => {
       <Route path="/vessels-settings" element={<VesselsSettings />} />
       <Route path="/vessel-type-settings" element={<VesselTypeSettings />} />
       <Route path="/customer-settings" element={<CustomerSettings />} />
+      <Route path="/service-settings" element={<ServiceSettings />} />
+      <Route path="/charges-settings" element={<ChargesSettings />} />
+      <Route path="/cargo-settings" element={<CargoSettings />} />
     </Routes>
   );
 };

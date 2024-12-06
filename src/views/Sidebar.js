@@ -161,6 +161,24 @@ const Sidebar = () => {
                             >
                               Customers
                             </li>
+                            <li
+                              className="menusub"
+                              onClick={() => navigate("/service-settings")}
+                            >
+                              Services
+                            </li>
+                            <li
+                              className="menusub"
+                              onClick={() => navigate("/charges-settings")}
+                            >
+                              Charges
+                            </li>
+                            <li
+                              className="menusub"
+                              onClick={() => navigate("/cargo-settings")}
+                            >
+                              Cargos
+                            </li>
                           </ul>
                         </div>
                       )}

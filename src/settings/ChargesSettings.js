@@ -1,37 +1,37 @@
 import React, {useState,useEffect} from "react";
 import "../css/settings.css";
-import AddCustomer from "./AddCustomer";
+import AddCharge from "./AddCharge";
 import { Box, Typography, IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { getAllCustomers, deleteCustomer } from "../services/apiService";
+import { getAllCharges, deleteCharge } from "../services/apiService";
 import Swal from "sweetalert2";
 import Loader from "../pages/Loader";
 import PopUp from "../pages/PopUp";
 
-const CustomerSettings = () => {
+const ChargesSettings = () => {
   const [selectedRow, setSelectedRow] = useState(null);
   const [open, setOpen] = useState(false);
-  const [CustomerList, setCustomerList] = useState([]);
+  const [ChargeList, setChargeList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [openPopUp, setOpenPopUp] = useState(false);
   const [editMode, setEditMode] = useState(false);
-  const fetchCustomerList = async () => {
+  const fetchChargeList = async () => {
     try {
       setIsLoading(true);
-      const listallcustomers = await getAllCustomers();
-      setCustomerList(listallcustomers?.customers || []);
+      const listallcharges = await getAllCharges();
+      setChargeList(listallcharges?.charges || []);
       setIsLoading(false);
     } catch (error) {
-      console.error("Failed to fetch customers", error);
+      console.error("Failed to fetch vesselType", error);
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchCustomerList();
+    fetchChargeList();
   }, []);
 
   const openDialog = () => {
@@ -44,8 +44,8 @@ const CustomerSettings = () => {
     setSelectedRow(null);
   };
 
-  const handleAddcustomers = (newPort) => {
-    fetchCustomerList();
+  const handleAddcharges = (newPort) => {
+    fetchChargeList();
     setOpen(false); // Close the popup after adding the role
   };
 
@@ -68,16 +68,16 @@ const CustomerSettings = () => {
         if (item?._id) {
           try {
             let payload = {
-              customerId: item?._id,
+              chargeId: item?._id,
               
             };
-            const response = await deleteCustomer(payload);
+            const response = await deleteCharge(payload);
             setMessage(response.message);
             setOpenPopUp(true);
-            fetchCustomerList();
+            fetchChargeList();
           } catch (error) {
             Swal.fire("Error deleting VesselType");
-            fetchCustomerList();
+            fetchChargeList();
           }
         }
       }
@@ -97,7 +97,7 @@ const CustomerSettings = () => {
     </Box>
   );
   const columns = [
-    { field: "customername", headerName: "Customers", flex:1 },
+    { field: "chargeName", headerName: "Charges", flex:1 },
     
     {
       field: "actions",
@@ -124,17 +124,17 @@ const CustomerSettings = () => {
       <div className="d-flex justify-content-end mb-3 mt-3">
      <button onClick={() => {
         openDialog();
-      }} class="btn btna submit-button btnfsize">Add Customer</button>
+      }} class="btn btna submit-button btnfsize">Add Charge</button>
      </div>
 
 
 
-      <AddCustomer open={open} onAddCustomer={handleAddcustomers} onClose={handleClose} editMode={editMode} customerSet={selectedRow}/>
+      <AddCharge open={open} onAddCharge={handleAddcharges} onClose={handleClose} editMode={editMode} chargeSet={selectedRow}/>
       <div>
         <DataGrid
-          rows={CustomerList.map((item) => ({
+          rows={ChargeList.map((item) => ({
             id: item._id,
-            customername: item.customerName || 'N/A',
+            chargeName: item.chargeName || 'N/A',
            ...item,
           }))}
           columns={columns}
@@ -174,7 +174,7 @@ const CustomerSettings = () => {
           }}
         />
       </div>
-      {CustomerList?.length === 0 && (
+      {ChargeList?.length === 0 && (
         <div className="no-data">
           <p>No Data Found</p>
         </div>
@@ -188,4 +188,4 @@ const CustomerSettings = () => {
   );
 };
 
-export default CustomerSettings;
+export default ChargesSettings;
