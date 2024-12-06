@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from "react";
-import "../css/VesselsSettings.css";
+import "../css/settings.css";
 import AddVessel from "./AddVessel";
 import { Box, Typography, IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";

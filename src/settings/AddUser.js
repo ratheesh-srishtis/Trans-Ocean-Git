@@ -114,7 +114,7 @@ const AddUser = ({ open, onAddUser,onClose,editMode, userSet }) => {
     } catch (error) {
       setMessage("API Failed");
       setOpenPopUp(true);
-      console.error("Error saving/updating role", error);
+      console.error("Error saving/updating user", error);
     }
   };
 
