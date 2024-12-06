@@ -2,6 +2,8 @@
 import axios from "axios";
 
 const BASE_URL = "https://hybrid.sicsglobal.com/transocean_api";
+const fileUrl =
+  "https://hybrid.sicsglobal.com/transocean_api/assets/template_pdf/";
 
 // Create an instance of axios with default settings
 const axiosInstance = axios.create({
@@ -272,17 +274,13 @@ export const saveUserRole = async (userData) => {
 
 export const deleteUserRole = async (userData) => {
   try {
-    const response = await axiosInstance.post(
-      "/deleteUserRole",
-      userData
-    );
+    const response = await axiosInstance.post("/deleteUserRole", userData);
     return response.data;
   } catch (error) {
     console.error("Error:", error);
     throw error;
   }
 };
-
 
 export const editUserRole = async (userData) => {
   try {
@@ -325,10 +323,7 @@ export const editUser = async (userData) => {
 };
 export const deleteUser = async (userData) => {
   try {
-    const response = await axiosInstance.post(
-      "/deleteUser",
-      userData
-    );
+    const response = await axiosInstance.post("/deleteUser", userData);
     return response.data;
   } catch (error) {
     console.error("Error:", error);
@@ -367,10 +362,7 @@ export const editVessel = async (userData) => {
 };
 export const deleteVessel = async (userData) => {
   try {
-    const response = await axiosInstance.post(
-      "/deleteVessel",
-      userData
-    );
+    const response = await axiosInstance.post("/deleteVessel", userData);
     return response.data;
   } catch (error) {
     console.error("Error:", error);
@@ -409,10 +401,7 @@ export const editPort = async (userData) => {
 };
 export const deletePort = async (userData) => {
   try {
-    const response = await axiosInstance.post(
-      "/deletePort",
-      userData
-    );
+    const response = await axiosInstance.post("/deletePort", userData);
     return response.data;
   } catch (error) {
     console.error("Error:", error);
@@ -451,10 +440,7 @@ export const editVesselType = async (userData) => {
 };
 export const deleteVesselType = async (userData) => {
   try {
-    const response = await axiosInstance.post(
-      "/deleteVesselType",
-      userData
-    );
+    const response = await axiosInstance.post("/deleteVesselType", userData);
     return response.data;
   } catch (error) {
     console.error("Error:", error);
@@ -492,10 +478,7 @@ export const editCustomer = async (userData) => {
 };
 export const deleteCustomer = async (userData) => {
   try {
-    const response = await axiosInstance.post(
-      "/deleteCustomer",
-      userData
-    );
+    const response = await axiosInstance.post("/deleteCustomer", userData);
     return response.data;
   } catch (error) {
     console.error("Error:", error);
@@ -533,10 +516,7 @@ export const editCharge = async (userData) => {
 };
 export const deleteCharge = async (userData) => {
   try {
-    const response = await axiosInstance.post(
-      "/deleteCharge",
-      userData
-    );
+    const response = await axiosInstance.post("/deleteCharge", userData);
     return response.data;
   } catch (error) {
     console.error("Error:", error);
@@ -574,10 +554,7 @@ export const editService = async (userData) => {
 };
 export const deleteService = async (userData) => {
   try {
-    const response = await axiosInstance.post(
-      "/deleteService",
-      userData
-    );
+    const response = await axiosInstance.post("/deleteService", userData);
     return response.data;
   } catch (error) {
     console.error("Error:", error);
@@ -615,10 +592,7 @@ export const editCargo = async (userData) => {
 };
 export const deleteCargo = async (userData) => {
   try {
-    const response = await axiosInstance.post(
-      "/deleteCargo",
-      userData
-    );
+    const response = await axiosInstance.post("/deleteCargo", userData);
     return response.data;
   } catch (error) {
     console.error("Error:", error);
@@ -636,6 +610,16 @@ export const uploadDocuments = async (formData) => {
     return response.data;
   } catch (error) {
     console.error("uploadDocuments API Error:", error);
+    throw error;
+  }
+};
+
+export const generateTemplatePDF = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/generateTemplatePDF", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
     throw error;
   }
 };

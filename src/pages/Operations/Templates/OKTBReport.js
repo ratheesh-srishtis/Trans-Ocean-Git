@@ -11,9 +11,20 @@ import {
   Button,
 } from "@mui/material";
 import DatePicker from "react-datepicker";
+import { generateTemplatePDF } from "../../../services/apiService";
+import PopUp from "../../PopUp";
 
-const OKTBReport = ({ open, onClose, templates }) => {
+const OKTBReport = ({
+  open,
+  onClose,
+  templates,
+  charge,
+  selectedTemplateName,
+  onSubmit,
+}) => {
   console.log(templates, "templates");
+  console.log(charge, "charge_OKTBReport");
+  console.log(selectedTemplateName, "selectedTemplateName");
 
   const [to, setTo] = useState(null);
   const [faxNumber, setFaxNumber] = useState(null);
@@ -27,16 +38,151 @@ const OKTBReport = ({ open, onClose, templates }) => {
   const [passengersName, setPassengersName] = useState(null);
   const [airportArrivalDetails, setSirportArrivalDetails] = useState(null);
 
+  // Error states
+  const [toError, setToError] = useState(null);
+  const [faxNumberError, setFaxNumberError] = useState(null);
+  const [pagesError, setPagesError] = useState(null);
+  const [fromError, setFromError] = useState(null);
+  const [telephoneNumberError, setTelephoneNumberError] = useState(null);
+  const [dateError, setDateError] = useState(null);
+  const [refNumberError, setRefNumberError] = useState(null);
+  const [bookingRefError, setBookingRefError] = useState(null);
+  const [passengersNameError, setPassengersNameError] = useState(null);
+
+  const [openPopUp, setOpenPopUp] = useState(false);
+  const [message, setMessage] = useState("");
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name === "to") {
       setTo(value);
+      setToError(false);
     } else if (name === "fax_number") {
+      setFaxNumber(value);
+      setFaxNumberError(false);
+    } else if (name === "attn") {
+      setAttn(value);
+    } else if (name === "pages") {
+      setPages(value);
+      setPagesError(false);
+    } else if (name === "from") {
+      setfrom(value);
+      setFromError(false);
+    } else if (name === "telephone_number") {
+      setTelephoneNumber(value);
+      setTelephoneNumberError(false);
+    } else if (name === "ref_number") {
+      setRefNumber(value);
+      setRefNumberError(false);
+    } else if (name === "booking_ref") {
+      setBookingRef(value);
+      setBookingRefError(false);
+    } else if (name === "passengers_name") {
+      setPassengersName(value);
+      setPassengersNameError(false);
+    } else if (name === "airport_arrival_details") {
+      setSirportArrivalDetails(value);
     }
   };
 
   const handleEtaChange = (date) => {
     if (date) {
+    }
+  };
+
+  const saveTemplate = async (status) => {
+    // Reset all error states
+    setToError(null);
+    setFaxNumberError(null);
+    setPagesError(null);
+    setFromError(null);
+    setTelephoneNumberError(null);
+    setDateError(null);
+    setRefNumberError(null);
+    setBookingRefError(null);
+    setPassengersNameError(null);
+
+    // Validation logic
+    let isValid = true;
+
+    if (!to) {
+      setToError("Please enter the 'To' field.");
+      isValid = false;
+    }
+    if (!faxNumber) {
+      setFaxNumberError("Please enter the fax number.");
+      isValid = false;
+    }
+
+    if (!pages) {
+      setPagesError("Please enter the number of pages.");
+      isValid = false;
+    }
+    if (!from) {
+      setFromError("Please enter the 'From' field.");
+      isValid = false;
+    }
+    if (!telephoneNumber) {
+      setTelephoneNumberError("Please enter the telephone number.");
+      isValid = false;
+    }
+    if (!date) {
+      setDateError("Please select a date.");
+      isValid = false;
+    }
+    if (!refNumber) {
+      setRefNumberError("Please enter the reference number.");
+      isValid = false;
+    }
+    if (!bookingRef) {
+      setBookingRefError("Please enter the booking reference number.");
+      isValid = false;
+    }
+    if (!passengersName) {
+      setPassengersNameError("Please enter the passenger's name.");
+      isValid = false;
+    }
+
+    // If any field is invalid, do not proceed with the API call
+    if (!isValid) {
+      setMessage("Please fill all the required fields correctly.");
+      setOpenPopUp(true);
+      return;
+    }
+
+    // Construct the template body
+    let templateBpdy = {
+      pdaChargeId: charge?._id,
+      templateName: selectedTemplateName,
+      to: to,
+      faxNo: faxNumber,
+      attn: attn,
+      pages: pages,
+      from: from,
+      telNo: telephoneNumber,
+      date: date,
+      refNo: refNumber,
+      bookingRefNo: bookingRef,
+      passengersName: passengersName,
+      airportArrivalDetails: airportArrivalDetails,
+    };
+
+    // Proceed with the API call
+    try {
+      const response = await generateTemplatePDF(templateBpdy);
+      console.log(response, "login_response");
+      if (response?.status === true) {
+        setMessage("Template saved successfully!");
+        setOpenPopUp(true);
+        onSubmit(response);
+      } else {
+        setMessage("PDA failed. Please try again.");
+        setOpenPopUp(true);
+        onSubmit(response);
+      }
+    } catch (error) {
+      setMessage("PDA failed. Please try again.");
+      setOpenPopUp(true);
+      onSubmit(error);
     }
   };
 
@@ -78,7 +224,9 @@ const OKTBReport = ({ open, onClose, templates }) => {
                     value={to}
                     onChange={handleInputChange}
                   ></input>
+                  {toError && <div className="invalid">{toError}</div>}
                 </div>
+
                 <div class="col-4 queheading">
                   <div> Fax No:</div>
                   <input
@@ -90,6 +238,9 @@ const OKTBReport = ({ open, onClose, templates }) => {
                     value={faxNumber}
                     onChange={handleInputChange}
                   ></input>
+                  {faxNumberError && (
+                    <div className="invalid">{faxNumberError}</div>
+                  )}
                 </div>
                 <div class="col-4 queheada">
                   <div>Attn:</div>
@@ -117,6 +268,7 @@ const OKTBReport = ({ open, onClose, templates }) => {
                     value={pages}
                     onChange={handleInputChange}
                   ></input>
+                  {pagesError && <div className="invalid">{pagesError}</div>}
                 </div>
                 <div class="col-4 queheading">
                   <div> From:</div>
@@ -129,6 +281,7 @@ const OKTBReport = ({ open, onClose, templates }) => {
                     value={from}
                     onChange={handleInputChange}
                   ></input>
+                  {fromError && <div className="invalid">{fromError}</div>}
                 </div>
                 <div class="col-4 queheada">
                   <div> Tel No:</div>
@@ -141,6 +294,9 @@ const OKTBReport = ({ open, onClose, templates }) => {
                     value={telephoneNumber}
                     onChange={handleInputChange}
                   ></input>
+                  {telephoneNumberError && (
+                    <div className="invalid">{telephoneNumberError}</div>
+                  )}
                 </div>
               </div>
 
@@ -148,17 +304,18 @@ const OKTBReport = ({ open, onClose, templates }) => {
                 <div className="col-4 queheada">
                   <div> Date:</div>
                   <DatePicker
-                    dateFormat="dd/MM/yyyy HH:mm aa"
-                    selected={date ? new Date(date) : null} // Inline date conversion for prefilled value
-                    onChange={handleEtaChange}
-                    showTimeSelect
-                    timeFormat="HH:mm aa"
-                    timeIntervals={15}
+                    dateFormat="dd/MM/yyyy" // Date format without time
+                    selected={date ? new Date(date) : null}
+                    onChange={(selectedDate) => {
+                      setDate(selectedDate); // Set the selected date
+                      setDateError(false); // Clear error if a date is selected
+                    }}
                     className="form-control date-input"
                     id="date-picker"
-                    placeholderText="Select ETA"
+                    placeholderText="Select Date"
                     autoComplete="off"
                   />
+                  {dateError && <div className="invalid">{dateError}</div>}
                 </div>
                 <div className="col-4 queheada">
                   <div> Ref#:</div>
@@ -171,6 +328,9 @@ const OKTBReport = ({ open, onClose, templates }) => {
                     value={refNumber}
                     onChange={handleInputChange}
                   ></input>
+                  {refNumberError && (
+                    <div className="invalid">{refNumberError}</div>
+                  )}
                 </div>
               </div>
               <div className="urgent">For urgent attention</div>
@@ -192,6 +352,9 @@ const OKTBReport = ({ open, onClose, templates }) => {
                       value={bookingRef}
                       onChange={handleInputChange}
                     ></input>
+                    {bookingRefError && (
+                      <div className="invalid">{bookingRefError}</div>
+                    )}
                   </div>
                   <div className="col-8 queheading">
                     <div> Passangers Name:</div>
@@ -204,6 +367,9 @@ const OKTBReport = ({ open, onClose, templates }) => {
                       value={passengersName}
                       onChange={handleInputChange}
                     ></textarea>
+                    {passengersNameError && (
+                      <div className="invalid">{passengersNameError}</div>
+                    )}
                   </div>
                 </div>
                 <div className="date ">
@@ -242,7 +408,13 @@ const OKTBReport = ({ open, onClose, templates }) => {
                 <button type="button" className="btn btncancel">
                   Cancel
                 </button>
-                <button type="button" className="btn generate-buttona">
+                <button
+                  type="button"
+                  className="btn generate-buttona"
+                  onClick={() => {
+                    saveTemplate();
+                  }}
+                >
                   Save
                 </button>
               </div>
@@ -250,6 +422,9 @@ const OKTBReport = ({ open, onClose, templates }) => {
           </DialogContent>
         </Dialog>
       </div>
+      {openPopUp && (
+        <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
+      )}
     </>
   );
 };

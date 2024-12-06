@@ -18,6 +18,7 @@ import {
   getCharges,
   getSubcharges,
   uploadDocuments,
+  fileUrl,
 } from "../../services/apiService";
 import {
   IconButton,
@@ -42,18 +43,38 @@ const AddJobs = ({
   console.log(templates, "templates");
   console.log(charge, "AddJobs_charge");
   const [selectedTemplate, setSelectedTemplate] = useState("");
+  const [selectedTemplateName, setSelectedTemplateName] = useState("");
   const [isBerthReportOpen, setIsBerthReportOpen] = useState(false);
   const [isCrewChangeListOpen, setIsCrewChangeListOpen] = useState(false);
   const [isLoadingReportOpen, setIsLoadingReportOpen] = useState(false);
   const [isOKTBOpen, setIsOKTBOpen] = useState(false);
+  const [templatesList, setTemplatesList] = useState([]);
 
   const handleTemplateChange = (event) => {
-    setSelectedTemplate(event.target.value);
+    const selectedId = event.target.value; // Get the selected _id
+    setSelectedTemplate(selectedId); // Set the selected _id in the state
+
+    // Find the corresponding templateName
+    const selectedTemplate = templates.find(
+      (template) => template._id === selectedId
+    );
+    if (selectedTemplate) {
+      setSelectedTemplateName(selectedTemplate.templateName); // Set the templateName in the state
+    } else {
+      setSelectedTemplateName(""); // Reset if no match found
+    }
+
+    console.log(
+      selectedId,
+      selectedTemplate?.templateName,
+      "handleTemplateChange"
+    );
   };
 
   useEffect(() => {
     console.log(selectedTemplate, "selectedTemplate");
-  }, [selectedTemplate]);
+    console.log(selectedTemplateName, "selectedTemplateName");
+  }, [selectedTemplate, selectedTemplateName]);
 
   const handleOpenTemplate = () => {
     if (selectedTemplate === "6745cbea3b3ccd845065a96c") {
@@ -73,6 +94,27 @@ const AddJobs = ({
     setIsLoadingReportOpen(false);
     setIsOKTBOpen(false);
   };
+
+  const handleOKTBReportSubmit = (response) => {
+    console.log("template_Submitted:", response);
+    if (response?.status == true) {
+      setIsOKTBOpen(false);
+      setTemplatesList((previousTemplates) => [
+        ...previousTemplates,
+        response?.pdfPath,
+      ]);
+    }
+  };
+  const handleBerthReportSubmit = (response) => {
+    console.log("template_Submitted:", response);
+  };
+  const handleCrewSubmit = (response) => {
+    console.log("template_Submitted:", response);
+  };
+  const handleLoadingReportSubmit = (response) => {
+    console.log("template_Submitted:", response);
+  };
+
   const [selectedStatus, setSelectedStatus] = useState(charge?.status);
   const [selectedServiceError, setSelectedServiceError] = useState(false);
   const [selectedChargesTypeError, setSelectedChargesTypeError] =
@@ -252,6 +294,7 @@ const AddJobs = ({
         remark: remarks,
         status: selectedStatus,
         documents: uploadedFiles,
+        templates: templatesList,
       };
       console.log(chargesPayload, "edit_charges_payload");
       try {
@@ -580,22 +623,40 @@ const AddJobs = ({
       </div>
       {/* Dialog Components */}
       {isBerthReportOpen && (
-        <BerthReport open={isBerthReportOpen} onClose={handleCloseAllDialogs} />
+        <BerthReport
+          open={isBerthReportOpen}
+          onClose={handleCloseAllDialogs}
+          charge={charge}
+          selectedTemplateName={selectedTemplateName}
+          onSubmit={handleBerthReportSubmit}
+        />
       )}
       {isCrewChangeListOpen && (
         <CrewChangeList
           open={isCrewChangeListOpen}
           onClose={handleCloseAllDialogs}
+          charge={charge}
+          selectedTemplateName={selectedTemplateName}
+          onSubmit={handleCrewSubmit}
         />
       )}
       {isLoadingReportOpen && (
         <LoadingReport
           open={isLoadingReportOpen}
           onClose={handleCloseAllDialogs}
+          charge={charge}
+          selectedTemplateName={selectedTemplateName}
+          onSubmit={handleLoadingReportSubmit}
         />
       )}
       {isOKTBOpen && (
-        <OKTBReport open={isOKTBOpen} onClose={handleCloseAllDialogs} />
+        <OKTBReport
+          open={isOKTBOpen}
+          onClose={handleCloseAllDialogs}
+          charge={charge}
+          selectedTemplateName={selectedTemplateName}
+          onSubmit={handleOKTBReportSubmit}
+        />
       )}
     </>
   );
