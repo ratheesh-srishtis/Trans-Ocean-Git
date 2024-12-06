@@ -54,5 +54,9 @@ color:#929292; word-wrap: break-word;
     text-align: justify; font-size: 12px; margin-top: 15px;
 }
 .date{
-    display: flex; margin-top: 10px; 
+     margin-top: 10px; 
+     display: flex;
+}
+.dateinwidth{
+    width:210px;
 }

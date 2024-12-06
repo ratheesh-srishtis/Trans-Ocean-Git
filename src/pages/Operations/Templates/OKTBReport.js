@@ -300,8 +300,8 @@ const OKTBReport = ({
                 </div>
               </div>
 
-              <div className="date">
-                <div className="col-4 queheada">
+              <div className="date  ">
+                <div className="col-4 queheading">
                   <div> Date:</div>
                   <DatePicker
                     dateFormat="dd/MM/yyyy" // Date format without time
@@ -362,6 +362,7 @@ const OKTBReport = ({
                       type="text"
                       class="form-control passwidth"
                       id="exampleFormControlInput1"
+                      rows="1"
                       placeholder=""
                       name="passengers_name"
                       value={passengersName}

@@ -1,0 +1,18 @@
+
+
+
+.statement {
+    display: flex;
+    justify-content: center;
+    text-decoration: underline;
+    margin-top: 20px;
+}
+.crew{
+    margin-right: 10px;
+}
+.onsign{
+    font-size: 17px;
+    font-weight: 600;
+    font-style: italic;
+    margin-bottom: 15px;
+}
