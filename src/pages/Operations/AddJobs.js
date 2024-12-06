@@ -52,6 +52,7 @@ const AddJobs = ({
   const [isOKTBOpen, setIsOKTBOpen] = useState(false);
   const [isProvisionOpen, setIsProvisionOpen] = useState(false);
   const [isTransportationOpen, setIsTransportationOpen] = useState(false);
+  const [templatesList, setTemplatesList] = useState([]);
 
   const handleTemplateChange = (event) => {
     const selectedId = event.target.value; // Get the selected _id
