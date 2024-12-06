@@ -59,68 +59,68 @@ const BerthReport = ({ open, onClose, templates }) => {
                 <tr>
                   <td className="tdstylwidt"> 1</td>
                   <td className="tdstyl"> ESOP</td>
-                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="05/12/2024"></input></td>
-                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="12:00 am"></input></td>
+                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input></td>
+                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input></td>
                 </tr>
                 <tr>
                   <td className="tdstylwidt"> 2</td>
                   <td className="tdstyl"> ANCHORED</td>
-                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="05/12/2024"></input></td>
-                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="12:00 am"></input></td>
+                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input></td>
+                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input></td>
                 </tr>
                 <tr>
                   <td className="tdstylwidt"> 3</td>
                   <td className="tdstyl"> NOR TENDER</td>
-                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="05/12/2024"></input></td>
-                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="12:00 am"></input></td>
+                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input></td>
+                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input></td>
                 </tr>
                 <tr>
                   <td className="tdstylwidt"> 4</td>
                   <td className="tdstyl"> ANCHOR AWEIGH</td>
-                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="05/12/2024"></input></td>
-                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="12:00 am"></input></td>
+                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input></td>
+                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input></td>
                 </tr>
                 <tr>
                   <td className="tdstylwidt"> 5</td>
                   <td className="tdstyl"> POB</td>
-                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="05/12/2024"></input></td>
-                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="12:00 am"></input></td>
+                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input></td>
+                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input></td>
                 </tr>
                 <tr>
                   <td className="tdstylwidt"> 6</td>
                   <td className="tdstyl"> FIRST LINE</td>
-                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="05/12/2024"></input></td>
-                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="12:00 am"></input></td>
+                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input></td>
+                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input></td>
                 </tr>
                 <tr>
                   <td className="tdstylwidt"> 7</td>
                   <td className="tdstyl"> ALL FAST - ALONG SIDE BERTH 31</td>
-                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="05/12/2024"></input></td>
-                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="12:00 am"></input></td>
+                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input></td>
+                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input></td>
                 </tr>
                 <tr>
                   <td className="tdstylwidt"> 8</td>
                   <td className="tdstyl"> PILOT OFF</td>
-                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="05/12/2024"></input></td>
-                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="12:00 am"></input></td>
+                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input></td>
+                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input></td>
                 </tr>
                 <tr>
                   <td className="tdstylwidt"> 9</td>
                   <td className="tdstyl"> GANGWAY LOWERED</td>
-                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="05/12/2024"></input></td>
-                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="12:00 am"></input></td>
+                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input></td>
+                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input></td>
                 </tr>
                 <tr>
                   <td className="tdstylwidt"> 10</td>
                   <td className="tdstyl"> CUSTOMS CLEARENCE</td>
-                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="05/12/2024"></input></td>
-                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="12:00 am"></input></td>
+                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input></td>
+                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input></td>
                 </tr>
                 <tr>
                   <td className="tdstylwidt"> 11</td>
                   <td className="tdstyl"> FREE PRATIQUE</td>
-                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="05/12/2024"></input></td>
-                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="12:00 am"></input></td>
+                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input></td>
+                  <td className="tdstyl"> <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input></td>
                 </tr>
               </tbody>
             </table>
@@ -211,15 +211,15 @@ const BerthReport = ({ open, onClose, templates }) => {
               <textarea class="form-control" id="exampleFormControlTextarea1" rows="2"></textarea>
             </div>
 <div className="d-flex justify-content-between mt-3">
-<div>
+<div className="master">
               Master Sign/ Ship Stamp
             </div>
-            <div>
+            <div className="master">
               Shipper
             </div>
 
 </div>
-<div  className=" mt-2">
+<div  className=" mt-2 master">
   Agent
 </div>
 <div className="footer-button d-flex justify-content-center mt-3">
