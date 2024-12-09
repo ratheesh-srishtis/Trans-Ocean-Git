@@ -39,7 +39,7 @@ const BerthReport = ({ open, onClose, templates }) => {
 
             <div className=" statement">
               <h3>
-                BIRTHING REPORT
+                BERTHING REPORT
               </h3>
             </div>
             <table className="tabmain">
@@ -210,7 +210,7 @@ const BerthReport = ({ open, onClose, templates }) => {
               <label for="exampleFormControlTextarea1" class="form-label">Master Remarks</label>
               <textarea class="form-control" id="exampleFormControlTextarea1" rows="2"></textarea>
             </div>
-<div className="d-flex justify-content-between mt-3">
+{/* <div className="d-flex justify-content-between mt-3">
 <div className="master">
               Master Sign/ Ship Stamp
             </div>
@@ -221,7 +221,7 @@ const BerthReport = ({ open, onClose, templates }) => {
 </div>
 <div  className=" mt-2 master">
   Agent
-</div>
+</div> */}
 <div className="footer-button d-flex justify-content-center mt-3">
                 <button
                   type="button"
