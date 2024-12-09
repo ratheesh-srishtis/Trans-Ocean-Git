@@ -12,6 +12,13 @@ import {
 } from "@mui/material";
 
 const CrewChangeList = ({ open, onClose, templates }) => {
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "to") {
+    } else if (name === "fax_number") {
+    }
+  };
+
   return (
     <>
       <div>
@@ -33,113 +40,234 @@ const CrewChangeList = ({ open, onClose, templates }) => {
             </div>
           </div>
           <DialogContent style={{ marginBottom: "40px" }}>
-          <div className=" statement">
-              <h3>
-                CREW CHANGE LIST
-              </h3>
+            <div className=" statement">
+              <h3>CREW CHANGE LIST</h3>
             </div>
-            <div className="onsign">
-              ON SIGNERS
+            {/* <div className="onsign">ON SIGNERS</div>
+            <div className="d-flex justify-content-between">
+              <div className="col-4  crew ">
+                <label for="exampleFormControlInput1" class="form-label">
+                  Sea Crew Name:
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="exampleFormControlInput1"
+                  placeholder=""
+                  name="seaCrewName"
+                  value={seaCrewName}
+                  onChange={handleInputChange}
+                ></input>
+              </div>
+              <div className="col-4 crew">
+                <label for="exampleFormControlInput1" class="form-label">
+                  Flight:
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="exampleFormControlInput1"
+                  placeholder=""
+                  name="flight"
+                  value={flight}
+                  onChange={handleInputChange}
+                ></input>
+              </div>
+              <div className="col-4 crew ">
+                <label for="exampleFormControlInput1" class="form-label">
+                  ATA Muscat:
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="exampleFormControlInput1"
+                  placeholder=""
+                  name="ataMuscat"
+                  value={ataMuscat}
+                  onChange={handleInputChange}
+                ></input>
+              </div>
             </div>
             <div className="d-flex justify-content-between">
-                <div className="col-4  crew ">
-                  <label for="exampleFormControlInput1" class="form-label">Sea Crew Name:</label>
-                  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input>
-                </div>
-                <div className="col-4 crew">
-                  <label for="exampleFormControlInput1" class="form-label">Flight:</label>
-                  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input>
-                </div>
-                <div className="col-4 crew ">
-                  <label for="exampleFormControlInput1" class="form-label">ATA Muscat:</label>
-                  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input>
-                </div>
+              <div className="col-4  crew ">
+                <label for="exampleFormControlInput1" class="form-label">
+                  Hotel:
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="exampleFormControlInput1"
+                  placeholder=""
+                  name="hotel"
+                  value={hotel}
+                  onChange={handleInputChange}
+                ></input>
               </div>
-              <div className="d-flex justify-content-between">
-                <div className="col-4  crew ">
-                  <label for="exampleFormControlInput1" class="form-label">Hotel:</label>
-                  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input>
-                </div>
-                <div className="col-4 crew">
-                  <label for="exampleFormControlInput1" class="form-label">Check In:</label>
-                  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input>
-                </div>
-                <div className="col-4 crew ">
-                  <label for="exampleFormControlInput1" class="form-label">Check Out:</label>
-                  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input>
-                </div>
+              <div className="col-4 crew">
+                <label for="exampleFormControlInput1" class="form-label">
+                  Check In:
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="exampleFormControlInput1"
+                  placeholder=""
+                  name="checkIn"
+                  value={checkIn}
+                  onChange={handleInputChange}
+                ></input>
               </div>
-              <div className="d-flex ">
-                <div className="col-4  crew ">
-                  <label for="exampleFormControlInput1" class="form-label">Food:</label>
-                  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input>
-                </div>
-                <div className="col-4 crew">
-                  <label for="exampleFormControlInput1" class="form-label">Transportation:</label>
-                  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input>
-                </div>
-
+              <div className="col-4 crew ">
+                <label for="exampleFormControlInput1" class="form-label">
+                  Check Out:
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="exampleFormControlInput1"
+                  placeholder=""
+                  name="checkOut"
+                  value={checkOut}
+                  onChange={handleInputChange}
+                ></input>
               </div>
-              <div className="onsign mt-3">
-              OFF SIGNERS
+            </div>
+            <div className="d-flex ">
+              <div className="col-4  crew ">
+                <label for="exampleFormControlInput1" class="form-label">
+                  Food:
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="exampleFormControlInput1"
+                  placeholder=""
+                  name="food"
+                  value={food}
+                  onChange={handleInputChange}
+                ></input>
+              </div>
+              <div className="col-4 crew">
+                <label for="exampleFormControlInput1" class="form-label">
+                  Transportation:
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="exampleFormControlInput1"
+                  placeholder=""
+                  name="transportation"
+                  value={transportation}
+                  onChange={handleInputChange}
+                ></input>
+              </div>
+            </div>
+            <div className="onsign mt-3">OFF SIGNERS</div>
+            <div className="d-flex justify-content-between">
+              <div className="col-4  crew ">
+                <label for="exampleFormControlInput1" class="form-label">
+                  Sea Crew Name:
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="exampleFormControlInput1"
+                  placeholder=""
+                  name="transportation"
+                  value={transportation}
+                  onChange={handleInputChange}
+                ></input>
+              </div>
+              <div className="col-4 crew">
+                <label for="exampleFormControlInput1" class="form-label">
+                  Flight:
+                </label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="exampleFormControlInput1"
+                  placeholder=""
+                ></input>
+              </div>
+              <div className="col-4 crew ">
+                <label for="exampleFormControlInput1" class="form-label">
+                  ATD Muscat:
+                </label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="exampleFormControlInput1"
+                  placeholder=""
+                ></input>
+              </div>
             </div>
             <div className="d-flex justify-content-between">
-                <div className="col-4  crew ">
-                  <label for="exampleFormControlInput1" class="form-label">Sea Crew Name:</label>
-                  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input>
-                </div>
-                <div className="col-4 crew">
-                  <label for="exampleFormControlInput1" class="form-label">Flight:</label>
-                  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input>
-                </div>
-                <div className="col-4 crew ">
-                  <label for="exampleFormControlInput1" class="form-label">ATD Muscat:</label>
-                  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input>
-                </div>
+              <div className="col-4  crew ">
+                <label for="exampleFormControlInput1" class="form-label">
+                  Hotel:
+                </label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="exampleFormControlInput1"
+                  placeholder=""
+                ></input>
               </div>
-              <div className="d-flex justify-content-between">
-                <div className="col-4  crew ">
-                  <label for="exampleFormControlInput1" class="form-label">Hotel:</label>
-                  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input>
-                </div>
-                <div className="col-4 crew">
-                  <label for="exampleFormControlInput1" class="form-label">Check In:</label>
-                  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input>
-                </div>
-                <div className="col-4 crew ">
-                  <label for="exampleFormControlInput1" class="form-label">Check Out:</label>
-                  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input>
-                </div>
+              <div className="col-4 crew">
+                <label for="exampleFormControlInput1" class="form-label">
+                  Check In:
+                </label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="exampleFormControlInput1"
+                  placeholder=""
+                ></input>
               </div>
-              <div className="d-flex ">
-                <div className="col-4  crew ">
-                  <label for="exampleFormControlInput1" class="form-label">Food:</label>
-                  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input>
-                </div>
-                <div className="col-4 crew">
-                  <label for="exampleFormControlInput1" class="form-label">Transportation:</label>
-                  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder=""></input>
-                </div>
-
+              <div className="col-4 crew ">
+                <label for="exampleFormControlInput1" class="form-label">
+                  Check Out:
+                </label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="exampleFormControlInput1"
+                  placeholder=""
+                ></input>
               </div>
-              <div className="footer-button d-flex justify-content-center mt-5">
-                <button
-                  type="button"
-                  className="btn btncancel">
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  className="btn generate-buttona">
-                  Save
-                </button>
+            </div>
+            <div className="d-flex ">
+              <div className="col-4  crew ">
+                <label for="exampleFormControlInput1" class="form-label">
+                  Food:
+                </label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="exampleFormControlInput1"
+                  placeholder=""
+                ></input>
               </div>
-
-
-
-
-
-
+              <div className="col-4 crew">
+                <label for="exampleFormControlInput1" class="form-label">
+                  Transportation:
+                </label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="exampleFormControlInput1"
+                  placeholder=""
+                ></input>
+              </div>
+            </div>
+            <div className="footer-button d-flex justify-content-center mt-5">
+              <button type="button" className="btn btncancel">
+                Cancel
+              </button>
+              <button type="button" className="btn generate-buttona">
+                Save
+              </button>
+            </div> */}
           </DialogContent>
         </Dialog>
       </div>
