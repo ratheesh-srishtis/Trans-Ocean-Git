@@ -488,7 +488,7 @@ const EditOperation = ({
 
             {uploadedFiles?.length > 0 && (
               <>
-                <Paper elevation={1} style={{ marginTop: 16, padding: 8 }}>
+                <Paper elevation={1} style={{ marginTop: 1, padding: 1 }}>
                   <List>
                     {uploadedFiles.map((file, index) => (
                       <ListItem key={index}>

@@ -69,3 +69,32 @@
 .btnjobrole{
     margin-top: 24px;
 }
+.statuss{
+    height: 38px;
+}
+.temp-btn{
+    width:100%;
+    height:31px;
+    display: flex;
+    justify-content: center !important;
+}
+.templatelink{
+    font-size: 0.8rem;
+}
+.tempgenerated{
+    font-size: 0.85rem;
+    color: #007bc1;
+    cursor: pointer;
+}
+.templateouter{
+    padding: 10px;
+    border: 1px solid rgba(103, 103, 103, 0.627);
+    border-radius: 5px;
+}
+.icondown{
+    padding-right: 15px;
+    cursor: pointer;
+}
+.iconpdf{
+    cursor: pointer;
+}
