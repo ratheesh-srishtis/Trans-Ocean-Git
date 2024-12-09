@@ -435,9 +435,9 @@ const BerthReport = ({ open, onClose, templates, onSubmit }) => {
                 onChange={handleInputChange}
               ></textarea>
             </div>
-            <div className="d-flex justify-content-between mt-3">
-              <div className="master">Master Sign/ Ship Stamp</div>
-              <div className="master">Shipper</div>
+            {/* <div className="d-flex justify-content-between mt-3">
+<div className="master">
+              Master Sign/ Ship Stamp
             </div>
             <div className=" mt-2 master">Agent</div>
             <div className="footer-button d-flex justify-content-center mt-3">
@@ -449,6 +449,19 @@ const BerthReport = ({ open, onClose, templates, onSubmit }) => {
                 className="btn generate-buttona"
                 onClick={saveTemplate}
               >
+                Save
+              </button>
+            </div>
+
+</div>
+<div  className=" mt-2 master">
+  Agent
+</div> */}
+            <div className="footer-button d-flex justify-content-center mt-3">
+              <button type="button" className="btn btncancel">
+                Cancel
+              </button>
+              <button type="button" className="btn generate-buttona">
                 Save
               </button>
             </div>

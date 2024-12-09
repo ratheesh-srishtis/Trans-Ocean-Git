@@ -457,16 +457,16 @@ const AddJobs = ({
             {thirdFieldSelected && (
               <>
                 <div class="typesofcall-row ">
-                  <div class="row mb-3 align-items-start">
+                  <div class="row mb-2 align-items-start">
                     <div class="col-4">
-                      <label for="exampleFormControlInput1" class="form-label">
+                      <label for="exampleFormControlInput1" class="form-label ">
                         {" "}
                         Status <span class="required"> </span> :
                       </label>
                       <div class="vessel-select">
                         <select
                           name="status"
-                          class="form-select vesselbox"
+                          class="form-select vesselbox statuss"
                           onChange={handleSelectChange}
                           aria-label="Default select example"
                           value={selectedStatus}
@@ -477,6 +477,32 @@ const AddJobs = ({
                         </select>
                       </div>
                     </div>
+                    <div class="col-8 ">
+                      <div class="mb-1">
+                        <div class="col">
+                          <label
+                            for="exampleFormControlInput1"
+                            class="form-label"
+                          >
+                            Remarks:
+                          </label>
+                          <textarea
+                            rows="1"
+                            class="form-control"
+                            id="exampleFormControlInput1"
+                            placeholder=""
+                            name="remarks"
+                            onChange={handleInputChange}
+                            value={remarks}
+                          ></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class=" typesofcall-row mb-2">
+                  <div class="row align-items-start">
                     <div class="col-4">
                       <label for="exampleFormControlInput1" class="form-label">
                         Vendor Name <span class="required"> </span> :
@@ -520,6 +546,98 @@ const AddJobs = ({
                         </select>
                       </div>
                     </div>
+                    <div className="btnjobrole col-4">
+                      <button
+                        className="btn btna submit-button temp-btn btnfsize"
+                        onClick={handleOpenTemplate}
+                        disabled={!selectedTemplate}
+                      >
+                        Generate Template
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div className="templatelink">
+                  Template Link:
+                </div>
+                <div className="templateouter">
+                  <div className="d-flex justify-content-between ">
+                    <div className="tempgenerated ">
+                      OKTB Generated
+                    </div>
+                    <div className="d-flex">
+                      <div className="icondown">
+                        <i class="bi bi-download"></i>
+                      </div>
+                      <div className="iconpdf">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="d-flex justify-content-between ">
+                    <div className="tempgenerated ">
+                      Berthing Report
+                    </div>
+                    <div className="d-flex">
+                      <div className="icondown">
+                        <i class="bi bi-download"></i>
+                      </div>
+                      <div className="iconpdf">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="d-flex justify-content-between ">
+                    <div className="tempgenerated ">
+                      Loading Report
+                    </div>
+                    <div className="d-flex">
+                      <div className="icondown">
+                        <i class="bi bi-download"></i>
+                      </div>
+                      <div className="iconpdf">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="d-flex justify-content-between ">
+                    <div className="tempgenerated ">
+                      Crew Change List
+                    </div>
+                    <div className="d-flex">
+                      <div className="icondown">
+                        <i class="bi bi-download"></i>
+                      </div>
+                      <div className="iconpdf">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="d-flex justify-content-between ">
+                    <div className="tempgenerated ">
+                      Delivery Note
+                    </div>
+                    <div className="d-flex">
+                      <div className="icondown">
+                        <i class="bi bi-download"></i>
+                      </div>
+                      <div className="iconpdf">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="d-flex justify-content-between ">
+                    <div className="tempgenerated ">
+                      Transportation Receipt
+                    </div>
+                    <div className="d-flex">
+                      <div className="icondown">
+                        <i class="bi bi-download"></i>
+                      </div>
+                      <div className="iconpdf">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="typesofcall-row ">
@@ -541,7 +659,7 @@ const AddJobs = ({
                       <>
                         <Paper
                           elevation={1}
-                          style={{ marginTop: 16, padding: 8 }}
+                          style={{ marginTop: 1, padding: 1 }}
                         >
                           <List>
                             {uploadedFiles.map((file, index) => (
@@ -572,40 +690,6 @@ const AddJobs = ({
                         </Paper>
                       </>
                     )}
-                  </div>
-                </div>
-                <div class=" typesofcall-row">
-                  <div class="row align-items-start">
-                    <div class="col-8 ">
-                      <div class="mb-3">
-                        <div class="col">
-                          <label
-                            for="exampleFormControlInput1"
-                            class="form-label"
-                          >
-                            Remarks:
-                          </label>
-                          <textarea
-                            rows="1"
-                            class="form-control"
-                            id="exampleFormControlInput1"
-                            placeholder=""
-                            name="remarks"
-                            onChange={handleInputChange}
-                            value={remarks}
-                          ></textarea>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="btnjobrole col-4">
-                      <button
-                        className="btn btna submit-button btnfsize"
-                        onClick={handleOpenTemplate}
-                        disabled={!selectedTemplate}
-                      >
-                        Open Template
-                      </button>
-                    </div>
                   </div>
                 </div>
               </>
