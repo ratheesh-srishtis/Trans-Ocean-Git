@@ -461,7 +461,13 @@ const BerthReport = ({ open, onClose, templates, onSubmit }) => {
               <button type="button" className="btn btncancel">
                 Cancel
               </button>
-              <button type="button" className="btn generate-buttona">
+              <button
+                type="button"
+                className="btn generate-buttona"
+                onClick={() => {
+                  saveTemplate();
+                }}
+              >
                 Save
               </button>
             </div>
