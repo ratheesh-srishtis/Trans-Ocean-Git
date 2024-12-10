@@ -163,7 +163,7 @@ const OtpVerification = () => {
             <div class="row alignboxotp">
               <div class="col-lg-6 same-level">
                 <div class="d-flex flex-column mb-3">
-                  <img className="logo" src={Logo}></img>
+               
                   <img className="mainpng" src={mian} alt=""></img>
                 </div>
               </div>

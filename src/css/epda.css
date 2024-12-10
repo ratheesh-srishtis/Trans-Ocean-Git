@@ -3,41 +3,270 @@
 .tableheading {
   font-size: 12px;
 }
+
 .tablebody {
   font-size: 12px;
 }
+
 .note {
   color: Black;
   background-color: Yellow;
   padding-left: 5px;
 }
+
 .subnote {
   font-size: 10px;
   padding-top: 10px;
   padding-bottom: 10px;
 }
+
 .payment {
   font-size: 12px;
   padding-top: 10px;
   padding-bottom: 10px;
   font-weight: bolder;
 }
+
 .logoimg {
   max-height: 100px;
   max-width: 150px;
   display: flex;
   align-items: center;
 }
+
 .sublogoimg {
   max-height: 100px;
   max-width: 300px;
 }
+
 .tableimage {
   display: flex;
   justify-content: space-between;
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  background-color: #c5d9f1;
+  min-width: 0px;
+  max-width: 100%;
 }
+
 .epdatable {
   padding: 12px;
 }
-@media only screen and (max-width: 767px) {
+
+.tabstyle {
+  border-collapse: collapse;
+  width: 100%;
+  font-family: Arial, sans-serif;
+}
+
+.stylone {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  background-color: #c5d9f1;
+  min-width: 59px;
+  max-width: 100%;
+}
+
+.styltwo {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  background-color: #ffffff;
+  min-width: 949px;
+  max-width: 100%;
+}
+
+.stylthree {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  background-color: #ffffff;
+  min-width: 145px;
+  max-width: 100%;
+}
+
+.stylfour {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  background-color: #ffffff;
+  
+  max-width: 100%;
+}
+
+.stylfive {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  background-color: #c5d9f1;
+  min-width: 116px;
+  max-width: 100%;
+}
+
+.stylsix {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  background-color: #c5d9f1;
+  min-width: 580px;
+  max-width: 100%;
+}
+
+.stylseven {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  background-color: #c5d9f1;
+  min-width: 65px;
+  max-width: 100%;
+}
+
+.styleight {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  background-color: #c5d9f1;
+  min-width: 97px;
+  max-width: 100%;
+}
+
+.stylnine {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  background-color: #c5d9f1;
+  min-width: 92px;
+  max-width: 100%;
+}
+
+.stylten {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  background-color: #c5d9f1;
+  min-width: 144px;
+  max-width: 100%;
+}
+
+.styla {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  background-color: #c5d9f1;
+ 
+  max-width: 100%;
+}
+
+.mvstyl {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  background-color: #c5d9f1;
+}
+
+.stylb {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  background-color: #c5d9f1;
+}
+
+.slstyl {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  background-color: #f2f2f2;
+}
+
+.omrstyl {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: right;
+  background-color: #f2f2f2;
+}
+
+.stylc {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.styld {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: right;
+}
+
+.stylee {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  background-color: #c5d9f1;
+}
+
+.stylf {
+  border: 1px solid #000000;
+  padding: 8px;
+  text-align: left;
+  background-color: yellow;
+}
+
+.stylg {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  color: red;
+}
+
+.stylh {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: right;
+  font-weight: bolder;
+  font-size: 15px;
+}
+
+.styli {
+  border-collapse: collapse;
+  width: 70%;
+  font-family: Arial, sans-serif;
+}
+
+.stylj {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  background-color: #f2f2f2;
+}
+
+.stylk {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.styll {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  min-width: 300px;
+  max-width: 100%;
+}
+
+.stylm {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  min-width: 300px;
+  max-width: 100%;
+}
+
+.styln {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  background-color: yellow;
+  font-weight: bold;
 }
