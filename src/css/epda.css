@@ -1,0 +1,43 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+.tableheading {
+  font-size: 12px;
+}
+.tablebody {
+  font-size: 12px;
+}
+.note {
+  color: Black;
+  background-color: Yellow;
+  padding-left: 5px;
+}
+.subnote {
+  font-size: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.payment {
+  font-size: 12px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-weight: bolder;
+}
+.logoimg {
+  max-height: 100px;
+  max-width: 150px;
+  display: flex;
+  align-items: center;
+}
+.sublogoimg {
+  max-height: 100px;
+  max-width: 300px;
+}
+.tableimage {
+  display: flex;
+  justify-content: space-between;
+}
+.epdatable {
+  padding: 12px;
+}
+@media only screen and (max-width: 767px) {
+}

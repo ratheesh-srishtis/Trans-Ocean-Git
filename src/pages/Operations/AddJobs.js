@@ -18,7 +18,7 @@ import {
   getCharges,
   getSubcharges,
   uploadDocuments,
-  fileUrl,
+  editChargeQuotation,
 } from "../../services/apiService";
 import {
   IconButton,
@@ -39,7 +39,7 @@ const AddJobs = ({
   services,
   ports,
   customers,
-  editChargeQuotation,
+
   vendors,
 }) => {
   console.log(templates, "templates");
@@ -117,12 +117,31 @@ const AddJobs = ({
   };
   const handleBerthReportSubmit = (response) => {
     console.log("template_Submitted:", response);
+    if (response?.status == true) {
+      setIsBerthReportOpen(false);
+      setTemplatesList((previousTemplates) => [
+        ...previousTemplates,
+        response?.pdfPath,
+      ]);
+    }
   };
   const handleCrewSubmit = (response) => {
     console.log("template_Submitted:", response);
+    if (response?.status == true) {
+      setIsCrewChangeListOpen(false);
+      setTemplatesList((previousTemplates) => [
+        ...previousTemplates,
+        response?.pdfPath,
+      ]);
+    }
   };
   const handleLoadingReportSubmit = (response) => {
     console.log("template_Submitted:", response);
+    setIsLoadingReportOpen(false);
+    setTemplatesList((previousTemplates) => [
+      ...previousTemplates,
+      response?.pdfPath,
+    ]);
   };
 
   const [selectedStatus, setSelectedStatus] = useState(charge?.status);
@@ -296,13 +315,14 @@ const AddJobs = ({
       selectedVendor
     ) {
       let chargesPayload = {
+        pdaChargeId: charge?._id,
         serviceId: selectedService?.serviceId || selectedService?._id,
         chargeId: selectedChargesType?.chargeId || selectedChargesType?._id,
         subchargeId:
           selectedSubhargesType?.subchargeId || selectedSubhargesType?._id,
         vendorId: selectedVendor?.vendorId || selectedVendor?._id,
         remark: remarks,
-        status: selectedStatus,
+        status: Number(selectedStatus),
         documents: uploadedFiles,
         templates: templatesList,
       };
@@ -338,6 +358,23 @@ const AddJobs = ({
       ...(charge?.documents || []), // Use empty array as fallback
     ]);
   }, [charge]);
+
+  useEffect(() => {
+    console.log(templatesList, "templatesList");
+  }, [templatesList]);
+  const BASE_URL =
+    "https://hybrid.sicsglobal.com/transocean_api/assets/template_pdf/"; // Replace with your actual base URL
+
+  const handleDownload = (template) => {
+    const link = document.createElement("a");
+    link.href = `${BASE_URL}/${template}`;
+    link.download = template;
+    link.click();
+  };
+
+  const handleView = (template) => {
+    window.open(`${BASE_URL}/${template}`, "_blank");
+  };
 
   return (
     <>
@@ -557,89 +594,39 @@ const AddJobs = ({
                     </div>
                   </div>
                 </div>
-                <div className="templatelink">
-                  Template Link:
-                </div>
-                <div className="templateouter">
-                  <div className="d-flex justify-content-between ">
-                    <div className="tempgenerated ">
-                      OKTB Generated
+
+                {templatesList && templatesList?.length > 0 && (
+                  <>
+                    <div className="templatelink">Template Link:</div>
+                    <div className="templateouter">
+                      {templatesList?.length > 0 &&
+                        templatesList?.map((template, index) => {
+                          return (
+                            <>
+                              <div className="d-flex justify-content-between ">
+                                <div className="tempgenerated ">template</div>
+                                <div className="d-flex">
+                                  <div
+                                    className="icondown"
+                                    onClick={() => handleDownload(template)}
+                                  >
+                                    <i class="bi bi-download"></i>
+                                  </div>
+                                  <div
+                                    className="iconpdf"
+                                    onClick={() => handleView(template)}
+                                  >
+                                    <i class="bi bi-file-earmark-pdf"></i>
+                                  </div>
+                                </div>
+                              </div>
+                            </>
+                          );
+                        })}
                     </div>
-                    <div className="d-flex">
-                      <div className="icondown">
-                        <i class="bi bi-download"></i>
-                      </div>
-                      <div className="iconpdf">
-                        <i class="bi bi-file-earmark-pdf"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="d-flex justify-content-between ">
-                    <div className="tempgenerated ">
-                      Berthing Report
-                    </div>
-                    <div className="d-flex">
-                      <div className="icondown">
-                        <i class="bi bi-download"></i>
-                      </div>
-                      <div className="iconpdf">
-                        <i class="bi bi-file-earmark-pdf"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="d-flex justify-content-between ">
-                    <div className="tempgenerated ">
-                      Loading Report
-                    </div>
-                    <div className="d-flex">
-                      <div className="icondown">
-                        <i class="bi bi-download"></i>
-                      </div>
-                      <div className="iconpdf">
-                        <i class="bi bi-file-earmark-pdf"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="d-flex justify-content-between ">
-                    <div className="tempgenerated ">
-                      Crew Change List
-                    </div>
-                    <div className="d-flex">
-                      <div className="icondown">
-                        <i class="bi bi-download"></i>
-                      </div>
-                      <div className="iconpdf">
-                        <i class="bi bi-file-earmark-pdf"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="d-flex justify-content-between ">
-                    <div className="tempgenerated ">
-                      Delivery Note
-                    </div>
-                    <div className="d-flex">
-                      <div className="icondown">
-                        <i class="bi bi-download"></i>
-                      </div>
-                      <div className="iconpdf">
-                        <i class="bi bi-file-earmark-pdf"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="d-flex justify-content-between ">
-                    <div className="tempgenerated ">
-                      Transportation Receipt
-                    </div>
-                    <div className="d-flex">
-                      <div className="icondown">
-                        <i class="bi bi-download"></i>
-                      </div>
-                      <div className="iconpdf">
-                        <i class="bi bi-file-earmark-pdf"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                  </>
+                )}
+
                 <div class="typesofcall-row ">
                   <div class="row align-items-start">
                     <div class="mb-2">
@@ -655,11 +642,12 @@ const AddJobs = ({
                         onChange={documentsUpload}
                       ></input>
                     </div>
+
                     {uploadedFiles?.length > 0 && (
                       <>
                         <Paper
                           elevation={1}
-                          style={{ marginTop: 1, padding: 1 }}
+                          style={{ marginTop: 1, padding: 0 }}
                         >
                           <List>
                             {uploadedFiles.map((file, index) => (

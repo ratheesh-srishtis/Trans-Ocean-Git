@@ -524,6 +524,44 @@ export const deleteCharge = async (userData) => {
   }
 };
 
+/* sub charge settings */
+export const getAllSubcharges = async (data) => {
+  try {
+    const response = await axiosInstance.post("/getAllSubcharges", data);
+    return response.data;
+  } catch (error) {
+    console.error("List all users API Error:", error);
+    throw error;
+  }
+};
+export const saveSubcharge = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/saveSubcharge", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+export const editSubcharge = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/editSubcharge", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+export const deleteSubcharge = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/deleteSubcharge", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
 /* service settings */
 export const getAllServices = async (data) => {
   try {
