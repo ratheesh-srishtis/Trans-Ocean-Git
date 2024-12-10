@@ -520,6 +520,34 @@ const EditOperation = ({
             )}
           </div>
         </div>
+        <div className="templateouter">
+                  <div className="d-flex justify-content-between ">
+                    <div className="tempgenerated ">
+                      Upload Image 1
+                    </div>
+                    <div className="d-flex">
+                      <div className="icondown">
+                      <i class="bi bi-eye"></i>
+                      </div>
+                      <div className="iconpdf">
+                      <i class="bi bi-trash"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="d-flex justify-content-between ">
+                    <div className="tempgenerated ">
+                      Upload Image 2
+                    </div>
+                    <div className="d-flex">
+                      <div className="icondown">
+                      <i class="bi bi-eye"></i>
+                      </div>
+                      <div className="iconpdf">
+                      <i class="bi bi-trash"></i>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
         {/* sixthrowremarks */}
         <div class="row align-items-start">
           <div class="col">

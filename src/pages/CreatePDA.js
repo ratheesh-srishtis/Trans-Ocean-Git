@@ -1019,29 +1019,8 @@ const CreatePDA = ({
 
           <div className="imo">
             <div className="row align-items-start">
-              {/* <div className="col-5">
-                <div className="mb-3">
-                  <label for="exampleFormControlInput1" className="form-label">
-                    Services
-                  </label>
-                  <div className="vessel-select">
-                    <select
-                      name="service"
-                      className="form-select vesselbox"
-                      onChange={handleSelectChange}
-                      aria-label="Default select example"
-                    >
-                      <option value="">Choose Services</option>
-                      {services.map((service) => (
-                        <option key={service._id} value={service._id}>
-                          {service.serviceName}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-              </div> */}
-              <div className="col-4">
+
+              <div className="col-2">
                 <label for="exampleFormControlInput1" className="form-label">
                   ETA:
                 </label>
@@ -1060,7 +1039,7 @@ const CreatePDA = ({
                   />
                 </div>
               </div>
-              <div className="col-4">
+              <div className="col-2">
                 <label for="exampleFormControlInput1" className="form-label">
                   ETD:
                 </label>
@@ -1078,7 +1057,57 @@ const CreatePDA = ({
                   autoComplete="off"
                 />
               </div>
-              <div className="col-4">
+              <div className="col-2">
+                <label for="exampleFormControlInput1" className="form-label">
+                 Anchorage Location:
+                </label>
+                <div className="vessel-select">
+                  <select
+                    name="vesselType"
+                    className="form-select vesselbox vboxholder"
+                    
+                    aria-label="Default select example"
+                    
+                  >
+                    <option value="">Choose Location</option>
+                    <option value="">A</option>
+                    <option value="">B</option>
+                    <option value="">C</option>
+                    <option value="">D</option>
+                    <option value="">E</option>
+                 
+                  </select>
+                </div>
+              </div>
+              <div className="col-2 nrt ">
+                  <label for="exampleFormControlInput1" className="form-label">
+                    Berth:
+                  </label>
+                  <input
+                    type=""
+                    name="NRT"
+                    
+                    className="form-control vessel-voyage voyageblock"
+                    id="exampleFormControlInput1"
+                    placeholder=""
+                    
+                  />
+                </div>
+                <div className="col-2 nrt ">
+                  <label for="exampleFormControlInput1" className="form-label">
+                    Cargo Capacity:
+                  </label>
+                  <input
+                    type=""
+                    name="NRT"
+                    
+                    className="form-control vessel-voyage voyageblock"
+                    id="exampleFormControlInput1"
+                    placeholder=""
+                    
+                  />
+                </div>
+              <div className="col-2">
                 <button
                   type="button"
                   className="btn addcharge-button text-center"
