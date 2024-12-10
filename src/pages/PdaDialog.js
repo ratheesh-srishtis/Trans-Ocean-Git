@@ -24,6 +24,8 @@ import {
 } from "../services/apiService";
 
 import PopUp from "./PopUp";
+const transwave = require("../assets/images/EPDA-MV-TBN-SALALAH-CARGO-(3)-1.jpg");
+  const Group = require("../assets/images/TRANSocean-LOGO.png");
 
 const PdaDialog = ({
   open,
@@ -110,271 +112,271 @@ const PdaDialog = ({
               />
             </>
           )} */}
-          <table style="border-collapse: collapse; width: 100%; font-family: Arial, sans-serif;">
+          <table className="tabstyle">
             <thead>
               <tr>
                 <th
                   colspan="6"
-                  class=" tableimage "
-                  style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #c5d9f1; min-width:0px; max-width:100%; "
+                  class=" tableimage "                 
                 >
-                  <img class="logoimg" src="./TRANSocean-LOGO.png" />
-                  <img
-                    class="sublogoimg"
-                    src="./EPDA-MV-TBN-SALALAH-CARGO-(3)-1.jpg"
-                  />
+              
+                  <img className="logoimg" src={Group}></img>
+
+              
+                  <img className="sublogoimg" src={transwave}></img>
+                  
                 </th>
 
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #c5d9f1; min-width:59px; max-width:100%;"></th>
+                <th className="stylone"></th>
               </tr>
             </thead>
           </table>
-          <table style="border-collapse: collapse; width: 100%; font-family: Arial, sans-serif;">
+          <table className="tabstyle">
             <thead class="tableheading">
               <tr>
                 <th
                   colspan="5"
-                  style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #ffffff; min-width:949px; max-width:100%;"
+                  className="styltwo"
                 >
                   TO TBA
                 </th>
 
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #ffffff;min-width:145px; max-width:100%;">
+                <th className="stylthree">
                   Date:13/11/2024
                 </th>
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #ffffff; min-width:141px; max-width:100%;"></th>
+                <th className="stylfour"></th>
               </tr>
             </thead>
           </table>
-          <table style="border-collapse: collapse; width: 100%; font-family: Arial, sans-serif;">
+          <table className="tabstyle">
             <thead class="tableheading">
               <tr>
                 <th
                   colspan="3"
-                  style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #c5d9f1; min-width:116px; max-width:100%;"
+                  className="stylfive"
                 >
                   VESSEL
                 </th>
 
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #c5d9f1; min-width:580px; max-width:100%; ">
+                <th className="stylsix">
                   LOCATION
                 </th>
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #c5d9f1; min-width:65px; max-width:100%;">
+                <th className="stylseven">
                   ETA
                 </th>
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #c5d9f1; min-width:97px; max-width:100%;">
+                <th className="styleight">
                   ETD
                 </th>
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #c5d9f1;min-width:92px; max-width:100%;">
+                <th className="stylnine">
                   CARGO
                 </th>
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #c5d9f1;min-width:144px; max-width:100%;">
+                <th className="stylten">
                   LOA
                 </th>
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #c5d9f1; min-width:138px; max-width:100%;"></th>
+                <th className="styla"></th>
               </tr>
               <tr>
                 <th
                   colspan="3"
-                  style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #c5d9f1;"
+                  className="mvstyl"
                 >
                   {" "}
                   MV TBN
                 </th>
 
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #c5d9f1;  ">
+                <th  className="mvstyl">
                   SALALAH PORT
                 </th>
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #c5d9f1;">
+                <th  className="mvstyl">
                   {" "}
                   TBA
                 </th>
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #c5d9f1;">
+                <th  className="mvstyl">
                   TBA
                 </th>
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #c5d9f1;">
+                <th className="mvstyl">
                   GYPSUM
                 </th>
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #c5d9f1;">
+                <th className="mvstyl">
                   199.90
                 </th>
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #c5d9f1; "></th>
+                <th className="stylee "></th>
               </tr>
               <tr>
                 <th
                   colspan="3"
-                  style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #c5d9f1;"
+                  className="mvstyl"
                 >
                   GRT
                 </th>
 
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #c5d9f1;  ">
+                <th className="stylee">
                   36,336
                 </th>
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #c5d9f1;">
+                <th className="mvstyl">
                   {" "}
                   NRT
                 </th>
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #c5d9f1;">
+                <th className="mvstyl">
                   21,330
                 </th>
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #c5d9f1;">
+                <th className="mvstyl">
                   65K
                 </th>
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #c5d9f1;"></th>
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #c5d9f1; "></th>
+                <th className="mvstyl"></th>
+                <th className="stylb"></th>
               </tr>
             </thead>
           </table>
-          <table style="border-collapse: collapse; width: 100%; font-family: Arial, sans-serif;">
+          <table className="tabstyle">
             <thead class="tableheading">
               <tr>
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #f2f2f2;">
+                <th className="slstyl">
                   Sl.No
                 </th>
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #f2f2f2;">
+                <th className="slstyl">
                   Particulars
                 </th>
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #f2f2f2;">
+                <th className="slstyl">
                   Quantity
                 </th>
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: right; background-color: #f2f2f2;">
+                <th className="omrstyl">
                   Amount (OMR)
                 </th>
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: right; background-color: #f2f2f2;">
+                <th className="omrstyl">
                   VAT AMOUNT
                 </th>
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: right; background-color: #f2f2f2;">
+                <th className="omrstyl">
                   TOTAL AMOUNT (OMR)
                 </th>
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: right; background-color: #f2f2f2;">
+                <th className="omrstyl">
                   TOTAL AMOUNT (USD)
                 </th>
               </tr>
             </thead>
             <tbody class="tablebody">
               <tr>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">
+                <td className="stylc">
                   A1
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left; ">
+                <td className="stylc">
                   Consolidated Marine Charges (USD 4150 Up to 24 Hours or part
                   thereof)
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">
+                <td className="stylc">
                   1 day
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   1,583.969
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   0.000
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   1,583.969
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   4,150.00
                 </td>
               </tr>
               <tr>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;"></td>
-                <td style="border: 1px solid #000000; padding: 8px; text-align: left; background-color: yellow;">
+                <td className="stylc"></td>
+                <td className="stylf">
                   after Every 24 Hours or part thereof USD 1700 - final amount
                   will be change as per actual Salalah port invoice based on
                   vessel stay{" "}
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">
+                <td className="stylc">
                   4 days
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   648.855
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   0.000
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   2,595.420
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   6,800.00
                 </td>
               </tr>
               <tr>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;"></td>
-                <td style="border: 1px solid #000000; padding: 8px; text-align: left; background-color: yellow;">
+                <td className="stylc"></td>
+                <td className="stylf">
                   Delay in vessel operations or vessel staying alongside after
                   completion of operation
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;"></td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;"></td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;"></td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;"></td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;"></td>
+                <td className="stylc"></td>
+                <td className="styld"></td>
+                <td className="styld"></td>
+                <td className="styld"></td>
+                <td className="styld"></td>
               </tr>
               <tr>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;"></td>
-                <td style="border: 1px solid #000000; padding: 8px; text-align: left; background-color: yellow;">
+                <td className="stylc"></td>
+                <td className="stylf">
                   First 2 hours beyond permitted period (USD 250 per hour or
                   part thereof)
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;"></td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;"></td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;"></td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;"></td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;"></td>
+                <td className="stylc"></td>
+                <td className="styld"></td>
+                <td className="styld"></td>
+                <td className="styld"></td>
+                <td className="styld"></td>
               </tr>
               <tr>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;"></td>
-                <td style="border: 1px solid #000000; padding: 8px; text-align: left; background-color: yellow;">
+                <td className="stylc"></td>
+                <td className="stylf">
                   For next 2 hours or part thereof USD 500{" "}
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;"></td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;"></td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;"></td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;"></td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;"></td>
+                <td className="stylc"></td>
+                <td className="styld"></td>
+                <td className="styld"></td>
+                <td className="styld"></td>
+                <td className="styld"></td>
               </tr>
               <tr>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;"></td>
-                <td style="border: 1px solid #000000; padding: 8px; text-align: left; background-color: yellow;">
+                <td className="stylc"></td>
+                <td className="stylf">
                   Subsequent period per hour or part thereof USD 1500
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;"></td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;"></td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;"></td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;"></td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;"></td>
+                <td className="stylc"></td>
+                <td className="styld"></td>
+                <td className="styld"></td>
+                <td className="styld"></td>
+                <td className="styld"></td>
               </tr>
               <tr>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">
+                <td className="stylc">
                   A2
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left; ">
+                <td className="stylc">
                   {" "}
                   CUSTOMS
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">
+                <td className="stylc">
                   1
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   50.000
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   0.000
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   50.000
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   131.00
                 </td>
               </tr>
               <tr>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;"></td>
+                <td className="stylc"></td>
                 <td
                   colspan="6"
-                  style="border: 1px solid #ddd; padding: 8px; text-align: left; color: red; "
+                  className="stylg "
                 >
                   {" "}
                   * CUSTOMS FINE : - As per the Salalah port customs rule it’s
@@ -383,182 +385,182 @@ const PdaDialog = ({
                 </td>
               </tr>
               <tr>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">
+                <td className="stylc">
                   A3
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left; ">
+                <td className="stylc">
                   {" "}
                   HEALTH(QUARANTINE)
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">
+                <td className="stylc">
                   1
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   50.000
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   0.000
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   50.000
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   131.00
                 </td>
               </tr>
               <tr>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">
+                <td className="stylc">
                   A4
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left; ">
+                <td className="stylc">
                   {" "}
                   Issue of Port clearance
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">
+                <td className="stylc">
                   1
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   21.000
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   0.000
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   21.000
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   55.02
                 </td>
               </tr>
               <tr>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">
+                <td className="stylc">
                   A5
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left; ">
+                <td className="stylc">
                   {" "}
                   ENVIORMENTS FEE (General Cargo vessels and container vessels –
                   per call)
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">
+                <td className="stylc">
                   1
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   {" "}
                   47.000
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   0.000
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   {" "}
                   47.000
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   123.14
                 </td>
               </tr>
               <tr>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">
+                <td className="stylc">
                   A6
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left; ">
+                <td className="stylc">
                   {" "}
                   GARBAGE SKIP (Compulsory)
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">
+                <td className="stylc">
                   1
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   {" "}
                   37.000
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   0.000
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   {" "}
                   37.000
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   {" "}
                   96.94
                 </td>
               </tr>
               <tr>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">
+                <td className="stylc">
                   A7
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left; ">
+                <td className="stylc">
                   {" "}
                   AMNAS (ARABIAN MARITIME & NAVIGATION SERVICES)
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;"></td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;"></td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;"></td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;"></td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;"></td>
+                <td className="stylc"></td>
+                <td className="styld"></td>
+                <td className="styld"></td>
+                <td className="styld"></td>
+                <td className="styld"></td>
               </tr>
               <tr>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;"></td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left; color: red; ">
+                <td className="stylc"></td>
+                <td className="stylg">
                   {" "}
                   Per call(OMR 1.375 per 100NRT)-***as per NRT OF THE VESSE
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">
+                <td className="stylc">
                   1
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   293.288
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   0.000
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   293.288
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   {" "}
                   768.41
                 </td>
               </tr>
               <tr>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">
+                <td className="stylc">
                   A9
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left; ">
+                <td className="stylc">
                   {" "}
                   AGENCY CHARGES
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">
+                <td className="stylc">
                   1
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   {" "}
                   76.336
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   0.000
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   {" "}
                   76.336
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   200.00
                 </td>
               </tr>
               <tr>
                 <td
                   colspan="5"
-                  style="border: 1px solid #ddd; padding: 8px; text-align: right; font-weight:bolder; font-size:15px;"
+                  className="stylh"
                 >
                   TOTAL AMOUNT
                 </td>
 
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;font-weight:bolder; font-size:15px; ">
+                <td className="stylh">
                   4,754.013
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right; font-weight:bolder; font-size:15px; ">
+                <td className="stylh">
                   12,455.51
                 </td>
               </tr>
@@ -575,51 +577,51 @@ const PdaDialog = ({
               necessary will be charged out of costs
             </div>
           </div>
-          <table style="border-collapse: collapse; width: 70%; font-family: Arial, sans-serif;">
+          <table className="styli">
             <thead class="tableheading">
               <tr>
-                <th style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #f2f2f2;"></th>
+                <th className="slstyl"></th>
                 <th
                   colspan="4"
-                  style="border: 1px solid #ddd; padding: 8px; text-align:center; background-color: #f2f2f2;"
+                  className="stylj"
                 >
                   Anchorage Stay Charges
                 </th>
               </tr>
               <tr>
-                <th style="border: 1px solid #ddd; padding: 8px; text-align:center ;">
+                <th className="stylk">
                   NO
                 </th>
-                <th style="border: 1px solid #ddd; padding: 8px; text-align:center ;  ">
+                <th className="stylk">
                   Duration{" "}
                 </th>
-                <th style="border: 1px solid #ddd; padding: 8px; text-align:center ; min-width:300px; max-width:100%;">
+                <th className="styll">
                   Description
                 </th>
-                <th style="border: 1px solid #ddd; padding: 8px; text-align:center ;">
+                <th className="stylk">
                   OMR
                 </th>
-                <th style="border: 1px solid #ddd; padding: 8px; text-align:center ;">
+                <th className="stylk">
                   USD
                 </th>
               </tr>
             </thead>
             <tbody class="tablebody">
               <tr>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">
+                <td className="stylc">
                   1
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left;  ">
+                <td lassName="stylc">
                   {" "}
                   185-199.99 M{" "}
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: left; min-width:300px; max-width:100%;">
+                <td className="stylm">
                   Charges per day(minimum a calendar day / 24 hours )
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   38.610
                 </td>
-                <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                <td className="styld">
                   {" "}
                   100.00
                 </td>
@@ -627,7 +629,7 @@ const PdaDialog = ({
               <tr>
                 <td
                   colspan="6"
-                  style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: yellow; font-weight: bold;"
+                  className="styln;"
                 >
                   Vessels waiting at anchorage due non-availability of berth
                   shall not be charged anchorage fees.
