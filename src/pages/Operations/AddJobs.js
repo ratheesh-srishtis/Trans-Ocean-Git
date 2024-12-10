@@ -557,14 +557,10 @@ const AddJobs = ({
                     </div>
                   </div>
                 </div>
-                <div className="templatelink">
-                  Template Link:
-                </div>
+                <div className="templatelink">Template Link:</div>
                 <div className="templateouter">
                   <div className="d-flex justify-content-between ">
-                    <div className="tempgenerated ">
-                      OKTB Generated
-                    </div>
+                    <div className="tempgenerated ">OKTB Generated</div>
                     <div className="d-flex">
                       <div className="icondown">
                         <i class="bi bi-download"></i>
@@ -575,9 +571,7 @@ const AddJobs = ({
                     </div>
                   </div>
                   <div className="d-flex justify-content-between ">
-                    <div className="tempgenerated ">
-                      Berthing Report
-                    </div>
+                    <div className="tempgenerated ">Berthing Report</div>
                     <div className="d-flex">
                       <div className="icondown">
                         <i class="bi bi-download"></i>
@@ -588,9 +582,7 @@ const AddJobs = ({
                     </div>
                   </div>
                   <div className="d-flex justify-content-between ">
-                    <div className="tempgenerated ">
-                      Loading Report
-                    </div>
+                    <div className="tempgenerated ">Loading Report</div>
                     <div className="d-flex">
                       <div className="icondown">
                         <i class="bi bi-download"></i>
@@ -601,9 +593,7 @@ const AddJobs = ({
                     </div>
                   </div>
                   <div className="d-flex justify-content-between ">
-                    <div className="tempgenerated ">
-                      Crew Change List
-                    </div>
+                    <div className="tempgenerated ">Crew Change List</div>
                     <div className="d-flex">
                       <div className="icondown">
                         <i class="bi bi-download"></i>
@@ -614,9 +604,7 @@ const AddJobs = ({
                     </div>
                   </div>
                   <div className="d-flex justify-content-between ">
-                    <div className="tempgenerated ">
-                      Delivery Note
-                    </div>
+                    <div className="tempgenerated ">Delivery Note</div>
                     <div className="d-flex">
                       <div className="icondown">
                         <i class="bi bi-download"></i>
@@ -627,9 +615,7 @@ const AddJobs = ({
                     </div>
                   </div>
                   <div className="d-flex justify-content-between ">
-                    <div className="tempgenerated ">
-                      Transportation Receipt
-                    </div>
+                    <div className="tempgenerated ">Transportation Receipt</div>
                     <div className="d-flex">
                       <div className="icondown">
                         <i class="bi bi-download"></i>
@@ -659,7 +645,7 @@ const AddJobs = ({
                       <>
                         <Paper
                           elevation={1}
-                          style={{ marginTop: 1, padding: 1 }}
+                          style={{ marginTop: 1, padding: 0 }}
                         >
                           <List>
                             {uploadedFiles.map((file, index) => (
