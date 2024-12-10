@@ -106,10 +106,11 @@ const EditOperation = ({
     setSelectedPdaId(response?.pda?._id);
     setSelectedPdaStatus(response?.pda?.pdaStatus);
     setRemarks(response?.pda?.remark);
-    setUploadedFiles((prevFiles) => [
-      ...prevFiles,
-      ...response?.pda?.documents,
-    ]); // Append new files to existing ones
+    // setUploadedFiles((prevFiles) => [
+    //   ...prevFiles,
+    //   ...response?.pda?.documents,
+    // ]); // Append new files to existing ones
+    setUploadedFiles(response?.pda?.documents); // Append new files to existing ones
 
     let selectedVessel;
     if (response?.pda?.vesselId) {
@@ -264,6 +265,8 @@ const EditOperation = ({
         const response = await editPDA(pdaPayload);
         if (response?.status == true) {
           fetchPdaDetails(response?.pda?._id);
+          setMessage("PDA updated successfully");
+          setOpenPopUp(true);
         } else {
           setMessage("PDA failed. Please try again");
           setOpenPopUp(true);
@@ -282,6 +285,7 @@ const EditOperation = ({
   const handleSubmit = (chargesArray) => {
     console.log("chargesArray Submitted: ", chargesArray);
     setFinalChargesArray(chargesArray);
+    fetchPdaDetails(editData?._id);
   };
 
   const handleEdit = (charges, index) => {};
@@ -485,69 +489,68 @@ const EditOperation = ({
                 onChange={documentsUpload}
               ></input>
             </div>
-
-            {uploadedFiles?.length > 0 && (
-              <>
-                <Paper elevation={1} style={{ marginTop: 1, padding: 1 }}>
-                  <List>
-                    {uploadedFiles.map((file, index) => (
-                      <ListItem key={index}>
-                        <ListItemText primary={file} />
-                        <ListItemSecondaryAction>
-                          <IconButton
-                            edge="end"
+          </div>
+        </div>
+        {/* <div className="templateouter">
+          <div className="d-flex justify-content-between ">
+            <div className="tempgenerated ">Upload Image 1</div>
+            <div className="d-flex">
+              <div className="icondown">
+                <i class="bi bi-eye"></i>
+              </div>
+              <div className="iconpdf">
+                <i class="bi bi-trash"></i>
+              </div>
+            </div>
+          </div>
+          <div className="d-flex justify-content-between ">
+            <div className="tempgenerated ">Upload Image 2</div>
+            <div className="d-flex">
+              <div className="icondown">
+                <i class="bi bi-eye"></i>
+              </div>
+              <div className="iconpdf">
+                <i class="bi bi-trash"></i>
+              </div>
+            </div>
+          </div>
+        </div> */}
+        {uploadedFiles && uploadedFiles?.length > 0 && (
+          <>
+            <div className="templatelink">Uploaded Files:</div>
+            <div className="templateouter">
+              {uploadedFiles?.length > 0 &&
+                uploadedFiles?.map((file, index) => {
+                  return (
+                    <>
+                      <div className="d-flex justify-content-between ">
+                        <div className="tempgenerated ">{file}</div>
+                        <div className="d-flex">
+                          <div
+                            className="icondown"
                             onClick={() =>
                               window.open(
-                                `https://hybrid.sicsglobal.com/${file}`,
+                                `https://hybrid.sicsglobal.com/transocean_api/assets/${file}`,
                                 "_blank"
                               )
                             }
                           >
-                            <Visibility />
-                          </IconButton>
-                          <IconButton
-                            edge="end"
-                            onClick={() => handleFileDelete(file)} // Pass the file to the delete function
+                            <i class="bi bi-eye"></i>
+                          </div>
+                          <div
+                            className="iconpdf"
+                            onClick={() => handleFileDelete(file)}
                           >
-                            <Delete />
-                          </IconButton>
-                        </ListItemSecondaryAction>
-                      </ListItem>
-                    ))}
-                  </List>
-                </Paper>
-              </>
-            )}
-          </div>
-        </div>
-        <div className="templateouter">
-                  <div className="d-flex justify-content-between ">
-                    <div className="tempgenerated ">
-                      Upload Image 1
-                    </div>
-                    <div className="d-flex">
-                      <div className="icondown">
-                      <i class="bi bi-eye"></i>
+                            <i class="bi bi-trash"></i>
+                          </div>
+                        </div>
                       </div>
-                      <div className="iconpdf">
-                      <i class="bi bi-trash"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="d-flex justify-content-between ">
-                    <div className="tempgenerated ">
-                      Upload Image 2
-                    </div>
-                    <div className="d-flex">
-                      <div className="icondown">
-                      <i class="bi bi-eye"></i>
-                      </div>
-                      <div className="iconpdf">
-                      <i class="bi bi-trash"></i>
-                      </div>
-                    </div>
-                  </div>
-                  </div>
+                    </>
+                  );
+                })}
+            </div>
+          </>
+        )}
         {/* sixthrowremarks */}
         <div class="row align-items-start">
           <div class="col">

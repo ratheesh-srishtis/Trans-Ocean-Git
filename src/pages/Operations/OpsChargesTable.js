@@ -105,7 +105,7 @@ const OpsChargesTable = ({
   };
 
   const fetchSubCharges = async (id) => {
-    if (!fetchedSubCharges.has(id)) {
+    if (!fetchedSubCharges.has(id) && id) {
       try {
         const response = await getSubcharges({
           chargeId: id,
@@ -214,6 +214,7 @@ const OpsChargesTable = ({
   const handleClose = () => {
     setOpen(false);
     setSelectedCharge(null); // Clear the selected charge
+    onSubmit();
   };
 
   useEffect(() => {
