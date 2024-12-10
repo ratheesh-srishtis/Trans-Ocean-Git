@@ -21,6 +21,7 @@ import ServiceSettings from "../settings/ServiceSettings";
 import ChargesSettings from "../settings/ChargesSettings";
 import SubChargesSettings from "../settings/SubChargesSettings";
 import CargoSettings from "../settings/CargoSettings";
+import AnchorageLocationSettings from "../settings/AnchorageLocationSettings";
 import OpsList from "../pages/Operations/OpsList";
 const Content = () => {
   const { loginResponse } = useAuth();
@@ -155,6 +156,7 @@ const Content = () => {
       <Route path="/charges-settings" element={<ChargesSettings />} />
       <Route path="/sub-charges-settings" element={<SubChargesSettings />} />
       <Route path="/cargo-settings" element={<CargoSettings />} />
+      <Route path="/anchorage-locations" element={<AnchorageLocationSettings />} />
     </Routes>
   );
 };

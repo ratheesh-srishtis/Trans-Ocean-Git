@@ -638,6 +638,45 @@ export const deleteCargo = async (userData) => {
   }
 };
 
+/* Anchorage Locations */
+
+export const getAllAnchorageLoations = async (data) => {
+  try {
+    const response = await axiosInstance.post("/getAllAnchorageLoations", data);
+    return response.data;
+  } catch (error) {
+    console.error("List all users API Error:", error);
+    throw error;
+  }
+};
+export const saveAnchorageLoation = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/saveAnchorageLoation", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+export const editAnchorageLoation = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/editAnchorageLoation", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+export const deleteAnchorageLoation = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/deleteAnchorageLoation", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
 export const uploadDocuments = async (formData) => {
   try {
     const response = await axiosInstance.post("/uploadDocuments", formData, {
