@@ -13,6 +13,7 @@ import {
 import DatePicker from "react-datepicker";
 import { generateTemplatePDF } from "../../../services/apiService";
 import PopUp from "../../PopUp";
+import { format } from "date-fns";
 
 const OKTBReport = ({
   open,
@@ -150,6 +151,7 @@ const OKTBReport = ({
     }
 
     // Construct the template body
+
     let templateBpdy = {
       pdaChargeId: charge?._id,
       templateName: selectedTemplateName,
@@ -162,8 +164,8 @@ const OKTBReport = ({
       date: date,
       refNo: refNumber,
       bookingRefNo: bookingRef,
-      passengersName: passengersName,
-      airportArrivalDetails: airportArrivalDetails,
+      passengersNames: passengersName,
+      arrivalFlightDetails: airportArrivalDetails,
     };
 
     // Proceed with the API call
@@ -307,7 +309,8 @@ const OKTBReport = ({
                     dateFormat="dd/MM/yyyy" // Date format without time
                     selected={date ? new Date(date) : null}
                     onChange={(selectedDate) => {
-                      setDate(selectedDate); // Set the selected date
+                      const formattedDate = format(selectedDate, "dd/MM/yyyy"); // Format the selected date
+                      setDate(formattedDate); // Set the formatted date
                       setDateError(false); // Clear error if a date is selected
                     }}
                     className="form-control date-input"

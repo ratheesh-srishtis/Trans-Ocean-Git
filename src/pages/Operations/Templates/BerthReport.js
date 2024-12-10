@@ -14,7 +14,14 @@ import {
 } from "@mui/material";
 import { generateTemplatePDF } from "../../../services/apiService";
 
-const BerthReport = ({ open, onClose, templates, onSubmit }) => {
+const BerthReport = ({
+  open,
+  onClose,
+  templates,
+  onSubmit,
+  charge,
+  selectedTemplateName,
+}) => {
   console.log(templates, "templates");
   const [esopdate, setEsopdate] = useState(null);
   const handleEsopChange = (date) => {};
@@ -103,8 +110,8 @@ const BerthReport = ({ open, onClose, templates, onSubmit }) => {
 
   const saveTemplate = async (status) => {
     let templateBpdy = {
-      pdaChargeId: "6744d0c2e233afae83144464",
-      templateName: "Berthing Report",
+      pdaChargeId: charge?._id,
+      templateName: selectedTemplateName,
       ...formData, // Spread dynamic form data from state
       draftOnArrivalFWD: formState.draftOnArrivalFWD,
       draftOnArrivalAFT: formState.draftOnArrivalAFT,

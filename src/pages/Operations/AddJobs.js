@@ -20,15 +20,7 @@ import {
   uploadDocuments,
   editChargeQuotation,
 } from "../../services/apiService";
-import {
-  IconButton,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemSecondaryAction,
-  Paper,
-} from "@mui/material";
-import { Delete, Visibility } from "@mui/icons-material";
+import PopUp from "../PopUp";
 import ProvisionDeliveryNotes from "./Templates/ProvisionDeliveryNotes";
 import Transportationreciept from "./Templates/Transportationreciept";
 const AddJobs = ({
@@ -144,7 +136,7 @@ const AddJobs = ({
     ]);
   };
 
-  const [selectedStatus, setSelectedStatus] = useState(charge?.status);
+  const [selectedStatus, setSelectedStatus] = useState(null);
   const [selectedServiceError, setSelectedServiceError] = useState(false);
   const [selectedChargesTypeError, setSelectedChargesTypeError] =
     useState(false);
@@ -217,7 +209,7 @@ const AddJobs = ({
     const fetchCharges = async () => {
       try {
         const response = await getCharges({
-          serviceId: selectedService?.serviceId || selectedService?._id,
+          serviceId: selectedService?._id,
         });
         setCharges(response?.charges);
         console.log("Fetched Charges:", response);
@@ -353,11 +345,62 @@ const AddJobs = ({
 
   useEffect(() => {
     setRemarks(charge?.remark || ""); // Handle null/undefined charge
-    setUploadedFiles((prevFiles) => [
-      ...prevFiles,
-      ...(charge?.documents || []), // Use empty array as fallback
-    ]);
+    setUploadedFiles(charge?.documents);
+    console.log(charge, "selected_charge_addJob");
+    setSelectedService({
+      _id: charge?.serviceId,
+    });
+    setSelectedChargesType({
+      _id: charge?.chargeId,
+    });
+    setSelectedSubhargesType({
+      _id: charge?.subchargeId,
+    });
+    setSelectedVendor({
+      _id: charge?.vendorId,
+    });
+    setSelectedStatus(charge?.status);
+
+    setTemplatesList(charge?.templates);
   }, [charge]);
+
+  useEffect(() => {
+    const fetchCharges = async () => {
+      try {
+        const response = await getCharges({
+          serviceId: selectedService?._id,
+        });
+        setCharges(response?.charges);
+        console.log("Fetched Charges:", response);
+      } catch (error) {
+        console.error("Error fetching PDA values:", error);
+      }
+    };
+
+    if (selectedService) {
+      fetchCharges();
+      console.log(selectedService, "selectedService");
+    }
+  }, [selectedService]);
+
+  useEffect(() => {
+    const fetchSubCharges = async () => {
+      // alert(selectedService?._id);
+      try {
+        const response = await getSubcharges({
+          chargeId: selectedChargesType?.chargeId || selectedChargesType?._id,
+        });
+        setSubCharges(response?.subcharges);
+        console.log("fetchSubCharges:", response);
+      } catch (error) {
+        console.error("Error fetching PDA values:", error);
+      }
+    };
+    if (selectedChargesType) {
+      fetchSubCharges();
+      console.log(selectedChargesType, "selectedChargesType");
+    }
+  }, [selectedChargesType]);
 
   useEffect(() => {
     console.log(templatesList, "templatesList");
@@ -422,294 +465,261 @@ const AddJobs = ({
                   </div>
                 </div>
 
-                {firstFieldSelected && (
-                  <>
-                    <div class="col-4">
-                      <label for="exampleFormControlInput1" class="form-label">
-                        Charges Type <span class="required"> </span> :
-                      </label>
-                      <div class="vessel-select">
-                        <select
-                          name="chargeType"
-                          className="form-select vesselbox vesselbox:placeholder"
-                          onChange={handleSelectChange}
-                          aria-label="Default select example"
-                          value={selectedChargesType?._id}
-                        >
-                          <option value="">Choose Charge Type</option>
-                          {charges?.map((charge) => (
-                            <option key={charge._id} value={charge._id}>
-                              {charge.chargeName}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                      {selectedChargesTypeError && (
-                        <>
-                          <div className="invalid">
-                            Please select charges type
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  </>
-                )}
-
-                {secondFieldSelected && (
-                  <>
-                    <div class="col-4">
-                      <label for="exampleFormControlInput1" class="form-label">
-                        {" "}
-                        Sub Charges Type <span class="required"> </span> :
-                      </label>
-                      <div class="vessel-select">
-                        <select
-                          name="subChargeType"
-                          className="form-select vesselbox "
-                          onChange={handleSelectChange}
-                          aria-label="Default select example"
-                          value={selectedSubhargesType?._id}
-                        >
-                          <option value="">Choose Sub Charge Type</option>
-                          {subCharges?.map((charge) => (
-                            <option key={charge._id} value={charge._id}>
-                              {charge.subchargeName}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                      {selectedSubhargesTypeError && (
-                        <>
-                          <div className="invalid">
-                            Please select sub charges type
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
-
-            {thirdFieldSelected && (
-              <>
-                <div class="typesofcall-row ">
-                  <div class="row mb-2 align-items-start">
-                    <div class="col-4">
-                      <label for="exampleFormControlInput1" class="form-label ">
-                        {" "}
-                        Status <span class="required"> </span> :
-                      </label>
-                      <div class="vessel-select">
-                        <select
-                          name="status"
-                          class="form-select vesselbox statuss"
-                          onChange={handleSelectChange}
-                          aria-label="Default select example"
-                          value={selectedStatus}
-                        >
-                          <option value={1}>Open </option>
-                          <option value={2}>In Progress </option>
-                          <option value={3}>In Progress </option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-8 ">
-                      <div class="mb-1">
-                        <div class="col">
-                          <label
-                            for="exampleFormControlInput1"
-                            class="form-label"
-                          >
-                            Remarks:
-                          </label>
-                          <textarea
-                            rows="1"
-                            class="form-control"
-                            id="exampleFormControlInput1"
-                            placeholder=""
-                            name="remarks"
-                            onChange={handleInputChange}
-                            value={remarks}
-                          ></textarea>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class=" typesofcall-row mb-2">
-                  <div class="row align-items-start">
-                    <div class="col-4">
-                      <label for="exampleFormControlInput1" class="form-label">
-                        Vendor Name <span class="required"> </span> :
-                      </label>
-                      <div class="vessel-select">
-                        <select
-                          name="vendor"
-                          className="form-select vesselbox"
-                          onChange={handleSelectChange}
-                          aria-label="Default select example"
-                          value={selectedVendor?._id}
-                        >
-                          <option value="">Choose Vendor</option>
-                          {vendors?.map((vendor) => (
-                            <option key={vendor._id} value={vendor._id}>
-                              {vendor.vendorName}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-4">
-                      <label for="exampleFormControlInput1" class="form-label">
-                        {" "}
-                        Templates <span class="required"> </span> :
-                      </label>
-                      <div class="vessel-select">
-                        <select
-                          name="template"
-                          className="form-select vesselbox"
-                          aria-label="Default select example"
-                          value={selectedTemplate}
-                          onChange={handleTemplateChange}
-                        >
-                          <option value="">Choose Template</option>
-                          {templates.map((template) => (
-                            <option key={template._id} value={template._id}>
-                              {template.templateName}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-                    <div className="btnjobrole col-4">
-                      <button
-                        className="btn btna submit-button temp-btn btnfsize"
-                        onClick={handleOpenTemplate}
-                        disabled={!selectedTemplate}
+                <>
+                  <div class="col-4">
+                    <label for="exampleFormControlInput1" class="form-label">
+                      Charges Type <span class="required"> </span> :
+                    </label>
+                    <div class="vessel-select">
+                      <select
+                        name="chargeType"
+                        className="form-select vesselbox vesselbox:placeholder"
+                        onChange={handleSelectChange}
+                        aria-label="Default select example"
+                        value={selectedChargesType?._id}
                       >
-                        Generate Template
-                      </button>
+                        <option value="">Choose Charge Type</option>
+                        {charges?.map((charge) => (
+                          <option key={charge._id} value={charge._id}>
+                            {charge.chargeName}
+                          </option>
+                        ))}
+                      </select>
                     </div>
-                  </div>
-                </div>
-
-                {templatesList && templatesList?.length > 0 && (
-                  <>
-                    <div className="templatelink">Template Link:</div>
-                    <div className="templateouter">
-                      {templatesList?.length > 0 &&
-                        templatesList?.map((template, index) => {
-                          return (
-                            <>
-                              <div className="d-flex justify-content-between ">
-                                <div className="tempgenerated ">template</div>
-                                <div className="d-flex">
-                                  <div
-                                    className="icondown"
-                                    onClick={() => handleDownload(template)}
-                                  >
-                                    <i class="bi bi-download"></i>
-                                  </div>
-                                  <div
-                                    className="iconpdf"
-                                    onClick={() => handleView(template)}
-                                  >
-                                    <i class="bi bi-file-earmark-pdf"></i>
-                                  </div>
-                                </div>
-                              </div>
-                            </>
-                          );
-                        })}
-                    </div>
-                  </>
-                )}
-
-                <div class="typesofcall-row ">
-                  <div class="row align-items-start">
-                    <div class="mb-2">
-                      <label for="formFile" class="form-label">
-                        Documents Upload:
-                      </label>
-                      <input
-                        class="form-control documentsfsize"
-                        type="file"
-                        id="portofolio"
-                        accept="image/*"
-                        multiple
-                        onChange={documentsUpload}
-                      ></input>
-                    </div>
-
-                    {uploadedFiles?.length > 0 && (
+                    {selectedChargesTypeError && (
                       <>
-                        <Paper
-                          elevation={1}
-                          style={{ marginTop: 1, padding: 0 }}
-                        >
-                          <List>
-                            {uploadedFiles.map((file, index) => (
-                              <ListItem key={index}>
-                                <ListItemText primary={file} />
-                                <ListItemSecondaryAction>
-                                  <IconButton
-                                    edge="end"
-                                    onClick={() =>
-                                      window.open(
-                                        `https://hybrid.sicsglobal.com/${file}`,
-                                        "_blank"
-                                      )
-                                    }
-                                  >
-                                    <Visibility />
-                                  </IconButton>
-                                  <IconButton
-                                    edge="end"
-                                    onClick={() => handleFileDelete(file)} // Pass the file to the delete function
-                                  >
-                                    <Delete />
-                                  </IconButton>
-                                </ListItemSecondaryAction>
-                              </ListItem>
-                            ))}
-                          </List>
-                        </Paper>
+                        <div className="invalid">
+                          Please select charges type
+                        </div>
                       </>
                     )}
                   </div>
+                </>
+
+                <>
+                  <div class="col-4">
+                    <label for="exampleFormControlInput1" class="form-label">
+                      {" "}
+                      Sub Charges Type <span class="required"> </span> :
+                    </label>
+                    <div class="vessel-select">
+                      <select
+                        name="subChargeType"
+                        className="form-select vesselbox "
+                        onChange={handleSelectChange}
+                        aria-label="Default select example"
+                        value={selectedSubhargesType?._id}
+                      >
+                        <option value="">Choose Sub Charge Type</option>
+                        {subCharges?.map((charge) => (
+                          <option key={charge._id} value={charge._id}>
+                            {charge.subchargeName}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    {selectedSubhargesTypeError && (
+                      <>
+                        <div className="invalid">
+                          Please select sub charges type
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </>
+              </div>
+            </div>
+
+            <>
+              <div class="typesofcall-row ">
+                <div class="row mb-2 align-items-start">
+                  <div class="col-4">
+                    <label for="exampleFormControlInput1" class="form-label ">
+                      {" "}
+                      Status <span class="required"> </span> :
+                    </label>
+                    <div class="vessel-select">
+                      <select
+                        name="status"
+                        class="form-select vesselbox statuss"
+                        onChange={handleSelectChange}
+                        aria-label="Default select example"
+                        value={selectedStatus}
+                      >
+                        <option value={1}>Open </option>
+                        <option value={2}>In Progress </option>
+                        <option value={3}>Completed</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-8 ">
+                    <div class="mb-1">
+                      <div class="col">
+                        <label
+                          for="exampleFormControlInput1"
+                          class="form-label"
+                        >
+                          Remarks:
+                        </label>
+                        <textarea
+                          rows="1"
+                          class="form-control"
+                          id="exampleFormControlInput1"
+                          placeholder=""
+                          name="remarks"
+                          onChange={handleInputChange}
+                          value={remarks}
+                        ></textarea>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="templateouter">
-                  <div className="d-flex justify-content-between ">
-                    <div className="tempgenerated ">
-                      Upload Image 1
-                    </div>
-                    <div className="d-flex">
-                      <div className="icondown">
-                      <i class="bi bi-eye"></i>
-                      </div>
-                      <div className="iconpdf">
-                      <i class="bi bi-trash"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="d-flex justify-content-between ">
-                    <div className="tempgenerated ">
-                      Upload Image 2
-                    </div>
-                    <div className="d-flex">
-                      <div className="icondown">
-                      <i class="bi bi-eye"></i>
-                      </div>
-                      <div className="iconpdf">
-                      <i class="bi bi-trash"></i>
-                      </div>
+              </div>
+
+              <div class=" typesofcall-row mb-2">
+                <div class="row align-items-start">
+                  <div class="col-4">
+                    <label for="exampleFormControlInput1" class="form-label">
+                      Vendor Name <span class="required"> </span> :
+                    </label>
+                    <div class="vessel-select">
+                      <select
+                        name="vendor"
+                        className="form-select vesselbox"
+                        onChange={handleSelectChange}
+                        aria-label="Default select example"
+                        value={selectedVendor?._id}
+                      >
+                        <option value="">Choose Vendor</option>
+                        {vendors?.map((vendor) => (
+                          <option key={vendor._id} value={vendor._id}>
+                            {vendor.vendorName}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                   </div>
+                  <div class="col-4">
+                    <label for="exampleFormControlInput1" class="form-label">
+                      {" "}
+                      Templates <span class="required"> </span> :
+                    </label>
+                    <div class="vessel-select">
+                      <select
+                        name="template"
+                        className="form-select vesselbox"
+                        aria-label="Default select example"
+                        value={selectedTemplate}
+                        onChange={handleTemplateChange}
+                      >
+                        <option value="">Choose Template</option>
+                        {templates.map((template) => (
+                          <option key={template._id} value={template._id}>
+                            {template.templateName}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
-              </>
-            )}
+                  <div className="btnjobrole col-4">
+                    <button
+                      className="btn btna submit-button temp-btn btnfsize"
+                      onClick={handleOpenTemplate}
+                      disabled={!selectedTemplate}
+                    >
+                      Generate Template
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {templatesList && templatesList?.length > 0 && (
+                <>
+                  <div className="templatelink">Template Link:</div>
+                  <div className="templateouter">
+                    {templatesList?.length > 0 &&
+                      templatesList?.map((template, index) => {
+                        return (
+                          <>
+                            <div className="d-flex justify-content-between ">
+                              <div className="tempgenerated ">{template}</div>
+                              <div className="d-flex">
+                                <div
+                                  className="icondown"
+                                  onClick={() => handleDownload(template)}
+                                >
+                                  <i class="bi bi-download"></i>
+                                </div>
+                                <div
+                                  className="iconpdf"
+                                  onClick={() => handleView(template)}
+                                >
+                                  <i class="bi bi-file-earmark-pdf"></i>
+                                </div>
+                              </div>
+                            </div>
+                          </>
+                        );
+                      })}
+                  </div>
+                </>
+              )}
+
+              <div class="typesofcall-row ">
+                <div class="row align-items-start">
+                  <div class="mb-2">
+                    <label for="formFile" class="form-label">
+                      Documents Upload:
+                    </label>
+                    <input
+                      class="form-control documentsfsize"
+                      type="file"
+                      id="portofolio"
+                      accept="image/*"
+                      multiple
+                      onChange={documentsUpload}
+                    ></input>
+                  </div>
+                </div>
+              </div>
+
+              {uploadedFiles && uploadedFiles?.length > 0 && (
+                <>
+                  <div className="templatelink">Uploaded Files:</div>
+                  <div className="templateouter">
+                    {uploadedFiles?.length > 0 &&
+                      uploadedFiles?.map((file, index) => {
+                        return (
+                          <>
+                            <div className="d-flex justify-content-between ">
+                              <div className="tempgenerated ">{file}</div>
+                              <div className="d-flex">
+                                <div
+                                  className="icondown"
+                                  onClick={() =>
+                                    window.open(
+                                      `https://hybrid.sicsglobal.com/transocean_api/assets/${file}`,
+                                      "_blank"
+                                    )
+                                  }
+                                >
+                                  <i class="bi bi-eye"></i>
+                                </div>
+                                <div
+                                  className="iconpdf"
+                                  onClick={() => handleFileDelete(file)}
+                                >
+                                  <i class="bi bi-trash"></i>
+                                </div>
+                              </div>
+                            </div>
+                          </>
+                        );
+                      })}
+                  </div>
+                </>
+              )}
+            </>
 
             <div className="col-12 mt-5">
               <div className="footer-button d-flex justify-content-center ">
@@ -780,6 +790,9 @@ const AddJobs = ({
           onClose={handleCloseAllDialogs}
         />
       )}
+      {openPopUp && (
+        <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
+      )}{" "}
     </>
   );
 };
