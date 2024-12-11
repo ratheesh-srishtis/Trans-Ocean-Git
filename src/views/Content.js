@@ -6,7 +6,7 @@ import Payments from "../pages/Payments";
 import Soa from "../pages/Soa";
 import CreatePDA from "../pages/CreatePDA";
 import { useAuth } from "../context/AuthContext";
-import { getAllPdaValuesApi, getDashbordDetails } from "../services/apiService";
+import { getAllPdaValuesApi } from "../services/apiService";
 import UpdateJobs from "../pages/UpdateJobs";
 import ViewQuotation from "../pages/ViewQuotation";
 import ViewOperations from "../pages/Operations/ViewOperations";
@@ -22,6 +22,8 @@ import ChargesSettings from "../settings/ChargesSettings";
 import SubChargesSettings from "../settings/SubChargesSettings";
 import CargoSettings from "../settings/CargoSettings";
 import OpsList from "../pages/Operations/OpsList";
+import FinalReport from "../pages/Operations/FinalReport";
+import QQForm from "../pages/Operations/QQForm";
 const Content = () => {
   const { loginResponse } = useAuth();
 
@@ -90,7 +92,10 @@ const Content = () => {
     <Routes>
       <Route path="/" element={<Dashboard />} />
       <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/quotations" element={<Quotations />} />
+      <Route
+        path="/quotations"
+        element={<Quotations loginResponse={loginResponse} />}
+      />
       <Route path="/payments" element={<Payments />} />
       <Route path="/soa" element={<Soa />} />
       <Route
@@ -114,7 +119,9 @@ const Content = () => {
           />
         }
       />
-      <Route path="/jobs" element={<OpsList />} />
+      <Route path="/jobs" element={<OpsList loginResponse={loginResponse} />} />
+      <Route path="/final-report" element={<FinalReport />} />
+      <Route path="/qq-form" element={<QQForm />} />
       <Route
         path="/view-quotation"
         element={

@@ -179,7 +179,7 @@ const Login = () => {
                           htmlFor="exampleInputEmail1"
                           className="form-label"
                         >
-                          Email or Username
+                          Username
                         </label>
                         <input
                           type="text"

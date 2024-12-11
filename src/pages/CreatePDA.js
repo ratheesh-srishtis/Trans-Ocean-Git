@@ -12,6 +12,7 @@ import {
   editPDA,
   getPdaDetails,
   getPdaFile,
+  getAnchorageLocations,
 } from "../services/apiService";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -39,6 +40,10 @@ const CreatePDA = ({
   const [isApproved, setIsApproved] = useState(false);
   const [selectedPortError, setSelectedPortError] = useState(false);
   const [selectedCargo, setSelectedCargo] = useState(null);
+  const [selectedCargoCapacity, setSelectedCargoCapacity] = useState(null);
+  const [selectedBerth, setSelectedBerth] = useState(null);
+  const [selectedAnchorageLocation, setSelectedAnchorageLocation] =
+    useState(null);
   const [selectedVesselType, setSelectedVesselType] = useState(null);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [eta, setEta] = useState("");
@@ -53,6 +58,7 @@ const CreatePDA = ({
   const [pdaServicesResponse, setPdaServicesResponse] = useState(null);
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
+  const [anchorageLocations, setAnchorageLocations] = useState([]);
 
   const [formData, setFormData] = useState({
     vesselVoyageNumber: "",
@@ -116,6 +122,7 @@ const CreatePDA = ({
       case "port":
         setSelectedPort(ports.find((port) => port._id === value));
         setSelectedPortError(false);
+        fetchAnchorageValues(ports.find((port) => port._id === value));
         break;
       case "cargo":
         setSelectedCargo(cargos.find((cargo) => cargo._id === value));
@@ -129,6 +136,11 @@ const CreatePDA = ({
           customers.find((customer) => customer._id === value)
         );
         break;
+      case "anchorageLocation":
+        setSelectedAnchorageLocation(
+          anchorageLocations.find((location) => location._id === value)
+        );
+        break;
       default:
         break;
     }
@@ -138,6 +150,12 @@ const CreatePDA = ({
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     console.log(value, "value_handleInputChange");
+
+    if (name === "cargoCapacity") {
+      setSelectedCargoCapacity(value);
+    } else if (name === "berth") {
+      setSelectedBerth(value);
+    }
 
     setFormData((prevData) => ({
       ...prevData,
@@ -175,6 +193,9 @@ const CreatePDA = ({
     console.log(isServices, "isServices");
     console.log(eta, "eta");
     console.log(etd, "etd");
+    console.log(anchorageLocations, "anchorageLocations");
+    console.log(selectedAnchorageLocation, "selectedAnchorageLocation");
+    console.log("Effect triggered");
   }, [
     selectedPort,
     selectedCargo,
@@ -185,6 +206,8 @@ const CreatePDA = ({
     isServices,
     eta,
     etd,
+    anchorageLocations,
+    selectedAnchorageLocation,
   ]);
 
   // useEffect(() => {
@@ -381,6 +404,9 @@ const CreatePDA = ({
         ETD: moment(etd).format("YYYY-MM-DD HH:mm "),
         pdaStatus: isCustomerApproved ? 5 : status,
         charges: finalChargesArray,
+        anchorageLocation: selectedAnchorageLocation?._id,
+        cargoCapacity: selectedCargoCapacity,
+        berth: selectedBerth,
       };
       console.log(pdaPayload, "pdaPayload");
       if (!pdaResponse?._id) {
@@ -586,6 +612,8 @@ const CreatePDA = ({
     console.log(response, "updateValues");
     setIsVessels(response?.pda?.isVessels);
     setIsServices(response?.pda?.isServices);
+    setSelectedBerth(response?.pda?.berth);
+    setSelectedCargoCapacity(response?.pda?.cargoCapacity);
 
     if (response?.pda?.pdaStatus == 3 || response?.pda?.pdaStatus == 5) {
       setIsApproved(true);
@@ -612,6 +640,7 @@ const CreatePDA = ({
     }
     if (selectedPort) {
       setSelectedPort(selectedPort);
+      fetchAnchorageValues(selectedPort);
     }
 
     let selectedCargo;
@@ -650,6 +679,20 @@ const CreatePDA = ({
       setSelectedVesselType(selectedVeselTypeID);
     }
 
+    let selected_anchorage_location;
+    if (response?.pda?.anchorageLocation) {
+      let anchorage_locations_list = localStorage.getItem(
+        "anchorage_locations_list"
+      );
+      selected_anchorage_location = JSON.parse(anchorage_locations_list).find(
+        (location) => location._id === response?.pda?.anchorageLocation
+      );
+    }
+
+    if (selected_anchorage_location) {
+      setSelectedAnchorageLocation(selected_anchorage_location);
+    }
+
     const moment = require("moment");
     const date = moment.utc(response?.pda?.ETA);
     console.log(date.format("YYYY-MM-DD HH:mm:ss"), "Checkdate");
@@ -668,6 +711,26 @@ const CreatePDA = ({
       GRT: response?.pda?.GRT,
       NRT: response?.pda?.NRT,
     });
+  };
+
+  const fetchAnchorageValues = async (data) => {
+    console.log(data, "id_fetchAnchorageValues");
+    try {
+      const formdata = {
+        portId: data?._id,
+      };
+      const response = await getAnchorageLocations(formdata);
+      console.log(response, "response_fetchAnchorageValues");
+      if (response.status) {
+        setAnchorageLocations(response?.area);
+        localStorage.setItem(
+          "anchorage_locations_list",
+          JSON.stringify(response.area)
+        );
+      }
+    } catch (error) {
+      console.error("Error fetching anchorage values:", error);
+    }
   };
 
   return (
@@ -910,7 +973,7 @@ const CreatePDA = ({
                 </label>
                 <input
                   name="vesselVoyageNumber"
-                  type="number"
+                  type="text"
                   className="form-control vessel-voyage"
                   id="exampleFormControlInput1"
                   placeholder=" "
@@ -1019,7 +1082,6 @@ const CreatePDA = ({
 
           <div className="imo">
             <div className="row align-items-start">
-
               <div className="col-2">
                 <label for="exampleFormControlInput1" className="form-label">
                   ETA:
@@ -1059,54 +1121,53 @@ const CreatePDA = ({
               </div>
               <div className="col-2">
                 <label for="exampleFormControlInput1" className="form-label">
-                 Anchorage Location:
+                  Anchorage Location:
                 </label>
                 <div className="vessel-select">
                   <select
-                    name="vesselType"
+                    name="anchorageLocation"
                     className="form-select vesselbox vboxholder"
-                    
+                    onChange={handleSelectChange}
                     aria-label="Default select example"
-                    
+                    value={selectedAnchorageLocation?._id}
                   >
-                    <option value="">Choose Location</option>
-                    <option value="">A</option>
-                    <option value="">B</option>
-                    <option value="">C</option>
-                    <option value="">D</option>
-                    <option value="">E</option>
-                 
+                    <option value="">Choose Anchorage Location</option>
+                    {anchorageLocations.map((location) => (
+                      <option key={location._id} value={location._id}>
+                        {location.area}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
               <div className="col-2 nrt ">
-                  <label for="exampleFormControlInput1" className="form-label">
-                    Berth:
-                  </label>
-                  <input
-                    type=""
-                    name="NRT"
-                    
-                    className="form-control vessel-voyage voyageblock"
-                    id="exampleFormControlInput1"
-                    placeholder=""
-                    
-                  />
-                </div>
-                <div className="col-2 nrt ">
-                  <label for="exampleFormControlInput1" className="form-label">
-                    Cargo Capacity:
-                  </label>
-                  <input
-                    type=""
-                    name="NRT"
-                    
-                    className="form-control vessel-voyage voyageblock"
-                    id="exampleFormControlInput1"
-                    placeholder=""
-                    
-                  />
-                </div>
+                <label for="exampleFormControlInput1" className="form-label">
+                  Berth:
+                </label>
+                <input
+                  type="text"
+                  name="berth"
+                  className="form-control vessel-voyage voyageblock"
+                  id="exampleFormControlInput1"
+                  placeholder=""
+                  value={selectedBerth}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="col-2 nrt ">
+                <label for="exampleFormControlInput1" className="form-label">
+                  Cargo Capacity:
+                </label>
+                <input
+                  type="text"
+                  name="cargoCapacity"
+                  className="form-control vessel-voyage voyageblock"
+                  id="exampleFormControlInput1"
+                  placeholder=""
+                  value={selectedCargoCapacity}
+                  onChange={handleInputChange}
+                />
+              </div>
               <div className="col-2">
                 <button
                   type="button"

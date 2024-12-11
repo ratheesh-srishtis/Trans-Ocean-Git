@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../../css/editOperation.css";
 import {
   getPdaDetails,
@@ -30,6 +30,8 @@ const EditOperation = ({
   templates,
   vendors,
 }) => {
+  const navigate = useNavigate();
+
   const Group = require("../../assets/images/upjobs.png");
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(false); // Loader state
@@ -599,7 +601,12 @@ const EditOperation = ({
             </button>
           </div>
           <div class="right d-flex">
-            <button class="btn btna submit-button btnfsize">
+            <button
+              class="btn btna submit-button btnfsize"
+              onClick={() => {
+                navigate("/final-report");
+              }}
+            >
               Final Report
             </button>
             <button class="btn btna submit-button btnfsize">Completed</button>

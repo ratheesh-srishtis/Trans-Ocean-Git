@@ -627,11 +627,17 @@ const ResponsiveDialog = ({
   useEffect(() => {
     let total = Number(customerAmount) + Number(customerVatAmount);
     setCustomerTotalOmr(total.toFixed(3));
+
+    let customer_total_usd = Number(customerAmount * 2.62);
+    setCustomerTotalUSD(customer_total_usd.toFixed(3));
   }, [customerAmount, customerVatAmount]);
 
   useEffect(() => {
     let total = Number(vendorAmount) + Number(vendorVatAmount);
     setVendorTotalOmr(total.toFixed(3));
+
+    let vendor_total_usd = Number(vendorAmount * 2.62);
+    setVendorTotalUSD(vendor_total_usd.toFixed(3));
   }, [vendorAmount, vendorVatAmount]);
 
   const submitEditCharges = () => {};
@@ -1012,6 +1018,7 @@ const ResponsiveDialog = ({
                                 value={customerTotalUSD}
                                 onChange={handleInputChange}
                                 onWheel={handleWheel}
+                                disabled
                               />
                             </div>
                             {customerTotalUSDError && (
@@ -1164,6 +1171,7 @@ const ResponsiveDialog = ({
                                 value={vendorTotalUSD}
                                 onChange={handleInputChange}
                                 onWheel={handleWheel}
+                                disabled
                               />
                             </div>
                             {vendorTotalUSDError && (

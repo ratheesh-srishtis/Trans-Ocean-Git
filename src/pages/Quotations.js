@@ -11,9 +11,9 @@ import Loader from "./Loader";
 import Swal from "sweetalert2";
 import PopUp from "./PopUp";
 
-const Quotations = () => {
+const Quotations = ({ loginResponse }) => {
   const navigate = useNavigate();
-
+  console.log(loginResponse, "loginResponse_quoatations_page");
   const [selectedRows, setSelectedRows] = useState([]);
   const [quotationsList, setQuotationsList] = useState([]);
   const [statusList, setStatusList] = useState([]);
@@ -103,12 +103,16 @@ const Quotations = () => {
           <IconButton color="primary" onClick={() => handleEdit(params.row)}>
             <EditIcon sx={{ fontSize: "19px" }} />
           </IconButton>
-          <IconButton
-            color="secondary"
-            onClick={() => handleDelete(params.row)}
-          >
-            <DeleteIcon sx={{ fontSize: "19px" }} />
-          </IconButton>
+          {loginResponse?.data?.userRole?.roleType == "admin" && (
+            <>
+              <IconButton
+                color="secondary"
+                onClick={() => handleDelete(params.row)}
+              >
+                <DeleteIcon sx={{ fontSize: "19px" }} />
+              </IconButton>
+            </>
+          )}
         </>
       ),
     },

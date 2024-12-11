@@ -14,7 +14,7 @@ import { Box, Typography } from "@mui/material";
 import Swal from "sweetalert2";
 import PopUp from "../PopUp";
 import Loader from "../Loader";
-const OpsList = () => {
+const OpsList = ({ loginResponse }) => {
   const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState("all");
 
@@ -109,12 +109,17 @@ const OpsList = () => {
           <IconButton color="primary" onClick={() => handleEdit(params.row)}>
             <EditIcon sx={{ fontSize: "19px" }} />
           </IconButton>
-          <IconButton
-            color="secondary"
-            onClick={() => handleDelete(params.row)}
-          >
-            <DeleteIcon sx={{ fontSize: "19px" }} />
-          </IconButton>
+
+          {loginResponse?.data?.userRole?.roleType == "admin" && (
+            <>
+              <IconButton
+                color="secondary"
+                onClick={() => handleDelete(params.row)}
+              >
+                <DeleteIcon sx={{ fontSize: "19px" }} />
+              </IconButton>
+            </>
+          )}
         </>
       ),
     },

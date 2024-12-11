@@ -50,6 +50,20 @@ export const getAllPdaValuesApi = async () => {
   }
 };
 
+// Get All PDA Values API function
+export const getAnchorageLocations = async (userData) => {
+  try {
+    const response = await axiosInstance.post(
+      "/getAnchorageLocations",
+      userData
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Get All PDA Values API Error:", error);
+    throw error;
+  }
+};
+
 // forgotUserPassword api
 export const forgotUserPassword = async (userData) => {
   try {

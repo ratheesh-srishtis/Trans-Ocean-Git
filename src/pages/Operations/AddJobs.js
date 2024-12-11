@@ -578,27 +578,35 @@ const AddJobs = ({
 
               <div class=" typesofcall-row mb-2">
                 <div class="row align-items-start">
-                  <div class="col-4">
-                    <label for="exampleFormControlInput1" class="form-label">
-                      Vendor Name <span class="required"> </span> :
-                    </label>
-                    <div class="vessel-select">
-                      <select
-                        name="vendor"
-                        className="form-select vesselbox"
-                        onChange={handleSelectChange}
-                        aria-label="Default select example"
-                        value={selectedVendor?._id}
-                      >
-                        <option value="">Choose Vendor</option>
-                        {vendors?.map((vendor) => (
-                          <option key={vendor._id} value={vendor._id}>
-                            {vendor.vendorName}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
+                  {charge?.isPrivateVendor === true && (
+                    <>
+                      <div class="col-4">
+                        <label
+                          for="exampleFormControlInput1"
+                          class="form-label"
+                        >
+                          Vendor Name <span class="required"> </span> :
+                        </label>
+                        <div class="vessel-select">
+                          <select
+                            name="vendor"
+                            className="form-select vesselbox"
+                            onChange={handleSelectChange}
+                            aria-label="Default select example"
+                            value={selectedVendor?._id}
+                          >
+                            <option value="">Choose Vendor</option>
+                            {vendors?.map((vendor) => (
+                              <option key={vendor._id} value={vendor._id}>
+                                {vendor.vendorName}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                    </>
+                  )}
+
                   <div class="col-4">
                     <label for="exampleFormControlInput1" class="form-label">
                       {" "}
