@@ -578,7 +578,7 @@ const AddJobs = ({
 
               <div class=" typesofcall-row mb-2">
                 <div class="row align-items-start">
-                  {charge?.isPrivateVendor === true && (
+                  {charge?.isPrivateVendor === false && (
                     <>
                       <div class="col-4">
                         <label

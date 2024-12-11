@@ -10,13 +10,133 @@ import {
   Grid,
   Button,
 } from "@mui/material";
+import { generateTemplatePDF } from "../../../services/apiService";
 
-const CrewChangeList = ({ open, onClose, templates }) => {
-  const handleInputChange = (e) => {
+const CrewChangeList = ({
+  open,
+  onClose,
+  templates,
+  onSubmit,
+  charge,
+  selectedTemplateName,
+}) => {
+  const [openPopUp, setOpenPopUp] = useState(false);
+  const [message, setMessage] = useState("");
+  const [formValues, setFormValues] = useState({
+    onSigners: [
+      {
+        creawName: "",
+        flight: "",
+        ATAMuscat: "",
+        hotel: "",
+        checkIn: "",
+        checkOut: "",
+        food: "",
+        transportation: "",
+      },
+    ],
+    offSigners: [
+      {
+        creawName: "",
+        flight: "",
+        ATAMuscat: "",
+        hotel: "",
+        checkIn: "",
+        checkOut: "",
+        food: "",
+        transportation: "",
+      },
+    ],
+  });
+
+  useEffect(() => {
+    console.log(formValues, "formValues");
+  }, [formValues]);
+
+  // Handle Input Change
+  const handleInputChange = (e, index, type) => {
     const { name, value } = e.target;
-    if (name === "to") {
-    } else if (name === "fax_number") {
+    const updatedSigners = [...formValues[type]];
+    updatedSigners[index][name] = value;
+    setFormValues((prevState) => ({
+      ...prevState,
+      [type]: updatedSigners,
+    }));
+  };
+
+  // Add New Signer
+  const addNewSigner = (type) => {
+    const newSigner = {
+      creawName: "",
+      flight: "",
+      ATAMuscat: "",
+      hotel: "",
+      checkIn: "",
+      checkOut: "",
+      food: "",
+      transportation: "",
+    };
+    setFormValues((prevState) => ({
+      ...prevState,
+      [type]: [...prevState[type], newSigner],
+    }));
+  };
+
+  // Delete a Signer
+  const deleteSigner = (type, index) => {
+    const updatedSigners = [...formValues[type]];
+    updatedSigners.splice(index, 1);
+    setFormValues((prevState) => ({
+      ...prevState,
+      [type]: updatedSigners,
+    }));
+  };
+
+  // Validation
+  const isFormValid = () => {
+    const validateSigners = (signers) =>
+      signers.some((signer) =>
+        Object.values(signer).some((value) => value.trim() !== "")
+      );
+    return (
+      validateSigners(formValues.onSigners) ||
+      validateSigners(formValues.offSigners)
+    );
+  };
+
+  // Handle Save
+  const handleSave = async () => {
+    if (!isFormValid()) {
+      alert(
+        "At least one field must be filled in either On-Signers or Off-Signers."
+      );
+      return;
     }
+    const templateBpdy = {
+      pdaChargeId: charge?._id,
+      templateName: selectedTemplateName,
+      onsigners: formValues.onSigners,
+      offsigners: formValues.offSigners,
+    };
+    console.log(templateBpdy, "crew_change_payload");
+    try {
+      const response = await generateTemplatePDF(templateBpdy);
+      console.log(response, "login_response");
+      if (response?.status === true) {
+        setMessage("Template saved successfully!");
+        setOpenPopUp(true);
+        onSubmit(response);
+      } else {
+        setMessage("PDA failed. Please try again.");
+        setOpenPopUp(true);
+        onSubmit(response);
+      }
+    } catch (error) {
+      setMessage("PDA failed. Please try again.");
+      setOpenPopUp(true);
+      onSubmit(error);
+    }
+    // Perform API call here using the payload
   };
 
   return (
@@ -43,231 +163,92 @@ const CrewChangeList = ({ open, onClose, templates }) => {
             <div className=" statement">
               <h3>CREW CHANGE LIST</h3>
             </div>
-            {/* <div className="onsign">ON SIGNERS</div>
-            <div className="d-flex justify-content-between">
-              <div className="col-4  crew ">
-                <label for="exampleFormControlInput1" class="form-label">
-                  Sea Crew Name:
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="exampleFormControlInput1"
-                  placeholder=""
-                  name="seaCrewName"
-                  value={seaCrewName}
-                  onChange={handleInputChange}
-                ></input>
+            <div className="onsign">ON SIGNERS</div>
+            {formValues.onSigners.map((signer, index) => (
+              <div key={index} className="d-flex flex-wrap signers-wrapper">
+                {Object.keys(signer).map((field) => (
+                  <div className="col-3 crew" key={field}>
+                    <label className="form-label">
+                      {field.replace(/([A-Z])/g, " $1")}
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name={field}
+                      value={signer[field]}
+                      onChange={(e) => handleInputChange(e, index, "onSigners")}
+                    />
+                  </div>
+                ))}
+                {formValues.onSigners.length > 1 && (
+                  <button
+                    type="button"
+                    className="btn generate-buttona"
+                    onClick={() => deleteSigner("onSigners", index)}
+                  >
+                    Delete
+                  </button>
+                )}
               </div>
-              <div className="col-4 crew">
-                <label for="exampleFormControlInput1" class="form-label">
-                  Flight:
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="exampleFormControlInput1"
-                  placeholder=""
-                  name="flight"
-                  value={flight}
-                  onChange={handleInputChange}
-                ></input>
-              </div>
-              <div className="col-4 crew ">
-                <label for="exampleFormControlInput1" class="form-label">
-                  ATA Muscat:
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="exampleFormControlInput1"
-                  placeholder=""
-                  name="ataMuscat"
-                  value={ataMuscat}
-                  onChange={handleInputChange}
-                ></input>
-              </div>
-            </div>
-            <div className="d-flex justify-content-between">
-              <div className="col-4  crew ">
-                <label for="exampleFormControlInput1" class="form-label">
-                  Hotel:
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="exampleFormControlInput1"
-                  placeholder=""
-                  name="hotel"
-                  value={hotel}
-                  onChange={handleInputChange}
-                ></input>
-              </div>
-              <div className="col-4 crew">
-                <label for="exampleFormControlInput1" class="form-label">
-                  Check In:
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="exampleFormControlInput1"
-                  placeholder=""
-                  name="checkIn"
-                  value={checkIn}
-                  onChange={handleInputChange}
-                ></input>
-              </div>
-              <div className="col-4 crew ">
-                <label for="exampleFormControlInput1" class="form-label">
-                  Check Out:
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="exampleFormControlInput1"
-                  placeholder=""
-                  name="checkOut"
-                  value={checkOut}
-                  onChange={handleInputChange}
-                ></input>
-              </div>
-            </div>
-            <div className="d-flex ">
-              <div className="col-4  crew ">
-                <label for="exampleFormControlInput1" class="form-label">
-                  Food:
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="exampleFormControlInput1"
-                  placeholder=""
-                  name="food"
-                  value={food}
-                  onChange={handleInputChange}
-                ></input>
-              </div>
-              <div className="col-4 crew">
-                <label for="exampleFormControlInput1" class="form-label">
-                  Transportation:
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="exampleFormControlInput1"
-                  placeholder=""
-                  name="transportation"
-                  value={transportation}
-                  onChange={handleInputChange}
-                ></input>
-              </div>
-            </div>
+            ))}
+            <button
+              type="button"
+              className="btn generate-buttona"
+              onClick={() => addNewSigner("onSigners")}
+            >
+              Add On Signer
+            </button>
+
             <div className="onsign mt-3">OFF SIGNERS</div>
-            <div className="d-flex justify-content-between">
-              <div className="col-4  crew ">
-                <label for="exampleFormControlInput1" class="form-label">
-                  Sea Crew Name:
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="exampleFormControlInput1"
-                  placeholder=""
-                  name="transportation"
-                  value={transportation}
-                  onChange={handleInputChange}
-                ></input>
+
+            {formValues.offSigners.map((signer, index) => (
+              <div key={index} className="d-flex flex-wrap signers-wrapper">
+                {Object.keys(signer).map((field) => (
+                  <div className="col-3 crew" key={field}>
+                    <label className="form-label">
+                      {field.replace(/([A-Z])/g, " $1")}
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name={field}
+                      value={signer[field]}
+                      onChange={(e) =>
+                        handleInputChange(e, index, "offSigners")
+                      }
+                    />
+                  </div>
+                ))}
+                {formValues.offSigners.length > 1 && (
+                  <button
+                    type="button"
+                    className="btn generate-buttona"
+                    onClick={() => deleteSigner("offSigners", index)}
+                  >
+                    Delete
+                  </button>
+                )}
               </div>
-              <div className="col-4 crew">
-                <label for="exampleFormControlInput1" class="form-label">
-                  Flight:
-                </label>
-                <input
-                  type="email"
-                  class="form-control"
-                  id="exampleFormControlInput1"
-                  placeholder=""
-                ></input>
-              </div>
-              <div className="col-4 crew ">
-                <label for="exampleFormControlInput1" class="form-label">
-                  ATD Muscat:
-                </label>
-                <input
-                  type="email"
-                  class="form-control"
-                  id="exampleFormControlInput1"
-                  placeholder=""
-                ></input>
-              </div>
-            </div>
-            <div className="d-flex justify-content-between">
-              <div className="col-4  crew ">
-                <label for="exampleFormControlInput1" class="form-label">
-                  Hotel:
-                </label>
-                <input
-                  type="email"
-                  class="form-control"
-                  id="exampleFormControlInput1"
-                  placeholder=""
-                ></input>
-              </div>
-              <div className="col-4 crew">
-                <label for="exampleFormControlInput1" class="form-label">
-                  Check In:
-                </label>
-                <input
-                  type="email"
-                  class="form-control"
-                  id="exampleFormControlInput1"
-                  placeholder=""
-                ></input>
-              </div>
-              <div className="col-4 crew ">
-                <label for="exampleFormControlInput1" class="form-label">
-                  Check Out:
-                </label>
-                <input
-                  type="email"
-                  class="form-control"
-                  id="exampleFormControlInput1"
-                  placeholder=""
-                ></input>
-              </div>
-            </div>
-            <div className="d-flex ">
-              <div className="col-4  crew ">
-                <label for="exampleFormControlInput1" class="form-label">
-                  Food:
-                </label>
-                <input
-                  type="email"
-                  class="form-control"
-                  id="exampleFormControlInput1"
-                  placeholder=""
-                ></input>
-              </div>
-              <div className="col-4 crew">
-                <label for="exampleFormControlInput1" class="form-label">
-                  Transportation:
-                </label>
-                <input
-                  type="email"
-                  class="form-control"
-                  id="exampleFormControlInput1"
-                  placeholder=""
-                ></input>
-              </div>
-            </div>
+            ))}
+            <button
+              type="button"
+              className="btn generate-buttona"
+              onClick={() => addNewSigner("offSigners")}
+            >
+              Add Off Signer
+            </button>
             <div className="footer-button d-flex justify-content-center mt-5">
               <button type="button" className="btn btncancel">
                 Cancel
               </button>
-              <button type="button" className="btn generate-buttona">
+              <button
+                type="button"
+                className="btn generate-buttona"
+                onClick={handleSave}
+              >
                 Save
               </button>
-            </div> */}
+            </div>
           </DialogContent>
         </Dialog>
       </div>

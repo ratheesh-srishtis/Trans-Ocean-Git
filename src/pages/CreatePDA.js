@@ -166,12 +166,6 @@ const CreatePDA = ({
   // Handlers to update dates
 
   const handleEtaChange = (date) => {
-    // Convert selected date to ISO 8601 format
-
-    // console.log(moment(date).format("DD/MM/YYYY hh:mm"), "handleEtaChange");
-    // let formatedDate = moment(date).format("DD/MM/YYYY hh:mm");
-    // setEta(date);
-
     if (date) {
       setEta(date);
     }

@@ -1,7 +1,8 @@
 // ResponsiveDialog.js
 import React, { useState, useEffect } from "react";
-import "../../../css/templates/loadingreport.css";
-
+import "../../../css/templates/bertreport.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import {
   Dialog,
   DialogActions,
@@ -11,21 +12,150 @@ import {
   Grid,
   Button,
 } from "@mui/material";
+import { generateTemplatePDF } from "../../../services/apiService";
+import moment from "moment";
+import { parse, format } from "date-fns";
 
-const LoadingReport = ({ open, onClose, templates }) => {
+const LoadingReport = ({
+  open,
+  onClose,
+  templates,
+  onSubmit,
+  charge,
+  selectedTemplateName,
+}) => {
+  console.log(templates, "templates");
+  const [esopdate, setEsopdate] = useState(null);
+  const handleEsopChange = (date) => {};
+  const [openPopUp, setOpenPopUp] = useState(false);
+  const [message, setMessage] = useState("");
+  const [formData, setFormData] = useState({
+    draftSurveyCommenced: "",
+    dtaftSurveyCompleted: "",
+    commencedLoading: "",
+    loadingCompleted: "",
+    finalDraftSurveyCommenced: "",
+    finalDraftSurveyCompleted: "",
+    documentsOnboard: "",
+    pilotOnBoard: "",
+    vesselUnmoored: "",
+    pilotAway: "",
+    cosp: "",
+  });
+
+  // Handler to update date values
+  const handleDateChange = (key, date) => {
+    setFormData((prev) => ({
+      ...prev,
+      [key]: date ? moment(date).format("YYYY-MM-DD HH:mm") : null, // Format date before saving
+    }));
+  };
+
   const rows = [
-    { id: "esop", label: "ESOP" },
-    { id: "anchored", label: "ANCHORED" },
-    { id: "norTender", label: "NOR TENDER" },
-    { id: "anchorAweigh", label: "ANCHOR AWEIGH" },
-    { id: "pob", label: "POB" },
-    { id: "firstline", label: "FIRST LINE" },
-    { id: "allfast", label: "ALL FAST - ALONG SIDE BERTH 31" },
-    { id: "pilotOff", label: "PILOT OFF" },
-    { id: "gangwayLowered", label: "GANGWAY LOWERED" },
-    { id: "customClearence", label: "CUSTOMS CLEARENCE" },
-    { id: "freePratique", label: "FREE PRATIQUE" },
+    { id: "draftSurveyCommenced", label: "Draft Survey Commenced" },
+    { id: "dtaftSurveyCompleted", label: "Dtaft Survey Completed" },
+    { id: "commencedLoading", label: "Commenced Loading" },
+    { id: "loadingCompleted", label: "Loading Completed" },
+    { id: "finalDraftSurveyCommenced", label: "Final Draft Survey Commenced" },
+    { id: "finalDraftSurveyCompleted", label: "Final Draft Survey Completed" },
+    { id: "documentsOnboard", label: "Documents Onboard" },
+    { id: "pilotOnBoard", label: "Pilot OnBoard" },
+    { id: "vesselUnmoored", label: "Vessel Unmoored" },
+    { id: "pilotAway", label: "Pilot Away" },
+    { id: "cosp", label: "Cosp" },
   ];
+
+  const [generalRemarks, setGeneralRemarks] = useState(null);
+  const [shipperRemarks, setShipperRemarks] = useState(null);
+  const [masterRemarks, setMasterRemarks] = useState(null);
+  const [generalRemarksError, setGeneralRemarksError] = useState(null);
+  const [shipperRemarksError, setShipperRemarksError] = useState(null);
+  const [masterRemarksError, setMasterRemarksError] = useState(null);
+
+  const [formState, setFormState] = useState({
+    draftOnArrivalFWD: null,
+    draftOnArrivalAFT: null,
+    bunkersOnArrivalFO: null,
+    bunkersOnArrivalDO: null,
+    bunkersOnArrivalAFT: null,
+    draftOnDepartureFWD: null,
+    draftOnDepartureAFT: null,
+    bunkersOnDepartureFO: null,
+    bunkersOnDepartureDO: null,
+    bunkersOnDepartureAFT: null,
+    bunkersOnDepartureNextPort: null,
+    bunkersOnDepartureETA: null,
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "generalRemarks") {
+      setGeneralRemarks(value);
+    } else if (name === "shipperRemarks") {
+      setShipperRemarks(value);
+    } else if (name === "masterRemarks") {
+      setMasterRemarks(value);
+    }
+    setFormState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleEtaChange = (date) => {
+    const formattedDate = date
+      ? moment(date).format("DD/MM/YYYY hh:mm ")
+      : null; // Format with Moment
+    setFormState((prevState) => ({
+      ...prevState,
+      bunkersOnDepartureETA: formattedDate, // Store formatted date
+    }));
+  };
+
+  const saveTemplate = async (status) => {
+    let templateBpdy = {
+      pdaChargeId: charge?._id,
+      templateName: selectedTemplateName,
+      ...formData, // Spread dynamic form data from state
+      draftOnArrivalFWD: formState.draftOnArrivalFWD,
+      draftOnArrivalAFT: formState.draftOnArrivalAFT,
+      bunkersOnArrivalFO: formState.bunkersOnArrivalFO,
+      bunkersOnArrivalDO: formState.bunkersOnArrivalDO,
+      bunkersOnArrivalAFT: formState.bunkersOnArrivalAFT,
+      draftOnDepartureFWD: formState.draftOnDepartureFWD,
+      draftOnDepartureAFT: formState.draftOnDepartureAFT,
+      bunkersOnDepartureFO: formState.bunkersOnDepartureFO,
+      bunkersOnDepartureDO: formState.bunkersOnDepartureDO,
+      bunkersOnDepartureAFT: formState.bunkersOnDepartureAFT,
+      bunkersOnDepartureNextPort: formState.bunkersOnDepartureNextPort,
+      bunkersOnDepartureETA: formState.bunkersOnDepartureETA,
+      generalRemarks: formState.generalRemarks,
+      shipperRemarks: formState.shipperRemarks,
+      masterRemarks: formState.masterRemarks,
+    };
+    // Proceed with the API call
+    try {
+      const response = await generateTemplatePDF(templateBpdy);
+      console.log(response, "login_response");
+      if (response?.status === true) {
+        setMessage("Template saved successfully!");
+        setOpenPopUp(true);
+        onSubmit(response);
+      } else {
+        setMessage("PDA failed. Please try again.");
+        setOpenPopUp(true);
+        onSubmit(response);
+      }
+    } catch (error) {
+      setMessage("PDA failed. Please try again.");
+      setOpenPopUp(true);
+      onSubmit(error);
+    }
+  };
+
+  useEffect(() => {
+    console.log(formState, "formState");
+  }, [formState]);
 
   return (
     <>
@@ -42,7 +172,7 @@ const LoadingReport = ({ open, onClose, templates }) => {
           maxWidth="lg"
         >
           <div className="d-flex justify-content-between " onClick={onClose}>
-            <DialogTitle>LoadingReport </DialogTitle>
+            <DialogTitle>Loading Report </DialogTitle>
             <div className="closeicon">
               <i className="bi bi-x-lg "></i>
             </div>
@@ -51,260 +181,40 @@ const LoadingReport = ({ open, onClose, templates }) => {
             <div className=" statement">
               <h3>LOADING REPORT</h3>
             </div>
+
             <table className="tabmain">
               <thead>
                 <tr>
                   <th className="tabhead">Sl No:</th>
                   <th className="tabhead">Description</th>
-                  <th className="tabhead">Date</th>
-                  <th className="tabhead">Time</th>
+                  <th className="tabhead">Date & Time</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td className="tdstylwidt"> 1</td>
-                  <td className="tdstyl"> DRAFT SURVEY COMMENCED</td>
-                  <td className="tdstyl">
-                    {" "}
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="exampleFormControlInput1"
-                      placeholder=""
-                    ></input>
-                  </td>
-                  <td className="tdstyl">
-                    {" "}
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="exampleFormControlInput1"
-                      placeholder=""
-                    ></input>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="tdstylwidt"> 2</td>
-                  <td className="tdstyl"> DRAFT SURVEY COMPLETED</td>
-                  <td className="tdstyl">
-                    {" "}
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="exampleFormControlInput1"
-                      placeholder=""
-                    ></input>
-                  </td>
-                  <td className="tdstyl">
-                    {" "}
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="exampleFormControlInput1"
-                      placeholder=""
-                    ></input>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="tdstylwidt"> 3</td>
-                  <td className="tdstyl"> COMMENCED LOADING</td>
-                  <td className="tdstyl">
-                    {" "}
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="exampleFormControlInput1"
-                      placeholder=""
-                    ></input>
-                  </td>
-                  <td className="tdstyl">
-                    {" "}
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="exampleFormControlInput1"
-                      placeholder=""
-                    ></input>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="tdstylwidt"> 4</td>
-                  <td className="tdstyl"> LOADING COMPLETED</td>
-                  <td className="tdstyl">
-                    {" "}
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="exampleFormControlInput1"
-                      placeholder=""
-                    ></input>
-                  </td>
-                  <td className="tdstyl">
-                    {" "}
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="exampleFormControlInput1"
-                      placeholder=""
-                    ></input>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="tdstylwidt"> 5</td>
-                  <td className="tdstyl"> FINAL DRAFT SURVEY COMMENCED</td>
-                  <td className="tdstyl">
-                    {" "}
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="exampleFormControlInput1"
-                      placeholder=""
-                    ></input>
-                  </td>
-                  <td className="tdstyl">
-                    {" "}
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="exampleFormControlInput1"
-                      placeholder=""
-                    ></input>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="tdstylwidt"> 6</td>
-                  <td className="tdstyl"> FINAL DRAFT SURVEY COMPLETED </td>
-                  <td className="tdstyl">
-                    {" "}
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="exampleFormControlInput1"
-                      placeholder=""
-                    ></input>
-                  </td>
-                  <td className="tdstyl">
-                    {" "}
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="exampleFormControlInput1"
-                      placeholder=""
-                    ></input>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="tdstylwidt"> 7</td>
-                  <td className="tdstyl"> DOCUMENTS ONBOARD</td>
-                  <td className="tdstyl">
-                    {" "}
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="exampleFormControlInput1"
-                      placeholder=""
-                    ></input>
-                  </td>
-                  <td className="tdstyl">
-                    {" "}
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="exampleFormControlInput1"
-                      placeholder=""
-                    ></input>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="tdstylwidt"> 8</td>
-                  <td className="tdstyl"> PILOT ON BOARD</td>
-                  <td className="tdstyl">
-                    {" "}
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="exampleFormControlInput1"
-                      placeholder=""
-                    ></input>
-                  </td>
-                  <td className="tdstyl">
-                    {" "}
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="exampleFormControlInput1"
-                      placeholder=""
-                    ></input>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="tdstylwidt"> 9</td>
-                  <td className="tdstyl"> VESSEL UNMOORED</td>
-                  <td className="tdstyl">
-                    {" "}
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="exampleFormControlInput1"
-                      placeholder=""
-                    ></input>
-                  </td>
-                  <td className="tdstyl">
-                    {" "}
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="exampleFormControlInput1"
-                      placeholder=""
-                    ></input>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="tdstylwidt"> 10</td>
-                  <td className="tdstyl">PILOT AWAY</td>
-                  <td className="tdstyl">
-                    {" "}
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="exampleFormControlInput1"
-                      placeholder=""
-                    ></input>
-                  </td>
-                  <td className="tdstyl">
-                    {" "}
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="exampleFormControlInput1"
-                      placeholder=""
-                    ></input>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="tdstylwidt"> 11</td>
-                  <td className="tdstyl"> COSP</td>
-                  <td className="tdstyl">
-                    {" "}
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="exampleFormControlInput1"
-                      placeholder=""
-                    ></input>
-                  </td>
-                  <td className="tdstyl">
-                    {" "}
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="exampleFormControlInput1"
-                      placeholder=""
-                    ></input>
-                  </td>
-                </tr>
+                {rows.map((row, index) => (
+                  <tr key={row.id}>
+                    <td className="tdstylwidt">{index + 1}</td>
+                    <td className="tdstyl">{row.label}</td>
+                    <td className="tdstyl">
+                      <DatePicker
+                        dateFormat="dd/MM/yyyy HH:mm aa" // Use 24-hour format for consistency with your other working component
+                        selected={
+                          formData[row.id] ? new Date(formData[row.id]) : null
+                        } // Inline date conversion for prefilled value
+                        onChange={(date) => handleDateChange(row.id, date)}
+                        showTimeSelect
+                        timeFormat="HH:mm aa"
+                        timeIntervals={15}
+                        className="form-control date-input"
+                        placeholderText="Select Date & Time"
+                        autoComplete="off"
+                      />
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
+
             <div className="partition">
               <div className="drafthead">Draft on Arrival</div>
               <div className="d-flex">
@@ -313,10 +223,13 @@ const LoadingReport = ({ open, onClose, templates }) => {
                     FWD:
                   </label>
                   <input
-                    type="email"
+                    type="text"
                     class="form-control"
                     id="exampleFormControlInput1"
                     placeholder=""
+                    name="draftOnArrivalFWD"
+                    value={formState.draftOnArrivalFWD}
+                    onChange={handleInputChange}
                   ></input>
                 </div>
                 <div className="col-3">
@@ -324,10 +237,13 @@ const LoadingReport = ({ open, onClose, templates }) => {
                     AFT:
                   </label>
                   <input
-                    type="email"
+                    type="text"
                     class="form-control"
                     id="exampleFormControlInput1"
                     placeholder=""
+                    name="draftOnArrivalAFT"
+                    value={formState.draftOnArrivalAFT}
+                    onChange={handleInputChange}
                   ></input>
                 </div>
               </div>
@@ -338,10 +254,13 @@ const LoadingReport = ({ open, onClose, templates }) => {
                     FO:
                   </label>
                   <input
-                    type="email"
+                    type="text"
                     class="form-control"
                     id="exampleFormControlInput1"
                     placeholder=""
+                    name="bunkersOnArrivalFO"
+                    value={formState.bunkersOnArrivalFO}
+                    onChange={handleInputChange}
                   ></input>
                 </div>
                 <div className="col-3 arrival">
@@ -349,10 +268,13 @@ const LoadingReport = ({ open, onClose, templates }) => {
                     DO:
                   </label>
                   <input
-                    type="email"
+                    type="text"
                     class="form-control"
                     id="exampleFormControlInput1"
                     placeholder=""
+                    name="bunkersOnArrivalDO"
+                    value={formState.bunkersOnArrivalDO}
+                    onChange={handleInputChange}
                   ></input>
                 </div>
                 <div className="col-3">
@@ -360,10 +282,13 @@ const LoadingReport = ({ open, onClose, templates }) => {
                     AFT:
                   </label>
                   <input
-                    type="email"
+                    type="text"
                     class="form-control"
                     id="exampleFormControlInput1"
                     placeholder=""
+                    name="bunkersOnArrivalAFT"
+                    value={formState.bunkersOnArrivalAFT}
+                    onChange={handleInputChange}
                   ></input>
                 </div>
               </div>
@@ -374,10 +299,13 @@ const LoadingReport = ({ open, onClose, templates }) => {
                     FWD:
                   </label>
                   <input
-                    type="email"
+                    type="text"
                     class="form-control"
                     id="exampleFormControlInput1"
                     placeholder=""
+                    name="draftOnDepartureFWD"
+                    value={formState.draftOnDepartureFWD}
+                    onChange={handleInputChange}
                   ></input>
                 </div>
                 <div className="col-3">
@@ -385,10 +313,13 @@ const LoadingReport = ({ open, onClose, templates }) => {
                     AFT:
                   </label>
                   <input
-                    type="email"
+                    type="text"
                     class="form-control"
                     id="exampleFormControlInput1"
                     placeholder=""
+                    name="draftOnDepartureAFT"
+                    value={formState.draftOnDepartureAFT}
+                    onChange={handleInputChange}
                   ></input>
                 </div>
               </div>
@@ -399,10 +330,13 @@ const LoadingReport = ({ open, onClose, templates }) => {
                     FO:
                   </label>
                   <input
-                    type="email"
+                    type="text"
                     class="form-control"
                     id="exampleFormControlInput1"
                     placeholder=""
+                    name="bunkersOnDepartureFO"
+                    value={formState.bunkersOnDepartureFO}
+                    onChange={handleInputChange}
                   ></input>
                 </div>
                 <div className="col-3 arrival">
@@ -410,10 +344,13 @@ const LoadingReport = ({ open, onClose, templates }) => {
                     DO:
                   </label>
                   <input
-                    type="email"
+                    type="text"
                     class="form-control"
                     id="exampleFormControlInput1"
                     placeholder=""
+                    name="bunkersOnDepartureDO"
+                    value={formState.bunkersOnDepartureDO}
+                    onChange={handleInputChange}
                   ></input>
                 </div>
                 <div className="col-3">
@@ -421,10 +358,13 @@ const LoadingReport = ({ open, onClose, templates }) => {
                     AFT:
                   </label>
                   <input
-                    type="email"
+                    type="text"
                     class="form-control"
                     id="exampleFormControlInput1"
                     placeholder=""
+                    name="bunkersOnDepartureAFT"
+                    value={formState.bunkersOnDepartureAFT}
+                    onChange={handleInputChange}
                   ></input>
                 </div>
               </div>
@@ -434,22 +374,38 @@ const LoadingReport = ({ open, onClose, templates }) => {
                     Next Port:
                   </label>
                   <input
-                    type="email"
+                    type="text"
                     class="form-control"
                     id="exampleFormControlInput1"
                     placeholder=""
+                    name="bunkersOnDepartureNextPort"
+                    value={formState.bunkersOnDepartureNextPort}
+                    onChange={handleInputChange}
                   ></input>
                 </div>
                 <div className="col-3 arrival">
                   <label for="exampleFormControlInput1" class="form-label">
                     ETA:
                   </label>
-                  <input
-                    type="email"
-                    class="form-control"
-                    id="exampleFormControlInput1"
-                    placeholder=""
-                  ></input>
+                  <DatePicker
+                    dateFormat="DD/MM/YYYY hh:mm a" // Update format for display
+                    selected={
+                      formState?.bunkersOnDepartureETA
+                        ? moment(
+                            formState.bunkersOnDepartureETA,
+                            "DD/MM/YYYY hh:mm a"
+                          ).toDate() // Parse formatted string to Date object
+                        : null
+                    }
+                    onChange={(date) => handleEtaChange(date)}
+                    showTimeSelect
+                    timeFormat="HH:mm aa"
+                    timeIntervals={15}
+                    className="form-control date-input"
+                    id="eta-picker"
+                    placeholderText="Select ETA"
+                    autoComplete="off"
+                  />
                 </div>
               </div>
             </div>
@@ -461,6 +417,9 @@ const LoadingReport = ({ open, onClose, templates }) => {
                 class="form-control"
                 id="exampleFormControlTextarea1"
                 rows="2"
+                name="generalRemarks"
+                value={generalRemarks}
+                onChange={handleInputChange}
               ></textarea>
             </div>
             <div class="mt-3">
@@ -469,8 +428,11 @@ const LoadingReport = ({ open, onClose, templates }) => {
               </label>
               <textarea
                 class="form-control"
-                id="exampleFormControlTextarea1"
+                id="exampleFormControlTextarea2"
                 rows="2"
+                name="shipperRemarks"
+                value={shipperRemarks}
+                onChange={handleInputChange}
               ></textarea>
             </div>
 
@@ -480,8 +442,11 @@ const LoadingReport = ({ open, onClose, templates }) => {
               </label>
               <textarea
                 class="form-control"
-                id="exampleFormControlTextarea1"
+                id="exampleFormControlTextarea3"
                 rows="2"
+                name="masterRemarks"
+                value={masterRemarks}
+                onChange={handleInputChange}
               ></textarea>
             </div>
             {/* <div className="d-flex justify-content-between mt-3">
@@ -493,7 +458,11 @@ const LoadingReport = ({ open, onClose, templates }) => {
               <button type="button" className="btn btncancel">
                 Cancel
               </button>
-              <button type="button" className="btn generate-buttona">
+              <button
+                type="button"
+                className="btn generate-buttona"
+                onClick={saveTemplate}
+              >
                 Save
               </button>
             </div>
@@ -506,7 +475,13 @@ const LoadingReport = ({ open, onClose, templates }) => {
               <button type="button" className="btn btncancel">
                 Cancel
               </button>
-              <button type="button" className="btn generate-buttona">
+              <button
+                type="button"
+                className="btn generate-buttona"
+                onClick={() => {
+                  saveTemplate();
+                }}
+              >
                 Save
               </button>
             </div>

@@ -1,18 +1,20 @@
-
-
-
 .statement {
-    display: flex;
-    justify-content: center;
-    text-decoration: underline;
-    margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  text-decoration: underline;
+  margin-top: 20px;
 }
-.crew{
-    margin-right: 10px;
+.crew {
+  margin-right: 10px;
 }
-.onsign{
-    font-size: 17px;
-    font-weight: 600;
-    font-style: italic;
-    margin-bottom: 15px;
+.onsign {
+  font-size: 17px;
+  font-weight: 600;
+  font-style: italic;
+  margin-bottom: 15px;
+}
+.signers-wrapper {
+  padding: 10px;
+  border: 1px solid black;
+  margin-bottom: 10px;
 }

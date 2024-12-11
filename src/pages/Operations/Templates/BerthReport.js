@@ -13,6 +13,8 @@ import {
   Button,
 } from "@mui/material";
 import { generateTemplatePDF } from "../../../services/apiService";
+import moment from "moment";
+import { parse, format } from "date-fns";
 
 const BerthReport = ({
   open,
@@ -45,7 +47,7 @@ const BerthReport = ({
   const handleDateChange = (key, date) => {
     setFormData((prev) => ({
       ...prev,
-      [key]: date ? date.toISOString() : null, // Convert to ISO format for the payload
+      [key]: date ? moment(date).format("YYYY-MM-DD HH:mm") : null, // Format date before saving
     }));
   };
 
@@ -87,7 +89,6 @@ const BerthReport = ({
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-
     if (name === "generalRemarks") {
       setGeneralRemarks(value);
     } else if (name === "shipperRemarks") {
@@ -102,9 +103,12 @@ const BerthReport = ({
   };
 
   const handleEtaChange = (date) => {
+    const formattedDate = date
+      ? moment(date).format("DD/MM/YYYY hh:mm ")
+      : null; // Format with Moment
     setFormState((prevState) => ({
       ...prevState,
-      bunkersOnDepartureETA: date ? date.toISOString() : null, // Update state with ISO string
+      bunkersOnDepartureETA: formattedDate, // Store formatted date
     }));
   };
 
@@ -193,10 +197,10 @@ const BerthReport = ({
                     <td className="tdstyl">{row.label}</td>
                     <td className="tdstyl">
                       <DatePicker
-                        dateFormat="dd/MM/yyyy HH:mm aa"
+                        dateFormat="dd/MM/yyyy HH:mm aa" // Use 24-hour format for consistency with your other working component
                         selected={
                           formData[row.id] ? new Date(formData[row.id]) : null
-                        }
+                        } // Inline date conversion for prefilled value
                         onChange={(date) => handleDateChange(row.id, date)}
                         showTimeSelect
                         timeFormat="HH:mm aa"
@@ -384,13 +388,16 @@ const BerthReport = ({
                     ETA:
                   </label>
                   <DatePicker
-                    dateFormat="dd/MM/yyyy HH:mm aa"
+                    dateFormat="DD/MM/YYYY hh:mm a" // Update format for display
                     selected={
                       formState?.bunkersOnDepartureETA
-                        ? new Date(formState.bunkersOnDepartureETA)
+                        ? moment(
+                            formState.bunkersOnDepartureETA,
+                            "DD/MM/YYYY hh:mm a"
+                          ).toDate() // Parse formatted string to Date object
                         : null
-                    } // Parse the date for prefilled value
-                    onChange={handleEtaChange}
+                    }
+                    onChange={(date) => handleEtaChange(date)}
                     showTimeSelect
                     timeFormat="HH:mm aa"
                     timeIntervals={15}
@@ -421,7 +428,7 @@ const BerthReport = ({
               </label>
               <textarea
                 class="form-control"
-                id="exampleFormControlTextarea1"
+                id="exampleFormControlTextarea2"
                 rows="2"
                 name="shipperRemarks"
                 value={shipperRemarks}
@@ -435,7 +442,7 @@ const BerthReport = ({
               </label>
               <textarea
                 class="form-control"
-                id="exampleFormControlTextarea1"
+                id="exampleFormControlTextarea3"
                 rows="2"
                 name="masterRemarks"
                 value={masterRemarks}
