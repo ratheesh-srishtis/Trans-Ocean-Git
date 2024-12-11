@@ -186,6 +186,12 @@ const Sidebar = () => {
                             >
                               Cargos
                             </li>
+                            <li
+                              className="menusub"
+                              onClick={() => navigate("/anchorage-locations")}
+                            >
+                              Anchorage Locations
+                            </li>
                           </ul>
                         </div>
                       )}
