@@ -28,6 +28,39 @@ const Header = () => {
     } else if (location.pathname == "/") {
       return "Dashboard";
     }
+    else if (location.pathname == "/roles-settings") {
+      return "Roles Settings";
+    }
+    else if (location.pathname == "/user-settings") {
+      return "User Settings";
+    }
+     else if (location.pathname == "/vessels-settings") {
+      return "Vessel Settings";
+    }
+    else if (location.pathname == "/vessel-type-settings") {
+      return "Vessel Type Settings";
+    }
+    else if (location.pathname == "/ports-settings") {
+      return "Ports Settings";
+    }
+    else if (location.pathname == "/customer-settings") {
+      return "Customer Settings";
+    }
+    else if (location.pathname == "/service-settings") {
+      return "Service Settings";
+    }
+    else if (location.pathname == "/charges-settings") {
+      return "Charges Settings";
+    }
+    else if (location.pathname == "/sub-charges-settings") {
+      return "SubCharge Settings";
+    }
+    else if (location.pathname == "/cargo-settings") {
+      return "Cargo Settings";
+    }
+    else if (location.pathname == "/anchorage-locations") {
+      return "Anchorage Location Settings";
+    }
     // Add more conditions as needed for other routes
     return "Page";
   };
