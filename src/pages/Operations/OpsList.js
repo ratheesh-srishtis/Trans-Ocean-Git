@@ -131,7 +131,7 @@ const OpsList = ({ loginResponse }) => {
   };
 
   const handleNavigation = () => {
-    navigate("/create-pda");
+    navigate("/job-report");
   };
 
   const handleSearch = (event) => {
@@ -330,7 +330,7 @@ const OpsList = ({ loginResponse }) => {
               onClick={() => handleNavigation()}
               className="btn btn-info infobtn"
             >
-              Create New PDA
+              Job Report
             </button>
           </div>
         </div>

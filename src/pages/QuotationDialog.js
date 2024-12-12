@@ -456,6 +456,7 @@ const QuotationDialog = ({
                 </div>
               </div>
             </div>
+            
             <div className="firstfooter d-flex justify-content-end">
               <button
                 type="button"
