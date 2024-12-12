@@ -652,6 +652,45 @@ export const deleteCargo = async (userData) => {
   }
 };
 
+/* Vendor Settings */
+
+export const getAllVendors = async (data) => {
+  try {
+    const response = await axiosInstance.post("/getAllVendors", data);
+    return response.data;
+  } catch (error) {
+    console.error("List all users API Error:", error);
+    throw error;
+  }
+};
+export const saveVendor = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/saveVendor", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+export const editVendor = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/editVendor", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+export const deleteVendor = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/deleteVendor", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
 /* Anchorage Locations */
 
 export const getAllAnchorageLoations = async (data) => {
@@ -684,6 +723,45 @@ export const editAnchorageLoation = async (userData) => {
 export const deleteAnchorageLoation = async (userData) => {
   try {
     const response = await axiosInstance.post("/deleteAnchorageLoation", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+/* QQForm Settings */
+
+export const getAllQQFormQuestions = async (data) => {
+  try {
+    const response = await axiosInstance.post("/getAllQQFormQuestions", data);
+    return response.data;
+  } catch (error) {
+    console.error("List all users API Error:", error);
+    throw error;
+  }
+};
+export const saveQQFormQuestion = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/saveQQFormQuestion", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+export const editQQFormQuestion = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/editQQFormQuestion", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+export const deleteQQFormQuestion = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/deleteQQFormQuestion", userData);
     return response.data;
   } catch (error) {
     console.error("Error:", error);

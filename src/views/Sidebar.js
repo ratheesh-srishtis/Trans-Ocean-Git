@@ -192,6 +192,18 @@ const Sidebar = () => {
                             >
                               Anchorage Locations
                             </li>
+                            <li
+                              className="menusub"
+                              onClick={() => navigate("/vendor-settings")}
+                            >
+                             Vendors
+                            </li>
+                            <li
+                              className="menusub"
+                              onClick={() => navigate("/QQform-settings")}
+                            >
+                             QQForms
+                            </li>
                           </ul>
                         </div>
                       )}

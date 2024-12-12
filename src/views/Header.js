@@ -61,6 +61,12 @@ const Header = () => {
     else if (location.pathname == "/anchorage-locations") {
       return "Anchorage Location Settings";
     }
+    else if (location.pathname == "/vendor-settings") {
+      return "Vendor Settings";
+    }
+    else if (location.pathname == "/QQform-settings") {
+      return "QQ Form Settings";
+    }
     // Add more conditions as needed for other routes
     return "Page";
   };
@@ -75,7 +81,7 @@ const Header = () => {
         <div className="header--wrapper">
           <div className="header--title">
             <h5>{getHeaderText()}</h5>
-            <div className="version">Version: 0.016</div>
+            <div className="version">{/*Version: 0.016*/}</div>
           </div>
 
           <div className="d-flex flex-row-reverse ">

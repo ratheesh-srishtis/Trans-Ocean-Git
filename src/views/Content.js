@@ -22,6 +22,8 @@ import ChargesSettings from "../settings/ChargesSettings";
 import SubChargesSettings from "../settings/SubChargesSettings";
 import CargoSettings from "../settings/CargoSettings";
 import AnchorageLocationSettings from "../settings/AnchorageLocationSettings";
+import VendorSettings from "../settings/VendorSettings";
+import QQFormSettings from "../settings/QQFormSettings";
 import OpsList from "../pages/Operations/OpsList";
 import FinalReport from "../pages/Operations/FinalReport";
 import QQForm from "../pages/Operations/QQForm";
@@ -164,6 +166,8 @@ const Content = () => {
       <Route path="/sub-charges-settings" element={<SubChargesSettings />} />
       <Route path="/cargo-settings" element={<CargoSettings />} />
       <Route path="/anchorage-locations" element={<AnchorageLocationSettings />} />
+      <Route path="/vendor-settings" element={<VendorSettings/>} />
+      <Route path="/QQform-settings" element={<QQFormSettings/>} />
     </Routes>
   );
 };
