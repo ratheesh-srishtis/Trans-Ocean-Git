@@ -27,6 +27,7 @@ import QQFormSettings from "../settings/QQFormSettings";
 import OpsList from "../pages/Operations/OpsList";
 import FinalReport from "../pages/Operations/FinalReport";
 import QQForm from "../pages/Operations/QQForm";
+import JobReport from "../pages/Operations/JobReport";
 const Content = () => {
   const { loginResponse } = useAuth();
 
@@ -155,6 +156,8 @@ const Content = () => {
           />
         }
       />
+            <Route path="/job-report" element={<JobReport />} />
+
       <Route path="/roles-settings" element={<RolesSettings />} />
       <Route path="/user-settings" element={<UserSettings />} />
       <Route path="/ports-settings" element={<PortSettings />} />
