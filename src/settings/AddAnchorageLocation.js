@@ -128,8 +128,8 @@ const AddAnchorageLocation = ({ open, onAddAnchorageLocation,onClose,editMode, a
         <DialogContent style={{ marginBottom: "40px" }}>
         <form onSubmit={handleSubmit}>
           <div className="row">
-            <div class="col mb-3 align-items-start">
-              <div class="">
+            <div class="col-3 mb-3 align-items-start">
+              <div class=" col-">
                 <label for="exampleFormControlInput1" class="form-label"> Area:</label>
                 <input name="area" type="" class="form-control vessel-voyage" id="exampleFormControlInput1" placeholder="" onChange={handleChange}
                   value={formData.area}></input>
@@ -140,7 +140,7 @@ const AddAnchorageLocation = ({ open, onAddAnchorageLocation,onClose,editMode, a
           </div>
           
           <div className="row">
-            <div class="col mb-3 align-items-start">
+            <div class="col- mb-3 align-items-start">
               <div class="">
                 <label for="exampleFormControlInput1" class="form-label">Ports <span class="required"> * </span> :</label>
                 <div class="vessel-select">
@@ -156,9 +156,7 @@ const AddAnchorageLocation = ({ open, onAddAnchorageLocation,onClose,editMode, a
                 </div>
               </div>
             </div>
-           <div class="col mb-3 align-items-start">
-              
-            </div>
+
           </div>
 
 

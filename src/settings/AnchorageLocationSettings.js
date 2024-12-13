@@ -164,7 +164,7 @@ const AnchorageLocationSettings = () => {
 <AddAnchorageLocation open={open} onAddAnchorageLocation={handleAddAnchoragelist} onClose={handleClose} editMode={editMode} anchorageSet={selectedRow} portId={formData.portId}/>
 
 <div className="row">
-            <div class="col mb-3 align-items-start">
+            <div class="col-3 mb-3 align-items-start">
               <div class="">
                 <label for="exampleFormControlInput1" class="form-label">Ports <span class="required"> * </span> :</label>
                 <div class="vessel-select">
