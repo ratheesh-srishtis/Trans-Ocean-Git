@@ -220,13 +220,13 @@ const Transportationreciept = ({
             </div>
 
             <div className="d-flex justify-content-between">
-              <div className="col-4 slwidth  ">
+              <div className="col-6  ">
                 <label for="exampleFormControlInput1" class="form-label">
                   Job Title:
                 </label>
                 <input
                   type="text"
-                  className="form-control"
+                  className="form-control "
                   id="jobTitle"
                   name="jobTitle"
                   value={formData.jobTitle}
@@ -236,77 +236,82 @@ const Transportationreciept = ({
             </div>
 
             {formData.items.map((item, index) => (
-              <div className="d-flex justify-content-between" key={index}>
-                <div className="col-3 slwidth">
-                  <label htmlFor={`seaname-${index}`} className="form-label">
-                    Name:
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id={`seaname-${index}`}
-                    name="seaName"
-                    value={item.seaName}
-                    onChange={(e) => handleInputChange(e, index)}
-                  />
+              <div className=" transportgap" key={index}>
+                <div className="transmar">
+                  <div className="row d-flex">
+                    <div className="col-4 slwidth">
+                      <label htmlFor={`seaname-${index}`} className="form-label">
+                        Name:
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id={`seaname-${index}`}
+                        name="seaName"
+                        value={item.seaName}
+                        onChange={(e) => handleInputChange(e, index)}
+                      />
+                    </div>
+                    <div className="col-4 slwidth ">
+                      <label htmlFor={`date-${index}`} className="form-label transdate">
+                        Date:
+                      </label>
+                      <DatePicker
+                        dateFormat="dd/MM/yyyy"
+                        selected={
+                          item.date
+                            ? parse(item.date, "dd/MM/yyyy", new Date())
+                            : null
+                        }
+                        onChange={(selectedDate) =>
+                          handleDateChange(selectedDate, index)
+                        }
+                        className="form-control date-input"
+                        id={`date-${index}`}
+                        placeholderText="Select Date"
+                        autoComplete="off"
+                      />
+                    </div>
+                  </div>
+                  <div className="row d-flex">
+                    <div className="col-4 slwidth">
+                      <label htmlFor={`from-${index}`} className="form-label">
+                        From:
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id={`from-${index}`}
+                        name="from"
+                        value={item.from}
+                        onChange={(e) => handleInputChange(e, index)}
+                      />
+                    </div>
+                    <div className="col-4 slwidth">
+                      <label htmlFor={`to-${index}`} className="form-label">
+                        To:
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id={`to-${index}`}
+                        name="to"
+                        value={item.to}
+                        onChange={(e) => handleInputChange(e, index)}
+                      />
+                    </div>
+                    <div className="col-1 d-flex align-items-end">
+                      <button
+                        type="button"
+                        className="btn btn-danger"
+                        onClick={() => deleteItem(index)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <div className="col-3 slwidth">
-                  <label htmlFor={`date-${index}`} className="form-label">
-                    Date:
-                  </label>
-                  <DatePicker
-                    dateFormat="dd/MM/yyyy"
-                    selected={
-                      item.date
-                        ? parse(item.date, "dd/MM/yyyy", new Date())
-                        : null
-                    }
-                    onChange={(selectedDate) =>
-                      handleDateChange(selectedDate, index)
-                    }
-                    className="form-control date-input"
-                    id={`date-${index}`}
-                    placeholderText="Select Date"
-                    autoComplete="off"
-                  />
-                </div>
-                <div className="col-3 slwidth">
-                  <label htmlFor={`from-${index}`} className="form-label">
-                    From:
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id={`from-${index}`}
-                    name="from"
-                    value={item.from}
-                    onChange={(e) => handleInputChange(e, index)}
-                  />
-                </div>
-                <div className="col-3 slwidth">
-                  <label htmlFor={`to-${index}`} className="form-label">
-                    To:
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id={`to-${index}`}
-                    name="to"
-                    value={item.to}
-                    onChange={(e) => handleInputChange(e, index)}
-                  />
-                </div>
-                <div className="col-1 d-flex align-items-end">
-                  {formData.items.length > 1 && (
-                    <button
-                      type="button"
-                      className="btn btn-danger"
-                      onClick={() => deleteItem(index)}
-                    >
-                      Delete
-                    </button>
-                  )}
-                </div>
+
               </div>
             ))}
 
@@ -372,3 +377,14 @@ const Transportationreciept = ({
 };
 
 export default Transportationreciept;
+
+
+// {formData.items.length > 1 && (
+//   <button
+//     type="button"
+//     className="btn btn-danger"
+//     onClick={() => deleteItem(index)}
+//   >
+//     Delete
+//   </button>
+// )}
