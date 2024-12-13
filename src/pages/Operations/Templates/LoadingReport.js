@@ -472,7 +472,7 @@ const LoadingReport = ({
   Agent
 </div> */}
             <div className="footer-button d-flex justify-content-center mt-3">
-              <button type="button" className="btn btncancel">
+              <button type="button" className="btn btncancel" onClick={onClose}>
                 Cancel
               </button>
               <button

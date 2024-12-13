@@ -11,7 +11,7 @@ import {
   Button,
 } from "@mui/material";
 import { generateTemplatePDF } from "../../../services/apiService";
-
+import PopUp from "../../PopUp";
 const CrewChangeList = ({
   open,
   onClose,
@@ -107,9 +107,11 @@ const CrewChangeList = ({
   // Handle Save
   const handleSave = async () => {
     if (!isFormValid()) {
-      alert(
+      setMessage(
         "At least one field must be filled in either On-Signers or Off-Signers."
       );
+      setOpenPopUp(true);
+
       return;
     }
     const templateBpdy = {
@@ -181,15 +183,15 @@ const CrewChangeList = ({
                   </div>
                 ))}
                 {formValues.onSigners.length > 1 && (
-<div className="">
-<button
-                    type="button"
-                    className="btn generate-buttona crewbtn"
-                    onClick={() => deleteSigner("onSigners", index)}
-                  >
-                    Delete
-                  </button>
-</div>
+                  <div className="">
+                    <button
+                      type="button"
+                      className="btn generate-buttona crewbtn"
+                      onClick={() => deleteSigner("onSigners", index)}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 )}
               </div>
             ))}
@@ -240,7 +242,7 @@ const CrewChangeList = ({
               Add Off Signer
             </button>
             <div className="footer-button d-flex justify-content-center mt-5">
-              <button type="button" className="btn btncancel">
+              <button type="button" className="btn btncancel" onClick={onClose}>
                 Cancel
               </button>
               <button
@@ -254,6 +256,9 @@ const CrewChangeList = ({
           </DialogContent>
         </Dialog>
       </div>
+      {openPopUp && (
+        <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
+      )}{" "}
     </>
   );
 };

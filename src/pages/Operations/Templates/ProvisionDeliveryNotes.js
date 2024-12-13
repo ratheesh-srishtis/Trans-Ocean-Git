@@ -271,7 +271,11 @@ const ProvisionDeliveryNotes = ({
               </div>
 
               <div className="footer-button d-flex justify-content-center mt-5">
-                <button type="button" className="btn btncancel">
+                <button
+                  type="button"
+                  className="btn btncancel"
+                  onClick={onClose}
+                >
                   Cancel
                 </button>
                 <button
