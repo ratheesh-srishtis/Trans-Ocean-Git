@@ -89,7 +89,7 @@ const AddVendor = ({ open, onAddQQ,onClose,editMode, QQSet }) => {
         <DialogContent style={{ marginBottom: "60px" }}>
         <form onSubmit={handleSubmit}>
         <div className="row">
-            <div class="col-5 mb-3 align-items-start">
+            <div class="col-1 mb-3 align-items-start">
               <div class="">
                 <label for="exampleFormControlInput1" class="form-label">  Question :</label>
                 <textarea name="question" type="" class="form-control" id="exampleFormControlInput1" placeholder="" onChange={handleChange}

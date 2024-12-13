@@ -181,25 +181,27 @@ const CrewChangeList = ({
                   </div>
                 ))}
                 {formValues.onSigners.length > 1 && (
-                  <button
+<div className="">
+<button
                     type="button"
-                    className="btn generate-buttona"
+                    className="btn generate-buttona crewbtn"
                     onClick={() => deleteSigner("onSigners", index)}
                   >
                     Delete
                   </button>
+</div>
                 )}
               </div>
             ))}
             <button
               type="button"
-              className="btn generate-buttona"
+              className="btn generate-buttona addoncrewbtn"
               onClick={() => addNewSigner("onSigners")}
             >
               Add On Signer
             </button>
 
-            <div className="onsign mt-3">OFF SIGNERS</div>
+            <div className="onsign mt-5">OFF SIGNERS</div>
 
             {formValues.offSigners.map((signer, index) => (
               <div key={index} className="d-flex flex-wrap signers-wrapper">
@@ -222,7 +224,7 @@ const CrewChangeList = ({
                 {formValues.offSigners.length > 1 && (
                   <button
                     type="button"
-                    className="btn generate-buttona"
+                    className="btn generate-buttona crewbtn"
                     onClick={() => deleteSigner("offSigners", index)}
                   >
                     Delete
@@ -232,7 +234,7 @@ const CrewChangeList = ({
             ))}
             <button
               type="button"
-              className="btn generate-buttona"
+              className="btn generate-buttona addoncrewbtn"
               onClick={() => addNewSigner("offSigners")}
             >
               Add Off Signer
