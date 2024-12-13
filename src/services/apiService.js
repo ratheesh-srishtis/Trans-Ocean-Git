@@ -769,6 +769,28 @@ export const deleteQQFormQuestion = async (userData) => {
   }
 };
 
+/* Password Requests */
+
+export const getAllResetPasswordRequests = async (data) => {
+  try {
+    const response = await axiosInstance.post("/getAllResetPasswordRequests", data);
+    return response.data;
+  } catch (error) {
+    console.error("List all users API Error:", error);
+    throw error;
+  }
+};
+export const ChangePassword = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/resetUserPassword", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+
 export const uploadDocuments = async (formData) => {
   try {
     const response = await axiosInstance.post("/uploadDocuments", formData, {
