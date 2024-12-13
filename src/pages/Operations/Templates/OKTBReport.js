@@ -152,7 +152,7 @@ const OKTBReport = ({
 
     // Construct the template body
 
-    let templateBpdy = {
+    let templateBody = {
       pdaChargeId: charge?._id,
       templateName: selectedTemplateName,
       to: to,
@@ -170,7 +170,7 @@ const OKTBReport = ({
 
     // Proceed with the API call
     try {
-      const response = await generateTemplatePDF(templateBpdy);
+      const response = await generateTemplatePDF(templateBody);
       console.log(response, "login_response");
       if (response?.status === true) {
         setMessage("Template saved successfully!");

@@ -689,12 +689,12 @@ const CreatePDA = ({
 
     const moment = require("moment");
     const date = moment.utc(response?.pda?.ETA);
-    console.log(date.format("YYYY-MM-DD HH:mm:ss"), "Checkdate");
-    setEta(date.format("YYYY-MM-DD HH:mm:ss"));
+    console.log(date.format("YYYY-MM-DD HH:mm"), "Checkdate");
+    setEta(date.format("YYYY-MM-DD HH:mm"));
 
     const etd_date = moment.utc(response?.pda?.ETD);
-    console.log(etd_date.format("YYYY-MM-DD HH:mm:ss"), "Checkdate");
-    setEtd(etd_date.format("YYYY-MM-DD HH:mm:ss"));
+    console.log(etd_date.format("YYYY-MM-DD HH:mm"), "Checkdate");
+    setEtd(etd_date.format("YYYY-MM-DD HH:mm"));
 
     setStatus(response?.pda?.pdaStatus);
     setFinalChargesArray(response?.pdaServices);

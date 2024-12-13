@@ -15,7 +15,7 @@ import {
 import { generateTemplatePDF } from "../../../services/apiService";
 import moment from "moment";
 import { parse, format } from "date-fns";
-
+import PopUp from "../../PopUp";
 const BerthReport = ({
   open,
   onClose,
@@ -25,8 +25,6 @@ const BerthReport = ({
   selectedTemplateName,
 }) => {
   console.log(templates, "templates");
-  const [esopdate, setEsopdate] = useState(null);
-  const handleEsopChange = (date) => {};
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
   const [formData, setFormData] = useState({
@@ -65,26 +63,23 @@ const BerthReport = ({
     { id: "freePratique", label: "FREE PRATIQUE" },
   ];
 
-  const [generalRemarks, setGeneralRemarks] = useState(null);
-  const [shipperRemarks, setShipperRemarks] = useState(null);
-  const [masterRemarks, setMasterRemarks] = useState(null);
-  const [generalRemarksError, setGeneralRemarksError] = useState(null);
-  const [shipperRemarksError, setShipperRemarksError] = useState(null);
-  const [masterRemarksError, setMasterRemarksError] = useState(null);
+  const [generalRemarks, setGeneralRemarks] = useState("");
+  const [shipperRemarks, setShipperRemarks] = useState("");
+  const [masterRemarks, setMasterRemarks] = useState("");
 
   const [formState, setFormState] = useState({
-    draftOnArrivalFWD: null,
-    draftOnArrivalAFT: null,
-    bunkersOnArrivalFO: null,
-    bunkersOnArrivalDO: null,
-    bunkersOnArrivalAFT: null,
-    draftOnDepartureFWD: null,
-    draftOnDepartureAFT: null,
-    bunkersOnDepartureFO: null,
-    bunkersOnDepartureDO: null,
-    bunkersOnDepartureAFT: null,
-    bunkersOnDepartureNextPort: null,
-    bunkersOnDepartureETA: null,
+    draftOnArrivalFWD: "",
+    draftOnArrivalAFT: "",
+    bunkersOnArrivalFO: "",
+    bunkersOnArrivalDO: "",
+    bunkersOnArrivalAFT: "",
+    draftOnDepartureFWD: "",
+    draftOnDepartureAFT: "",
+    bunkersOnDepartureFO: "",
+    bunkersOnDepartureDO: "",
+    bunkersOnDepartureAFT: "",
+    bunkersOnDepartureNextPort: "",
+    bunkersOnDepartureETA: "",
   });
 
   const handleInputChange = (e) => {
@@ -103,9 +98,7 @@ const BerthReport = ({
   };
 
   const handleEtaChange = (date) => {
-    const formattedDate = date
-      ? moment(date).format("DD/MM/YYYY hh:mm ")
-      : null; // Format with Moment
+    const formattedDate = date ? moment(date).format("DD/MM/YYYY hh:mm ") : ""; // Format with Moment
     setFormState((prevState) => ({
       ...prevState,
       bunkersOnDepartureETA: formattedDate, // Store formatted date
@@ -138,8 +131,6 @@ const BerthReport = ({
       const response = await generateTemplatePDF(templateBpdy);
       console.log(response, "login_response");
       if (response?.status === true) {
-        setMessage("Template saved successfully!");
-        setOpenPopUp(true);
         onSubmit(response);
       } else {
         setMessage("PDA failed. Please try again.");
@@ -199,7 +190,7 @@ const BerthReport = ({
                       <DatePicker
                         dateFormat="dd/MM/yyyy HH:mm aa" // Use 24-hour format for consistency with your other working component
                         selected={
-                          formData[row.id] ? new Date(formData[row.id]) : null
+                          formData[row.id] ? new Date(formData[row.id]) : ""
                         } // Inline date conversion for prefilled value
                         onChange={(date) => handleDateChange(row.id, date)}
                         showTimeSelect
@@ -395,7 +386,7 @@ const BerthReport = ({
                             formState.bunkersOnDepartureETA,
                             "DD/MM/YYYY hh:mm a"
                           ).toDate() // Parse formatted string to Date object
-                        : null
+                        : ""
                     }
                     onChange={(date) => handleEtaChange(date)}
                     showTimeSelect
@@ -488,6 +479,9 @@ const BerthReport = ({
           </DialogContent>
         </Dialog>
       </div>
+      {openPopUp && (
+        <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
+      )}{" "}
     </>
   );
 };

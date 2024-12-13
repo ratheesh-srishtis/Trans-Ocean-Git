@@ -110,6 +110,8 @@ const AddJobs = ({
   const handleBerthReportSubmit = (response) => {
     console.log("template_Submitted:", response);
     if (response?.status == true) {
+      setMessage("Template saved successfully!");
+      setOpenPopUp(true);
       setIsBerthReportOpen(false);
       setTemplatesList((previousTemplates) => [
         ...previousTemplates,
@@ -120,6 +122,8 @@ const AddJobs = ({
   const handleCrewSubmit = (response) => {
     console.log("template_Submitted:", response);
     if (response?.status == true) {
+      setMessage("Template saved successfully!");
+      setOpenPopUp(true);
       setIsCrewChangeListOpen(false);
       setTemplatesList((previousTemplates) => [
         ...previousTemplates,
@@ -129,11 +133,40 @@ const AddJobs = ({
   };
   const handleLoadingReportSubmit = (response) => {
     console.log("template_Submitted:", response);
-    setIsLoadingReportOpen(false);
-    setTemplatesList((previousTemplates) => [
-      ...previousTemplates,
-      response?.pdfPath,
-    ]);
+    if (response?.status == true) {
+      setMessage("Template saved successfully!");
+      setOpenPopUp(true);
+      setIsLoadingReportOpen(false);
+      setTemplatesList((previousTemplates) => [
+        ...previousTemplates,
+        response?.pdfPath,
+      ]);
+    }
+  };
+
+  const handleProvisionSubmit = (response) => {
+    console.log("template_Submitted:", response);
+    if (response?.status == true) {
+      setMessage("Template saved successfully!");
+      setOpenPopUp(true);
+      setIsProvisionOpen(false);
+      setTemplatesList((previousTemplates) => [
+        ...previousTemplates,
+        response?.pdfPath,
+      ]);
+    }
+  };
+  const handleTransportationSubmit = (response) => {
+    if (response?.status == true) {
+      setMessage("Template saved successfully!");
+      setOpenPopUp(true);
+      console.log("template_Submitted:", response);
+      setIsTransportationOpen(false);
+      setTemplatesList((previousTemplates) => [
+        ...previousTemplates,
+        response?.pdfPath,
+      ]);
+    }
   };
 
   const [selectedStatus, setSelectedStatus] = useState(null);
@@ -790,12 +823,18 @@ const AddJobs = ({
         <ProvisionDeliveryNotes
           open={isProvisionOpen}
           onClose={handleCloseAllDialogs}
+          charge={charge}
+          onSubmit={handleProvisionSubmit}
+          selectedTemplateName={selectedTemplateName}
         />
       )}
       {isTransportationOpen && (
         <Transportationreciept
           open={isTransportationOpen}
           onClose={handleCloseAllDialogs}
+          selectedTemplateName={selectedTemplateName}
+          charge={charge}
+          onSubmit={handleTransportationSubmit}
         />
       )}
       {openPopUp && (

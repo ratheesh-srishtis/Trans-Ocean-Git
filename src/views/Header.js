@@ -27,44 +27,31 @@ const Header = () => {
       return "Soa";
     } else if (location.pathname == "/") {
       return "Dashboard";
-    }
-    else if (location.pathname == "/roles-settings") {
+    } else if (location.pathname == "/roles-settings") {
       return "Roles Settings";
-    }
-    else if (location.pathname == "/user-settings") {
+    } else if (location.pathname == "/user-settings") {
       return "User Settings";
-    }
-     else if (location.pathname == "/vessels-settings") {
+    } else if (location.pathname == "/vessels-settings") {
       return "Vessel Settings";
-    }
-    else if (location.pathname == "/vessel-type-settings") {
+    } else if (location.pathname == "/vessel-type-settings") {
       return "Vessel Type Settings";
-    }
-    else if (location.pathname == "/ports-settings") {
+    } else if (location.pathname == "/ports-settings") {
       return "Ports Settings";
-    }
-    else if (location.pathname == "/customer-settings") {
+    } else if (location.pathname == "/customer-settings") {
       return "Customer Settings";
-    }
-    else if (location.pathname == "/service-settings") {
+    } else if (location.pathname == "/service-settings") {
       return "Service Settings";
-    }
-    else if (location.pathname == "/charges-settings") {
+    } else if (location.pathname == "/charges-settings") {
       return "Charges Settings";
-    }
-    else if (location.pathname == "/sub-charges-settings") {
+    } else if (location.pathname == "/sub-charges-settings") {
       return "SubCharge Settings";
-    }
-    else if (location.pathname == "/cargo-settings") {
+    } else if (location.pathname == "/cargo-settings") {
       return "Cargo Settings";
-    }
-    else if (location.pathname == "/anchorage-locations") {
+    } else if (location.pathname == "/anchorage-locations") {
       return "Anchorage Location Settings";
-    }
-    else if (location.pathname == "/vendor-settings") {
+    } else if (location.pathname == "/vendor-settings") {
       return "Vendor Settings";
-    }
-    else if (location.pathname == "/QQform-settings") {
+    } else if (location.pathname == "/QQform-settings") {
       return "QQ Form Settings";
     }
     // Add more conditions as needed for other routes
@@ -81,7 +68,7 @@ const Header = () => {
         <div className="header--wrapper">
           <div className="header--title">
             <h5>{getHeaderText()}</h5>
-            <div className="version">{/*Version: 0.016*/}</div>
+            <div className="version">Version: 0.017</div>
           </div>
 
           <div className="d-flex flex-row-reverse ">
