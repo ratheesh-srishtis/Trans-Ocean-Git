@@ -135,7 +135,7 @@ const ProvisionDeliveryNotes = ({
       <div>
         <Dialog
           sx={{
-            width: 1100,
+            width: 800,
             margin: "auto",
             borderRadius: 2,
           }}
@@ -202,61 +202,65 @@ const ProvisionDeliveryNotes = ({
 
               {formData.items.map((item, index) => (
                 <>
-                  <div className="d-flex  gap-2" key={index}>
-                    <div className="col-4">
-                      <label
-                        htmlFor={`description-${index}`}
-                        class="form-label"
-                      >
-                        ITEM DESCRIPTION :{" "}
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id={`description-${index}`}
-                        name="description"
-                        value={item.description}
-                        onChange={(e) => handleItemChange(index, e)}
-                      />
-                    </div>
-                    <div className="col-4">
-                      <label htmlFor={`qty-${index}`} className="form-label">
-                        QTY:
-                      </label>
-                      <input
-                        type="number"
-                        className="form-control"
-                        id={`qty-${index}`}
-                        name="qty"
-                        value={item.qty}
-                        onChange={(e) => handleItemChange(index, e)}
-                      />
-                    </div>
-                    <div className="col-4">
-                      <label htmlFor={`unit-${index}`} className="form-label">
-                        UNIT:
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id={`unit-${index}`}
-                        name="unit"
-                        value={item.unit}
-                        onChange={(e) => handleItemChange(index, e)}
-                      />
-                    </div>
-                    <div className="col-1 d-flex align-items-end">
-                      {formData.items.length > 1 && (
-                        <button
-                          type="button"
-                          className="btn btn-danger"
-                          onClick={() => deleteItem(index)}
+<div className="provisionborder">
+<div className="d-flex  gap-2 " key={index}>
+                    <div className="d-flex provisionmar">
+                      <div className="col-3 provisionspace">
+                        <label
+                          htmlFor={`description-${index}`}
+                          class="form-label"
                         >
-                          Delete
-                        </button>
-                      )}
+                          ITEM DESCRIPTION :{" "}
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id={`description-${index}`}
+                          name="description"
+                          value={item.description}
+                          onChange={(e) => handleItemChange(index, e)}
+                        />
+                      </div>
+                      <div className="col-3 provisionspace">
+                        <label htmlFor={`qty-${index}`} className="form-label">
+                          QTY:
+                        </label>
+                        <input
+                          type="number"
+                          className="form-control"
+                          id={`qty-${index}`}
+                          name="qty"
+                          value={item.qty}
+                          onChange={(e) => handleItemChange(index, e)}
+                        />
+                      </div>
+                      <div className="col-3 provisionspace">
+                        <label htmlFor={`unit-${index}`} className="form-label">
+                          UNIT:
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id={`unit-${index}`}
+                          name="unit"
+                          value={item.unit}
+                          onChange={(e) => handleItemChange(index, e)}
+                        />
+                      </div>
+                      <div className="col-3 d-flex align-items-end">
+                          <button
+                            type="button"
+                            className="btn btn-danger"
+                            onClick={() => deleteItem(index)}
+                          >
+                            Delete
+                          </button>
+                      </div>
                     </div>
+
+
                   </div>
+</div>
                 </>
               ))}
 
@@ -294,3 +298,15 @@ const ProvisionDeliveryNotes = ({
 };
 
 export default ProvisionDeliveryNotes;
+
+
+
+// {formData.items.length > 1 && (
+//   <button
+//     type="button"
+//     className="btn btn-danger"
+//     onClick={() => deleteItem(index)}
+//   >
+//     Delete
+//   </button>
+// )}
