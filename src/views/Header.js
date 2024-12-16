@@ -54,6 +54,9 @@ const Header = () => {
     } else if (location.pathname == "/QQform-settings") {
       return "QQ Form Settings";
     }
+    else if (location.pathname == "/password-requests") {
+      return "Password Requests";
+    }
     // Add more conditions as needed for other routes
     return "Page";
   };
