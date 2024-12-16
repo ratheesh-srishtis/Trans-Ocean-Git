@@ -16,6 +16,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { generateTemplatePDF } from "../../../services/apiService";
 import { da } from "date-fns/locale";
 import PopUp from "../../PopUp";
+import moment from "moment";
+
 const ProvisionDeliveryNotes = ({
   open,
   onClose,
@@ -100,7 +102,7 @@ const ProvisionDeliveryNotes = ({
         const payload = {
           pdaChargeId: charge?._id,
           templateName: selectedTemplateName,
-          supplyDate: date,
+          supplyDate: moment(date).format("YYYY-MM-DD"),
           refNo: formData.refNo,
           items: formData.items,
         };
@@ -128,6 +130,11 @@ const ProvisionDeliveryNotes = ({
         console.log("Form submitted successfully", formData);
       }
     }
+  };
+
+  const handleDateChange = (date) => {
+    setDate(date);
+    console.log(date, "handleDateChange");
   };
 
   return (
@@ -160,29 +167,17 @@ const ProvisionDeliveryNotes = ({
                   <label for="exampleFormControlInput1" class="form-label">
                     SUPPLY DATE :
                   </label>
+
                   <DatePicker
-                    dateFormat="dd/MM/yyyy" // Date format without time
-                    selected={
-                      date ? parse(date, "dd/MM/yyyy", new Date()) : null
-                    } // Parse date if not null
-                    onChange={(selectedDate) => {
-                      if (selectedDate) {
-                        const formattedDate = format(
-                          selectedDate,
-                          "dd/MM/yyyy"
-                        ); // Format the selected date
-                        setDate(formattedDate); // Set the formatted date
-                        setDateError(false); // Clear error if a date is selected
-                      } else {
-                        setDate(""); // Clear the date if invalid
-                        setDateError(true); // Set error if invalid
-                      }
-                    }}
+                    dateFormat="dd/MM/yyyy"
+                    selected={date && new Date(date)} // Inline date conversion for prefilled value
+                    onChange={handleDateChange}
                     className="form-control date-input"
-                    id="date-picker"
+                    id="etd-picker"
                     placeholderText="Select Date"
                     autoComplete="off"
                   />
+
                   {dateError && <div className="invalid">{dateError}</div>}
                 </div>
                 <div className="col-4">
@@ -202,65 +197,71 @@ const ProvisionDeliveryNotes = ({
 
               {formData.items.map((item, index) => (
                 <>
-<div className="provisionborder">
-<div className="d-flex  gap-2 " key={index}>
-                    <div className="d-flex provisionmar">
-                      <div className="col-3 provisionspace">
-                        <label
-                          htmlFor={`description-${index}`}
-                          class="form-label"
-                        >
-                          ITEM DESCRIPTION :{" "}
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id={`description-${index}`}
-                          name="description"
-                          value={item.description}
-                          onChange={(e) => handleItemChange(index, e)}
-                        />
-                      </div>
-                      <div className="col-3 provisionspace">
-                        <label htmlFor={`qty-${index}`} className="form-label">
-                          QTY:
-                        </label>
-                        <input
-                          type="number"
-                          className="form-control"
-                          id={`qty-${index}`}
-                          name="qty"
-                          value={item.qty}
-                          onChange={(e) => handleItemChange(index, e)}
-                        />
-                      </div>
-                      <div className="col-3 provisionspace">
-                        <label htmlFor={`unit-${index}`} className="form-label">
-                          UNIT:
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id={`unit-${index}`}
-                          name="unit"
-                          value={item.unit}
-                          onChange={(e) => handleItemChange(index, e)}
-                        />
-                      </div>
-                      <div className="col-3 d-flex align-items-end">
-                          <button
-                            type="button"
-                            className="btn btn-danger"
-                            onClick={() => deleteItem(index)}
+                  <div className="provisionborder">
+                    <div className="d-flex  gap-2 " key={index}>
+                      <div className="d-flex provisionmar">
+                        <div className="col-3 provisionspace">
+                          <label
+                            htmlFor={`description-${index}`}
+                            class="form-label"
                           >
-                            Delete
-                          </button>
+                            ITEM DESCRIPTION :{" "}
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            id={`description-${index}`}
+                            name="description"
+                            value={item.description}
+                            onChange={(e) => handleItemChange(index, e)}
+                          />
+                        </div>
+                        <div className="col-3 provisionspace">
+                          <label
+                            htmlFor={`qty-${index}`}
+                            className="form-label"
+                          >
+                            QTY:
+                          </label>
+                          <input
+                            type="number"
+                            className="form-control"
+                            id={`qty-${index}`}
+                            name="qty"
+                            value={item.qty}
+                            onChange={(e) => handleItemChange(index, e)}
+                          />
+                        </div>
+                        <div className="col-3 provisionspace">
+                          <label
+                            htmlFor={`unit-${index}`}
+                            className="form-label"
+                          >
+                            UNIT:
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            id={`unit-${index}`}
+                            name="unit"
+                            value={item.unit}
+                            onChange={(e) => handleItemChange(index, e)}
+                          />
+                        </div>
+                        <div className="col-3 d-flex align-items-end">
+                          {formData.items.length > 1 && (
+                            <button
+                              type="button"
+                              className="btn btn-danger"
+                              onClick={() => deleteItem(index)}
+                            >
+                              Delete
+                            </button>
+                          )}
+                        </div>
                       </div>
                     </div>
-
-
                   </div>
-</div>
                 </>
               ))}
 
@@ -302,15 +303,3 @@ const ProvisionDeliveryNotes = ({
 };
 
 export default ProvisionDeliveryNotes;
-
-
-
-// {formData.items.length > 1 && (
-//   <button
-//     type="button"
-//     className="btn btn-danger"
-//     onClick={() => deleteItem(index)}
-//   >
-//     Delete
-//   </button>
-// )}

@@ -14,6 +14,8 @@ import DatePicker from "react-datepicker";
 import { generateTemplatePDF } from "../../../services/apiService";
 import { format, parse } from "date-fns";
 import PopUp from "../../PopUp";
+import moment from "moment";
+
 const Transportationreciept = ({
   open,
   onClose,
@@ -43,7 +45,8 @@ const Transportationreciept = ({
   });
 
   const handleDateChange = (date, index) => {
-    const formattedDate = date ? format(date, "dd/MM/yyyy") : "";
+    console.log(date, index, "handleDateChange_trans");
+    const formattedDate = moment(date).format("YYYY-MM-DD");
     const updatedItems = [...formData.items];
     updatedItems[index].date = formattedDate;
     setFormData((prev) => ({ ...prev, items: updatedItems }));
@@ -51,7 +54,6 @@ const Transportationreciept = ({
 
   const handleInputChange = (e, index = null) => {
     const { name, value } = e.target;
-
     if (index !== null) {
       // Update items array for specific index
       const updatedItems = [...formData.items];
@@ -123,7 +125,7 @@ const Transportationreciept = ({
           pdaChargeId: charge?._id,
           templateName: selectedTemplateName,
           jobTitle: formData.jobTitle,
-          date: date,
+          date: moment(date).format("YYYY-MM-DD"),
           refNo: formData.refNo,
           agent: formData.agent,
           transporter: formData.transporter,
@@ -153,6 +155,10 @@ const Transportationreciept = ({
         console.log("Form submitted successfully", formData);
       }
     }
+  };
+
+  const handleMainDateChange = (date) => {
+    setDate(date);
   };
 
   return (
@@ -198,23 +204,15 @@ const Transportationreciept = ({
                   Date:
                 </label>
                 <DatePicker
-                  dateFormat="dd/MM/yyyy" // Date format without time
-                  selected={date ? parse(date, "dd/MM/yyyy", new Date()) : null} // Parse date if not null
-                  onChange={(selectedDate) => {
-                    if (selectedDate) {
-                      const formattedDate = format(selectedDate, "dd/MM/yyyy"); // Format the selected date
-                      setDate(formattedDate); // Set the formatted date
-                      setDateError(false); // Clear error if a date is selected
-                    } else {
-                      setDate(""); // Clear the date if invalid
-                      setDateError(true); // Set error if invalid
-                    }
-                  }}
+                  dateFormat="dd/MM/yyyy"
+                  selected={date && new Date(date)} // Inline date conversion for prefilled value
+                  onChange={handleMainDateChange}
                   className="form-control date-input"
-                  id="date-picker"
+                  id="etd-picker"
                   placeholderText="Select Date"
                   autoComplete="off"
                 />
+
                 {dateError && <div className="invalid">{dateError}</div>}
               </div>
             </div>
@@ -240,7 +238,10 @@ const Transportationreciept = ({
                 <div className="transmar">
                   <div className="row d-flex">
                     <div className="col-4 slwidth">
-                      <label htmlFor={`seaname-${index}`} className="form-label">
+                      <label
+                        htmlFor={`seaname-${index}`}
+                        className="form-label"
+                      >
                         Name:
                       </label>
                       <input
@@ -253,16 +254,16 @@ const Transportationreciept = ({
                       />
                     </div>
                     <div className="col-4 slwidth ">
-                      <label htmlFor={`date-${index}`} className="form-label transdate">
+                      <label
+                        htmlFor={`date-${index}`}
+                        className="form-label transdate"
+                      >
                         Date:
                       </label>
+
                       <DatePicker
                         dateFormat="dd/MM/yyyy"
-                        selected={
-                          item.date
-                            ? parse(item.date, "dd/MM/yyyy", new Date())
-                            : null
-                        }
+                        selected={item.date && new Date(item.date)} // Inline date conversion for prefilled value
                         onChange={(selectedDate) =>
                           handleDateChange(selectedDate, index)
                         }
@@ -311,7 +312,6 @@ const Transportationreciept = ({
                     </div>
                   </div>
                 </div>
-
               </div>
             ))}
 
@@ -377,7 +377,6 @@ const Transportationreciept = ({
 };
 
 export default Transportationreciept;
-
 
 // {formData.items.length > 1 && (
 //   <button
