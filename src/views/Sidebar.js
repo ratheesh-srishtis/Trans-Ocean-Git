@@ -204,6 +204,12 @@ const Sidebar = () => {
                             >
                              QQForms
                             </li>
+                            <li
+                              className="menusub"
+                              onClick={() => navigate("/password-requests")}
+                            >
+                             Password Requests
+                            </li>
                           </ul>
                         </div>
                       )}
