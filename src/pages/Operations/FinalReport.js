@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "../../css/finalreport.css";
 import SendReport from "./SendReport";
 import PopUp from "../PopUp";
+import FinalReportDialog from "./FinalReportDialog";
+import QQDialog from "./QQDialog";
 const FinalReport = ({
   vessels,
   ports,
@@ -30,6 +32,34 @@ const FinalReport = ({
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const [finalDialogOpen, setFinalDialogOpen] = useState(false);
+
+  const openFinalDialog = () => {
+    handleFinalDialogClickOpen();
+  };
+
+  const handleFinalDialogClickOpen = () => {
+    setFinalDialogOpen(true);
+  };
+
+  const handleFinalDialogueClose = () => {
+    setFinalDialogOpen(false);
+  };
+
+  const [QQDialogOpen, setQQDialogOpen] = useState(false);
+
+  const openQQDialog = () => {
+    handleQQClickOpen();
+  };
+
+  const handleQQClickOpen = () => {
+    setQQDialogOpen(true);
+  };
+
+  const handleQQDialogueClose = () => {
+    setQQDialogOpen(false);
   };
 
   return (
@@ -326,7 +356,12 @@ const FinalReport = ({
 
       <div class="buttons-wrapper">
         <div class="left">
-          <button class="btn btna submit-button btnfsize">
+          <button
+            class="btn btna submit-button btnfsize"
+            onClick={() => {
+              openFinalDialog();
+            }}
+          >
             Generate Report
           </button>
         </div>
@@ -342,7 +377,7 @@ const FinalReport = ({
           <button
             class="btn btna submit-button btnfsize"
             onClick={() => {
-              navigate("/qq-form");
+              openQQDialog();
             }}
           >
             QQ Form
@@ -351,6 +386,11 @@ const FinalReport = ({
       </div>
 
       <SendReport open={open} onClose={handleClose} />
+      <FinalReportDialog
+        open={finalDialogOpen}
+        onClose={handleFinalDialogueClose}
+      />
+      <QQDialog open={QQDialogOpen} onClose={handleQQDialogueClose} />
     </>
   );
 };

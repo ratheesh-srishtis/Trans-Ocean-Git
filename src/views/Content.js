@@ -107,7 +107,10 @@ const Content = () => {
         path="/update-jobs"
         element={<UpdateJobs templates={templates} />}
       />
-      <Route path="/view-operation" element={<ViewOperations />} />
+      <Route
+        path="/view-operation"
+        element={<ViewOperations services={services} />}
+      />
       <Route
         path="/edit-operation"
         element={
@@ -157,7 +160,7 @@ const Content = () => {
           />
         }
       />
-            <Route path="/job-report" element={<JobReport />} />
+      <Route path="/job-report" element={<JobReport />} />
 
       <Route path="/roles-settings" element={<RolesSettings />} />
       <Route path="/user-settings" element={<UserSettings />} />
@@ -169,10 +172,13 @@ const Content = () => {
       <Route path="/charges-settings" element={<ChargesSettings />} />
       <Route path="/sub-charges-settings" element={<SubChargesSettings />} />
       <Route path="/cargo-settings" element={<CargoSettings />} />
-      <Route path="/anchorage-locations" element={<AnchorageLocationSettings />} />
-      <Route path="/vendor-settings" element={<VendorSettings/>} />
-      <Route path="/QQform-settings" element={<QQFormSettings/>} />
-      <Route path="/password-requests" element={<PasswordRequests/>} />
+      <Route
+        path="/anchorage-locations"
+        element={<AnchorageLocationSettings />}
+      />
+      <Route path="/vendor-settings" element={<VendorSettings />} />
+      <Route path="/QQform-settings" element={<QQFormSettings />} />
+      <Route path="/password-requests" element={<PasswordRequests />} />
     </Routes>
   );
 };

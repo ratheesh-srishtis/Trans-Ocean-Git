@@ -292,7 +292,7 @@ const Quotations = ({ loginResponse }) => {
         <div class="d-flex gap-3 rightside">
           <div class=" searchmain">
             <input
-              type="email"
+              type="text"
               className="form-control search"
               id="exampleFormControlInput1"
               placeholder="Search"

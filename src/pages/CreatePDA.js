@@ -1187,6 +1187,7 @@ const CreatePDA = ({
                   ports={ports}
                   onEdit={handleEdit}
                   pdaResponse={pdaResponse}
+                  isAction={true}
                 />
               </div>
             </div>
@@ -1355,7 +1356,10 @@ const CreatePDA = ({
         formData={formData}
         services={services}
         customers={customers}
+        cargos={cargos}
         ports={ports}
+        vendors={vendors}
+        vessels={vessels}
         isEditcharge={isEditcharge}
         editCharge={editCharge}
         editIndex={editIndex}

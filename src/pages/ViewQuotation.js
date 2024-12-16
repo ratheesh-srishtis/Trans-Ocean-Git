@@ -22,6 +22,7 @@ const ViewQuotation = ({
   const [editData, setEditData] = useState(null);
   const [fetchInitiated, setFetchInitiated] = useState(false); // State to track fetch initiation
   const [finalChargesArray, setFinalChargesArray] = useState([]);
+  const [pdavalues, setPdavalues] = useState(null);
 
   console.log("Row data:", row);
 
@@ -62,14 +63,15 @@ const ViewQuotation = ({
     }
   };
 
-  useEffect(() => {
-    console.log(customers, "customers");
-  }, [customers]);
-
   const updateValues = (response) => {
-    console.log(response, "updateValues");
+    console.log(response?.pda?.pda, "updateValues");
+    setPdavalues(response?.pda);
     setFinalChargesArray(response?.pdaServices);
   };
+
+  useEffect(() => {
+    console.log(pdavalues, "pdavalues");
+  }, [pdavalues]);
 
   return (
     <>

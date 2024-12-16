@@ -1,20 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../css/ops-dashboard.css";
-import { getAllJobs } from "../../services/apiService";
+import { getAllJobs, deleteQuotation } from "../../services/apiService";
 import Loader from "../Loader";
+import Swal from "sweetalert2";
+import PopUp from "../PopUp";
 const OpsDashboard = () => {
   const Group = require("../../assets/images/hugeicons_new-job.png");
-  const [isLoading, setIsLoading] = useState(false); // Loader state
   const [jobsList, setJobsList] = useState([]); // Loader state
   const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState("all");
-  const fetchAllJObs = async (type) => {
+  const [statusList, setStatusList] = useState([]);
+  const [selectedStatus, setSelectedStatus] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isLoading, setIsLoading] = useState(false); // Loader state
+  const [openPopUp, setOpenPopUp] = useState(false);
+  const [message, setMessage] = useState("");
+  const fetchAllJObs = async (type, status, searchValue) => {
     setSelectedTab(type);
     try {
       setIsLoading(true);
       let userData = {
-        filter: type,
+        filter: type, // Always include the filter
+        statusFilter: status, // Include statusFilter if selectedStatus has a value
+        searchKey: searchValue, // Include searchKey if searchTerm has a value
       };
       const quotations = await getAllJobs(userData);
       console.log("Quotations:", quotations);
@@ -27,7 +36,15 @@ const OpsDashboard = () => {
   };
 
   useEffect(() => {
-    fetchAllJObs("all");
+    setStatusList([
+      { label: "All", value: "all" },
+      { label: "Customer Approved", value: 5 },
+      { label: "Pending From Operations", value: 6 },
+      { label: "Operations Completed", value: 7 },
+    ]);
+  }, []);
+  useEffect(() => {
+    fetchAllJObs("all", selectedStatus, searchTerm);
   }, []);
 
   useEffect(() => {
@@ -42,6 +59,56 @@ const OpsDashboard = () => {
     navigate("/view-operation", { state: { row } });
   };
 
+  const handleSelectChange = (event) => {
+    const { name, value } = event.target;
+    switch (name) {
+      case "status":
+        setSelectedStatus(value);
+        fetchAllJObs(selectedTab, value, searchTerm); // Call fetchAllJobs with the updated status
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleSearch = (event) => {
+    const value = event.target.value.toLowerCase();
+    setSearchTerm(value);
+    fetchAllJObs(selectedTab, selectedStatus, value);
+  };
+
+  const handleDelete = async (item) => {
+    console.log(item, "item handleDelete");
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        if (item?._id) {
+          try {
+            let payload = {
+              pdaId: item?._id,
+            };
+            const response = await deleteQuotation(payload);
+            console.log("Fetched Charges:", response);
+            setMessage("Quotation has been successfully deleted");
+            setOpenPopUp(true);
+            fetchAllJObs("all");
+          } catch (error) {
+            console.error("Error fetching charges:", error);
+            Swal.fire("Error deleting quotation");
+            fetchAllJObs("all");
+          }
+        }
+      }
+    });
+  };
+
   return (
     <>
       <div className="d-flex justify-content-between mt-3">
@@ -53,7 +120,7 @@ const OpsDashboard = () => {
                   selectedTab === "all" ? "active-nav-style" : ""
                 }`}
                 aria-current="page"
-                onClick={() => fetchAllJObs("all")}
+                onClick={() => fetchAllJObs("all", selectedStatus, searchTerm)}
               >
                 All
               </a>
@@ -63,7 +130,7 @@ const OpsDashboard = () => {
                 className={`nav-link carduppercontent ${
                   selectedTab === "day" ? "active-nav-style" : ""
                 }`}
-                onClick={() => fetchAllJObs("day")}
+                onClick={() => fetchAllJObs("day", selectedStatus, searchTerm)}
               >
                 Last 24 Hour
               </a>
@@ -74,24 +141,30 @@ const OpsDashboard = () => {
         <div class="d-flex gap-2 rightside">
           <div class=" searchmain">
             <input
-              type="email"
-              className="form-control searchops"
+              type="text"
+              className="form-control search"
               id="exampleFormControlInput1"
               placeholder="Search"
+              value={searchTerm}
+              onChange={handleSearch}
             />
             <i className="bi bi-search searchicon"></i>
           </div>
           <div class=" filtermainjobs ">
             <i class="bi bi-funnel-fill filtericon"></i>
             <select
-              class="form-select form-select-sm filter"
+              className="form-select form-select-sm filter"
               aria-label="Small select example"
               name="status"
+              onChange={handleSelectChange}
+              value={selectedStatus}
             >
-              <option value="">Filter By Status</option>
-              <option value="">Customer Approved</option>
-              <option value="">Pending From OPS</option>
-              <option value="">Operations Completed</option>
+              <option value="">Select Status</option>
+              {statusList.map((status) => (
+                <option key={status.value} value={status.value}>
+                  {status.label}
+                </option>
+              ))}
             </select>
           </div>
         </div>
@@ -154,7 +227,10 @@ const OpsDashboard = () => {
                               class="bi bi-pencil-square dashedit"
                               onClick={() => handleEditJob(job)}
                             ></i>
-                            <i class="bi bi-trash-fill dashdelete"></i>
+                            <i
+                              class="bi bi-trash-fill dashdelete"
+                              onClick={() => handleDelete(job)}
+                            ></i>
                           </div>
                         </div>
                       </div>
@@ -308,6 +384,9 @@ const OpsDashboard = () => {
         </div> */}
       </div>
       <Loader isLoading={isLoading} />
+      {openPopUp && (
+        <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
+      )}
     </>
   );
 };

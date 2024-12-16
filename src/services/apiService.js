@@ -704,7 +704,10 @@ export const getAllAnchorageLoations = async (data) => {
 };
 export const saveAnchorageLoation = async (userData) => {
   try {
-    const response = await axiosInstance.post("/saveAnchorageLoation", userData);
+    const response = await axiosInstance.post(
+      "/saveAnchorageLoation",
+      userData
+    );
     return response.data;
   } catch (error) {
     console.error("Error:", error);
@@ -713,7 +716,10 @@ export const saveAnchorageLoation = async (userData) => {
 };
 export const editAnchorageLoation = async (userData) => {
   try {
-    const response = await axiosInstance.post("/editAnchorageLoation", userData);
+    const response = await axiosInstance.post(
+      "/editAnchorageLoation",
+      userData
+    );
     return response.data;
   } catch (error) {
     console.error("Error:", error);
@@ -722,7 +728,10 @@ export const editAnchorageLoation = async (userData) => {
 };
 export const deleteAnchorageLoation = async (userData) => {
   try {
-    const response = await axiosInstance.post("/deleteAnchorageLoation", userData);
+    const response = await axiosInstance.post(
+      "/deleteAnchorageLoation",
+      userData
+    );
     return response.data;
   } catch (error) {
     console.error("Error:", error);
@@ -761,7 +770,10 @@ export const editQQFormQuestion = async (userData) => {
 };
 export const deleteQQFormQuestion = async (userData) => {
   try {
-    const response = await axiosInstance.post("/deleteQQFormQuestion", userData);
+    const response = await axiosInstance.post(
+      "/deleteQQFormQuestion",
+      userData
+    );
     return response.data;
   } catch (error) {
     console.error("Error:", error);
@@ -773,7 +785,10 @@ export const deleteQQFormQuestion = async (userData) => {
 
 export const getAllResetPasswordRequests = async (data) => {
   try {
-    const response = await axiosInstance.post("/getAllResetPasswordRequests", data);
+    const response = await axiosInstance.post(
+      "/getAllResetPasswordRequests",
+      data
+    );
     return response.data;
   } catch (error) {
     console.error("List all users API Error:", error);
@@ -789,7 +804,6 @@ export const ChangePassword = async (userData) => {
     throw error;
   }
 };
-
 
 export const uploadDocuments = async (formData) => {
   try {

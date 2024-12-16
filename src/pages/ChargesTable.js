@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getCharges, getSubcharges } from "../services/apiService";
 import Swal from "sweetalert2";
 import Tabs from "@mui/material/Tabs";
@@ -42,6 +42,7 @@ const ChargesTable = ({
   pdaResponse,
   onSubmit,
   vendors,
+  isAction,
 }) => {
   const [charges, setCharges] = useState([]);
   const [subCharges, setSubCharges] = useState([]);
@@ -50,6 +51,7 @@ const ChargesTable = ({
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
   console.log(chargesArray, "chargesArray ChargesTable");
+  console.log(isAction, "isAction");
 
   // const totalValues = chargesArray?.reduce(
   //   (totals, charge) => {
@@ -163,13 +165,13 @@ const ChargesTable = ({
       if (id) {
         fetchCharges(id);
       }
-      const service = services.find((s) => s._id === id);
+      const service = services?.find((s) => s._id === id);
       return service ? service.serviceName : "Unknown Service";
     } else if (name === "customer") {
-      const customer = customers.find((s) => s._id === id);
+      const customer = customers?.find((s) => s._id === id);
       return customer ? customer.customerName : "Unknown Customer";
     } else if (name === "vendor") {
-      const vendor = vendors.find((s) => s._id === id);
+      const vendor = vendors?.find((s) => s._id === id);
       return vendor ? vendor.vendorName : "Unknown vendor";
     } else if (name === "chargeType") {
       if (id) {
@@ -239,6 +241,10 @@ const ChargesTable = ({
     setValueTabs(newValue);
   };
 
+  useEffect(() => {
+    console.log(services, "services");
+  }, [services]);
+
   return (
     <>
       <Box sx={{ width: "100%" }}>
@@ -276,7 +282,11 @@ const ChargesTable = ({
                   <th className="tableheadcolor">VAT Amount</th>
                   <th className="tableheadcolor">Total OMR</th>
                   <th className="tableheadcolor">Total USD</th>
-                  <th className="tableheadcolor">Actions</th>{" "}
+                  {isAction == true && (
+                    <>
+                      <th className="tableheadcolor">Actions</th>{" "}
+                    </>
+                  )}
                   {/* Added Actions Column */}
                 </tr>
               </thead>
@@ -310,20 +320,24 @@ const ChargesTable = ({
                         ).toFixed(3)}
                       </td>
                       <td>{charge.customerTotalUSD.toFixed(2)}</td>
-                      <td>
-                        {/* Edit and Delete Buttons */}
+                      {isAction == true && (
+                        <>
+                          <td>
+                            {/* Edit and Delete Buttons */}
 
-                        <i
-                          className="bi bi-pencil-square editicon"
-                          onClick={() => handleEdit(charge, index)}
-                        >
-                          {" "}
-                        </i>
-                        <i
-                          className="bi bi-trash deleteicon"
-                          onClick={() => handleDelete(charge, index)}
-                        ></i>
-                      </td>
+                            <i
+                              className="bi bi-pencil-square editicon"
+                              onClick={() => handleEdit(charge, index)}
+                            >
+                              {" "}
+                            </i>
+                            <i
+                              className="bi bi-trash deleteicon"
+                              onClick={() => handleDelete(charge, index)}
+                            ></i>
+                          </td>
+                        </>
+                      )}
                     </tr>
                   ))}
               </tbody>
@@ -361,7 +375,11 @@ const ChargesTable = ({
                         ).toFixed(3)}
                       </td>
                       <td>{formattedTotals.customerTotalUSD}</td>
-                      <td></td> {/* Empty cell for footer */}
+                      {isAction == true && (
+                        <>
+                          <td></td> {/* Empty cell for footer */}
+                        </>
+                      )}
                     </tr>
                   </tfoot>
                 </>
@@ -469,7 +487,11 @@ const ChargesTable = ({
                         ).toFixed(3)}
                       </td>
                       <td>{formattedVendorTotals.vendorTotalUSD}</td>
-                      <td></td> {/* Empty cell for footer */}
+                      {isAction == true && (
+                        <>
+                          <td></td> {/* Empty cell for footer */}
+                        </>
+                      )}
                     </tr>
                   </tfoot>
                 </>

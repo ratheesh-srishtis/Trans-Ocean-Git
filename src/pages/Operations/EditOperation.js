@@ -5,6 +5,7 @@ import {
   getPdaDetails,
   uploadDocuments,
   editPDA,
+  changeQuotationStatus,
 } from "../../services/apiService";
 import Loader from "../Loader";
 import PopUp from "../PopUp";
@@ -67,7 +68,7 @@ const EditOperation = ({
     }
   }, [row]);
 
-  // Fetch data only once when `editData` changes
+  // Fetch data only once when `editData` changes "6756c8e1b42b5b76e6934d29"
   useEffect(() => {
     console.log(editData, "editData");
     if (editData && !fetchInitiated) {
@@ -308,6 +309,28 @@ const EditOperation = ({
     selectedPdaId,
     selectedPdaStatus,
   ]);
+
+  const updateQuotation = async () => {
+    let pdaPayload = {
+      pdaId: editData?._id,
+      status: 6,
+    };
+    try {
+      const response = await changeQuotationStatus(pdaPayload);
+      console.log(response, "login_response");
+      if (response?.status == true) {
+        setMessage("PDA completed successfully");
+        setOpenPopUp(true);
+      } else {
+        setMessage("PDA failed. Please try again");
+        setOpenPopUp(true);
+      }
+    } catch (error) {
+      setMessage("PDA failed. Please try again");
+      setOpenPopUp(true);
+    } finally {
+    }
+  };
 
   return (
     <>
@@ -587,6 +610,7 @@ const EditOperation = ({
                 onEdit={handleEdit}
                 templates={templates}
                 vendors={vendors}
+                isAction={true}
               />
             </div>
           </div>
@@ -609,7 +633,14 @@ const EditOperation = ({
             >
               Final Report
             </button>
-            <button class="btn btna submit-button btnfsize">Completed</button>
+            <button
+              class="btn btna submit-button btnfsize"
+              onClick={() => {
+                updateQuotation();
+              }}
+            >
+              Completed
+            </button>
             <button
               class="btn btna submit-button btnfsize"
               onClick={() => {

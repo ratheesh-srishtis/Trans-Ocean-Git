@@ -22,6 +22,7 @@ const ViewOperations = ({
   const [editData, setEditData] = useState(null);
   const [fetchInitiated, setFetchInitiated] = useState(false); // State to track fetch initiation
   const [finalChargesArray, setFinalChargesArray] = useState([]);
+  const [pdaValues, setPdaValues] = useState("");
 
   console.log("Row data:", row);
 
@@ -62,15 +63,16 @@ const ViewOperations = ({
     }
   };
 
-  useEffect(() => {
-    console.log(customers, "customers");
-  }, [customers]);
-
   const updateValues = (response) => {
     console.log(response, "updateValues");
     setFinalChargesArray(response?.pdaServices);
+    setPdaValues(response?.pda);
   };
 
+  useEffect(() => {
+    console.log(pdaValues, "pdaValues");
+    console.log(services, "services");
+  }, [pdaValues, services]);
   return (
     <>
       <div className="pda-no">
@@ -121,24 +123,33 @@ const ViewOperations = ({
         <div className="row viewquocontent">
           <div className=" col-4 viewhead">
             <span> IMO No:</span>{" "}
-            <span className="viewans"> {editData?.IMONumber}</span>
+            <span className="viewans"> {pdaValues?.IMONumber}</span>
           </div>
           <div className=" col-4 viewhead">
-            <span> GRT:</span> <span className="viewans"> {editData?.GRT}</span>
+            <span> GRT:</span>{" "}
+            <span className="viewans"> {pdaValues?.GRT}</span>
           </div>
           <div className=" col-4 viewhead">
-            <span> ETD:</span> <span className="viewans"> {editData?.ETD}</span>
+            <span> ETD:</span>{" "}
+            <span className="viewans">
+              {new Date(pdaValues?.ETD).toLocaleDateString("en-GB")}
+            </span>
           </div>
         </div>
         <div className="row viewquocontent">
           <div className=" col-4 viewhead">
-            <span> LOA:</span> <span className="viewans"> {editData?.LOA}</span>
+            <span> LOA:</span>{" "}
+            <span className="viewans"> {pdaValues?.LOA}</span>
           </div>
           <div className=" col-4 viewhead">
-            <span> NRT:</span> <span className="viewans"> {editData?.NRT}</span>
+            <span> NRT:</span>{" "}
+            <span className="viewans"> {pdaValues?.NRT}</span>
           </div>
           <div className=" col-4 viewhead">
-            <span> ETA:</span> <span className="viewans"> {editData?.ETA}</span>
+            <span> ETA:</span>{" "}
+            <span className="viewans">
+              {new Date(pdaValues?.ETA).toLocaleDateString("en-GB")}
+            </span>
           </div>
         </div>
         {editData?.customerId && (
@@ -162,6 +173,7 @@ const ViewOperations = ({
               services={services}
               customers={customers}
               ports={ports}
+              isAction={false}
             />
           </div>
         </div>

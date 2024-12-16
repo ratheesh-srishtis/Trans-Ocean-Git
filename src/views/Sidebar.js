@@ -20,7 +20,7 @@ const Sidebar = () => {
   }, []);
 
   const navigate = useNavigate();
-  const [activeMenu, setActiveMenu] = useState("dashboard");
+  const [activeMenu, setActiveMenu] = useState("");
   const [showSubmenu, setShowSubmenu] = useState(false);
 
   const [menuList, setMenuList] = useState([]);
@@ -67,8 +67,15 @@ const Sidebar = () => {
   }, [loginResponse]);
 
   useEffect(() => {
+    if (lastPath) {
+      setActiveMenu(lastPath);
+    }
+  }, [lastPath]);
+
+  useEffect(() => {
     console.log(menuList, "menuList");
-  }, [menuList]);
+    console.log(activeMenu, "activeMenu");
+  }, [activeMenu]);
 
   // Define menu items with icons and paths
   const menuItems = {
@@ -155,7 +162,7 @@ const Sidebar = () => {
                             >
                               Ports
                             </li>
-                          
+
                             <li
                               className="menusub"
                               onClick={() => navigate("/customer-settings")}
@@ -196,19 +203,19 @@ const Sidebar = () => {
                               className="menusub"
                               onClick={() => navigate("/vendor-settings")}
                             >
-                             Vendors
+                              Vendors
                             </li>
                             <li
                               className="menusub"
                               onClick={() => navigate("/QQform-settings")}
                             >
-                             QQForms
+                              QQForms
                             </li>
                             <li
                               className="menusub"
                               onClick={() => navigate("/password-requests")}
                             >
-                             Password Requests
+                              Password Requests
                             </li>
                           </ul>
                         </div>

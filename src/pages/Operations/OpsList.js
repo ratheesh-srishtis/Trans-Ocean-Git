@@ -165,11 +165,9 @@ const OpsList = ({ loginResponse }) => {
 
   useEffect(() => {
     setStatusList([
-      "Draft PDA",
-      "Waiting For Approval From Finance Manager",
-      "Internally Approved",
-      "Rejected By Finance Manager",
       "Customer Approved",
+      "Pending From Operations",
+      "Operations Completed",
     ]);
   }, []);
 
