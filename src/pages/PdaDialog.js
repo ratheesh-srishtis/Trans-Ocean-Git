@@ -190,10 +190,10 @@ const PdaDialog = ({
   );
 
   const formattedTotals = {
-    quantity: totalValues.quantity,
-    customerOMR: totalValues.customerOMR.toFixed(3),
-    customerVAT: totalValues.customerVAT.toFixed(3),
-    customerTotalUSD: totalValues.customerTotalUSD.toFixed(2),
+    quantity: totalValues?.quantity,
+    customerOMR: totalValues?.customerOMR.toFixed(3),
+    customerVAT: totalValues?.customerVAT.toFixed(3),
+    customerTotalUSD: totalValues?.customerTotalUSD.toFixed(2),
   };
 
   return (
@@ -237,8 +237,8 @@ const PdaDialog = ({
               <tr>
                 <th colspan="5" className="styltwo">
                   To{" "}
-                  {pdaDetails.customerId
-                    ? getItemName(pdaDetails.customerId, "customer")
+                  {pdaDetails?.customerId
+                    ? getItemName(pdaDetails?.customerId, "customer")
                     : ""}
                 </th>
 
@@ -267,31 +267,31 @@ const PdaDialog = ({
               <tr>
                 <th colspan="3" className="mvstyl">
                   {" "}
-                  {pdaDetails.vesselId
-                    ? getItemName(pdaDetails.vesselId, "vessel")
+                  {pdaDetails?.vesselId
+                    ? getItemName(pdaDetails?.vesselId, "vessel")
                     : ""}
                 </th>
 
                 <th className="mvstyl">
-                  {pdaDetails.portId
-                    ? getItemName(pdaDetails.portId, "port")
+                  {pdaDetails?.portId
+                    ? getItemName(pdaDetails?.portId, "port")
                     : ""}
                 </th>
                 <th className="mvstyl">
                   {" "}
-                  {moment(pdaDetails.ETA).format("DD-MM-YYYY hh:mm A")}
+                  {moment(pdaDetails?.ETA).format("DD-MM-YYYY hh:mm A")}
                 </th>
                 <th className="mvstyl">
                   {" "}
-                  {moment(pdaDetails.ETD).format("DD-MM-YYYY hh:mm A")}
+                  {moment(pdaDetails?.ETD).format("DD-MM-YYYY hh:mm A")}
                 </th>
                 <th className="mvstyl">
                   {" "}
-                  {pdaDetails.cargoId
-                    ? getItemName(pdaDetails.cargoId, "cargo")
+                  {pdaDetails?.cargoId
+                    ? getItemName(pdaDetails?.cargoId, "cargo")
                     : ""}
                 </th>
-                <th className="mvstyl">{pdaDetails.LOA}</th>
+                <th className="mvstyl">{pdaDetails?.LOA}</th>
                 <th className="stylee "></th>
               </tr>
               <tr>
@@ -299,9 +299,9 @@ const PdaDialog = ({
                   GRT
                 </th>
 
-                <th className="stylee">{pdaDetails.GRT}</th>
+                <th className="stylee">{pdaDetails?.GRT}</th>
                 <th className="mvstyl"> NRT</th>
-                <th className="mvstyl">{pdaDetails.NRT}</th>
+                <th className="mvstyl">{pdaDetails?.NRT}</th>
                 <th className="mvstyl"></th>
                 <th className="mvstyl"></th>
                 <th className="stylb"></th>
