@@ -81,6 +81,7 @@ const FinalReport = ({
                 <th className="tabhead">SERVICE ACTIVITIES</th>
                 <th className="tabhead">QUANTITY </th>
                 <th className="tabhead">REMARKS </th>
+                <th className="tabhead"> </th>
               </tr>
             </thead>
             <tbody>
@@ -126,6 +127,9 @@ const FinalReport = ({
                     placeholder=""
                   ></input>
                 </td>
+                <td className="tdstyl">
+                <i class="bi bi-trash-fill jobdeleiconn"></i>
+                </td>
               </tr>
               <tr>
                 <td className="tdstylwidt">2</td>
@@ -168,6 +172,9 @@ const FinalReport = ({
                     id="exampleFormControlInput1"
                     placeholder=""
                   ></input>
+                </td>
+                <td className="tdstyl">
+                <i class="bi bi-trash-fill jobdeleiconn"></i>
                 </td>
               </tr>
               <tr>
@@ -212,6 +219,9 @@ const FinalReport = ({
                     placeholder=""
                   ></input>
                 </td>
+                <td className="tdstyl">
+                <i class="bi bi-trash-fill jobdeleiconn"></i>
+                </td>
               </tr>
               <tr>
                 <td className="tdstylwidt">4</td>
@@ -254,6 +264,9 @@ const FinalReport = ({
                     id="exampleFormControlInput1"
                     placeholder=""
                   ></input>
+                </td>
+                <td className="tdstyl">
+                <i class="bi bi-trash-fill jobdeleiconn"></i>
                 </td>
               </tr>
               <tr>
@@ -298,6 +311,9 @@ const FinalReport = ({
                     placeholder=""
                   ></input>
                 </td>
+                <td className="tdstyl">
+                <i class="bi bi-trash-fill jobdeleiconn"></i>
+                </td>
               </tr>
               <tr>
                 <td className="tdstylwidt">6</td>
@@ -341,16 +357,30 @@ const FinalReport = ({
                     placeholder=""
                   ></input>
                 </td>
+                <td className="tdstyl">
+                <i class="bi bi-trash-fill jobdeleiconn"></i>
+                </td>
               </tr>
             </tbody>
           </table>
           <div className="attach">Attach Documents :</div>
-          <div className="d-flex justify-content-between pdf">
+<div className="d-flex justify-content-between">
+<div className="d-flex justify-content-between pdf">
             <div>Attach PDFs</div>
             <div>
               <i class="bi bi-file-earmark-pdf"></i>
             </div>
           </div>
+          <div>
+          <button
+            class="btn btna submit-button btnfsize addmorebutton"
+           
+          >
+           Add More
+          </button>
+
+          </div>
+</div>
         </div>
       </div>
 

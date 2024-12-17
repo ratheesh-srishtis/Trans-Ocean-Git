@@ -19,3 +19,15 @@
 .left{
   margin-left: 20px;
 }
+.jobdeleiconn{
+  color: red;
+  cursor: pointer;
+}
+.addmorebutton{
+  margin-right: 0px;
+  height:50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: blue;
+}
