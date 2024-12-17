@@ -828,3 +828,23 @@ export const generateTemplatePDF = async (userData) => {
     throw error;
   }
 };
+
+export const saveServiceReport = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/saveServiceReport", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+export const getServiceReport = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/getServiceReport", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};

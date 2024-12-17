@@ -689,6 +689,7 @@ const CreatePDA = ({
 
     const moment = require("moment");
     const date = moment.utc(response?.pda?.ETA);
+    console.log(response?.pda?.ETA, "response?.pda?.ETA");
     console.log(date.format("YYYY-MM-DD HH:mm"), "Checkdate");
     setEta(date.format("YYYY-MM-DD HH:mm"));
 

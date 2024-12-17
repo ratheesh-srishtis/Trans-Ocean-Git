@@ -628,7 +628,7 @@ const EditOperation = ({
             <button
               class="btn btna submit-button btnfsize"
               onClick={() => {
-                navigate("/final-report");
+                navigate("/final-report", { state: { editData } });
               }}
             >
               Final Report
