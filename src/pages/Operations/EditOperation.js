@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import { Delete, Visibility } from "@mui/icons-material";
 import OpsChargesTable from "./OpsChargesTable";
-
+import PdaDialog from "../PdaDialog";
 const EditOperation = ({
   vessels,
   ports,
@@ -217,6 +217,7 @@ const EditOperation = ({
 
       // Append all selected files to FormData
       Array.from(event.target.files).forEach((file) => {
+        console.log(file, "file");
         formData.append("files", file); // "files" is the expected key for your API
       });
 
@@ -237,10 +238,10 @@ const EditOperation = ({
     }
   };
 
-  const handleFileDelete = (fileToDelete) => {
-    setUploadedFiles((prevFiles) =>
-      prevFiles.filter((file) => file !== fileToDelete)
-    );
+  const handleFileDelete = (fileUrl) => {
+    // Update the state by filtering out the file with the specified URL
+    const updatedFiles = uploadedFiles.filter((file) => file.url !== fileUrl);
+    setUploadedFiles(updatedFiles);
   };
 
   const submitJobs = async (status) => {
@@ -340,6 +341,16 @@ const EditOperation = ({
       setOpenPopUp(true);
     } finally {
     }
+  };
+
+  const [generatePDAOpen, setGeneratePDAOpen] = useState(false);
+
+  const handlePdaOpen = () => {
+    setGeneratePDAOpen(true);
+  };
+
+  const handlePdaClose = () => {
+    setGeneratePDAOpen(false);
   };
 
   return (
@@ -561,13 +572,15 @@ const EditOperation = ({
                   return (
                     <>
                       <div className="d-flex justify-content-between ">
-                        <div className="tempgenerated ">{file}</div>
+                        <div className="tempgenerated ">
+                          {file?.originalName}
+                        </div>
                         <div className="d-flex">
                           <div
                             className="icondown"
                             onClick={() =>
                               window.open(
-                                `https://hybrid.sicsglobal.com/transocean_api/assets/${file}`,
+                                `https://hybrid.sicsglobal.com/transocean_api/assets/${file?.url}`,
                                 "_blank"
                               )
                             }
@@ -576,7 +589,7 @@ const EditOperation = ({
                           </div>
                           <div
                             className="iconpdf"
-                            onClick={() => handleFileDelete(file)}
+                            onClick={() => handleFileDelete(file?.url)}
                           >
                             <i className="bi bi-trash"></i>
                           </div>
@@ -632,7 +645,12 @@ const EditOperation = ({
 
         <div className="buttons-wrapper">
           <div className="left">
-            <button className="btn btna submit-button btnfsize">
+            <button
+              className="btn btna submit-button btnfsize"
+              onClick={() => {
+                handlePdaOpen();
+              }}
+            >
               Generate PDF
             </button>
           </div>
@@ -668,6 +686,17 @@ const EditOperation = ({
         <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
       )}{" "}
       <Loader isLoading={isLoading} />
+      <PdaDialog
+        open={generatePDAOpen}
+        onClose={handlePdaClose}
+        services={services}
+        customers={customers}
+        ports={ports}
+        pdaResponse={pdaResponse}
+        vendors={vendors}
+        vessels={vessels}
+        cargos={cargos}
+      />
     </>
   );
 };

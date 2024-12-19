@@ -100,6 +100,8 @@ const AddJobs = ({
   const handleOKTBReportSubmit = (response) => {
     console.log("template_Submitted:", response);
     if (response?.status == true) {
+      setMessage("Template saved successfully!");
+      setOpenPopUp(true);
       setIsOKTBOpen(false);
       setTemplatesList((previousTemplates) => [
         ...previousTemplates,
@@ -304,12 +306,11 @@ const AddJobs = ({
     }
   };
 
-  const handleFileDelete = (fileToDelete) => {
-    setUploadedFiles((prevFiles) =>
-      prevFiles.filter((file) => file !== fileToDelete)
-    );
+  const handleFileDelete = (fileUrl) => {
+    // Update the state by filtering out the file with the specified URL
+    const updatedFiles = uploadedFiles.filter((file) => file.url !== fileUrl);
+    setUploadedFiles(updatedFiles);
   };
-
   const editCharges = async () => {
     // Individual checks for each field
     if (selectedService == null || selectedService === "") {
@@ -496,6 +497,11 @@ const AddJobs = ({
                       ))}
                     </select>
                   </div>
+                  {selectedServiceError && (
+                    <>
+                      <div className="invalid">Please select service</div>
+                    </>
+                  )}
                 </div>
 
                 <>
@@ -745,13 +751,15 @@ const AddJobs = ({
                         return (
                           <>
                             <div className="d-flex justify-content-between ">
-                              <div className="tempgenerated ">{file}</div>
+                              <div className="tempgenerated ">
+                                {file?.originalName}
+                              </div>
                               <div className="d-flex">
                                 <div
                                   className="icondown"
                                   onClick={() =>
                                     window.open(
-                                      `https://hybrid.sicsglobal.com/transocean_api/assets/${file}`,
+                                      `https://hybrid.sicsglobal.com/transocean_api/assets/${file?.url}`,
                                       "_blank"
                                     )
                                   }
@@ -760,7 +768,7 @@ const AddJobs = ({
                                 </div>
                                 <div
                                   className="iconpdf"
-                                  onClick={() => handleFileDelete(file)}
+                                  onClick={() => handleFileDelete(file?.url)}
                                 >
                                   <i className="bi bi-trash"></i>
                                 </div>

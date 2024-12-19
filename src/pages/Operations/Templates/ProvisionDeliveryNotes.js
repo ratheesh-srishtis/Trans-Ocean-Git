@@ -105,7 +105,7 @@ const ProvisionDeliveryNotes = ({
           templateId: selectedTemplate,
 
           templateName: selectedTemplateName,
-          supplyDate: moment(date).format("YYYY-MM-DD"),
+          supplyDate: moment(date).format("DD-MM-YYYY"),
           refNo: formData.refNo,
           items: formData.items,
         };

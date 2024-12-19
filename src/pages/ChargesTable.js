@@ -401,7 +401,11 @@ const ChargesTable = ({
                   <th className="tableheadcolor">VAT Amount</th>
                   <th className="tableheadcolor">Total OMR</th>
                   <th className="tableheadcolor">Total USD</th>
-                  <th className="tableheadcolor">Actions</th>{" "}
+                  {isAction == true && (
+                    <>
+                      <th className="tableheadcolor">Actions</th>{" "}
+                    </>
+                  )}
                   {/* Added Actions Column */}
                 </tr>
               </thead>
@@ -435,20 +439,25 @@ const ChargesTable = ({
                         ).toFixed(3)}
                       </td>
                       <td>{charge.vendorTotalUSD.toFixed(2)}</td>
-                      <td>
-                        {/* Edit and Delete Buttons */}
 
-                        <i
-                          className="bi bi-pencil-square editicon"
-                          onClick={() => handleEdit(charge, index)}
-                        >
-                          {" "}
-                        </i>
-                        <i
-                          className="bi bi-trash deleteicon"
-                          onClick={() => handleDelete(charge, index)}
-                        ></i>
-                      </td>
+                      {isAction == true && (
+                        <>
+                          <td>
+                            {/* Edit and Delete Buttons */}
+
+                            <i
+                              className="bi bi-pencil-square editicon"
+                              onClick={() => handleEdit(charge, index)}
+                            >
+                              {" "}
+                            </i>
+                            <i
+                              className="bi bi-trash deleteicon"
+                              onClick={() => handleDelete(charge, index)}
+                            ></i>
+                          </td>
+                        </>
+                      )}
                     </tr>
                   ))}
               </tbody>
