@@ -1,12 +1,17 @@
 // ResponsiveDialog.js
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
-import { saveCustomer,editCustomer } from "../services/apiService";
+import { saveCustomer, editCustomer } from "../services/apiService";
 import PopUp from "../pages/PopUp";
-const AddCustomer = ({ open, onAddCustomer,onClose,editMode, customerSet }) => {
+const AddCustomer = ({
+  open,
+  onAddCustomer,
+  onClose,
+  editMode,
+  customerSet,
+}) => {
   const [formData, setFormData] = useState({
-    customerName: '',
-    
+    customerName: "",
   });
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
@@ -15,12 +20,11 @@ const AddCustomer = ({ open, onAddCustomer,onClose,editMode, customerSet }) => {
     if (editMode && customerSet) {
       setFormData({
         customerName: customerSet.customerName,
-        customerId:customerSet._id,
+        customerId: customerSet._id,
       });
     } else {
       setFormData({
-        customerName: '',
-      
+        customerName: "",
       });
     }
   }, [editMode, customerSet]);
@@ -28,7 +32,6 @@ const AddCustomer = ({ open, onAddCustomer,onClose,editMode, customerSet }) => {
     setOpenPopUp(false);
     onAddCustomer();
     onClose();
-   
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,7 +42,8 @@ const AddCustomer = ({ open, onAddCustomer,onClose,editMode, customerSet }) => {
   };
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.customerName) newErrors.customerName = "Customer Name is required";
+    if (!formData.customerName)
+      newErrors.customerName = "Customer Name is required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -50,20 +54,20 @@ const AddCustomer = ({ open, onAddCustomer,onClose,editMode, customerSet }) => {
     try {
       let response;
       if (editMode) {
-        console.log("Edit mode formData:", formData); 
+        console.log("Edit mode formData:", formData);
         response = await editCustomer(formData);
       } else {
         // Add new role
-        console.log("Add mode formData:", formData); 
-        response = await saveCustomer(formData); 
+        console.log("Add mode formData:", formData);
+        response = await saveCustomer(formData);
       }
 
       if (response.status === true) {
         setMessage(response.message);
         setOpenPopUp(true);
       }
-      
-      setFormData({ customerName: ""});
+
+      setFormData({ customerName: "" });
       onAddCustomer(formData);
       onClose();
     } catch (error) {
@@ -75,42 +79,60 @@ const AddCustomer = ({ open, onAddCustomer,onClose,editMode, customerSet }) => {
 
   return (
     <>
-      <Dialog sx={{
-            width: 800, 
-            margin: 'auto',
-            borderRadius: 2,
-          }} open={open} onClose={onClose} fullWidth maxWidth="lg">
+      <Dialog
+        sx={{
+          width: 800,
+          margin: "auto",
+          borderRadius: 2,
+        }}
+        open={open}
+        onClose={onClose}
+        fullWidth
+        maxWidth="lg"
+      >
         <div className="d-flex justify-content-between" onClick={onClose}>
-          <DialogTitle>{editMode ? 'Edit Customer' : 'Add Customer'}</DialogTitle>
+          <DialogTitle>
+            {editMode ? "Edit Customer" : "Add Customer"}
+          </DialogTitle>
           <div className="closeicon">
             <i className="bi bi-x-lg "></i>
           </div>
         </div>
         <DialogContent style={{ marginBottom: "60px" }}>
-        <form onSubmit={handleSubmit}>
-        <div className="row">
-            <div class="col-5 mb-3 align-items-start">
-              <div class="">
-                <label for="exampleFormControlInput1" class="form-label">  Customer Name:</label>
-                <input name="customerName" type="" class="form-control vessel-voyage" id="exampleFormControlInput1" placeholder="" onChange={handleChange}
-                  value={formData.customerName}></input>
-                  {errors.customerName && <span className="invalid">{errors.customerName}</span>}
+          <form onSubmit={handleSubmit}>
+            <div className="row">
+              <div className="col-5 mb-3 align-items-start">
+                <div className="">
+                  <label for="exampleFormControlInput1" className="form-label">
+                    {" "}
+                    Customer Name:
+                  </label>
+                  <input
+                    name="customerName"
+                    type=""
+                    className="form-control vessel-voyage"
+                    id="exampleFormControlInput1"
+                    placeholder=""
+                    onChange={handleChange}
+                    value={formData.customerName}
+                  ></input>
+                  {errors.customerName && (
+                    <span className="invalid">{errors.customerName}</span>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
 
-
-          <div className="btnuser">
-            <button class="btn btna submit-button btnfsize"> Submit </button>
-          </div>
-         </form>
-
-
+            <div className="btnuser">
+              <button className="btn btna submit-button btnfsize">
+                {" "}
+                Submit{" "}
+              </button>
+            </div>
+          </form>
         </DialogContent>
       </Dialog>
-      {openPopUp && (
-        <PopUp message={message} closePopup={fetchcustomerList} />
-      )}
+      {openPopUp && <PopUp message={message} closePopup={fetchcustomerList} />}
     </>
   );
 };

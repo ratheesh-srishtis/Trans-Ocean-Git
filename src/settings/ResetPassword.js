@@ -1,31 +1,26 @@
 // ResponsiveDialog.js
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
-import { ChangePassword} from "../services/apiService";
+import { ChangePassword } from "../services/apiService";
 import PopUp from "../pages/PopUp";
 
-const ResetPassword = ({ open, onRequestPassword, onClose,requestSet }) => {
-  const [formData, setFormData] = useState({password: ''});
+const ResetPassword = ({ open, onRequestPassword, onClose, requestSet }) => {
+  const [formData, setFormData] = useState({ password: "" });
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
   const [openPopUp, setOpenPopUp] = useState(false);
   useEffect(() => {
-    if(requestSet){
+    if (requestSet) {
       setFormData({
-        password: '',
+        password: "",
         userId: requestSet._id,
-        
       });
-
     }
-   
-    
   }, [requestSet]);
   const fetchrequests = async () => {
     setOpenPopUp(false);
     onRequestPassword();
     onClose();
-   
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,7 +34,7 @@ const ResetPassword = ({ open, onRequestPassword, onClose,requestSet }) => {
     const newErrors = {};
     if (!formData.password) newErrors.password = "Password is required";
     else if (formData.password !== formData.confirmPassword)
-    newErrors.confirmPassword = "Passwords do not match";
+      newErrors.confirmPassword = "Passwords do not match";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -49,13 +44,13 @@ const ResetPassword = ({ open, onRequestPassword, onClose,requestSet }) => {
 
     try {
       let response;
-      
-       response = await ChangePassword(formData); 
+
+      response = await ChangePassword(formData);
       if (response.status === true) {
         setMessage(response.message);
         setOpenPopUp(true);
       }
-      setFormData({ password: "", confirmPassword: ""});
+      setFormData({ password: "", confirmPassword: "" });
       onRequestPassword(formData);
       onClose();
     } catch (error) {
@@ -64,14 +59,20 @@ const ResetPassword = ({ open, onRequestPassword, onClose,requestSet }) => {
       console.error("Error updating password", error);
     }
   };
-  
+
   return (
     <>
-      <Dialog sx={{
-            width: 800, 
-            margin: 'auto',
-            borderRadius: 2,
-          }}open={open} onClose={onClose} fullWidth maxWidth="lg">
+      <Dialog
+        sx={{
+          width: 800,
+          margin: "auto",
+          borderRadius: 2,
+        }}
+        open={open}
+        onClose={onClose}
+        fullWidth
+        maxWidth="lg"
+      >
         <div className="d-flex justify-content-between" onClick={onClose}>
           <DialogTitle>Reset Password</DialogTitle>
           <div className="closeicon">
@@ -79,42 +80,62 @@ const ResetPassword = ({ open, onRequestPassword, onClose,requestSet }) => {
           </div>
         </div>
         <DialogContent style={{ marginBottom: "40px" }}>
-        <form onSubmit={handleSubmit}>
-        <div className="row">
-            <div class="col mb-3 align-items-start">
-              <div class="">
-                <label for="exampleFormControlInput1" class="form-label"> Password:</label>
-                <input name="password" type="password" class="form-control vessel-voyage" id="exampleFormControlInput1" placeholder="" onChange={handleChange}
-                  value={formData.password}></input>
-                {errors.password && <span className="invalid">{errors.password}</span>}
+          <form onSubmit={handleSubmit}>
+            <div className="row">
+              <div className="col mb-3 align-items-start">
+                <div className="">
+                  <label for="exampleFormControlInput1" className="form-label">
+                    {" "}
+                    Password:
+                  </label>
+                  <input
+                    name="password"
+                    type="password"
+                    className="form-control vessel-voyage"
+                    id="exampleFormControlInput1"
+                    placeholder=""
+                    onChange={handleChange}
+                    value={formData.password}
+                  ></input>
+                  {errors.password && (
+                    <span className="invalid">{errors.password}</span>
+                  )}
+                </div>
               </div>
             </div>
-           
-          </div>
-          <div className="row">
-            <div class="col mb-3 align-items-start">
-              <div class="">
-                <label for="exampleFormControlInput1" class="form-label"> Confirm Password :</label>
-                <input name="confirmPassword" type="password" class="form-control vessel-voyage" id="exampleFormControlInput1" placeholder="" onChange={handleChange}
-                  value={formData.confirmPassword}></input>
-                   {errors.confirmPassword && <span className="invalid">{errors.confirmPassword}</span>}
+            <div className="row">
+              <div className="col mb-3 align-items-start">
+                <div className="">
+                  <label for="exampleFormControlInput1" className="form-label">
+                    {" "}
+                    Confirm Password :
+                  </label>
+                  <input
+                    name="confirmPassword"
+                    type="password"
+                    className="form-control vessel-voyage"
+                    id="exampleFormControlInput1"
+                    placeholder=""
+                    onChange={handleChange}
+                    value={formData.confirmPassword}
+                  ></input>
+                  {errors.confirmPassword && (
+                    <span className="invalid">{errors.confirmPassword}</span>
+                  )}
+                </div>
               </div>
             </div>
-            
-          </div>
-         
 
-          <div className="btnuser">
-            <button class="btn btna submit-button btnfsize"> Submit </button>
-          </div>
+            <div className="btnuser">
+              <button className="btn btna submit-button btnfsize">
+                {" "}
+                Submit{" "}
+              </button>
+            </div>
           </form>
-
-
         </DialogContent>
       </Dialog>
-      {openPopUp && (
-        <PopUp message={message} closePopup={fetchrequests} />
-      )}
+      {openPopUp && <PopUp message={message} closePopup={fetchrequests} />}
     </>
   );
 };

@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "../css/settings.css";
 import AddCustomer from "./AddCustomer";
 import { Box, Typography, IconButton } from "@mui/material";
@@ -69,7 +69,6 @@ const CustomerSettings = () => {
           try {
             let payload = {
               customerId: item?._id,
-              
             };
             const response = await deleteCustomer(payload);
             setMessage(response.message);
@@ -97,8 +96,8 @@ const CustomerSettings = () => {
     </Box>
   );
   const columns = [
-    { field: "customername", headerName: "Customers", flex:1 },
-    
+    { field: "customername", headerName: "Customers", flex: 1 },
+
     {
       field: "actions",
       headerName: "Action",
@@ -122,20 +121,29 @@ const CustomerSettings = () => {
   return (
     <>
       <div className="d-flex justify-content-end mb-3 mt-3">
-     <button onClick={() => {
-        openDialog();
-      }} class="btn btna submit-button btnfsize">Add Customer</button>
-     </div>
+        <button
+          onClick={() => {
+            openDialog();
+          }}
+          className="btn btna submit-button btnfsize"
+        >
+          Add Customer
+        </button>
+      </div>
 
-
-
-      <AddCustomer open={open} onAddCustomer={handleAddcustomers} onClose={handleClose} editMode={editMode} customerSet={selectedRow}/>
+      <AddCustomer
+        open={open}
+        onAddCustomer={handleAddcustomers}
+        onClose={handleClose}
+        editMode={editMode}
+        customerSet={selectedRow}
+      />
       <div>
         <DataGrid
           rows={CustomerList.map((item) => ({
             id: item._id,
-            customername: item.customerName || 'N/A',
-           ...item,
+            customername: item.customerName || "N/A",
+            ...item,
           }))}
           columns={columns}
           getRowId={(row) => row._id} // Use id field for unique row identification
@@ -181,9 +189,9 @@ const CustomerSettings = () => {
       )}
       <Loader isLoading={isLoading} />
 
-    {openPopUp && (
-      <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
-    )}
+      {openPopUp && (
+        <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
+      )}
     </>
   );
 };

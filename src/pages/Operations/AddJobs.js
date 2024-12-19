@@ -473,14 +473,14 @@ const AddJobs = ({
             </div>
           </div>
           <DialogContent style={{ marginBottom: "40px" }}>
-            <div class="typesofcall-row ">
-              <div class="row mb-3 align-items-start">
-                <div class="col-4">
-                  <label for="exampleFormControlInput1" class="form-label">
+            <div className="typesofcall-row ">
+              <div className="row mb-3 align-items-start">
+                <div className="col-4">
+                  <label for="exampleFormControlInput1" className="form-label">
                     {" "}
-                    Services <span class="required"> </span> :
+                    Services <span className="required"> </span> :
                   </label>
-                  <div class="vessel-select">
+                  <div className="vessel-select">
                     <select
                       name="service"
                       className="form-select vesselbox"
@@ -499,11 +499,14 @@ const AddJobs = ({
                 </div>
 
                 <>
-                  <div class="col-4">
-                    <label for="exampleFormControlInput1" class="form-label">
-                      Charges Type <span class="required"> </span> :
+                  <div className="col-4">
+                    <label
+                      for="exampleFormControlInput1"
+                      className="form-label"
+                    >
+                      Charges Type <span className="required"> </span> :
                     </label>
-                    <div class="vessel-select">
+                    <div className="vessel-select">
                       <select
                         name="chargeType"
                         className="form-select vesselbox vesselbox:placeholder"
@@ -530,12 +533,15 @@ const AddJobs = ({
                 </>
 
                 <>
-                  <div class="col-4">
-                    <label for="exampleFormControlInput1" class="form-label">
+                  <div className="col-4">
+                    <label
+                      for="exampleFormControlInput1"
+                      className="form-label"
+                    >
                       {" "}
-                      Sub Charges Type <span class="required"> </span> :
+                      Sub Charges Type <span className="required"> </span> :
                     </label>
-                    <div class="vessel-select">
+                    <div className="vessel-select">
                       <select
                         name="subChargeType"
                         className="form-select vesselbox "
@@ -564,17 +570,20 @@ const AddJobs = ({
             </div>
 
             <>
-              <div class="typesofcall-row ">
-                <div class="row mb-2 align-items-start">
-                  <div class="col-4">
-                    <label for="exampleFormControlInput1" class="form-label ">
+              <div className="typesofcall-row ">
+                <div className="row mb-2 align-items-start">
+                  <div className="col-4">
+                    <label
+                      for="exampleFormControlInput1"
+                      className="form-label "
+                    >
                       {" "}
-                      Status <span class="required"> </span> :
+                      Status <span className="required"> </span> :
                     </label>
-                    <div class="vessel-select">
+                    <div className="vessel-select">
                       <select
                         name="status"
-                        class="form-select vesselbox statuss"
+                        className="form-select vesselbox statuss"
                         onChange={handleSelectChange}
                         aria-label="Default select example"
                         value={selectedStatus}
@@ -585,18 +594,18 @@ const AddJobs = ({
                       </select>
                     </div>
                   </div>
-                  <div class="col-8 ">
-                    <div class="mb-1">
-                      <div class="col">
+                  <div className="col-8 ">
+                    <div className="mb-1">
+                      <div className="col">
                         <label
                           for="exampleFormControlInput1"
-                          class="form-label"
+                          className="form-label"
                         >
                           Remarks:
                         </label>
                         <textarea
                           rows="1"
-                          class="form-control"
+                          className="form-control"
                           id="exampleFormControlInput1"
                           placeholder=""
                           name="remarks"
@@ -609,18 +618,18 @@ const AddJobs = ({
                 </div>
               </div>
 
-              <div class=" typesofcall-row mb-2">
-                <div class="row align-items-start">
+              <div className=" typesofcall-row mb-2">
+                <div className="row align-items-start">
                   {charge?.isPrivateVendor === false && (
                     <>
-                      <div class="col-4">
+                      <div className="col-4">
                         <label
                           for="exampleFormControlInput1"
-                          class="form-label"
+                          className="form-label"
                         >
-                          Vendor Name <span class="required"> </span> :
+                          Vendor Name <span className="required"> </span> :
                         </label>
-                        <div class="vessel-select">
+                        <div className="vessel-select">
                           <select
                             name="vendor"
                             className="form-select vesselbox"
@@ -640,12 +649,15 @@ const AddJobs = ({
                     </>
                   )}
 
-                  <div class="col-4">
-                    <label for="exampleFormControlInput1" class="form-label">
+                  <div className="col-4">
+                    <label
+                      for="exampleFormControlInput1"
+                      className="form-label"
+                    >
                       {" "}
-                      Templates <span class="required"> </span> :
+                      Templates <span className="required"> </span> :
                     </label>
-                    <div class="vessel-select">
+                    <div className="vessel-select">
                       <select
                         name="template"
                         className="form-select vesselbox"
@@ -689,13 +701,13 @@ const AddJobs = ({
                                   className="icondown"
                                   onClick={() => handleDownload(template)}
                                 >
-                                  <i class="bi bi-download"></i>
+                                  <i className="bi bi-download"></i>
                                 </div>
                                 <div
                                   className="iconpdf"
                                   onClick={() => handleView(template)}
                                 >
-                                  <i class="bi bi-file-earmark-pdf"></i>
+                                  <i className="bi bi-file-earmark-pdf"></i>
                                 </div>
                               </div>
                             </div>
@@ -706,14 +718,14 @@ const AddJobs = ({
                 </>
               )}
 
-              <div class="typesofcall-row ">
-                <div class="row align-items-start">
-                  <div class="mb-2">
-                    <label for="formFile" class="form-label">
+              <div className="typesofcall-row ">
+                <div className="row align-items-start">
+                  <div className="mb-2">
+                    <label for="formFile" className="form-label">
                       Documents Upload:
                     </label>
                     <input
-                      class="form-control documentsfsize"
+                      className="form-control documentsfsize"
                       type="file"
                       id="portofolio"
                       accept="image/*"
@@ -744,13 +756,13 @@ const AddJobs = ({
                                     )
                                   }
                                 >
-                                  <i class="bi bi-eye"></i>
+                                  <i className="bi bi-eye"></i>
                                 </div>
                                 <div
                                   className="iconpdf"
                                   onClick={() => handleFileDelete(file)}
                                 >
-                                  <i class="bi bi-trash"></i>
+                                  <i className="bi bi-trash"></i>
                                 </div>
                               </div>
                             </div>
@@ -764,7 +776,11 @@ const AddJobs = ({
 
             <div className="col-12 mt-5">
               <div className="footer-button d-flex justify-content-center ">
-                <button type="button" className="btn btncancel">
+                <button
+                  type="button"
+                  className="btn btncancel"
+                  onClick={onClose}
+                >
                   Close
                 </button>
 
@@ -789,6 +805,7 @@ const AddJobs = ({
           onClose={handleCloseAllDialogs}
           charge={charge}
           selectedTemplateName={selectedTemplateName}
+          selectedTemplate={selectedTemplate}
           onSubmit={handleBerthReportSubmit}
         />
       )}
@@ -798,6 +815,7 @@ const AddJobs = ({
           onClose={handleCloseAllDialogs}
           charge={charge}
           selectedTemplateName={selectedTemplateName}
+          selectedTemplate={selectedTemplate}
           onSubmit={handleCrewSubmit}
         />
       )}
@@ -807,6 +825,7 @@ const AddJobs = ({
           onClose={handleCloseAllDialogs}
           charge={charge}
           selectedTemplateName={selectedTemplateName}
+          selectedTemplate={selectedTemplate}
           onSubmit={handleLoadingReportSubmit}
         />
       )}
@@ -816,6 +835,7 @@ const AddJobs = ({
           onClose={handleCloseAllDialogs}
           charge={charge}
           selectedTemplateName={selectedTemplateName}
+          selectedTemplate={selectedTemplate}
           onSubmit={handleOKTBReportSubmit}
         />
       )}
@@ -826,6 +846,7 @@ const AddJobs = ({
           charge={charge}
           onSubmit={handleProvisionSubmit}
           selectedTemplateName={selectedTemplateName}
+          selectedTemplate={selectedTemplate}
         />
       )}
       {isTransportationOpen && (
@@ -833,6 +854,7 @@ const AddJobs = ({
           open={isTransportationOpen}
           onClose={handleCloseAllDialogs}
           selectedTemplateName={selectedTemplateName}
+          selectedTemplate={selectedTemplate}
           charge={charge}
           onSubmit={handleTransportationSubmit}
         />

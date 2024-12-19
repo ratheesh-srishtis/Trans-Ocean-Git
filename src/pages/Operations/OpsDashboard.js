@@ -138,8 +138,8 @@ const OpsDashboard = () => {
           </ul>
         </div>
 
-        <div class="d-flex gap-2 rightside">
-          <div class=" searchmain">
+        <div className="d-flex gap-2 rightside">
+          <div className=" searchmain">
             <input
               type="text"
               className="form-control search"
@@ -150,8 +150,8 @@ const OpsDashboard = () => {
             />
             <i className="bi bi-search searchicon"></i>
           </div>
-          <div class=" filtermainjobs ">
-            <i class="bi bi-funnel-fill filtericon"></i>
+          <div className=" filtermainjobs ">
+            <i className="bi bi-funnel-fill filtericon"></i>
             <select
               className="form-select form-select-sm filter"
               aria-label="Small select example"
@@ -178,8 +178,8 @@ const OpsDashboard = () => {
                 jobsList?.map((job, index) => {
                   return (
                     <>
-                      <div class=" col-3 shadow p-3 mb-5 bg-body-tertiary rounded">
-                        <div class="d-flex justify-content-between">
+                      <div className=" col-3 shadow p-3 mb-5 bg-body-tertiary rounded">
+                        <div className="d-flex justify-content-between">
                           <div>
                             <img src={Group}></img>
                           </div>
@@ -215,7 +215,7 @@ const OpsDashboard = () => {
                           <span className="dashhead"> Vessel Name:</span>
                           <p className="toms">{job?.vesselId?.vesselName}</p>
                         </div>
-                        <div class="d-flex justify-content-between">
+                        <div className="d-flex justify-content-between">
                           <div
                             className="viewdetail"
                             onClick={() => handleJobClick(job)}
@@ -224,13 +224,13 @@ const OpsDashboard = () => {
                           </div>
                           <div className="d-flex">
                             <i
-                              class="bi bi-pencil-square dashedit"
+                              className="bi bi-pencil-square dashedit"
                               onClick={() => handleEditJob(job)}
                             ></i>
-                            <i
-                              class="bi bi-trash-fill dashdelete"
+                            {/* <i
+                              className="bi bi-trash-fill dashdelete"
                               onClick={() => handleDelete(job)}
-                            ></i>
+                            ></i> */}
                           </div>
                         </div>
                       </div>
@@ -244,8 +244,8 @@ const OpsDashboard = () => {
               <p>No Jobs available</p>{" "}
             </>
           )}
-          {/* <div class=" col-3 shadow p-3 mb-5 bg-body-tertiary rounded">
-            <div class="d-flex justify-content-between">
+          {/* <div className=" col-3 shadow p-3 mb-5 bg-body-tertiary rounded">
+            <div className="d-flex justify-content-between">
               <div>
                 <img src={Group}></img>
               </div>
@@ -263,16 +263,16 @@ const OpsDashboard = () => {
               <span className="dashhead"> Vessel Name:</span>
               <p className="toms">MV Viva Globus</p>
             </div>
-            <div class="d-flex justify-content-between">
+            <div className="d-flex justify-content-between">
               <div className="viewdetail">View Detail >>></div>
               <div className="d-flex">
-                <i class="bi bi-pencil-square dashedit"></i>
-                <i class="bi bi-trash-fill dashdelete"></i>
+                <i className="bi bi-pencil-square dashedit"></i>
+                <i className="bi bi-trash-fill dashdelete"></i>
               </div>
             </div>
           </div>
-          <div class=" col-3 shadow p-3 mb-5 bg-body-tertiary rounded">
-            <div class="d-flex justify-content-between">
+          <div className=" col-3 shadow p-3 mb-5 bg-body-tertiary rounded">
+            <div className="d-flex justify-content-between">
               <div>
                 <img src={Group}></img>
               </div>
@@ -290,18 +290,18 @@ const OpsDashboard = () => {
               <span className="dashhead"> Vessel Name:</span>
               <p className="toms">MV Viva Globus</p>
             </div>
-            <div class="d-flex justify-content-between">
+            <div className="d-flex justify-content-between">
               <div className="viewdetail">View Detail >>></div>
               <div className="d-flex">
-                <i class="bi bi-pencil-square dashedit"></i>
-                <i class="bi bi-trash-fill dashdelete"></i>
+                <i className="bi bi-pencil-square dashedit"></i>
+                <i className="bi bi-trash-fill dashdelete"></i>
               </div>
             </div>
           </div> */}
         </div>
         {/* <div className="row  gap-5 d-flex justify-content-center ">
-          <div class=" col-3 shadow p-3 mb-5 bg-body-tertiary rounded">
-            <div class="d-flex justify-content-between">
+          <div className=" col-3 shadow p-3 mb-5 bg-body-tertiary rounded">
+            <div className="d-flex justify-content-between">
               <div>
                 <img src={Group}></img>
               </div>
@@ -319,16 +319,16 @@ const OpsDashboard = () => {
               <span className="dashhead"> Vessel Name:</span>
               <p className="toms">MV Viva Globus</p>
             </div>
-            <div class="d-flex justify-content-between">
+            <div className="d-flex justify-content-between">
               <div className="viewdetail">View Detail >>></div>
               <div className="d-flex">
-                <i class="bi bi-pencil-square dashedit"></i>
-                <i class="bi bi-trash-fill dashdelete"></i>
+                <i className="bi bi-pencil-square dashedit"></i>
+                <i className="bi bi-trash-fill dashdelete"></i>
               </div>
             </div>
           </div>
-          <div class=" col-3 shadow p-3 mb-5 bg-body-tertiary rounded">
-            <div class="d-flex justify-content-between">
+          <div className=" col-3 shadow p-3 mb-5 bg-body-tertiary rounded">
+            <div className="d-flex justify-content-between">
               <div>
                 <img src={Group}></img>
               </div>
@@ -346,16 +346,16 @@ const OpsDashboard = () => {
               <span className="dashhead"> Vessel Name:</span>
               <p className="toms">MV Viva Globus</p>
             </div>
-            <div class="d-flex justify-content-between">
+            <div className="d-flex justify-content-between">
               <div className="viewdetail">View Detail >>></div>
               <div className="d-flex">
-                <i class="bi bi-pencil-square dashedit"></i>
-                <i class="bi bi-trash-fill dashdelete"></i>
+                <i className="bi bi-pencil-square dashedit"></i>
+                <i className="bi bi-trash-fill dashdelete"></i>
               </div>
             </div>
           </div>
-          <div class=" col-3 shadow p-3 mb-5 bg-body-tertiary rounded">
-            <div class="d-flex justify-content-between">
+          <div className=" col-3 shadow p-3 mb-5 bg-body-tertiary rounded">
+            <div className="d-flex justify-content-between">
               <div>
                 <img src={Group}></img>
               </div>
@@ -373,11 +373,11 @@ const OpsDashboard = () => {
               <span className="dashhead"> Vessel Name:</span>
               <p className="toms">MV Viva Globus</p>
             </div>
-            <div class="d-flex justify-content-between">
+            <div className="d-flex justify-content-between">
               <div className="viewdetail">View Detail >>></div>
               <div className="d-flex">
-                <i class="bi bi-pencil-square dashedit"></i>
-                <i class="bi bi-trash-fill dashdelete"></i>
+                <i className="bi bi-pencil-square dashedit"></i>
+                <i className="bi bi-trash-fill dashdelete"></i>
               </div>
             </div>
           </div>

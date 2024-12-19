@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "../css/PortSettings.css";
 import AddPort from "./AddPort";
 import { Box, Typography, IconButton } from "@mui/material";
@@ -70,7 +70,6 @@ const PortSettings = () => {
           try {
             let payload = {
               portId: item?._id,
-              
             };
             const response = await deletePort(payload);
             setMessage(response.message);
@@ -98,8 +97,8 @@ const PortSettings = () => {
     </Box>
   );
   const columns = [
-    { field: "port", headerName: "Ports", flex:1 },
-    
+    { field: "port", headerName: "Ports", flex: 1 },
+
     {
       field: "actions",
       headerName: "Action",
@@ -123,20 +122,29 @@ const PortSettings = () => {
   return (
     <>
       <div className="d-flex justify-content-end mb-3 mt-3">
-     <button onClick={() => {
-        openDialog();
-      }} class="btn btna submit-button btnfsize">Add Port</button>
-     </div>
+        <button
+          onClick={() => {
+            openDialog();
+          }}
+          className="btn btna submit-button btnfsize"
+        >
+          Add Port
+        </button>
+      </div>
 
-
-
-      <AddPort open={open} onAddPort={handleAddPort} onClose={handleClose} editMode={editMode} portSet={selectedRow}/>
+      <AddPort
+        open={open}
+        onAddPort={handleAddPort}
+        onClose={handleClose}
+        editMode={editMode}
+        portSet={selectedRow}
+      />
       <div>
         <DataGrid
           rows={PortList.map((item) => ({
             id: item._id,
-            port: item.portName || 'N/A',
-           ...item,
+            port: item.portName || "N/A",
+            ...item,
           }))}
           columns={columns}
           getRowId={(row) => row._id} // Use id field for unique row identification
@@ -182,9 +190,9 @@ const PortSettings = () => {
       )}
       <Loader isLoading={isLoading} />
 
-    {openPopUp && (
-      <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
-    )}
+      {openPopUp && (
+        <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
+      )}
     </>
   );
 };

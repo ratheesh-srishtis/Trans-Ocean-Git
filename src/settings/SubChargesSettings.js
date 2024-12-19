@@ -1,11 +1,11 @@
-import React, {useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "../css/settings.css";
 import AddSubcharge from "./AddSubcharge";
 import { Box, Typography, IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { getAllSubcharges,deleteSubcharge } from "../services/apiService";
+import { getAllSubcharges, deleteSubcharge } from "../services/apiService";
 import Swal from "sweetalert2";
 import Loader from "../pages/Loader";
 import PopUp from "../pages/PopUp";
@@ -35,7 +35,6 @@ const SubchargeSettings = () => {
     fetchusubchargeList();
   }, []);
 
-
   const openDialog = () => {
     handleClickOpen();
   };
@@ -51,7 +50,7 @@ const SubchargeSettings = () => {
   };
   const handleAddSubcharge = (newSubcharge) => {
     fetchusubchargeList();
-    setOpen(false); 
+    setOpen(false);
   };
   const handleEdit = (row) => {
     setSelectedRow(row);
@@ -73,7 +72,6 @@ const SubchargeSettings = () => {
           try {
             let payload = {
               subchargeId: item?._id,
-             
             };
             const response = await deleteSubcharge(payload);
             setMessage(response.message);
@@ -103,10 +101,9 @@ const SubchargeSettings = () => {
   );
 
   const columns = [
-    { field: "subchargeName", headerName: "Subcharge Name",flex:2 },
-    { field: "chargeName", headerName: "Charge Name",flex:2 },
-    
-   
+    { field: "subchargeName", headerName: "Subcharge Name", flex: 2 },
+    { field: "chargeName", headerName: "Charge Name", flex: 2 },
+
     {
       field: "actions",
       headerName: "Action",
@@ -127,25 +124,32 @@ const SubchargeSettings = () => {
     },
   ];
 
-
   return (
     <>
-     
-
-    <div className="d-flex justify-content-end mb-3 mt-3">
-     <button onClick={() => {
-        openDialog();
-      }} class="btn btna submit-button btnfsize">Add Subcharge</button>
-     </div>
-<AddSubcharge open={open} onAddSubcharge={handleAddSubcharge} onClose={handleClose}  editMode={editMode} subchargeSet={selectedRow}/>
-<div>
+      <div className="d-flex justify-content-end mb-3 mt-3">
+        <button
+          onClick={() => {
+            openDialog();
+          }}
+          className="btn btna submit-button btnfsize"
+        >
+          Add Subcharge
+        </button>
+      </div>
+      <AddSubcharge
+        open={open}
+        onAddSubcharge={handleAddSubcharge}
+        onClose={handleClose}
+        editMode={editMode}
+        subchargeSet={selectedRow}
+      />
+      <div>
         <DataGrid
           rows={SubchargeList.map((item) => ({
             id: item._id,
-            subchargeName: item.subchargeName || 'N/A',
-            chargeName: item.chargeId.chargeName || 'N/A',
-          
-           
+            subchargeName: item.subchargeName || "N/A",
+            chargeName: item.chargeId.chargeName || "N/A",
+
             ...item,
           }))}
           columns={columns}

@@ -50,9 +50,10 @@ const EditOperation = ({
   const [selectedPort, setSelectedPort] = useState(null);
   const [selectedCargo, setSelectedCargo] = useState(null);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
-  const [selectedStatus, setSelectedStatus] = useState(selectedPdaStatus);
+  const [selectedStatus, setSelectedStatus] = useState(null);
   const [assignedTo, setAssignedTo] = useState(null);
   const [remarks, setRemarks] = useState(null);
+  const [pdaResponse, setPdaResponse] = useState(null);
 
   const [selectedVesselError, setSelectedVesselError] = useState(false);
   const [selectedPortError, setSelectedPortError] = useState(false);
@@ -87,14 +88,18 @@ const EditOperation = ({
 
   const fetchPdaDetails = async (id) => {
     // alert("fetchPdaDetails");
+    setIsLoading(true);
     let data = {
       pdaId: id,
     };
     try {
       const pdaDetails = await getPdaDetails(data);
+
       updateValues(pdaDetails);
+      setIsLoading(false);
     } catch (error) {
       console.error("Failed to fetch quotations:", error);
+      setIsLoading(false);
     }
   };
 
@@ -105,6 +110,7 @@ const EditOperation = ({
 
   const updateValues = (response) => {
     console.log(response, "updateValues");
+    setPdaResponse(response?.pda);
     setFinalChargesArray(response?.pdaServices);
     setSelectedPdaId(response?.pda?._id);
     setSelectedPdaStatus(response?.pda?.pdaStatus);
@@ -300,7 +306,10 @@ const EditOperation = ({
     console.log(selectedEmployee, "selectedEmployee");
     console.log(selectedPdaId, "selectedPdaId");
     console.log(selectedPdaStatus, "selectedPdaStatus");
-    setSelectedStatus(selectedPdaStatus);
+    console.log(pdaResponse, "pdaResponse");
+    if (selectedPdaStatus == 6) {
+      setSelectedStatus(selectedPdaStatus);
+    }
   }, [
     selectedCargo,
     selectedStatus,
@@ -308,6 +317,7 @@ const EditOperation = ({
     selectedEmployee,
     selectedPdaId,
     selectedPdaStatus,
+    pdaResponse,
   ]);
 
   const updateQuotation = async () => {
@@ -336,22 +346,24 @@ const EditOperation = ({
     <>
       <div className="job-no">
         {/* firstrow */}
-        <div class=" jobrow ">
-          <div class="opsnumber ">
+        <div className=" jobrow ">
+          <div className="opsnumber ">
             <span> Job ID:</span>
-            <span class="fw-bolder opsfontweight">{editData?.JobId}</span>
+            <span className="fw-bolder opsfontweight">
+              {pdaResponse?.jobId}
+            </span>
           </div>
-          <div class="d-flex justify-content-start back">
-            <div class="opsdate">
+          <div className="d-flex justify-content-start back">
+            <div className="opsdate">
               <label
                 for="inputPassword"
-                class="col-sm-4  col-form-label text-nowrap"
+                className="col-sm-4  col-form-label text-nowrap"
               >
                 Job Date:
               </label>
-              <div class="col-sm-4">
-                <div class="fw-bolder opsfontweight ops-date">
-                  {editData?.date}
+              <div className="col-sm-4">
+                <div className="fw-bolder opsfontweight ops-date">
+                  {new Date(pdaResponse?.createdAt).toLocaleDateString("en-GB")}
                 </div>
               </div>
             </div>
@@ -365,13 +377,13 @@ const EditOperation = ({
           </div>
         </div>
         {/* thirdrow */}
-        <div class="typesofcall-row ">
-          <div class="row mb-3 align-items-start">
-            <div class="col">
-              <label for="exampleFormControlInput1" class="form-label">
-                Vessel Name<span class="required"> * </span> :
+        <div className="typesofcall-row ">
+          <div className="row mb-3 align-items-start">
+            <div className="col">
+              <label for="exampleFormControlInput1" className="form-label">
+                Vessel Name<span className="required"> * </span> :
               </label>
-              <div class="vessel-select">
+              <div className="vessel-select">
                 <select
                   name="vessel"
                   className="form-select vesselbox"
@@ -393,11 +405,11 @@ const EditOperation = ({
                 </>
               )}
             </div>
-            <div class="col">
-              <label for="exampleFormControlInput1" class="form-label">
-                Port Name<span class="required"> * </span> :
+            <div className="col">
+              <label for="exampleFormControlInput1" className="form-label">
+                Port Name<span className="required"> * </span> :
               </label>
-              <div class="vessel-select">
+              <div className="vessel-select">
                 <select
                   name="port"
                   className="form-select vesselbox"
@@ -422,14 +434,14 @@ const EditOperation = ({
           </div>
         </div>
         {/* fourthrow */}
-        <div class="typesofcall-row ">
-          <div class="row  mb-3 align-items-start">
-            <div class="col ">
-              <label for="exampleFormControlInput1" class="form-label">
+        <div className="typesofcall-row ">
+          <div className="row  mb-3 align-items-start">
+            <div className="col ">
+              <label for="exampleFormControlInput1" className="form-label">
                 {" "}
                 Cargo :
               </label>
-              <div class="vessel-select">
+              <div className="vessel-select">
                 <select
                   name="cargo"
                   className="form-select vesselbox"
@@ -446,12 +458,12 @@ const EditOperation = ({
                 </select>
               </div>
             </div>
-            <div class="col">
-              <label for="exampleFormControlInput1" class="form-label">
+            <div className="col">
+              <label for="exampleFormControlInput1" className="form-label">
                 Assigned To{" "}
                 {selectedStatus == 6 && (
                   <>
-                    <span class="required"> * </span>
+                    <span className="required"> * </span>
                   </>
                 )}{" "}
                 :
@@ -477,14 +489,14 @@ const EditOperation = ({
               )}
             </div>
 
-            <div class="col">
-              <label for="exampleFormControlInput1" class="form-label">
-                Status <span class="required"> </span> :
+            <div className="col">
+              <label for="exampleFormControlInput1" className="form-label">
+                Status <span className="required"> </span> :
               </label>
-              <div class="vessel-select">
+              <div className="vessel-select">
                 <select
                   name="status"
-                  class="form-select vesselbox"
+                  className="form-select vesselbox"
                   onChange={handleSelectChange}
                   aria-label="Default select example"
                   value={selectedStatus}
@@ -499,14 +511,14 @@ const EditOperation = ({
           </div>
         </div>
         {/* fifthrowdocumentsupload */}
-        <div class="typesofcall-row ">
-          <div class="row align-items-start">
-            <div class="mb-2">
-              <label for="formFile" class="form-label">
+        <div className="typesofcall-row ">
+          <div className="row align-items-start">
+            <div className="mb-2">
+              <label for="formFile" className="form-label">
                 Documents Upload:
               </label>
               <input
-                class="form-control documentsfsize"
+                className="form-control documentsfsize"
                 type="file"
                 id="portofolio"
                 accept="image/*"
@@ -521,10 +533,10 @@ const EditOperation = ({
             <div className="tempgenerated ">Upload Image 1</div>
             <div className="d-flex">
               <div className="icondown">
-                <i class="bi bi-eye"></i>
+                <i className="bi bi-eye"></i>
               </div>
               <div className="iconpdf">
-                <i class="bi bi-trash"></i>
+                <i className="bi bi-trash"></i>
               </div>
             </div>
           </div>
@@ -532,10 +544,10 @@ const EditOperation = ({
             <div className="tempgenerated ">Upload Image 2</div>
             <div className="d-flex">
               <div className="icondown">
-                <i class="bi bi-eye"></i>
+                <i className="bi bi-eye"></i>
               </div>
               <div className="iconpdf">
-                <i class="bi bi-trash"></i>
+                <i className="bi bi-trash"></i>
               </div>
             </div>
           </div>
@@ -560,13 +572,13 @@ const EditOperation = ({
                               )
                             }
                           >
-                            <i class="bi bi-eye"></i>
+                            <i className="bi bi-eye"></i>
                           </div>
                           <div
                             className="iconpdf"
                             onClick={() => handleFileDelete(file)}
                           >
-                            <i class="bi bi-trash"></i>
+                            <i className="bi bi-trash"></i>
                           </div>
                         </div>
                       </div>
@@ -577,16 +589,16 @@ const EditOperation = ({
           </>
         )}
         {/* sixthrowremarks */}
-        <div class="row align-items-start">
-          <div class="col">
-            <div class="mb-3">
-              <div class="col">
-                <label for="exampleFormControlInput1" class="form-label">
+        <div className="row align-items-start">
+          <div className="col">
+            <div className="mb-3">
+              <div className="col">
+                <label for="exampleFormControlInput1" className="form-label">
                   Remarks:
                 </label>
                 <textarea
                   rows="1"
-                  class="form-control"
+                  className="form-control"
                   id="exampleFormControlInput1"
                   placeholder=""
                   name="remarks"
@@ -618,15 +630,15 @@ const EditOperation = ({
 
         {/* seventhrowbuttons */}
 
-        <div class="buttons-wrapper">
-          <div class="left">
-            <button class="btn btna submit-button btnfsize">
+        <div className="buttons-wrapper">
+          <div className="left">
+            <button className="btn btna submit-button btnfsize">
               Generate PDF
             </button>
           </div>
-          <div class="right d-flex">
+          <div className="right d-flex">
             <button
-              class="btn btna submit-button btnfsize"
+              className="btn btna submit-button btnfsize"
               onClick={() => {
                 navigate("/final-report", { state: { editData } });
               }}
@@ -634,7 +646,7 @@ const EditOperation = ({
               Final Report
             </button>
             <button
-              class="btn btna submit-button btnfsize"
+              className="btn btna submit-button btnfsize"
               onClick={() => {
                 updateQuotation();
               }}
@@ -642,7 +654,7 @@ const EditOperation = ({
               Completed
             </button>
             <button
-              class="btn btna submit-button btnfsize"
+              className="btn btna submit-button btnfsize"
               onClick={() => {
                 submitJobs();
               }}

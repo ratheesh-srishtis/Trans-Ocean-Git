@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "../css/settings.css";
 import AddVesselType from "./AddVesselType";
 import { Box, Typography, IconButton } from "@mui/material";
@@ -30,7 +30,8 @@ const VesselTypeSettings = () => {
     }
   };
 
-  useEffect(() => {console.log("DDD");
+  useEffect(() => {
+    console.log("DDD");
     fetchVesselTypeList();
   }, []);
 
@@ -69,7 +70,6 @@ const VesselTypeSettings = () => {
           try {
             let payload = {
               vesselTypeId: item?._id,
-              
             };
             const response = await deleteVesselType(payload);
             setMessage(response.message);
@@ -97,8 +97,8 @@ const VesselTypeSettings = () => {
     </Box>
   );
   const columns = [
-    { field: "vesselType", headerName: "Vessel Types", flex:1 },
-    
+    { field: "vesselType", headerName: "Vessel Types", flex: 1 },
+
     {
       field: "actions",
       headerName: "Action",
@@ -122,20 +122,29 @@ const VesselTypeSettings = () => {
   return (
     <>
       <div className="d-flex justify-content-end mb-3 mt-3">
-     <button onClick={() => {
-        openDialog();
-      }} class="btn btna submit-button btnfsize">Add VesselType</button>
-     </div>
+        <button
+          onClick={() => {
+            openDialog();
+          }}
+          className="btn btna submit-button btnfsize"
+        >
+          Add VesselType
+        </button>
+      </div>
 
-
-
-      <AddVesselType open={open} onAddVesselType={handleAddvesselType} onClose={handleClose} editMode={editMode} vesselTypeSet={selectedRow}/>
+      <AddVesselType
+        open={open}
+        onAddVesselType={handleAddvesselType}
+        onClose={handleClose}
+        editMode={editMode}
+        vesselTypeSet={selectedRow}
+      />
       <div>
         <DataGrid
           rows={VesselTypeList.map((item) => ({
             id: item._id,
-            vesselType: item.vesselType || 'N/A',
-           ...item,
+            vesselType: item.vesselType || "N/A",
+            ...item,
           }))}
           columns={columns}
           getRowId={(row) => row._id} // Use id field for unique row identification
@@ -181,9 +190,9 @@ const VesselTypeSettings = () => {
       )}
       <Loader isLoading={isLoading} />
 
-    {openPopUp && (
-      <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
-    )}
+      {openPopUp && (
+        <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
+      )}
     </>
   );
 };

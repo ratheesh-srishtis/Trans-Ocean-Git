@@ -1,10 +1,10 @@
-import React, {useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "../css/settings.css";
 import ResetPassword from "./ResetPassword";
 import { Box, Typography, IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
-import { getAllResetPasswordRequests} from "../services/apiService";
+import { getAllResetPasswordRequests } from "../services/apiService";
 import Swal from "sweetalert2";
 import Loader from "../pages/Loader";
 import PopUp from "../pages/PopUp";
@@ -18,11 +18,11 @@ const PasswordRequests = () => {
     try {
       setIsLoading(true);
       const listallrequests = await getAllResetPasswordRequests();
-      console.log('users:', listallrequests);
+      console.log("users:", listallrequests);
       setPasswordRequests(listallrequests?.users || []);
       setIsLoading(false);
     } catch (error) {
-      console.error('Failed to fetch requests', error);
+      console.error("Failed to fetch requests", error);
       setIsLoading(false);
     }
   };
@@ -57,11 +57,11 @@ const PasswordRequests = () => {
   const NoRowsOverlay = () => (
     <Box
       sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100%',
-        color: 'gray',
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100%",
+        color: "gray",
       }}
     >
       <Typography>No Record Found</Typography>
@@ -69,19 +69,22 @@ const PasswordRequests = () => {
   );
 
   const columns = [
-    { field: 'name', headerName: 'Name', flex: 2 },
-    { field: 'username', headerName: 'User Name', flex: 2 },
-    { field: 'email', headerName: 'Email', flex: 2 },
-    { field: 'role', headerName: 'Role', flex: 2 },
+    { field: "name", headerName: "Name", flex: 2 },
+    { field: "username", headerName: "User Name", flex: 2 },
+    { field: "email", headerName: "Email", flex: 2 },
+    { field: "role", headerName: "Role", flex: 2 },
     {
-      field: 'actions',
-      headerName: 'Action',
+      field: "actions",
+      headerName: "Action",
       flex: 0,
       renderCell: (params) => (
         <>
-          <button class="btn btna submit-button btnfsize" onClick={() => handleEdit(params.row)}>
-          Reset Password
-        </button>
+          <button
+            className="btn btna submit-button btnfsize"
+            onClick={() => handleEdit(params.row)}
+          >
+            Reset Password
+          </button>
         </>
       ),
     },
@@ -89,9 +92,7 @@ const PasswordRequests = () => {
 
   return (
     <>
-      <div className="d-flex justify-content-end mb-3 mt-3">
-       
-      </div>
+      <div className="d-flex justify-content-end mb-3 mt-3"></div>
       <ResetPassword
         open={open}
         onRequestPassword={handlePasswordRequest}
@@ -102,15 +103,15 @@ const PasswordRequests = () => {
         <DataGrid
           rows={PasswordRequests.map((item) => {
             if (!item?._id) {
-              console.error('Item missing _id:', item);
+              console.error("Item missing _id:", item);
               return null;
             }
             return {
               id: item._id, // Ensure _id is used if available
-              name: item.name || 'N/A',
-              username: item.username || 'N/A',
-              email: item.email || 'N/A',
-              role: item.userRole?.roleType || 'N/A', // Use optional chaining
+              name: item.name || "N/A",
+              username: item.username || "N/A",
+              email: item.email || "N/A",
+              role: item.userRole?.roleType || "N/A", // Use optional chaining
               ...item,
             };
           }).filter(Boolean)} // Filter out null items
@@ -120,21 +121,21 @@ const PasswordRequests = () => {
           disableColumnMenu
           components={{ NoRowsOverlay }}
           sx={{
-            '& .MuiDataGrid-root': {
-              border: 'none',
+            "& .MuiDataGrid-root": {
+              border: "none",
             },
-            '& .MuiDataGrid-columnHeaders': {
-              backgroundColor: '#eee !important',
-              color: '#000000',
-              fontWeight: 'bold',
+            "& .MuiDataGrid-columnHeaders": {
+              backgroundColor: "#eee !important",
+              color: "#000000",
+              fontWeight: "bold",
             },
-            '& .MuiDataGrid-cell': {
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
+            "& .MuiDataGrid-cell": {
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
             },
-            '& .MuiTablePagination-toolbar': {
-              alignItems: 'baseline',
+            "& .MuiTablePagination-toolbar": {
+              alignItems: "baseline",
             },
           }}
           pagination
@@ -158,7 +159,5 @@ const PasswordRequests = () => {
     </>
   );
 };
-
-
 
 export default PasswordRequests;

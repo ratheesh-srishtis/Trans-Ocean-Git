@@ -155,53 +155,54 @@ const OtpVerification = () => {
   return (
     <>
       <div>
-        <div class="transocean_login">
-          <div class="group">
+        <div className="transocean_login">
+          <div className="group">
             <img className="logoside" src={Group}></img>
           </div>
-          <div class="container">
-            <div class="row alignboxotp">
-              <div class="col-lg-6 same-level">
-                <div class="d-flex flex-column mb-3">
-               
+          <div className="container">
+            <div className="row alignboxotp">
+              <div className="col-lg-6 same-level">
+                <div className="d-flex flex-column mb-3">
                   <img className="mainpng" src={mian} alt=""></img>
                 </div>
               </div>
-              <div class="col-lg-6 same-level">
-                <div class="logincard">
-                  <div class="maincard">
+              <div className="col-lg-6 same-level">
+                <div className="logincard">
+                  <div className="maincard">
                     <div>
-                      <h3 class="text-center login_text">OTP Verification</h3>
+                      <h3 className="text-center login_text">
+                        OTP Verification
+                      </h3>
                     </div>
-                    {/* <div class="mb-5  ">
-                      <label for="exampleInputEmail1" class="form-label">
+                    {/* <div className="mb-5  ">
+                      <label for="exampleInputEmail1" className="form-label">
                         Enter OTP{" "}
                       </label>
-                      <div class="otp gap-3">
+                      <div className="otp gap-3">
                         <input
                           type="email"
-                          class="form-control otpform"
+                          className="form-control otpform"
                           id="exampleInputEmail1"
                           placeholder="8"
                           aria-describedby="emailHelp"
                         />
                         <input
                           type="email"
-                          class="form-control otpform"
+                          className="form-control otpform"
                           id="exampleInputEmail1"
                           placeholder="4"
                           aria-describedby="emailHelp"
                         />
                         <input
                           type="email"
-                          class="form-control otpform"
+                          className="form-control otpform"
                           id="exampleInputEmail1"
                           placeholder="3"
                           aria-describedby="emailHelp"
                         />
                         <input
                           type="email"
-                          class="form-control otpform"
+                          className="form-control otpform"
                           id="exampleInputEmail1"
                           placeholder="2"
                           aria-describedby="emailHelp"
@@ -235,9 +236,9 @@ const OtpVerification = () => {
                       </div>
                     </div>
 
-                    <div class="resendotp mb-3 mt-3">
+                    <div className="resendotp mb-3 mt-3">
                       <a
-                        class="otptext"
+                        className="otptext"
                         onClick={() => {
                           SendEmailOtp();
                         }}
@@ -247,7 +248,7 @@ const OtpVerification = () => {
                     </div>
                     <button
                       type="submit"
-                      class="btn btn-primary w-100"
+                      className="btn btn-primary w-100"
                       onClick={handleVerify}
                       disabled={otp.some((value) => value === "")} // Disable if any value in otp is empty
                     >
@@ -259,9 +260,9 @@ const OtpVerification = () => {
             </div>
           </div>
         </div>
-        <div class="d-flex bottom-head">
-          <p class="copyright">Copyright@ transocean</p>
-          <p class="footerlinks">
+        <div className="d-flex bottom-head">
+          <p className="copyright">Copyright@ transocean</p>
+          <p className="footerlinks">
             <a href="#">Policy</a> | <a href="#"> Terms & Conditions </a>{" "}
           </p>
         </div>

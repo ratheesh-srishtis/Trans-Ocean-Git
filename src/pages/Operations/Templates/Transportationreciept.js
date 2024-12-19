@@ -23,6 +23,7 @@ const Transportationreciept = ({
   charge,
   onSubmit,
   selectedTemplateName,
+  selectedTemplate,
 }) => {
   const [date, setDate] = useState(null);
   const [dateError, setDateError] = useState(null);
@@ -123,6 +124,8 @@ const Transportationreciept = ({
         // Submit form logic here
         const payload = {
           pdaChargeId: charge?._id,
+          templateId: selectedTemplate,
+
           templateName: selectedTemplateName,
           jobTitle: formData.jobTitle,
           date: moment(date).format("YYYY-MM-DD"),
@@ -187,7 +190,7 @@ const Transportationreciept = ({
             </div>
             <div className="d-flex justify-content-between mb-5 mt-3">
               <div className="col-2  ">
-                <label for="exampleFormControlInput1" class="form-label">
+                <label for="exampleFormControlInput1" className="form-label">
                   Reference No:
                 </label>
                 <input
@@ -200,7 +203,7 @@ const Transportationreciept = ({
                 />
               </div>
               <div className="col-2  ">
-                <label for="exampleFormControlInput1" class="form-label">
+                <label for="exampleFormControlInput1" className="form-label">
                   Date:
                 </label>
                 <DatePicker
@@ -219,7 +222,7 @@ const Transportationreciept = ({
 
             <div className="d-flex justify-content-between">
               <div className="col-6  ">
-                <label for="exampleFormControlInput1" class="form-label">
+                <label for="exampleFormControlInput1" className="form-label">
                   Job Title:
                 </label>
                 <input
@@ -326,8 +329,8 @@ const Transportationreciept = ({
             </div>
 
             <div className="d-flex gap-3   mt-2">
-              <div class="col-6 transpoter">
-                <label for="formFile" class="form-label">
+              <div className="col-6 transpoter">
+                <label for="formFile" className="form-label">
                   Agent Name :
                 </label>
                 <input
@@ -339,13 +342,13 @@ const Transportationreciept = ({
                   onChange={handleInputChange}
                 />
               </div>
-              <div class="col-6 transpoter">
-                <label for="formFile" class="form-label">
+              <div className="col-6 transpoter">
+                <label for="formFile" className="form-label">
                   {" "}
                   Transporter Name :
                 </label>
                 <input
-                  class="form-control"
+                  className="form-control"
                   type="text"
                   id="transporter"
                   name="transporter"

@@ -222,7 +222,7 @@ const PdaDialog = ({
           <table className="tabstyle">
             <thead>
               <tr>
-                <th colspan="6" class=" tableimage ">
+                <th colspan="6" className=" tableimage ">
                   <img className="logoimg" src={Group}></img>
 
                   <img className="sublogoimg" src={transwave}></img>
@@ -233,7 +233,7 @@ const PdaDialog = ({
             </thead>
           </table>
           <table className="tabstyle">
-            <thead class="tableheading">
+            <thead className="tableheading">
               <tr>
                 <th colspan="5" className="styltwo">
                   To{" "}
@@ -251,7 +251,7 @@ const PdaDialog = ({
             </thead>
           </table>
           <table className="tabstyle">
-            <thead class="tableheading">
+            <thead className="tableheading">
               <tr>
                 <th colspan="3" className="stylfive">
                   VESSEL
@@ -309,7 +309,7 @@ const PdaDialog = ({
             </thead>
           </table>
           <table className="tabstyle">
-            <thead class="tableheading">
+            <thead className="tableheading">
               <tr>
                 <th className="slstyl">Sl.No</th>
                 <th className="slstyl">Particulars</th>
@@ -320,7 +320,7 @@ const PdaDialog = ({
                 <th className="omrstyl">TOTAL AMOUNT (USD)</th>
               </tr>
             </thead>
-            <tbody class="tablebody">
+            <tbody className="tablebody">
               {pdaServices?.length > 0 &&
                 pdaServices.map((charge, index) => (
                   <tr key={index}>
@@ -371,8 +371,8 @@ const PdaDialog = ({
             </tbody>
           </table>
           <div>
-            <div class="col-1 note">Note</div>
-            <div class="subnote">
+            <div className="col-1 note">Note</div>
+            <div className="subnote">
               **“Effective from 16th April 2021, 5% of VAT will applicable as
               per new Government regulation in the Sultanate of Oman."
               <br />
@@ -382,7 +382,7 @@ const PdaDialog = ({
             </div>
           </div>
           <table className="styli">
-            <thead class="tableheading">
+            <thead className="tableheading">
               <tr>
                 <th className="slstyl"></th>
                 <th colspan="4" className="stylj">
@@ -397,7 +397,7 @@ const PdaDialog = ({
                 <th className="stylk">USD</th>
               </tr>
             </thead>
-            <tbody class="tablebody">
+            <tbody className="tablebody">
               <tr>
                 <td className="stylc">1</td>
                 <td lassName="stylc"> 185-199.99 M </td>
@@ -416,7 +416,7 @@ const PdaDialog = ({
             </tbody>
           </table>
           <div>
-            <div class="payment">
+            <div className="payment">
               Payment:
               <br /> Payment in advance prior to vessel arrival as per below
               bank account details:

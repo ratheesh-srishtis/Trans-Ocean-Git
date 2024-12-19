@@ -25,6 +25,7 @@ const ProvisionDeliveryNotes = ({
   charge,
   onSubmit,
   selectedTemplateName,
+  selectedTemplate,
 }) => {
   const [date, setDate] = useState(null);
   const [dateError, setDateError] = useState(null);
@@ -101,6 +102,8 @@ const ProvisionDeliveryNotes = ({
         // Submit form logic here
         const payload = {
           pdaChargeId: charge?._id,
+          templateId: selectedTemplate,
+
           templateName: selectedTemplateName,
           supplyDate: moment(date).format("YYYY-MM-DD"),
           refNo: formData.refNo,
@@ -164,7 +167,7 @@ const ProvisionDeliveryNotes = ({
               </div>
               <div className="d-flex  gap-2">
                 <div className="col-4">
-                  <label for="exampleFormControlInput1" class="form-label">
+                  <label for="exampleFormControlInput1" className="form-label">
                     SUPPLY DATE :
                   </label>
 
@@ -181,7 +184,7 @@ const ProvisionDeliveryNotes = ({
                   {dateError && <div className="invalid">{dateError}</div>}
                 </div>
                 <div className="col-4">
-                  <label for="exampleFormControlInput1" class="form-label">
+                  <label for="exampleFormControlInput1" className="form-label">
                     REFERENCE NO :{" "}
                   </label>
                   <input
@@ -203,7 +206,7 @@ const ProvisionDeliveryNotes = ({
                         <div className="col-3 provisionspace">
                           <label
                             htmlFor={`description-${index}`}
-                            class="form-label"
+                            className="form-label"
                           >
                             ITEM DESCRIPTION :{" "}
                           </label>

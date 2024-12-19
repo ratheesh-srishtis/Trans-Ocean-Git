@@ -22,6 +22,7 @@ const OKTBReport = ({
   charge,
   selectedTemplateName,
   onSubmit,
+  selectedTemplate,
 }) => {
   console.log(templates, "templates");
   console.log(charge, "charge_OKTBReport");
@@ -154,6 +155,8 @@ const OKTBReport = ({
 
     let templateBody = {
       pdaChargeId: charge?._id,
+      templateId: selectedTemplate,
+
       templateName: selectedTemplateName,
       to: to,
       faxNo: faxNumber,
@@ -219,7 +222,7 @@ const OKTBReport = ({
                   {/* <div className="anshead"> Muscat Airport</div> */}
                   <input
                     type="email"
-                    class="form-control answidth"
+                    className="form-control answidth"
                     id="exampleFormControlInput1"
                     placeholder=""
                     name="to"
@@ -229,11 +232,11 @@ const OKTBReport = ({
                   {toError && <div className="invalid">{toError}</div>}
                 </div>
 
-                <div class="col-4 queheading">
+                <div className="col-4 queheading">
                   <div> Fax No:</div>
                   <input
                     type="number"
-                    class="form-control answidth"
+                    className="form-control answidth"
                     id="exampleFormControlInput1"
                     placeholder=""
                     name="fax_number"
@@ -244,11 +247,11 @@ const OKTBReport = ({
                     <div className="invalid">{faxNumberError}</div>
                   )}
                 </div>
-                <div class="col-4 queheada">
+                <div className="col-4 queheada">
                   <div>Attn:</div>
                   <input
                     type="text"
-                    class="form-control answidth"
+                    className="form-control answidth"
                     id="exampleFormControlInput1"
                     placeholder=""
                     name="attn"
@@ -263,7 +266,7 @@ const OKTBReport = ({
                   {/* <div className="anshead"> Muscat Airport</div> */}
                   <input
                     type="number"
-                    class="form-control answidth"
+                    className="form-control answidth"
                     id="exampleFormControlInput1"
                     placeholder=""
                     name="pages"
@@ -272,11 +275,11 @@ const OKTBReport = ({
                   ></input>
                   {pagesError && <div className="invalid">{pagesError}</div>}
                 </div>
-                <div class="col-4 queheading">
+                <div className="col-4 queheading">
                   <div> From:</div>
                   <input
                     type="text"
-                    class="form-control answidth"
+                    className="form-control answidth"
                     id="exampleFormControlInput1"
                     placeholder=""
                     name="from"
@@ -285,11 +288,11 @@ const OKTBReport = ({
                   ></input>
                   {fromError && <div className="invalid">{fromError}</div>}
                 </div>
-                <div class="col-4 queheada">
+                <div className="col-4 queheada">
                   <div> Tel No:</div>
                   <input
                     type="number"
-                    class="form-control answidth"
+                    className="form-control answidth"
                     id="exampleFormControlInput1"
                     placeholder=""
                     name="telephone_number"
@@ -324,7 +327,7 @@ const OKTBReport = ({
                   <div> Ref#:</div>
                   <input
                     type="text"
-                    class="form-control answidth"
+                    className="form-control answidth"
                     id="exampleFormControlInput1"
                     placeholder=""
                     name="ref_number"
@@ -348,7 +351,7 @@ const OKTBReport = ({
                     <div> Booking Ref:</div>
                     <input
                       type="text"
-                      class="form-control answidth"
+                      className="form-control answidth"
                       id="exampleFormControlInput1"
                       placeholder=""
                       name="booking_ref"
@@ -363,7 +366,7 @@ const OKTBReport = ({
                     <div> Passangers Name:</div>
                     <textarea
                       type="text"
-                      class="form-control passwidth"
+                      className="form-control passwidth"
                       id="exampleFormControlInput1"
                       rows="1"
                       placeholder=""
@@ -381,7 +384,7 @@ const OKTBReport = ({
                     <div> Airport Arrival Details:</div>
                     <textarea
                       type="text"
-                      class="form-control passwidth"
+                      className="form-control passwidth"
                       id="exampleFormControlInput1"
                       placeholder=""
                       name="airport_arrival_details"

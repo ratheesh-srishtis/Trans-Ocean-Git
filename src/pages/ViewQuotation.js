@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import "../css/viewquotation.css";
 import ChargesTable from "./ChargesTable";
 import { getPdaDetails } from "../services/apiService";
+import Loader from "./Loader";
 const ViewQuotation = ({
   vessels,
   ports,
@@ -23,6 +24,7 @@ const ViewQuotation = ({
   const [fetchInitiated, setFetchInitiated] = useState(false); // State to track fetch initiation
   const [finalChargesArray, setFinalChargesArray] = useState([]);
   const [pdavalues, setPdavalues] = useState(null);
+  const [isLoading, setIsLoading] = useState(false); // Loader state
 
   console.log("Row data:", row);
 
@@ -52,14 +54,18 @@ const ViewQuotation = ({
 
   const fetchPdaDetails = async (id) => {
     // alert("fetchPdaDetails");
+    setIsLoading(true);
+
     let data = {
       pdaId: id,
     };
     try {
       const pdaDetails = await getPdaDetails(data);
       updateValues(pdaDetails);
+      setIsLoading(false);
     } catch (error) {
       console.error("Failed to fetch quotations:", error);
+      setIsLoading(false);
     }
   };
 
@@ -77,27 +83,31 @@ const ViewQuotation = ({
     <>
       <div className="pda-no">
         <div className=" pdarow ">
-          <div class="pdanumber ">
+          <div className="pdanumber ">
             <span> PDA No:</span>
-            <span class="fw-bolder pdafontweight">20240483</span>
+            <span className="fw-bolder pdafontweight">
+              {pdavalues?.pdaNumber}
+            </span>
           </div>
-          <div class="d-flex justify-content-start back">
-            <div class="pdadate">
+          <div className="d-flex justify-content-start back">
+            <div className="pdadate">
               <label
                 for="inputPassword"
-                class="col-sm-4  col-form-label text-nowrap"
+                className="col-sm-4  col-form-label text-nowrap"
               >
                 PDA Date:
               </label>
-              <div class="col-sm-4">
-                <div class="fw-bolder pdafontweight pda-date">25/11/2024</div>
+              <div className="col-sm-4">
+                <div className="fw-bolder pdafontweight pda-date">
+                  {new Date(pdavalues?.createdAt).toLocaleDateString("en-GB")}
+                </div>
               </div>
             </div>
           </div>
-          {/* <div class="draft-pda ">
-          <span class="badge statusbadge ">
-            <i class="bi bi-book-fill book"></i></span>
-          <div class="pdabadge">Draft PDA</div>
+          {/* <div className="draft-pda ">
+          <span className="badge statusbadge ">
+            <i className="bi bi-book-fill book"></i></span>
+          <div className="pdabadge">Draft PDA</div>
         </div> */}
         </div>
         <div className="charge">
@@ -129,7 +139,10 @@ const ViewQuotation = ({
             <span> GRT:</span> <span className="viewans"> {editData?.GRT}</span>
           </div>
           <div className=" col-4 viewhead">
-            <span> ETD:</span> <span className="viewans"> {editData?.ETD}</span>
+            <span> ETD:</span>{" "}
+            <span className="viewans">
+              {new Date(editData?.ETD).toLocaleDateString("en-GB")}
+            </span>
           </div>
         </div>
         <div className="row viewquocontent">
@@ -140,7 +153,11 @@ const ViewQuotation = ({
             <span> NRT:</span> <span className="viewans"> {editData?.NRT}</span>
           </div>
           <div className=" col-4 viewhead">
-            <span> ETA:</span> <span className="viewans"> {editData?.ETA}</span>
+            <span> ETA:</span>{" "}
+            <span className="viewans">
+              {new Date(editData?.ETD).toLocaleDateString("en-GB")}
+              {editData?.ETA}
+            </span>
           </div>
         </div>
         {editData?.customerId && (
@@ -168,6 +185,7 @@ const ViewQuotation = ({
           </div>
         </div>
       </div>
+      <Loader isLoading={isLoading} />
     </>
   );
 };

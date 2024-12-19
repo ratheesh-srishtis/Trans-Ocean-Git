@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "../css/settings.css";
 import AddCharge from "./AddCharge";
 import { Box, Typography, IconButton } from "@mui/material";
@@ -69,7 +69,6 @@ const ChargesSettings = () => {
           try {
             let payload = {
               chargeId: item?._id,
-              
             };
             const response = await deleteCharge(payload);
             setMessage(response.message);
@@ -97,8 +96,8 @@ const ChargesSettings = () => {
     </Box>
   );
   const columns = [
-    { field: "chargeName", headerName: "Charges", flex:1 },
-    
+    { field: "chargeName", headerName: "Charges", flex: 1 },
+
     {
       field: "actions",
       headerName: "Action",
@@ -122,20 +121,29 @@ const ChargesSettings = () => {
   return (
     <>
       <div className="d-flex justify-content-end mb-3 mt-3">
-     <button onClick={() => {
-        openDialog();
-      }} class="btn btna submit-button btnfsize">Add Charge</button>
-     </div>
+        <button
+          onClick={() => {
+            openDialog();
+          }}
+          className="btn btna submit-button btnfsize"
+        >
+          Add Charge
+        </button>
+      </div>
 
-
-
-      <AddCharge open={open} onAddCharge={handleAddcharges} onClose={handleClose} editMode={editMode} chargeSet={selectedRow}/>
+      <AddCharge
+        open={open}
+        onAddCharge={handleAddcharges}
+        onClose={handleClose}
+        editMode={editMode}
+        chargeSet={selectedRow}
+      />
       <div>
         <DataGrid
           rows={ChargeList.map((item) => ({
             id: item._id,
-            chargeName: item.chargeName || 'N/A',
-           ...item,
+            chargeName: item.chargeName || "N/A",
+            ...item,
           }))}
           columns={columns}
           getRowId={(row) => row._id} // Use id field for unique row identification
@@ -181,9 +189,9 @@ const ChargesSettings = () => {
       )}
       <Loader isLoading={isLoading} />
 
-    {openPopUp && (
-      <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
-    )}
+      {openPopUp && (
+        <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
+      )}
     </>
   );
 };

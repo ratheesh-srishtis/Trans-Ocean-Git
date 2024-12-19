@@ -1,12 +1,11 @@
 // ResponsiveDialog.js
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
-import { saveCharge,editCharge } from "../services/apiService";
+import { saveCharge, editCharge } from "../services/apiService";
 import PopUp from "../pages/PopUp";
-const AddCharge = ({ open, onAddCharge,onClose,editMode, chargeSet }) => {
+const AddCharge = ({ open, onAddCharge, onClose, editMode, chargeSet }) => {
   const [formData, setFormData] = useState({
-    chargeName: '',
-    
+    chargeName: "",
   });
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
@@ -15,12 +14,11 @@ const AddCharge = ({ open, onAddCharge,onClose,editMode, chargeSet }) => {
     if (editMode && chargeSet) {
       setFormData({
         chargeName: chargeSet.chargeName,
-        chargeId:chargeSet._id,
+        chargeId: chargeSet._id,
       });
     } else {
       setFormData({
-        chargeName: '',
-      
+        chargeName: "",
       });
     }
   }, [editMode, chargeSet]);
@@ -28,7 +26,6 @@ const AddCharge = ({ open, onAddCharge,onClose,editMode, chargeSet }) => {
     setOpenPopUp(false);
     onAddCharge();
     onClose();
-   
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -50,20 +47,20 @@ const AddCharge = ({ open, onAddCharge,onClose,editMode, chargeSet }) => {
     try {
       let response;
       if (editMode) {
-        console.log("Edit mode formData:", formData); 
+        console.log("Edit mode formData:", formData);
         response = await editCharge(formData);
       } else {
         // Add new role
-        console.log("Add mode formData:", formData); 
-        response = await saveCharge(formData); 
+        console.log("Add mode formData:", formData);
+        response = await saveCharge(formData);
       }
 
       if (response.status === true) {
         setMessage(response.message);
         setOpenPopUp(true);
       }
-      
-      setFormData({ chargeName: ""});
+
+      setFormData({ chargeName: "" });
       onAddCharge(formData);
       onClose();
     } catch (error) {
@@ -75,42 +72,58 @@ const AddCharge = ({ open, onAddCharge,onClose,editMode, chargeSet }) => {
 
   return (
     <>
-      <Dialog sx={{
-            width: 800, 
-            margin: 'auto',
-            borderRadius: 2,
-          }} open={open} onClose={onClose} fullWidth maxWidth="lg">
+      <Dialog
+        sx={{
+          width: 800,
+          margin: "auto",
+          borderRadius: 2,
+        }}
+        open={open}
+        onClose={onClose}
+        fullWidth
+        maxWidth="lg"
+      >
         <div className="d-flex justify-content-between" onClick={onClose}>
-          <DialogTitle>{editMode ? 'Edit Charge' : 'Add Charge'}</DialogTitle>
+          <DialogTitle>{editMode ? "Edit Charge" : "Add Charge"}</DialogTitle>
           <div className="closeicon">
             <i className="bi bi-x-lg "></i>
           </div>
         </div>
         <DialogContent style={{ marginBottom: "60px" }}>
-        <form onSubmit={handleSubmit}>
-        <div className="row">
-            <div class="col-5 mb-3 align-items-start">
-              <div class="">
-                <label for="exampleFormControlInput1" class="form-label">  Charge Name:</label>
-                <input name="chargeName" type="" class="form-control vessel-voyage" id="exampleFormControlInput1" placeholder="" onChange={handleChange}
-                  value={formData.chargeName}></input>
-                  {errors.chargeName && <span className="invalid">{errors.chargeName}</span>}
+          <form onSubmit={handleSubmit}>
+            <div className="row">
+              <div className="col-5 mb-3 align-items-start">
+                <div className="">
+                  <label for="exampleFormControlInput1" className="form-label">
+                    {" "}
+                    Charge Name:
+                  </label>
+                  <input
+                    name="chargeName"
+                    type=""
+                    className="form-control vessel-voyage"
+                    id="exampleFormControlInput1"
+                    placeholder=""
+                    onChange={handleChange}
+                    value={formData.chargeName}
+                  ></input>
+                  {errors.chargeName && (
+                    <span className="invalid">{errors.chargeName}</span>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
 
-
-          <div className="btnuser">
-            <button class="btn btna submit-button btnfsize"> Submit </button>
-          </div>
-         </form>
-
-
+            <div className="btnuser">
+              <button className="btn btna submit-button btnfsize">
+                {" "}
+                Submit{" "}
+              </button>
+            </div>
+          </form>
         </DialogContent>
       </Dialog>
-      {openPopUp && (
-        <PopUp message={message} closePopup={fetchchargeList} />
-      )}
+      {openPopUp && <PopUp message={message} closePopup={fetchchargeList} />}
     </>
   );
 };

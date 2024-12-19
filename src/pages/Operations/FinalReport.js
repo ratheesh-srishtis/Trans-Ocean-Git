@@ -33,10 +33,6 @@ const FinalReport = ({
   const [open, setOpen] = useState(false);
   const [serviceReports, setServiceReports] = useState([]);
 
-  const openDialog = () => {
-    handleClickOpen();
-  };
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -230,8 +226,32 @@ const FinalReport = ({
   useEffect(() => {
     console.log("serviceReports:", serviceReports);
     console.log("uploadedFiles:", uploadedFiles);
-    loadReports(); // Simulate fetching and loading data
+    if (serviceReports?.length > 0) {
+      loadReports(); // Simulate fetching and loading data
+    }
   }, [serviceReports, uploadedFiles]);
+
+  useEffect(() => {
+    console.log("rows:", rows);
+  }, [rows]);
+
+  const openDialog = () => {
+    // Check if there is at least one row with any valid (non-empty, non-null) value
+    const isValid = serviceReports.some((row) =>
+      Object.values(row).some((value) => value !== null && value !== "")
+    );
+
+    if (!isValid) {
+      // alert("At least one field in the rows must have a valid value.");
+      setMessage("At least one field in the rows must have a valid value");
+      setOpenPopUp(true);
+      return; // Exit the function if validation fails
+    }
+
+    // Proceed with the submit logic if the validation passes
+
+    handleClickOpen();
+  };
 
   return (
     <>
@@ -267,7 +287,6 @@ const FinalReport = ({
                       onChange={(e) =>
                         handleInputChange(index, "description", e.target.value)
                       }
-                      placeholder="Enter description"
                     />
                   </td>
                   <td className="tdstyl">
@@ -284,7 +303,6 @@ const FinalReport = ({
                       timeIntervals={15}
                       className="form-control date-input"
                       id="eta-picker"
-                      placeholderText="Select ETA"
                       autoComplete="off"
                     />
                   </td>
@@ -300,7 +318,6 @@ const FinalReport = ({
                           e.target.value
                         )
                       }
-                      placeholder="Enter service activity"
                     />
                   </td>
                   <td className="tdstyl">
@@ -311,7 +328,6 @@ const FinalReport = ({
                       onChange={(e) =>
                         handleInputChange(index, "quantity", e.target.value)
                       }
-                      placeholder="Enter quantity"
                     />
                   </td>
                   <td className="tdstyl">
@@ -322,7 +338,6 @@ const FinalReport = ({
                       onChange={(e) =>
                         handleInputChange(index, "remark", e.target.value)
                       }
-                      placeholder="Enter remarks"
                     />
                   </td>
                   <td className="tdstyl">
@@ -341,15 +356,15 @@ const FinalReport = ({
             {/* <div className="d-flex justify-content-between pdf">
               <div>Attach PDFs</div>
               <div>
-                <i class="bi bi-file-earmark-pdf"></i>
+                <i className="bi bi-file-earmark-pdf"></i>
               </div>
             </div> */}
             {/* fifthrowdocumentsupload */}
-            <div class="typesofcall-row ">
-              <div class="row align-items-start">
-                <div class="mb-2">
+            <div className="typesofcall-row ">
+              <div className="row align-items-start">
+                <div className="mb-2">
                   <input
-                    class="form-control documentsfsize"
+                    className="form-control documentsfsize"
                     type="file"
                     id="portofolio"
                     accept="image/*"
@@ -360,7 +375,7 @@ const FinalReport = ({
                 {uploadedFiles && uploadedFiles?.length > 0 && (
                   <>
                     <div className="templatelink">Uploaded Files:</div>
-                    <div className="templateouter">
+                    <div className="templateouter templateouter-space">
                       {uploadedFiles?.length > 0 &&
                         uploadedFiles?.map((file, index) => {
                           return (
@@ -377,13 +392,13 @@ const FinalReport = ({
                                       )
                                     }
                                   >
-                                    <i class="bi bi-eye"></i>
+                                    <i className="bi bi-eye"></i>
                                   </div>
                                   <div
                                     className="iconpdf"
                                     onClick={() => handleFileDelete(file)}
                                   >
-                                    <i class="bi bi-trash"></i>
+                                    <i className="bi bi-trash"></i>
                                   </div>
                                 </div>
                               </div>
@@ -398,7 +413,7 @@ const FinalReport = ({
 
             <div>
               <button
-                class="btn btna submit-button btnfsize addmorebutton"
+                className="btn btna submit-button btnfsize addmorebutton"
                 onClick={handleAddRow}
               >
                 Add More
@@ -408,10 +423,10 @@ const FinalReport = ({
         </div>
       </div>
 
-      <div class="buttons-wrapper">
-        <div class="left">
+      <div className="buttons-wrapper">
+        <div className="left">
           <button
-            class="btn btna submit-button btnfsize"
+            className="btn btna submit-button btnfsize"
             onClick={() => {
               openFinalDialog();
             }}
@@ -419,15 +434,15 @@ const FinalReport = ({
             Generate Report
           </button>
         </div>
-        <div class="right d-flex">
+        <div className="right d-flex">
           <button
-            class="btn btna submit-button btnfsize"
+            className="btn btna submit-button btnfsize"
             onClick={handleSubmit}
           >
             Save Report
           </button>
           <button
-            class="btn btna submit-button btnfsize"
+            className="btn btna submit-button btnfsize"
             onClick={() => {
               openDialog();
             }}
@@ -435,7 +450,7 @@ const FinalReport = ({
             Send Report
           </button>
           <button
-            class="btn btna submit-button btnfsize"
+            className="btn btna submit-button btnfsize"
             onClick={() => {
               openQQDialog();
             }}
@@ -445,12 +460,20 @@ const FinalReport = ({
         </div>
       </div>
 
-      <SendReport open={open} onClose={handleClose} />
+      <SendReport open={open} onClose={handleClose} pdaId={pdaId} />
       <FinalReportDialog
         open={finalDialogOpen}
         onClose={handleFinalDialogueClose}
+        pdaId={pdaId}
+        ports={ports}
       />
-      <QQDialog open={QQDialogOpen} onClose={handleQQDialogueClose} />
+      <QQDialog
+        open={QQDialogOpen}
+        onClose={handleQQDialogueClose}
+        pdaId={pdaId}
+        ports={ports}
+        vessels={vessels}
+      />
       {openPopUp && (
         <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
       )}

@@ -128,7 +128,10 @@ const Content = () => {
         }
       />
       <Route path="/jobs" element={<OpsList loginResponse={loginResponse} />} />
-      <Route path="/final-report" element={<FinalReport />} />
+      <Route
+        path="/final-report"
+        element={<FinalReport ports={ports} vessels={vessels} />}
+      />
       <Route path="/qq-form" element={<QQForm />} />
       <Route
         path="/view-quotation"

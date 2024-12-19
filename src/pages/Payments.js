@@ -3,17 +3,14 @@ import "../css/payment.css";
 
 const Payments = () => {
   return (
-    <div class="report-main">
-    <div class="reports">
-    <div>
-       <i class="bi bi-exclamation-triangle-fill report-alert"></i>
-      <span> Page is under Construction </span>
+    <div className="report-main">
+      <div className="reports">
+        <div>
+          <i className="bi bi-exclamation-triangle-fill report-alert"></i>
+          <span> Page is under Construction </span>
+        </div>
+      </div>
     </div>
-    </div>
-</div>
-
-
- 
   );
 };
 

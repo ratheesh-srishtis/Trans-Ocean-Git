@@ -1,11 +1,14 @@
-import React, {useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "../css/settings.css";
 import AddQQform from "./AddQQform";
 import { Box, Typography, IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { getAllQQFormQuestions, deleteQQFormQuestion } from "../services/apiService";
+import {
+  getAllQQFormQuestions,
+  deleteQQFormQuestion,
+} from "../services/apiService";
 import Swal from "sweetalert2";
 import Loader from "../pages/Loader";
 import PopUp from "../pages/PopUp";
@@ -69,7 +72,6 @@ const QQFormSettings = () => {
           try {
             let payload = {
               questionId: item?._id,
-              
             };
             const response = await deleteQQFormQuestion(payload);
             setMessage(response.message);
@@ -97,8 +99,8 @@ const QQFormSettings = () => {
     </Box>
   );
   const columns = [
-    { field: "questions", headerName: "Questions", flex:1 },
-    
+    { field: "questions", headerName: "Questions", flex: 1 },
+
     {
       field: "actions",
       headerName: "Action",
@@ -122,20 +124,29 @@ const QQFormSettings = () => {
   return (
     <>
       <div className="d-flex justify-content-end mb-3 mt-3">
-     <button onClick={() => {
-        openDialog();
-      }} class="btn btna submit-button btnfsize">Add QQForm Question</button>
-     </div>
+        <button
+          onClick={() => {
+            openDialog();
+          }}
+          className="btn btna submit-button btnfsize"
+        >
+          Add QQForm Question
+        </button>
+      </div>
 
-
-
-      <AddQQform open={open} onAddQQ={handleAddQQForm} onClose={handleClose} editMode={editMode} QQSet={selectedRow}/>
+      <AddQQform
+        open={open}
+        onAddQQ={handleAddQQForm}
+        onClose={handleClose}
+        editMode={editMode}
+        QQSet={selectedRow}
+      />
       <div>
         <DataGrid
           rows={QQList.map((item) => ({
             id: item._id,
-            questions: item.question || 'N/A',
-           ...item,
+            questions: item.question || "N/A",
+            ...item,
           }))}
           columns={columns}
           getRowId={(row) => row._id} // Use id field for unique row identification
@@ -181,9 +192,9 @@ const QQFormSettings = () => {
       )}
       <Loader isLoading={isLoading} />
 
-    {openPopUp && (
-      <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
-    )}
+      {openPopUp && (
+        <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
+      )}
     </>
   );
 };

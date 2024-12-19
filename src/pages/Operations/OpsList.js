@@ -293,8 +293,8 @@ const OpsList = ({ loginResponse }) => {
           </ul>
         </div>
 
-        <div class="d-flex gap-3 rightside">
-          <div class=" searchmain">
+        <div className="d-flex gap-3 rightside">
+          <div className=" searchmain">
             <input
               type="email"
               className="form-control search"
@@ -305,10 +305,10 @@ const OpsList = ({ loginResponse }) => {
             />
             <i className="bi bi-search searchicon"></i>
           </div>
-          <div class=" filtermain ">
-            <i class="bi bi-funnel-fill filtericon"></i>
+          <div className=" filtermain ">
+            <i className="bi bi-funnel-fill filtericon"></i>
             <select
-              class="form-select form-select-sm filter"
+              className="form-select form-select-sm filter"
               aria-label="Small select example"
               name="status"
               onChange={handleSelectChange}

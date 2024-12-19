@@ -23,6 +23,7 @@ const BerthReport = ({
   onSubmit,
   charge,
   selectedTemplateName,
+  selectedTemplate,
 }) => {
   console.log(templates, "templates");
   const [openPopUp, setOpenPopUp] = useState(false);
@@ -109,6 +110,7 @@ const BerthReport = ({
     let templateBpdy = {
       pdaChargeId: charge?._id,
       templateName: selectedTemplateName,
+      templateId: selectedTemplate,
       ...formData, // Spread dynamic form data from state
       draftOnArrivalFWD: formState.draftOnArrivalFWD,
       draftOnArrivalAFT: formState.draftOnArrivalAFT,
@@ -210,12 +212,12 @@ const BerthReport = ({
               <div className="drafthead">Draft on Arrival</div>
               <div className="d-flex">
                 <div className="col-3 arrival">
-                  <label for="exampleFormControlInput1" class="form-label">
+                  <label for="exampleFormControlInput1" className="form-label">
                     FWD:
                   </label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     id="exampleFormControlInput1"
                     placeholder=""
                     name="draftOnArrivalFWD"
@@ -224,12 +226,12 @@ const BerthReport = ({
                   ></input>
                 </div>
                 <div className="col-3">
-                  <label for="exampleFormControlInput1" class="form-label">
+                  <label for="exampleFormControlInput1" className="form-label">
                     AFT:
                   </label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     id="exampleFormControlInput1"
                     placeholder=""
                     name="draftOnArrivalAFT"
@@ -241,12 +243,12 @@ const BerthReport = ({
               <div className="bunker">Bunkers on Arrival</div>
               <div className="d-flex">
                 <div className="col-3 arrival">
-                  <label for="exampleFormControlInput1" class="form-label">
+                  <label for="exampleFormControlInput1" className="form-label">
                     FO:
                   </label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     id="exampleFormControlInput1"
                     placeholder=""
                     name="bunkersOnArrivalFO"
@@ -255,12 +257,12 @@ const BerthReport = ({
                   ></input>
                 </div>
                 <div className="col-3 arrival">
-                  <label for="exampleFormControlInput1" class="form-label">
+                  <label for="exampleFormControlInput1" className="form-label">
                     DO:
                   </label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     id="exampleFormControlInput1"
                     placeholder=""
                     name="bunkersOnArrivalDO"
@@ -269,12 +271,12 @@ const BerthReport = ({
                   ></input>
                 </div>
                 <div className="col-3">
-                  <label for="exampleFormControlInput1" class="form-label">
+                  <label for="exampleFormControlInput1" className="form-label">
                     AFT:
                   </label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     id="exampleFormControlInput1"
                     placeholder=""
                     name="bunkersOnArrivalAFT"
@@ -286,12 +288,12 @@ const BerthReport = ({
               <div className="drafthead">Draft on Departure</div>
               <div className="d-flex">
                 <div className="col-3 arrival">
-                  <label for="exampleFormControlInput1" class="form-label">
+                  <label for="exampleFormControlInput1" className="form-label">
                     FWD:
                   </label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     id="exampleFormControlInput1"
                     placeholder=""
                     name="draftOnDepartureFWD"
@@ -300,12 +302,12 @@ const BerthReport = ({
                   ></input>
                 </div>
                 <div className="col-3">
-                  <label for="exampleFormControlInput1" class="form-label">
+                  <label for="exampleFormControlInput1" className="form-label">
                     AFT:
                   </label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     id="exampleFormControlInput1"
                     placeholder=""
                     name="draftOnDepartureAFT"
@@ -317,12 +319,12 @@ const BerthReport = ({
               <div className="bunker">Bunkers on Departure</div>
               <div className="d-flex">
                 <div className="col-3 arrival">
-                  <label for="exampleFormControlInput1" class="form-label">
+                  <label for="exampleFormControlInput1" className="form-label">
                     FO:
                   </label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     id="exampleFormControlInput1"
                     placeholder=""
                     name="bunkersOnDepartureFO"
@@ -331,12 +333,12 @@ const BerthReport = ({
                   ></input>
                 </div>
                 <div className="col-3 arrival">
-                  <label for="exampleFormControlInput1" class="form-label">
+                  <label for="exampleFormControlInput1" className="form-label">
                     DO:
                   </label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     id="exampleFormControlInput1"
                     placeholder=""
                     name="bunkersOnDepartureDO"
@@ -345,12 +347,12 @@ const BerthReport = ({
                   ></input>
                 </div>
                 <div className="col-3">
-                  <label for="exampleFormControlInput1" class="form-label">
+                  <label for="exampleFormControlInput1" className="form-label">
                     AFT:
                   </label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     id="exampleFormControlInput1"
                     placeholder=""
                     name="bunkersOnDepartureAFT"
@@ -361,12 +363,12 @@ const BerthReport = ({
               </div>
               <div className="d-flex">
                 <div className="col-3 arrival">
-                  <label for="exampleFormControlInput1" class="form-label">
+                  <label for="exampleFormControlInput1" className="form-label">
                     Next Port:
                   </label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     id="exampleFormControlInput1"
                     placeholder=""
                     name="bunkersOnDepartureNextPort"
@@ -375,7 +377,7 @@ const BerthReport = ({
                   ></input>
                 </div>
                 <div className="col-3 arrival">
-                  <label for="exampleFormControlInput1" class="form-label">
+                  <label for="exampleFormControlInput1" className="form-label">
                     ETA:
                   </label>
                   <DatePicker
@@ -400,12 +402,12 @@ const BerthReport = ({
                 </div>
               </div>
             </div>
-            <div class="mt-3">
-              <label for="exampleFormControlTextarea1" class="form-label">
+            <div className="mt-3">
+              <label for="exampleFormControlTextarea1" className="form-label">
                 General Remarks
               </label>
               <textarea
-                class="form-control"
+                className="form-control"
                 id="exampleFormControlTextarea1"
                 rows="2"
                 name="generalRemarks"
@@ -413,12 +415,12 @@ const BerthReport = ({
                 onChange={handleInputChange}
               ></textarea>
             </div>
-            <div class="mt-3">
-              <label for="exampleFormControlTextarea1" class="form-label">
+            <div className="mt-3">
+              <label for="exampleFormControlTextarea1" className="form-label">
                 Shipper Remarks
               </label>
               <textarea
-                class="form-control"
+                className="form-control"
                 id="exampleFormControlTextarea2"
                 rows="2"
                 name="shipperRemarks"
@@ -427,12 +429,12 @@ const BerthReport = ({
               ></textarea>
             </div>
 
-            <div class="mt-3">
-              <label for="exampleFormControlTextarea1" class="form-label">
+            <div className="mt-3">
+              <label for="exampleFormControlTextarea1" className="form-label">
                 Master Remarks
               </label>
               <textarea
-                class="form-control"
+                className="form-control"
                 id="exampleFormControlTextarea3"
                 rows="2"
                 name="masterRemarks"

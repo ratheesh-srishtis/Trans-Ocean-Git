@@ -1,27 +1,34 @@
 // ResponsiveDialog.js
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
-import { getAllPorts,saveAnchorageLoation,editAnchorageLoation} from "../services/apiService";
+import {
+  getAllPorts,
+  saveAnchorageLoation,
+  editAnchorageLoation,
+} from "../services/apiService";
 import PopUp from "../pages/PopUp";
 import Swal from "sweetalert2";
-const AddAnchorageLocation = ({ open, onAddAnchorageLocation,onClose,editMode, anchorageSet,portId }) => {
-  
+const AddAnchorageLocation = ({
+  open,
+  onAddAnchorageLocation,
+  onClose,
+  editMode,
+  anchorageSet,
+  portId,
+}) => {
   const [PortList, setPortList] = useState([]);
-  const [formData, setFormData] = useState({area: '',portId: ''});
+  const [formData, setFormData] = useState({ area: "", portId: "" });
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
   const [openPopUp, setOpenPopUp] = useState(false);
   const [closePopUp, setclosePopup] = useState(false);
-  
+
   const fetchAllPorts = async () => {
     try {
-      
       const listallports = await getAllPorts();
       setPortList(listallports?.ports || []);
-      
     } catch (error) {
       console.error("Failed to fetch ports", error);
-     
     }
   };
   useEffect(() => {
@@ -30,7 +37,7 @@ const AddAnchorageLocation = ({ open, onAddAnchorageLocation,onClose,editMode, a
   useEffect(() => {
     setFormData((prevData) => ({
       ...prevData,
-      portId: portId || '' 
+      portId: portId || "",
     }));
   }, [portId]);
 
@@ -38,25 +45,23 @@ const AddAnchorageLocation = ({ open, onAddAnchorageLocation,onClose,editMode, a
     if (editMode && anchorageSet) {
       setFormData({
         area: anchorageSet.area,
-        portId :portId,
-        anchorageLocationId:anchorageSet._id,
+        portId: portId,
+        anchorageLocationId: anchorageSet._id,
       });
     } else {
       setFormData({
-        area: '',
-        portId: '',
-       
+        area: "",
+        portId: "",
       });
     }
   }, [editMode, anchorageSet]);
- 
+
   const fetchanchorageList = async () => {
-    if(closePopUp==false){
+    if (closePopUp == false) {
       onAddAnchorageLocation();
       onClose();
     }
     setOpenPopUp(false);
-   
   };
 
   const handleChange = (e) => {
@@ -81,12 +86,12 @@ const AddAnchorageLocation = ({ open, onAddAnchorageLocation,onClose,editMode, a
     try {
       let response;
       if (editMode) {
-        console.log("Edit mode formData:", formData); 
+        console.log("Edit mode formData:", formData);
         response = await editAnchorageLoation(formData);
       } else {
         // Add new role
-        console.log("Add mode formData:", formData); 
-        response = await saveAnchorageLoation(formData); 
+        console.log("Add mode formData:", formData);
+        response = await saveAnchorageLoation(formData);
       }
 
       if (response.status === true) {
@@ -95,15 +100,11 @@ const AddAnchorageLocation = ({ open, onAddAnchorageLocation,onClose,editMode, a
         setFormData({ area: "", portId: "" });
         onAddAnchorageLocation(formData);
         onClose();
-      }
-      else{
-       
+      } else {
         setMessage(response.message);
         setOpenPopUp(true);
         setclosePopup(true);
       }
-      
-     
     } catch (error) {
       setMessage("API Failed");
       setOpenPopUp(true);
@@ -111,68 +112,91 @@ const AddAnchorageLocation = ({ open, onAddAnchorageLocation,onClose,editMode, a
     }
   };
 
-
   return (
     <>
-      <Dialog sx={{
-        width: 800,
-        margin: 'auto',
-        borderRadius: 2,
-      }} open={open} onClose={onClose} fullWidth maxWidth="lg">
+      <Dialog
+        sx={{
+          width: 800,
+          margin: "auto",
+          borderRadius: 2,
+        }}
+        open={open}
+        onClose={onClose}
+        fullWidth
+        maxWidth="lg"
+      >
         <div className="d-flex justify-content-between " onClick={onClose}>
-          <DialogTitle>{editMode ? 'Edit Anchorage Location' : 'Add Anchorage Location'}</DialogTitle>
+          <DialogTitle>
+            {editMode ? "Edit Anchorage Location" : "Add Anchorage Location"}
+          </DialogTitle>
           <div className="closeicon">
             <i className="bi bi-x-lg "></i>
           </div>
         </div>
         <DialogContent style={{ marginBottom: "40px" }}>
-        <form onSubmit={handleSubmit}>
-          <div className="row">
-            <div class="col-3 mb-3 align-items-start">
-              <div class=" col-">
-                <label for="exampleFormControlInput1" class="form-label"> Area:</label>
-                <input name="area" type="" class="form-control vessel-voyage" id="exampleFormControlInput1" placeholder="" onChange={handleChange}
-                  value={formData.area}></input>
-                   {errors.area && <span className="invalid">{errors.area}</span>}
-              </div>
-            </div>
-           
-          </div>
-          
-          <div className="row">
-            <div class="col- mb-3 align-items-start">
-              <div class="">
-                <label for="exampleFormControlInput1" class="form-label">Ports <span class="required"> * </span> :</label>
-                <div class="vessel-select">
-                  <select name="portId" class="form-select vesselbox" aria-label="Default select example" onChange={handleChange}
-                      value={formData.portId}>
-                    <option value="">Choose Ports </option>
-                    {PortList.map((ports) => (
-                    <option key= {ports._id} value={ports._id}>{ports.portName} </option>
-                   
-                  ))}
-                  </select>
-                  {errors.portId && <span className="invalid">{errors.portId}</span>}
+          <form onSubmit={handleSubmit}>
+            <div className="row">
+              <div className="col-3 mb-3 align-items-start">
+                <div className=" col-">
+                  <label for="exampleFormControlInput1" className="form-label">
+                    {" "}
+                    Area:
+                  </label>
+                  <input
+                    name="area"
+                    type=""
+                    className="form-control vessel-voyage"
+                    id="exampleFormControlInput1"
+                    placeholder=""
+                    onChange={handleChange}
+                    value={formData.area}
+                  ></input>
+                  {errors.area && (
+                    <span className="invalid">{errors.area}</span>
+                  )}
                 </div>
               </div>
             </div>
 
-          </div>
+            <div className="row">
+              <div className="col- mb-3 align-items-start">
+                <div className="">
+                  <label for="exampleFormControlInput1" className="form-label">
+                    Ports <span className="required"> * </span> :
+                  </label>
+                  <div className="vessel-select">
+                    <select
+                      name="portId"
+                      className="form-select vesselbox"
+                      aria-label="Default select example"
+                      onChange={handleChange}
+                      value={formData.portId}
+                    >
+                      <option value="">Choose Ports </option>
+                      {PortList.map((ports) => (
+                        <option key={ports._id} value={ports._id}>
+                          {ports.portName}{" "}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.portId && (
+                      <span className="invalid">{errors.portId}</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
 
-
-          <div className="btnuser">
-            <button class="btn btna submit-button btnfsize"> Submit </button>
-          </div>
-
+            <div className="btnuser">
+              <button className="btn btna submit-button btnfsize">
+                {" "}
+                Submit{" "}
+              </button>
+            </div>
           </form>
-
-
-
         </DialogContent>
       </Dialog>
-      {openPopUp && (
-        <PopUp message={message} closePopup={fetchanchorageList} />
-      )}
+      {openPopUp && <PopUp message={message} closePopup={fetchanchorageList} />}
     </>
   );
 };

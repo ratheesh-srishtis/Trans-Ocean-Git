@@ -1,11 +1,11 @@
-import React, {useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "../css/settings.css";
 import AddVessel from "./AddVessel";
 import { Box, Typography, IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { getAllVessels,deleteVessel } from "../services/apiService";
+import { getAllVessels, deleteVessel } from "../services/apiService";
 import Swal from "sweetalert2";
 import Loader from "../pages/Loader";
 import PopUp from "../pages/PopUp";
@@ -48,7 +48,6 @@ const VesselsSettings = () => {
     setOpen(true);
   };*/
 
-
   const handleAddVessel = (newVessel) => {
     fetchvesselList();
     setOpen(false); // Close the popup after adding the role
@@ -75,7 +74,6 @@ const VesselsSettings = () => {
           try {
             let payload = {
               vesselId: item?._id,
-              
             };
             const response = await deleteVessel(payload);
             setMessage(response.message);
@@ -105,11 +103,11 @@ const VesselsSettings = () => {
   );
 
   const columns = [
-    { field: "vesselName", headerName: "Vessel Name",flex:2},
-    { field: "imoNumber", headerName: "IMO Number",flex:2},
-    { field: "loa", headerName: "LOA",flex:2},
-    { field: "grt", headerName: "GRT",flex:2},
-    { field: "nrt", headerName: "NRT",flex:2},
+    { field: "vesselName", headerName: "Vessel Name", flex: 2 },
+    { field: "imoNumber", headerName: "IMO Number", flex: 2 },
+    { field: "loa", headerName: "LOA", flex: 2 },
+    { field: "grt", headerName: "GRT", flex: 2 },
+    { field: "nrt", headerName: "NRT", flex: 2 },
     {
       field: "actions",
       headerName: "Action",
@@ -130,28 +128,35 @@ const VesselsSettings = () => {
     },
   ];
 
-  
- 
   return (
     <>
-       <div className="d-flex justify-content-end mb-3 mt-3">
-     <button onClick={() => {
-        openDialog();
-      }} class="btn btna submit-button btnfsize">Add Vessel</button>
-     </div>
+      <div className="d-flex justify-content-end mb-3 mt-3">
+        <button
+          onClick={() => {
+            openDialog();
+          }}
+          className="btn btna submit-button btnfsize"
+        >
+          Add Vessel
+        </button>
+      </div>
 
-
-
-      <AddVessel open={open}  onAddVessel={handleAddVessel} onClose={handleClose} editMode={editMode} roleVessel={selectedRow}/>
+      <AddVessel
+        open={open}
+        onAddVessel={handleAddVessel}
+        onClose={handleClose}
+        editMode={editMode}
+        roleVessel={selectedRow}
+      />
       <div>
         <DataGrid
           rows={VesselList.map((item) => ({
             id: item._id,
-            vesselName: item.vesselName || 'N/A',
-            imoNumber: item.IMONumber || 'N/A',
-            loa: item.LOA || 'N/A',
-            grt: item.GRT || 'N/A',
-            nrt: item.NRT || 'N/A',
+            vesselName: item.vesselName || "N/A",
+            imoNumber: item.IMONumber || "N/A",
+            loa: item.LOA || "N/A",
+            grt: item.GRT || "N/A",
+            nrt: item.NRT || "N/A",
             ...item,
           }))}
           columns={columns}
@@ -203,7 +208,6 @@ const VesselsSettings = () => {
       {openPopUp && (
         <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
       )}
-    
     </>
   );
 };

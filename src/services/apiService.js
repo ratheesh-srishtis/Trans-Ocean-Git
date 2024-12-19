@@ -205,6 +205,16 @@ export const sendQuotationAPI = async (userData) => {
   }
 };
 
+export const sendServiceReport = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/sendServiceReport", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
 // Get All Quotations API function
 export const getAllQuotations = async (data) => {
   try {
@@ -842,6 +852,16 @@ export const saveServiceReport = async (userData) => {
 export const getServiceReport = async (userData) => {
   try {
     const response = await axiosInstance.post("/getServiceReport", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+export const getJobReport = async () => {
+  try {
+    const response = await axiosInstance.post("/getJobReport");
     return response.data;
   } catch (error) {
     console.error("Error:", error);

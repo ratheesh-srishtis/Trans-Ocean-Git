@@ -19,6 +19,7 @@ const CrewChangeList = ({
   onSubmit,
   charge,
   selectedTemplateName,
+  selectedTemplate,
 }) => {
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
@@ -119,6 +120,7 @@ const CrewChangeList = ({
       templateName: selectedTemplateName,
       onsigners: formValues.onSigners,
       offsigners: formValues.offSigners,
+      templateId: selectedTemplate,
     };
     console.log(templateBpdy, "crew_change_payload");
     try {

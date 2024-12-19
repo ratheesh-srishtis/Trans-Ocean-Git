@@ -53,8 +53,7 @@ const Header = () => {
       return "Vendor Settings";
     } else if (location.pathname == "/QQform-settings") {
       return "QQ Form Settings";
-    }
-    else if (location.pathname == "/password-requests") {
+    } else if (location.pathname == "/password-requests") {
       return "Password Requests";
     }
     // Add more conditions as needed for other routes
@@ -71,7 +70,7 @@ const Header = () => {
         <div className="header--wrapper">
           <div className="header--title">
             <h5>{getHeaderText()}</h5>
-            <div className="version">Version: 0.017</div>
+            <div className="version">Version: 0.018</div>
           </div>
 
           <div className="d-flex flex-row-reverse ">

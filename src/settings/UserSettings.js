@@ -1,11 +1,11 @@
-import React, {useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "../css/UserSettings.css";
 import AddUser from "./AddUser";
 import { Box, Typography, IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { getAllUsers,deleteUser } from "../services/apiService";
+import { getAllUsers, deleteUser } from "../services/apiService";
 import Swal from "sweetalert2";
 import Loader from "../pages/Loader";
 import PopUp from "../pages/PopUp";
@@ -35,7 +35,6 @@ const UserSettings = () => {
     fetchusersList();
   }, []);
 
-
   const openDialog = () => {
     handleClickOpen();
   };
@@ -51,7 +50,7 @@ const UserSettings = () => {
   };
   const handleAddUser = (newUsers) => {
     fetchusersList();
-    setOpen(false); 
+    setOpen(false);
   };
   const handleEdit = (row) => {
     setSelectedRow(row);
@@ -73,7 +72,6 @@ const UserSettings = () => {
           try {
             let payload = {
               userId: item?._id,
-             
             };
             const response = await deleteUser(payload);
             setMessage(response.message);
@@ -103,11 +101,11 @@ const UserSettings = () => {
   );
 
   const columns = [
-    { field: "name", headerName: "Name",flex:2 },
-    { field: "username", headerName: "User Name",flex:2 },
-    { field: "email", headerName: "Email",flex:2 },
-    { field: "role", headerName: "Role",flex:2 },
-   
+    { field: "name", headerName: "Name", flex: 2 },
+    { field: "username", headerName: "User Name", flex: 2 },
+    { field: "email", headerName: "Email", flex: 2 },
+    { field: "role", headerName: "Role", flex: 2 },
+
     {
       field: "actions",
       headerName: "Action",
@@ -128,26 +126,34 @@ const UserSettings = () => {
     },
   ];
 
-
   return (
     <>
-     
-
-    <div className="d-flex justify-content-end mb-3 mt-3">
-     <button onClick={() => {
-        openDialog();
-      }} class="btn btna submit-button btnfsize">Add User</button>
-     </div>
-<AddUser open={open} onAddUser={handleAddUser} onClose={handleClose}  editMode={editMode} userSet={selectedRow}/>
-<div>
+      <div className="d-flex justify-content-end mb-3 mt-3">
+        <button
+          onClick={() => {
+            openDialog();
+          }}
+          className="btn btna submit-button btnfsize"
+        >
+          Add User
+        </button>
+      </div>
+      <AddUser
+        open={open}
+        onAddUser={handleAddUser}
+        onClose={handleClose}
+        editMode={editMode}
+        userSet={selectedRow}
+      />
+      <div>
         <DataGrid
           rows={UsersList.map((item) => ({
             id: item._id,
-            name: item.name || 'N/A',
-            username: item.username || 'N/A',
-            email: item.email || 'N/A',
-            role: item.userRole.roleType || 'N/A',
-           
+            name: item.name || "N/A",
+            username: item.username || "N/A",
+            email: item.email || "N/A",
+            role: item.userRole.roleType || "N/A",
+
             ...item,
           }))}
           columns={columns}

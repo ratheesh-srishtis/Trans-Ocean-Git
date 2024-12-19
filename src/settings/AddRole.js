@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
-import { getAllPermissions, saveUserRole,editUserRole } from "../services/apiService";
+import {
+  getAllPermissions,
+  saveUserRole,
+  editUserRole,
+} from "../services/apiService";
 import PopUp from "../pages/PopUp";
 const AddRole = ({ open, onAddRole, onClose, editMode, roleSet }) => {
-const [PermissionList, setPermissionList] = useState([]);
-const [formData, setFormData] = useState({
-    role: '',
-    designation: '',
+  const [PermissionList, setPermissionList] = useState([]);
+  const [formData, setFormData] = useState({
+    role: "",
+    designation: "",
     permissions: [],
   });
   const [errors, setErrors] = useState({});
@@ -23,12 +27,12 @@ const [formData, setFormData] = useState({
         role: roleSet.roleType,
         designation: roleSet.role,
         permissions: roleSet.permissions || [],
-        roleId:roleSet._id,
+        roleId: roleSet._id,
       });
     } else {
       setFormData({
-        role: '',
-        designation: '',
+        role: "",
+        designation: "",
         permissions: [],
       });
     }
@@ -46,7 +50,6 @@ const [formData, setFormData] = useState({
     setOpenPopUp(false);
     onAddRole();
     onClose();
-   
   };
 
   const handleChange = (e) => {
@@ -63,23 +66,22 @@ const [formData, setFormData] = useState({
       const newPermissions = checked
         ? [...prevData.permissions, id]
         : prevData.permissions.filter((permId) => permId !== id);
-  
+
       return { ...prevData, permissions: newPermissions };
     });
   };
-  
 
   const validateForm = () => {
     const newErrors = {};
     if (!formData.role) newErrors.roleType = "Role Type is required";
-    if (!formData.designation) newErrors.designation = "Designation is required";
-    if (formData.permissions.length === 0) newErrors.permissions = "At least one permission must be selected";
+    if (!formData.designation)
+      newErrors.designation = "Designation is required";
+    if (formData.permissions.length === 0)
+      newErrors.permissions = "At least one permission must be selected";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
- 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -88,19 +90,19 @@ const [formData, setFormData] = useState({
     try {
       let response;
       if (editMode) {
-        console.log("Edit mode formData:", formData); 
+        console.log("Edit mode formData:", formData);
         response = await editUserRole(formData);
       } else {
         // Add new role
-        console.log("Add mode formData:", formData); 
-        response = await saveUserRole(formData); 
+        console.log("Add mode formData:", formData);
+        response = await saveUserRole(formData);
       }
 
       if (response.status === true) {
         setMessage(response.message);
         setOpenPopUp(true);
       }
-      
+
       setFormData({ role: "", designation: "", permissions: [] });
       onAddRole(formData);
       onClose();
@@ -115,8 +117,8 @@ const [formData, setFormData] = useState({
     <>
       <Dialog
         sx={{
-          width: 800, 
-          margin: 'auto',
+          width: 800,
+          margin: "auto",
           borderRadius: 2,
         }}
         open={open}
@@ -125,23 +127,23 @@ const [formData, setFormData] = useState({
         maxWidth="lg"
       >
         <div className="d-flex justify-content-between " onClick={onClose}>
-          <DialogTitle>{editMode ? 'Edit Role' : 'Add Role'}</DialogTitle>
+          <DialogTitle>{editMode ? "Edit Role" : "Add Role"}</DialogTitle>
           <div className="closeicon">
             <i className="bi bi-x-lg "></i>
           </div>
         </div>
         <DialogContent style={{ marginBottom: "40px" }}>
           <form onSubmit={handleSubmit}>
-            <div class="typesofcall-row ">
-              <div class="row mb-3 align-items-start">
-                <div class="col-4">
-                  <label for="exampleFormControlInput1" class="form-label">
-                    Role Type <span class="required"> * </span>:
+            <div className="typesofcall-row ">
+              <div className="row mb-3 align-items-start">
+                <div className="col-4">
+                  <label for="exampleFormControlInput1" className="form-label">
+                    Role Type <span className="required"> * </span>:
                   </label>
-                  <div class="vessel-select">
+                  <div className="vessel-select">
                     <select
                       name="role"
-                      class="form-select vesselbox"
+                      className="form-select vesselbox"
                       aria-label="Default select example"
                       onChange={handleChange}
                       value={formData.role}
@@ -152,24 +154,30 @@ const [formData, setFormData] = useState({
                       <option value="finance">Finance</option>
                       <option value="operations">Operations</option>
                     </select>
-                    {errors.role && <span className="invalid">{errors.role}</span>}
+                    {errors.role && (
+                      <span className="invalid">{errors.role}</span>
+                    )}
                   </div>
                 </div>
               </div>
             </div>
-            <div class="row mb-3 align-items-start">
-              <div class="col-4">
-                <label for="exampleFormControlInput1" class="form-label">Role:</label>
+            <div className="row mb-3 align-items-start">
+              <div className="col-4">
+                <label for="exampleFormControlInput1" className="form-label">
+                  Role:
+                </label>
                 <input
                   name="designation"
                   type="text"
-                  class="form-control vessel-voyage"
+                  className="form-control vessel-voyage"
                   id="exampleFormControlInput1"
                   placeholder=""
                   onChange={handleChange}
                   value={formData.designation}
                 />
-                {errors.designation && <span className="invalid">{errors.designation}</span>}
+                {errors.designation && (
+                  <span className="invalid">{errors.designation}</span>
+                )}
               </div>
             </div>
             <div className="choosepermi">Choose Permissions</div>
@@ -185,24 +193,27 @@ const [formData, setFormData] = useState({
                       value={perm._id}
                       onChange={handleCheckboxChange(perm._id)}
                     />
-                    <label for="" className="permissionfont"> {perm.permission}</label>
+                    <label for="" className="permissionfont">
+                      {" "}
+                      {perm.permission}
+                    </label>
                   </div>
                 ))}
 
-                {errors.permissions && <span className="invalid">{errors.permissions}</span>}
+                {errors.permissions && (
+                  <span className="invalid">{errors.permissions}</span>
+                )}
               </div>
             </div>
             <div className="btnrole">
-              <button type="submit" class="btn btna submit-button btnfsize">
+              <button type="submit" className="btn btna submit-button btnfsize">
                 Submit
               </button>
             </div>
           </form>
         </DialogContent>
       </Dialog>
-      {openPopUp && (
-        <PopUp message={message} closePopup={fetchrolesList} />
-      )}
+      {openPopUp && <PopUp message={message} closePopup={fetchrolesList} />}
     </>
   );
 };
