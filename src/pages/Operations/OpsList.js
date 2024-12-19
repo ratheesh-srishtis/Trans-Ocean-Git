@@ -403,6 +403,29 @@ const OpsList = ({ loginResponse }) => {
         )}
       </div>
 
+      {/* <div className="buttons-wrapper">
+        <div className="left">
+          <button
+            className="btn btna submit-button btnfsize"
+            onClick={() => {
+              handlePdaOpen();
+            }}
+          >
+            Generate PDF
+          </button>
+        </div>
+        <div className="right d-flex">
+          <button
+            className="btn btna submit-button btnfsize"
+            onClick={() => {
+              navigate("/final-report", { state: { editData } });
+            }}
+          >
+            Final Report
+          </button>
+        </div>
+      </div> */}
+
       <Loader isLoading={isLoading} />
       {openPopUp && (
         <PopUp message={message} closePopup={() => setOpenPopUp(false)} />

@@ -100,6 +100,8 @@ const AddJobs = ({
   const handleOKTBReportSubmit = (response) => {
     console.log("template_Submitted:", response);
     if (response?.status == true) {
+      setMessage("Template saved successfully!");
+      setOpenPopUp(true);
       setIsOKTBOpen(false);
       setTemplatesList((previousTemplates) => [
         ...previousTemplates,
@@ -496,6 +498,11 @@ const AddJobs = ({
                       ))}
                     </select>
                   </div>
+                  {selectedServiceError && (
+                    <>
+                      <div className="invalid">Please select service</div>
+                    </>
+                  )}
                 </div>
 
                 <>

@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 import { generateTemplatePDF } from "../../../services/apiService";
 import moment from "moment";
-import { parse, format } from "date-fns";
 import PopUp from "../../PopUp";
 const BerthReport = ({
   open,
@@ -46,7 +45,7 @@ const BerthReport = ({
   const handleDateChange = (key, date) => {
     setFormData((prev) => ({
       ...prev,
-      [key]: date ? moment(date).format("YYYY-MM-DD HH:mm") : null, // Format date before saving
+      [key]: date ? moment(date).format("DD-MM-YYYY HH:mm") : null, // Format date before saving
     }));
   };
 
@@ -98,12 +97,22 @@ const BerthReport = ({
     }));
   };
 
+  const [eta, setEta] = useState("");
+
   const handleEtaChange = (date) => {
-    const formattedDate = date ? moment(date).format("DD/MM/YYYY hh:mm ") : ""; // Format with Moment
-    setFormState((prevState) => ({
-      ...prevState,
-      bunkersOnDepartureETA: formattedDate, // Store formatted date
-    }));
+    console.log(date, "datehandleEtaChange");
+
+    if (date) {
+      setEta(date);
+      console.log(date, "datehandleEtaChange");
+      let formatDate = date ? moment(date).format("DD-MM-YYYY HH:mm ") : null;
+      console.log(formatDate, "formatDate");
+
+      setFormState((prevState) => ({
+        ...prevState,
+        bunkersOnDepartureETA: formatDate, // Store formatted date
+      }));
+    }
   };
 
   const saveTemplate = async (status) => {
@@ -380,17 +389,11 @@ const BerthReport = ({
                   <label for="exampleFormControlInput1" className="form-label">
                     ETA:
                   </label>
+
                   <DatePicker
-                    dateFormat="DD/MM/YYYY hh:mm a" // Update format for display
-                    selected={
-                      formState?.bunkersOnDepartureETA
-                        ? moment(
-                            formState.bunkersOnDepartureETA,
-                            "DD/MM/YYYY hh:mm a"
-                          ).toDate() // Parse formatted string to Date object
-                        : ""
-                    }
-                    onChange={(date) => handleEtaChange(date)}
+                    dateFormat="dd/MM/yyyy HH:mm aa"
+                    selected={eta ? new Date(eta) : null} // Inline date conversion for prefilled value
+                    onChange={handleEtaChange}
                     showTimeSelect
                     timeFormat="HH:mm aa"
                     timeIntervals={15}

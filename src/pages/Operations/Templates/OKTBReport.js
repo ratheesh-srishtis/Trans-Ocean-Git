@@ -14,6 +14,7 @@ import DatePicker from "react-datepicker";
 import { generateTemplatePDF } from "../../../services/apiService";
 import PopUp from "../../PopUp";
 import { format } from "date-fns";
+import moment from "moment";
 
 const OKTBReport = ({
   open,
@@ -156,7 +157,6 @@ const OKTBReport = ({
     let templateBody = {
       pdaChargeId: charge?._id,
       templateId: selectedTemplate,
-
       templateName: selectedTemplateName,
       to: to,
       faxNo: faxNumber,
@@ -164,7 +164,7 @@ const OKTBReport = ({
       pages: pages,
       from: from,
       telNo: telephoneNumber,
-      date: date,
+      date: moment(date).format("DD-MM-YYYY"),
       refNo: refNumber,
       bookingRefNo: bookingRef,
       passengersNames: passengersName,
@@ -312,8 +312,7 @@ const OKTBReport = ({
                     dateFormat="dd/MM/yyyy" // Date format without time
                     selected={date ? new Date(date) : null}
                     onChange={(selectedDate) => {
-                      const formattedDate = format(selectedDate, "dd/MM/yyyy"); // Format the selected date
-                      setDate(formattedDate); // Set the formatted date
+                      setDate(selectedDate); // Set the formatted date
                       setDateError(false); // Clear error if a date is selected
                     }}
                     className="form-control date-input"

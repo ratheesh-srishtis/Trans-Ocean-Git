@@ -128,7 +128,7 @@ const Transportationreciept = ({
 
           templateName: selectedTemplateName,
           jobTitle: formData.jobTitle,
-          date: moment(date).format("YYYY-MM-DD"),
+          date: moment(date).format("DD-MM-YYYY"),
           refNo: formData.refNo,
           agent: formData.agent,
           transporter: formData.transporter,
@@ -162,6 +162,7 @@ const Transportationreciept = ({
 
   const handleMainDateChange = (date) => {
     setDate(date);
+    setDateError(false);
   };
 
   return (
