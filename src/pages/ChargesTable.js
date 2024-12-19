@@ -401,7 +401,11 @@ const ChargesTable = ({
                   <th className="tableheadcolor">VAT Amount</th>
                   <th className="tableheadcolor">Total OMR</th>
                   <th className="tableheadcolor">Total USD</th>
-                  <th className="tableheadcolor">Actions</th>{" "}
+                  {isAction == true && (
+                    <>
+                      <th className="tableheadcolor">Actions</th>{" "}
+                    </>
+                  )}
                   {/* Added Actions Column */}
                 </tr>
               </thead>

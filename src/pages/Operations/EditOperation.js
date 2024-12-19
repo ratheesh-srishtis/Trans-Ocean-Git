@@ -238,10 +238,10 @@ const EditOperation = ({
     }
   };
 
-  const handleFileDelete = (fileToDelete) => {
-    setUploadedFiles((prevFiles) =>
-      prevFiles.filter((file) => file !== fileToDelete)
-    );
+  const handleFileDelete = (fileUrl) => {
+    // Update the state by filtering out the file with the specified URL
+    const updatedFiles = uploadedFiles.filter((file) => file.url !== fileUrl);
+    setUploadedFiles(updatedFiles);
   };
 
   const submitJobs = async (status) => {
@@ -572,13 +572,15 @@ const EditOperation = ({
                   return (
                     <>
                       <div className="d-flex justify-content-between ">
-                        <div className="tempgenerated ">{file}</div>
+                        <div className="tempgenerated ">
+                          {file?.originalName}
+                        </div>
                         <div className="d-flex">
                           <div
                             className="icondown"
                             onClick={() =>
                               window.open(
-                                `https://hybrid.sicsglobal.com/transocean_api/assets/${file}`,
+                                `https://hybrid.sicsglobal.com/transocean_api/assets/${file?.url}`,
                                 "_blank"
                               )
                             }
@@ -587,7 +589,7 @@ const EditOperation = ({
                           </div>
                           <div
                             className="iconpdf"
-                            onClick={() => handleFileDelete(file)}
+                            onClick={() => handleFileDelete(file?.url)}
                           >
                             <i className="bi bi-trash"></i>
                           </div>
