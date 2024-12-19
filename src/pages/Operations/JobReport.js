@@ -4,6 +4,7 @@ import "../../css/jobreport.css";
 import PopUp from "../PopUp";
 import { getJobReport } from "../../services/apiService";
 import Loader from "../Loader";
+import JobReportTable from "./JobReportTable";
 const JobReport = ({
   open,
   onClose,
@@ -19,11 +20,15 @@ const JobReport = ({
   const Group = require("../../assets/images/job sheet.png");
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false); // Loader state
+  const [reportList, setReportList] = useState(null);
+  const [reportTableList, setReportTableList] = useState(null);
 
   const fetchJobReport = async () => {
     setIsLoading(true);
     try {
-      const pdaDetails = await getJobReport();
+      const reportResponse = await getJobReport();
+      setReportList(reportResponse);
+      setReportTableList(reportResponse?.pda);
       setIsLoading(false);
     } catch (error) {
       console.error("Failed to fetch quotations:", error);
@@ -34,6 +39,10 @@ const JobReport = ({
   useEffect(() => {
     fetchJobReport();
   }, []);
+  useEffect(() => {
+    console.log(reportList, "reportList");
+    console.log(reportTableList, "reportTableList");
+  }, [reportList, reportTableList]);
 
   return (
     <>
@@ -120,6 +129,20 @@ const JobReport = ({
                   className="form-select jobporrt"
                   aria-label="Default select example"
                 >
+                  <option value="2">Monthly</option>
+                  <option value="3">Yearly</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div className="col-3">
+            <div className="jobfilter">
+              <div>Choose Month:</div>
+              <div>
+                <select
+                  className="form-select jobporrt"
+                  aria-label="Default select example"
+                >
                   <option value="1">Weekly</option>
                   <option value="2">Monthly</option>
                   <option value="3">Yearly</option>
@@ -129,32 +152,15 @@ const JobReport = ({
           </div>
           <div className="col-3">
             <div className="jobfilter">
-              <div>Sort By:</div>
+              <div>Choose Year:</div>
               <div>
                 <select
-                  className="form-select jobporrt "
+                  className="form-select jobporrt"
                   aria-label="Default select example"
                 >
-                  <option selected>Operation Status</option>
-                  <option value="1">Pending</option>
-                  <option value="2">Completed</option>
-                  <option value="3">Awaiting Arrival</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div className="col-3">
-            <div className="jobfilter">
-              <div>Sort By:</div>
-              <div>
-                <select
-                  className="form-select jobporrt "
-                  aria-label="Default select example"
-                >
-                  <option selected>Port Name</option>
-                  <option value="1">Port of Sultan</option>
-                  <option value="2">Port of Sohar</option>
-                  <option value="3">Port of Duqm</option>
+                  <option value="1">Weekly</option>
+                  <option value="2">Monthly</option>
+                  <option value="3">Yearly</option>
                 </select>
               </div>
             </div>
@@ -167,187 +173,7 @@ const JobReport = ({
           </div>
         </div>
         <div className="createtable mt-4">
-          <table className="table tableheadcolor">
-            <thead className="tableheadcolor">
-              <tr className="tableheadcolor">
-                <th className="tableheadcolor">Vessel Ref No</th>
-                <th className="tableheadcolor">Vessel Name</th>
-                <th className="tableheadcolor">Principal</th>
-                <th className="tableheadcolor">Job</th>
-                {/* <th>Quantity</th> */}
-                <th className="tableheadcolor"> Operation Status</th>
-                <th className="tableheadcolor">Port Name</th>
-                <th className="tableheadcolor">OPS By</th>
-                <th className="tableheadcolor">Final Report</th>
-                <th className="tableheadcolor">Actions</th>{" "}
-                {/* Added Actions Column */}
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>TOMS/OM/24/0123</td>
-                <td>MT SEAMULL</td>
-                <td>POSH INTERNATIONAL</td>
-                <td className="jobsub">CREWCHANGE</td>
-
-                <td className="proc"> PROCESS</td>
-                <td>SALALAH PORT</td>
-                <td>ADHIL SHAMEEN</td>
-                <td>
-                  <i className="bi bi-check chechkcolor"></i>
-                </td>
-                <td>
-                  <button type="button" className="btn btn-info jobviewbtnn">
-                    View
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>TOMS/OM/24/0123</td>
-                <td>MT SEAMULL</td>
-                <td>POSH INTERNATIONAL</td>
-                <td className="jobsub">CREWCHANGE</td>
-
-                <td className=""> Completed</td>
-                <td>SALALAH PORT</td>
-                <td>ADHIL SHAMEEN</td>
-                <td>
-                  <i className="bi bi-check chechkcolor"></i>
-                </td>
-                <td>
-                  <button type="button" className="btn btn-info jobviewbtnn">
-                    View
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>TOMS/OM/24/0123</td>
-                <td>MT SEAMULL</td>
-                <td>POSH INTERNATIONAL</td>
-                <td className="jobsub">CREWCHANGE</td>
-
-                <td className="Awaitingcolo"> Awaiting Arrival</td>
-                <td>SALALAH PORT</td>
-                <td>ADHIL SHAMEEN</td>
-                <td>
-                  <i className="bi bi-check chechkcolor"></i>
-                </td>
-                <td>
-                  <button type="button" className="btn btn-info jobviewbtnn">
-                    View
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>TOMS/OM/24/0123</td>
-                <td>MT SEAMULL</td>
-                <td>POSH INTERNATIONAL</td>
-                <td className="jobsub">CREWCHANGE</td>
-
-                <td className="proc"> PROCESS</td>
-                <td>SALALAH PORT</td>
-                <td>ADHIL SHAMEEN</td>
-                <td>
-                  <i className="bi bi-check chechkcolor"></i>
-                </td>
-                <td>
-                  <button type="button" className="btn btn-info jobviewbtnn">
-                    View
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>TOMS/OM/24/0123</td>
-                <td>MT SEAMULL</td>
-                <td>POSH INTERNATIONAL</td>
-                <td className="jobsub">CREWCHANGE</td>
-
-                <td className=""> Completed</td>
-                <td>SALALAH PORT</td>
-                <td>ADHIL SHAMEEN</td>
-                <td>
-                  <i className="bi bi-check chechkcolor"></i>
-                </td>
-                <td>
-                  <button type="button" className="btn btn-info jobviewbtnn">
-                    View
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>TOMS/OM/24/0123</td>
-                <td>MT SEAMULL</td>
-                <td>POSH INTERNATIONAL</td>
-                <td className="jobsub">CREWCHANGE</td>
-
-                <td className="Awaitingcolo"> Awaiting Arrival</td>
-                <td>SALALAH PORT</td>
-                <td>ADHIL SHAMEEN</td>
-                <td>
-                  <i className="bi bi-check chechkcolor"></i>
-                </td>
-                <td>
-                  <button type="button" className="btn btn-info jobviewbtnn">
-                    View
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>TOMS/OM/24/0123</td>
-                <td>MT SEAMULL</td>
-                <td>POSH INTERNATIONAL</td>
-                <td className="jobsub">CREWCHANGE</td>
-
-                <td className="Awaitingcolo"> Awaiting Arrival</td>
-                <td>SALALAH PORT</td>
-                <td>ADHIL SHAMEEN</td>
-                <td>
-                  <i className="bi bi-check chechkcolor"></i>
-                </td>
-                <td>
-                  <button type="button" className="btn btn-info jobviewbtnn">
-                    View
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>TOMS/OM/24/0123</td>
-                <td>MT SEAMULL</td>
-                <td>POSH INTERNATIONAL</td>
-                <td className="jobsub">CREWCHANGE</td>
-
-                <td className="proc"> PROCESS</td>
-                <td>SALALAH PORT</td>
-                <td>ADHIL SHAMEEN</td>
-                <td>
-                  <i className="bi bi-check chechkcolor"></i>
-                </td>
-                <td>
-                  <button type="button" className="btn btn-info jobviewbtnn">
-                    View
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>TOMS/OM/24/0123</td>
-                <td>MT SEAMULL</td>
-                <td>POSH INTERNATIONAL</td>
-                <td className="jobsub">CREWCHANGE</td>
-
-                <td className="proc"> PROCESS</td>
-                <td>SALALAH PORT</td>
-                <td>ADHIL SHAMEEN</td>
-                <td>
-                  <i className="bi bi-check chechkcolor"></i>
-                </td>
-                <td>
-                  <button type="button" className="btn btn-info jobviewbtnn">
-                    View
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <JobReportTable reportTableList={reportTableList} />
         </div>
       </div>
       {openPopUp && (
