@@ -58,21 +58,26 @@ const RolesSettings = () => {
   };
 
   const handleDelete = async (item) => {
+    let isDeleteUser ="";
     Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      title: "Do you want to delete users who has this role?",
+      text: "",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
     }).then(async (result) => {
-      if (result.isConfirmed) {
+      if (result.isConfirmed) 
+        isDeleteUser =true;
+      else 
+      isDeleteUser =false;
         if (item?._id) {
           try {
             let payload = {
               roleId: item?._id,
-              isDeleteUser: false,
+              isDeleteUser: isDeleteUser,
             };
             const response = await deleteUserRole(payload);
             setMessage(response.message);
@@ -83,7 +88,7 @@ const RolesSettings = () => {
             fetchrolesList();
           }
         }
-      }
+      //}
     });
   };
 
