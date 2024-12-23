@@ -72,7 +72,7 @@ const RolesSettings = () => {
           try {
             let payload = {
               roleId: item?._id,
-              isDeleteUser: true,
+              isDeleteUser: false,
             };
             const response = await deleteUserRole(payload);
             setMessage(response.message);

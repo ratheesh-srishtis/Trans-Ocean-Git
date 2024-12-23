@@ -152,7 +152,7 @@ const UserSettings = () => {
             name: item.name || "N/A",
             username: item.username || "N/A",
             email: item.email || "N/A",
-            role: item.userRole.roleType || "N/A",
+            role: item.userRole?.roleType || "N/A",
 
             ...item,
           }))}
