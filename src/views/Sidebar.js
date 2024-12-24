@@ -195,7 +195,7 @@ const Sidebar = () => {
                               className="menusub"
                               onClick={() => navigate("/cargo-settings")}
                             >
-                              Cargos
+                              Cargoes
                             </li>
                             <li
                               className="menusub"
@@ -213,13 +213,13 @@ const Sidebar = () => {
                               className="menusub"
                               onClick={() => navigate("/QQform-settings")}
                             >
-                              QQForms
+                              QQ Form
                             </li>
                             <li
                               className="menusub"
                               onClick={() => navigate("/password-requests")}
                             >
-                              Password Requests
+                              Password Reset Request
                             </li>
                           </ul>
                         </div>

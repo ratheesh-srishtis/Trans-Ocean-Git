@@ -133,7 +133,7 @@ const SubchargeSettings = () => {
           }}
           className="btn btna submit-button btnfsize"
         >
-          Add Subcharge
+          Add Sub charge
         </button>
       </div>
       <AddSubcharge
