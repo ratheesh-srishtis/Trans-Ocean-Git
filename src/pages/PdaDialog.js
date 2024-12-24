@@ -185,7 +185,15 @@ const PdaDialog = ({
 
   return (
     <>
-      <Dialog open={open} onClose={onClose} fullWidth maxWidth="lg">
+      <Dialog sx={{
+            width: 1400,
+            margin: "auto",
+            borderRadius: 2,
+          }}
+           open={open}
+            onClose={onClose}
+             fullWidth
+              maxWidth="lg">
         <div className="d-flex justify-content-between" onClick={onClose}>
           <DialogTitle></DialogTitle>
           <div className="closeicon">
@@ -387,7 +395,7 @@ const PdaDialog = ({
             <tbody className="tablebody">
               <tr>
                 <td className="stylc">1</td>
-                <td lassName="stylc"> 185-199.99 M </td>
+                <td className="stylc"> 185-199.99 M </td>
                 <td className="stylm">
                   Charges per day(minimum a calendar day / 24 hours )
                 </td>
@@ -395,7 +403,7 @@ const PdaDialog = ({
                 <td className="styld"> 100.00</td>
               </tr>
               <tr>
-                <td colspan="6" className="styln;">
+                <td colspan="6" className="styln">
                   Vessels waiting at anchorage due non-availability of berth
                   shall not be charged anchorage fees.
                 </td>
