@@ -163,7 +163,7 @@ const Content = () => {
           />
         }
       />
-      <Route path="/job-report" element={<JobReport />} />
+      <Route path="/job-report" element={<JobReport ports={ports} />} />
 
       <Route path="/roles-settings" element={<RolesSettings />} />
       <Route path="/user-settings" element={<UserSettings />} />

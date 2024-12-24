@@ -5,6 +5,8 @@ import PopUp from "../PopUp";
 import { getJobReport } from "../../services/apiService";
 import Loader from "../Loader";
 import JobReportTable from "./JobReportTable";
+import Select from "react-select";
+
 const JobReport = ({
   open,
   onClose,
@@ -13,7 +15,6 @@ const JobReport = ({
   services,
   ports,
   customers,
-
   vendors,
 }) => {
   const [openPopUp, setOpenPopUp] = useState(false);
@@ -23,10 +24,91 @@ const JobReport = ({
   const [reportList, setReportList] = useState(null);
   const [reportTableList, setReportTableList] = useState(null);
 
+  useEffect(() => {
+    fetchJobReport();
+  }, []);
+  useEffect(() => {
+    console.log(reportList, "reportList");
+    console.log(reportTableList, "reportTableList");
+  }, [reportList, reportTableList]);
+
+  const [selectedMonth, setSelectedMonth] = useState("12"); // Default to December
+
+  // Array of months
+  const months = [
+    { name: "January", value: "1" },
+    { name: "February", value: "2" },
+    { name: "March", value: "3" },
+    { name: "April", value: "4" },
+    { name: "May", value: "5" },
+    { name: "June", value: "6" },
+    { name: "July", value: "7" },
+    { name: "August", value: "8" },
+    { name: "September", value: "9" },
+    { name: "October", value: "10" },
+    { name: "November", value: "11" },
+    { name: "December", value: "12" },
+  ];
+
+  // Handle month selection
+  const handleChange = (event) => {
+    setSelectedMonth(event.target.value);
+    fetchJobReport();
+  };
+
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear()); // Default to current year
+
+  // Generate an array of years (e.g., 2000 to 2030)
+  const startYear = 2000;
+  const endYear = 2030;
+  const years = Array.from(
+    { length: endYear - startYear + 1 },
+    (_, index) => startYear + index
+  );
+
+  // Handle selection change
+  const handleYearChange = (event) => {
+    setSelectedYear(parseInt(event.target.value, 10));
+    fetchJobReport();
+  };
+
+  const [filterType, setFilterType] = useState("month"); // Default to "monthly"
+
+  // Handle filter type selection change
+  const handleFilterTypeChange = (event) => {
+    setFilterType(event.target.value);
+  };
+
+  const [selectedJobs, setSelectedJobs] = useState([]);
+  const [jobsList, setJobsList] = useState([]); // Array of selected job _ids
+
+  // Transform job options for react-select
+  const selectOptions = selectedJobs.map((job) => ({
+    value: job._id,
+    label: job.serviceName,
+  }));
+
+  // Handle changes in selection
+  const handleSelectChange = (selectedOptions) => {
+    // Extract _id (value) as strings
+    const selectedIds = selectedOptions
+      ? selectedOptions.map((option) => option.value)
+      : [];
+    setJobsList(selectedIds); // Update jobsList state
+  };
+
   const fetchJobReport = async () => {
     setIsLoading(true);
+    let payload = {
+      filter: filterType,
+      month: selectedMonth,
+      year: String(selectedYear),
+      jobs: jobsList,
+    };
     try {
-      const reportResponse = await getJobReport();
+      const reportResponse = await getJobReport(payload);
+      console.log(reportResponse, "reportResponse");
+      setSelectedJobs(reportResponse?.jobs);
       setReportList(reportResponse);
       setReportTableList(reportResponse?.pda);
       setIsLoading(false);
@@ -37,12 +119,8 @@ const JobReport = ({
   };
 
   useEffect(() => {
-    fetchJobReport();
-  }, []);
-  useEffect(() => {
-    console.log(reportList, "reportList");
-    console.log(reportTableList, "reportTableList");
-  }, [reportList, reportTableList]);
+    console.log(selectedJobs, "selectedJobs");
+  }, [selectedJobs]);
 
   return (
     <>
@@ -55,9 +133,11 @@ const JobReport = ({
               Total No.of Vessels :
             </label>
             <input
-              type="password"
+              type="text"
               className="form-control totalnoinputb"
               id="inputPassword"
+              value={reportList?.totalVessels}
+              readOnly
             ></input>
           </div>
 
@@ -66,9 +146,11 @@ const JobReport = ({
               Total No.of Services :
             </label>
             <input
-              type="password"
+              type="text"
               className="form-control totalnoinputa"
               id="inputPassword"
+              value={reportList?.totalServices}
+              readOnly
             ></input>
           </div>
 
@@ -78,9 +160,11 @@ const JobReport = ({
               No.of Tanker Vessels :
             </label>
             <input
-              type="password"
+              type="text"
               className="form-control totalnoinput"
               id="inputPassword"
+              value={reportList?.totalTankerVessels}
+              readOnly
             ></input>
           </div>
 
@@ -90,9 +174,11 @@ const JobReport = ({
               No.of Bulk Vessels :
             </label>
             <input
-              type="password"
+              type="text"
               className="form-control totalnoinput"
               id="inputPassword"
+              value={reportList?.totalTankerVessels}
+              readOnly
             ></input>
           </div>
         </div>
@@ -102,22 +188,27 @@ const JobReport = ({
               Other Client Vessels :
             </label>
             <input
-              type="password"
+              type="text"
               className="form-control totalnoinput"
               id="inputPassword"
+              value={
+                reportList?.totalVessels -
+                (reportList?.totalTankerVessels + reportList?.totalBulkVessels)
+              }
+              readOnly
             ></input>
           </div>
 
-          <div className="col-3 totalno">
+          {/* <div className="col-3 totalno">
             <label for="inputPassword" className=" form-label">
               Job Used in Each Port :
             </label>
             <input
-              type="password"
+              type="text"
               className="form-control totalnoinput"
               id="inputPassword"
             ></input>
-          </div>
+          </div> */}
         </div>
         <div className="bbn"> </div>
         <div className="row mt-4">
@@ -127,43 +218,80 @@ const JobReport = ({
               <div>
                 <select
                   className="form-select jobporrt"
-                  aria-label="Default select example"
+                  aria-label="Filter select"
+                  value={filterType} // Bind selected value
+                  onChange={handleFilterTypeChange} // Update state on change
                 >
-                  <option value="2">Monthly</option>
-                  <option value="3">Yearly</option>
+                  <option value="month">Monthly</option>
+                  <option value="year">Yearly</option>
                 </select>
               </div>
             </div>
           </div>
-          <div className="col-3">
-            <div className="jobfilter">
-              <div>Choose Month:</div>
-              <div>
-                <select
-                  className="form-select jobporrt"
-                  aria-label="Default select example"
-                >
-                  <option value="1">Weekly</option>
-                  <option value="2">Monthly</option>
-                  <option value="3">Yearly</option>
-                </select>
+          {filterType === "month" && (
+            <>
+              <div className="col-3">
+                <div className="jobfilter">
+                  <div>Choose Month:</div>
+                  <div>
+                    <select
+                      className="form-select jobporrt"
+                      aria-label="Select Month"
+                      value={selectedMonth}
+                      onChange={handleChange} // Update state on change
+                    >
+                      {months.map((month) => (
+                        <option key={month.value} value={month.value}>
+                          {month.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
               </div>
-            </div>
+            </>
+          )}
+          {filterType === "year" && (
+            <>
+              <div className="col-3">
+                <div className="jobfilter">
+                  <div>Choose Year:</div>
+                  <div>
+                    <select
+                      className="form-select jobporrt"
+                      value={selectedYear} // Bind the selected value
+                      onChange={handleYearChange} // Update state on change
+                    >
+                      {years.map((year) => (
+                        <option key={year} value={year}>
+                          {year}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+        <div className="row mt-3">
+          <div className="col-lg-6">
+            <>
+              <div className="jobfilter">
+                <div>Jobs used in each port:</div>
+                <div className="jobs-multi-select">
+                  <Select
+                    options={selectOptions} // Pass the transformed options
+                    isMulti // Enable multi-select
+                    onChange={handleSelectChange} // Handle selection changes
+                    placeholder="Select jobs..."
+                  />
+                </div>
+              </div>
+            </>
           </div>
-          <div className="col-3">
-            <div className="jobfilter">
-              <div>Choose Year:</div>
-              <div>
-                <select
-                  className="form-select jobporrt"
-                  aria-label="Default select example"
-                >
-                  <option value="1">Weekly</option>
-                  <option value="2">Monthly</option>
-                  <option value="3">Yearly</option>
-                </select>
-              </div>
-            </div>
+          <div className="col-lg-3">
+            <button onClick={() => fetchJobReport()}>filter</button>
           </div>
         </div>
         <div className="charge mt-2">
@@ -173,7 +301,7 @@ const JobReport = ({
           </div>
         </div>
         <div className="createtable mt-4">
-          <JobReportTable reportTableList={reportTableList} />
+          <JobReportTable reportTableList={reportTableList} ports={ports} />
         </div>
       </div>
       {openPopUp && (

@@ -59,6 +59,15 @@ const FinalReportDialog = ({ open, onClose, pdaId, ports }) => {
       serviceReportGet(pdaId);
     }
   }, [pdaId]);
+
+  useEffect(() => {
+    console.log(open, "open");
+    if (open == true) {
+      fetchPdaDetails(pdaId);
+      serviceReportGet(pdaId);
+    }
+  }, [open, pdaId]);
+
   const hasFetchedAnchorage = useRef(false);
 
   const fetchAnchorageValues = async (data) => {

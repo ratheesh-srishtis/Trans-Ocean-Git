@@ -12,6 +12,7 @@ import {
   saveServiceReport,
   getServiceReport,
   uploadDocuments,
+  deletePdaDocument,
 } from "../../services/apiService";
 
 const FinalReport = ({
@@ -217,10 +218,38 @@ const FinalReport = ({
     }
   };
 
-  const handleFileDelete = (fileUrl) => {
+  const handleFileDelete = async (fileUrl) => {
     // Update the state by filtering out the file with the specified URL
-    const updatedFiles = uploadedFiles.filter((file) => file.url !== fileUrl);
-    setUploadedFiles(updatedFiles);
+    console.log(fileUrl, "fileUrl");
+
+    if (fileUrl?._id) {
+      let payload = {
+        pdaId: pdaId,
+        documentId: fileUrl?._id,
+      };
+      try {
+        const response = await deletePdaDocument(payload);
+        if (response.status) {
+          const updatedFiles = uploadedFiles.filter(
+            (file) => file.url !== fileUrl?.url
+          );
+          setUploadedFiles(updatedFiles);
+          setMessage("File Deleted Successfully");
+          setOpenPopUp(true);
+        } else {
+          setMessage("Failed please try again!");
+          setOpenPopUp(true);
+        }
+      } catch (error) {
+        setMessage("Failed please try again!");
+        setOpenPopUp(true);
+      }
+    } else {
+      const updatedFiles = uploadedFiles.filter(
+        (file) => file.url !== fileUrl?.url
+      );
+      setUploadedFiles(updatedFiles);
+    }
   };
 
   useEffect(() => {
@@ -372,45 +401,46 @@ const FinalReport = ({
                     onChange={documentsUpload}
                   ></input>
                 </div>
-
-                {uploadedFiles && uploadedFiles?.length > 0 && (
-                  <>
-                    <div className="templatelink">Uploaded Files:</div>
-                    <div className="templateouter">
-                      {uploadedFiles?.length > 0 &&
-                        uploadedFiles?.map((file, index) => {
-                          return (
-                            <>
-                              <div className="d-flex justify-content-between ">
-                                <div className="tempgenerated ">
-                                  {file?.originalName}
-                                </div>
-                                <div className="d-flex">
-                                  <div
-                                    className="icondown"
-                                    onClick={() =>
-                                      window.open(
-                                        `https://hybrid.sicsglobal.com/transocean_api/assets/${file?.url}`,
-                                        "_blank"
-                                      )
-                                    }
-                                  >
-                                    <i className="bi bi-eye"></i>
+                <div className="ml-2">
+                  {uploadedFiles && uploadedFiles?.length > 0 && (
+                    <>
+                      <div className="templatelink">Uploaded Files:</div>
+                      <div className="templateouter">
+                        {uploadedFiles?.length > 0 &&
+                          uploadedFiles?.map((file, index) => {
+                            return (
+                              <>
+                                <div className="d-flex justify-content-between ">
+                                  <div className="tempgenerated ">
+                                    {file?.originalName}
                                   </div>
-                                  <div
-                                    className="iconpdf"
-                                    onClick={() => handleFileDelete(file?.url)}
-                                  >
-                                    <i className="bi bi-trash"></i>
+                                  <div className="d-flex">
+                                    <div
+                                      className="icondown"
+                                      onClick={() =>
+                                        window.open(
+                                          `https://hybrid.sicsglobal.com/transocean_api/assets/${file?.url}`,
+                                          "_blank"
+                                        )
+                                      }
+                                    >
+                                      <i className="bi bi-eye"></i>
+                                    </div>
+                                    <div
+                                      className="iconpdf"
+                                      onClick={() => handleFileDelete(file)}
+                                    >
+                                      <i className="bi bi-trash"></i>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            </>
-                          );
-                        })}
-                    </div>
-                  </>
-                )}
+                              </>
+                            );
+                          })}
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
 

@@ -14,7 +14,9 @@ import { Box, Typography } from "@mui/material";
 import Swal from "sweetalert2";
 import PopUp from "../PopUp";
 import Loader from "../Loader";
-const JobReportTable = ({ loginResponse, reportTableList }) => {
+const JobReportTable = ({ loginResponse, reportTableList, ports }) => {
+  console.log(reportTableList, "reportTableList");
+  console.log(ports, "ports_JobReportTable");
   const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState("all");
 
@@ -23,6 +25,7 @@ const JobReportTable = ({ loginResponse, reportTableList }) => {
   const [statusList, setStatusList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
+  const [selectedPort, setSelectedPort] = useState("");
   const [isLoading, setIsLoading] = useState(false); // Loader state
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
@@ -55,14 +58,6 @@ const JobReportTable = ({ loginResponse, reportTableList }) => {
 
   const getStatusText = (status) => {
     switch (status) {
-      case 1:
-        return "Draft PDA";
-      case 2:
-        return "Waiting For Approval From Finance Manager";
-      case 3:
-        return "Internally Approved";
-      case 4:
-        return "Rejected By Finance Manager";
       case 5:
         return "Customer Approved";
       case 6:
@@ -95,9 +90,9 @@ const JobReportTable = ({ loginResponse, reportTableList }) => {
       ),
     },
     { field: "vessel", headerName: "Vessel Name", flex: 1 },
+    { field: "job", headerName: "Job", flex: 1, width: "400px" },
     { field: "port", headerName: "Port Name", flex: 2 },
-    { field: "cargo", headerName: "Cargo", flex: 2 },
-    { field: "AssignedTo", headerName: "Assigned To", flex: 1 },
+    { field: "AssignedTo", headerName: "Ops By", flex: 1 },
     { field: "status", headerName: "Status", flex: 2 },
     {
       field: "actions",
@@ -105,7 +100,11 @@ const JobReportTable = ({ loginResponse, reportTableList }) => {
       flex: 0,
       renderCell: (params) => (
         <>
-          <button type="button" className="btn btn-info jobviewbtnn mt-3">
+          <button
+            type="button"
+            className="btn btn-info jobviewbtnn mt-3"
+            onClick={() => handleJobClick(params.row)}
+          >
             View
           </button>
 
@@ -124,6 +123,10 @@ const JobReportTable = ({ loginResponse, reportTableList }) => {
     },
   ];
 
+  const handleJobClick = (row) => {
+    navigate("/view-operation", { state: { row } });
+  };
+
   const handleEdit = (row) => {
     console.log("Edit row", row);
     navigate("/edit-operation", { state: { row } });
@@ -138,7 +141,7 @@ const JobReportTable = ({ loginResponse, reportTableList }) => {
     setSearchTerm(value);
   };
 
-  const filteredQuotations = quotationsList.filter((item) => {
+  const filteredQuotations = reportTableList?.filter((item) => {
     const matchesSearchTerm =
       !searchTerm ||
       item.pdaNumber?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -158,17 +161,24 @@ const JobReportTable = ({ loginResponse, reportTableList }) => {
 
     const matchesStatus =
       !selectedStatus || getStatusText(item.pdaStatus) === selectedStatus;
+    const matchesPort =
+      !selectedPort || item.portId[0]?.portName === selectedPort;
 
-    return matchesSearchTerm && matchesStatus;
+    return matchesSearchTerm && matchesStatus && matchesPort;
   });
 
   useEffect(() => {
-    setStatusList(["Pending", "Completed"]);
+    setStatusList([
+      "Customer Approved",
+      "Pending from operations",
+      "Operations Completed",
+    ]);
   }, []);
 
   useEffect(() => {
     console.log(selectedStatus, "selectedStatus");
-  }, [selectedStatus]);
+    console.log(selectedPort, "selectedPort");
+  }, [selectedStatus, selectedPort]);
   useEffect(() => {
     console.log(filteredQuotations, "filteredQuotations");
   }, [filteredQuotations]);
@@ -178,7 +188,9 @@ const JobReportTable = ({ loginResponse, reportTableList }) => {
     switch (name) {
       case "status":
         setSelectedStatus(value);
-
+        break;
+      case "port":
+        setSelectedPort(value);
         break;
       default:
         break;
@@ -250,14 +262,14 @@ const JobReportTable = ({ loginResponse, reportTableList }) => {
             <select
               className="form-select form-select-sm filter"
               aria-label="Small select example"
-              name="status"
+              name="port"
               onChange={handleSelectChange}
-              value={selectedStatus}
+              value={selectedPort}
             >
               <option value="">Filter by port</option>
-              {statusList?.map((status) => (
-                <option key={status} value={status}>
-                  {status}
+              {ports?.map((port) => (
+                <option key={port?.portId} value={port?.portId}>
+                  {port?.portName}
                 </option>
               ))}
             </select>
@@ -287,14 +299,18 @@ const JobReportTable = ({ loginResponse, reportTableList }) => {
           <div>
             <DataGrid
               rows={
-                filteredQuotations.length > 0
-                  ? filteredQuotations.map((item) => ({
+                filteredQuotations?.length > 0
+                  ? filteredQuotations?.map((item) => ({
                       id: item._id,
                       JobId: item.jobId,
-                      vessel: item.vesselId?.vesselName || "N/A",
-                      port: item.portId?.portName || "N/A",
-                      cargo: item.cargoId?.cargoName || "N/A",
-                      AssignedTo: item.assignedEmployee?.employeeName || "N/A",
+                      vessel: item.vesselId[0]?.vesselName || "N/A",
+                      job:
+                        item.jobs
+                          ?.map((job) => job.service?.[0]?.serviceName || "N/A")
+                          ?.join(", ") || "N/A", // Updated line to include service names
+                      port: item.portId[0]?.portName || "N/A",
+                      AssignedTo:
+                        item.assignedEmployee[0]?.employeeName || "N/A",
                       status: getStatusText(item.pdaStatus),
                       ...item,
                     }))

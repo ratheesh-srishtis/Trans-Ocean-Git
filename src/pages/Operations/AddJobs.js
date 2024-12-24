@@ -19,6 +19,8 @@ import {
   getSubcharges,
   uploadDocuments,
   editChargeQuotation,
+  deletePdaDocument,
+  deleteTemplate,
 } from "../../services/apiService";
 import PopUp from "../PopUp";
 import ProvisionDeliveryNotes from "./Templates/ProvisionDeliveryNotes";
@@ -103,10 +105,7 @@ const AddJobs = ({
       setMessage("Template saved successfully!");
       setOpenPopUp(true);
       setIsOKTBOpen(false);
-      setTemplatesList((previousTemplates) => [
-        ...previousTemplates,
-        response?.pdfPath,
-      ]);
+      setTemplatesList((previousTemplates) => [...previousTemplates, response]);
     }
   };
   const handleBerthReportSubmit = (response) => {
@@ -115,10 +114,7 @@ const AddJobs = ({
       setMessage("Template saved successfully!");
       setOpenPopUp(true);
       setIsBerthReportOpen(false);
-      setTemplatesList((previousTemplates) => [
-        ...previousTemplates,
-        response?.pdfPath,
-      ]);
+      setTemplatesList((previousTemplates) => [...previousTemplates, response]);
     }
   };
   const handleCrewSubmit = (response) => {
@@ -127,10 +123,7 @@ const AddJobs = ({
       setMessage("Template saved successfully!");
       setOpenPopUp(true);
       setIsCrewChangeListOpen(false);
-      setTemplatesList((previousTemplates) => [
-        ...previousTemplates,
-        response?.pdfPath,
-      ]);
+      setTemplatesList((previousTemplates) => [...previousTemplates, response]);
     }
   };
   const handleLoadingReportSubmit = (response) => {
@@ -139,10 +132,7 @@ const AddJobs = ({
       setMessage("Template saved successfully!");
       setOpenPopUp(true);
       setIsLoadingReportOpen(false);
-      setTemplatesList((previousTemplates) => [
-        ...previousTemplates,
-        response?.pdfPath,
-      ]);
+      setTemplatesList((previousTemplates) => [...previousTemplates, response]);
     }
   };
 
@@ -152,10 +142,7 @@ const AddJobs = ({
       setMessage("Template saved successfully!");
       setOpenPopUp(true);
       setIsProvisionOpen(false);
-      setTemplatesList((previousTemplates) => [
-        ...previousTemplates,
-        response?.pdfPath,
-      ]);
+      setTemplatesList((previousTemplates) => [...previousTemplates, response]);
     }
   };
   const handleTransportationSubmit = (response) => {
@@ -164,10 +151,7 @@ const AddJobs = ({
       setOpenPopUp(true);
       console.log("template_Submitted:", response);
       setIsTransportationOpen(false);
-      setTemplatesList((previousTemplates) => [
-        ...previousTemplates,
-        response?.pdfPath,
-      ]);
+      setTemplatesList((previousTemplates) => [...previousTemplates, response]);
     }
   };
 
@@ -306,10 +290,40 @@ const AddJobs = ({
     }
   };
 
-  const handleFileDelete = (fileUrl) => {
+  const handleFileDelete = async (fileUrl) => {
     // Update the state by filtering out the file with the specified URL
-    const updatedFiles = uploadedFiles.filter((file) => file.url !== fileUrl);
-    setUploadedFiles(updatedFiles);
+
+    console.log(fileUrl, "fileUrl");
+    if (fileUrl?._id) {
+      let payload = {
+        pdaId: charge?._id,
+        documentId: fileUrl?._id,
+      };
+      try {
+        const response = await deletePdaDocument(payload);
+        if (response.status) {
+          const updatedFiles = uploadedFiles.filter(
+            (file) => file.url !== fileUrl?.url
+          );
+          setUploadedFiles(updatedFiles);
+          setMessage("File Deleted Successfully");
+          setOpenPopUp(true);
+        } else {
+          setMessage("Failed please try again!");
+          setOpenPopUp(true);
+        }
+      } catch (error) {
+        setMessage("Failed please try again!");
+        setOpenPopUp(true);
+      }
+    } else {
+      setMessage("File Deleted Successfully");
+      setOpenPopUp(true);
+      const updatedFiles = uploadedFiles.filter(
+        (file) => file.url !== fileUrl?.url
+      );
+      setUploadedFiles(updatedFiles);
+    }
   };
   const editCharges = async () => {
     // Individual checks for each field
@@ -399,6 +413,10 @@ const AddJobs = ({
   }, [charge]);
 
   useEffect(() => {
+    console.log(uploadedFiles, "uploadedFilesAddjobs");
+  }, [uploadedFiles]);
+
+  useEffect(() => {
     const fetchCharges = async () => {
       try {
         const response = await getCharges({
@@ -451,6 +469,43 @@ const AddJobs = ({
 
   const handleView = (template) => {
     window.open(`${BASE_URL}/${template}`, "_blank");
+  };
+
+  const handleTemplateFileDelete = async (fileUrl) => {
+    // Update the state by filtering out the file with the specified URL
+    console.log(fileUrl, "fileUrl");
+
+    if (fileUrl?._id) {
+      let payload = {
+        templateId: fileUrl?.templateId,
+        pdaChargeId: charge?._id,
+        documentId: fileUrl?._id,
+      };
+      try {
+        const response = await deleteTemplate(payload);
+        if (response.status) {
+          const updatedFiles = templatesList.filter(
+            (file) => file.pdfPath !== fileUrl?.pdfPath
+          );
+          setTemplatesList(updatedFiles);
+
+          setMessage("File Deleted Successfully");
+          setOpenPopUp(true);
+        } else {
+          setMessage("Failed please try again!");
+          setOpenPopUp(true);
+        }
+      } catch (error) {
+        setMessage("Failed please try again!");
+        setOpenPopUp(true);
+      }
+    } else {
+      const updatedFiles = templatesList.filter(
+        (file) => file.pdfPath !== fileUrl?.pdfPath
+      );
+      console.log(updatedFiles, "updatedFiles");
+      setTemplatesList(updatedFiles);
+    }
   };
 
   return (
@@ -701,19 +756,31 @@ const AddJobs = ({
                         return (
                           <>
                             <div className="d-flex justify-content-between ">
-                              <div className="tempgenerated ">{template}</div>
+                              <div className="tempgenerated ">
+                                {template?.templateName}
+                              </div>
                               <div className="d-flex">
                                 <div
                                   className="icondown"
-                                  onClick={() => handleDownload(template)}
+                                  onClick={() =>
+                                    handleDownload(template?.pdfPath)
+                                  }
                                 >
                                   <i className="bi bi-download"></i>
                                 </div>
                                 <div
                                   className="iconpdf"
-                                  onClick={() => handleView(template)}
+                                  onClick={() => handleView(template?.pdfPath)}
                                 >
                                   <i className="bi bi-file-earmark-pdf"></i>
+                                </div>
+                                <div
+                                  className="iconpdf"
+                                  onClick={() =>
+                                    handleTemplateFileDelete(template)
+                                  }
+                                >
+                                  <i className="bi bi-trash"></i>
                                 </div>
                               </div>
                             </div>
@@ -768,7 +835,7 @@ const AddJobs = ({
                                 </div>
                                 <div
                                   className="iconpdf"
-                                  onClick={() => handleFileDelete(file?.url)}
+                                  onClick={() => handleFileDelete(file)}
                                 >
                                   <i className="bi bi-trash"></i>
                                 </div>
