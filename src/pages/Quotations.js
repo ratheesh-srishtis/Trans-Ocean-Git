@@ -63,6 +63,12 @@ const Quotations = ({ loginResponse }) => {
         return "Rejected By Finance Manager";
       case 5:
         return "Customer Approved";
+      case 6:
+        return "Pending From Operations";
+      case 7:
+        return "Operations Completed";
+      case 8:
+        return "Closed";
       default:
         return "Unknown Status";
     }

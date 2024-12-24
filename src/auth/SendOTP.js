@@ -98,37 +98,33 @@ const SendOTP = () => {
 
                     <div className="mb-3 ">
                       <label for="exampleInputEmail1" className="form-label">
-                        Enter Your email ID
+                        User Name
                       </label>
 
                       <input
-                        type="email"
-                        className={`form-control vessel-voyage ${
-                          emailError ? "is-invalid" : ""
-                        }`}
+                        type="text"
+                        className="form-control vessel-voyage"
                         id="exampleFormControlInput1"
-                        placeholder="Enter email"
+                        placeholder="Enter username"
                         value={emailOrUsername}
                         onChange={(e) => {
                           setEmailOrUsername(e.target.value);
                           setEmailError(false); // Clear "to" error on change
-                          setEmailValidationError(false); // Clear email error on change
                         }}
                         required
                       />
-
                       {emailError && (
                         <>
-                          <div className="invalid">Please enter email</div>
+                          <div className="invalid">Please enter username</div>
                         </>
                       )}
-                      {emailValidationError && (
+                      {/* {emailValidationError && (
                         <>
                           <div className="invalid">
                             Please enter a valid email address.
                           </div>
                         </>
-                      )}
+                      )} */}
                     </div>
 
                     <button
@@ -138,7 +134,7 @@ const SendOTP = () => {
                         SendEmailOtp();
                       }}
                     >
-                      Send OTP
+                      Submit
                     </button>
                   </div>
                 </div>

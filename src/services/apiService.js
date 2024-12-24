@@ -808,6 +808,27 @@ export const deleteTemplate = async (userData) => {
     throw error;
   }
 };
+export const deleteServiceReportDocument = async (userData) => {
+  try {
+    const response = await axiosInstance.post(
+      "/deleteServiceReportDocument",
+      userData
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+export const deleteServiceReport = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/deleteServiceReport", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
 
 /* Password Requests */
 

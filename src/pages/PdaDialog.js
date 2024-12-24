@@ -266,11 +266,11 @@ const PdaDialog = ({
                 </th>
                 <th className="mvstyl">
                   {" "}
-                  {moment(pdaDetails?.ETA).format("DD-MM-YYYY hh:mm A")}
+                  {moment.utc(pdaDetails?.ETA).format("DD-MM-YYYY HH:mm A")}
                 </th>
                 <th className="mvstyl">
                   {" "}
-                  {moment(pdaDetails?.ETD).format("DD-MM-YYYY hh:mm A")}
+                  {moment.utc(pdaDetails?.ETD).format("DD-MM-YYYY HH:mm A")}
                 </th>
                 <th className="mvstyl">
                   {" "}

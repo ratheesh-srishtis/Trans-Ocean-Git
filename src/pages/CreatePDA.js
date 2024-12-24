@@ -785,6 +785,12 @@ const CreatePDA = ({
                       ? "Rejected By Finance Manager"
                       : pdaResponse?.pdaStatus == 5
                       ? "Customer Approved"
+                      : pdaResponse?.pdaStatus == 6
+                      ? "Pending From Operations"
+                      : pdaResponse?.pdaStatus == 7
+                      ? "Operations Completed"
+                      : pdaResponse?.pdaStatus == 8
+                      ? "Closed"
                       : ""}
                   </div>
                   {/* Internally Approved
@@ -1194,7 +1200,7 @@ const CreatePDA = ({
             </div>
           </div>
 
-          {finalChargesArray?.length > 0 && pdaResponse?.pdaStatus != 4 && (
+          {finalChargesArray?.length > 0 && (
             <>
               <React.Fragment>
                 <div className="buttons-wrapper">
@@ -1262,7 +1268,8 @@ const CreatePDA = ({
                     >
                       Submit
                     </button>
-                    {pdaResponse?.pdaStatus == 2 && (
+                    {(pdaResponse?.pdaStatus == 2 ||
+                      pdaResponse?.pdaStatus == 4) && (
                       <>
                         <button
                           className="btn btna generate-button"
@@ -1272,6 +1279,10 @@ const CreatePDA = ({
                         >
                           Approve
                         </button>
+                      </>
+                    )}
+                    {pdaResponse?.pdaStatus == 2 && (
+                      <>
                         <button
                           className="btn btna generate-button"
                           onClick={() => {

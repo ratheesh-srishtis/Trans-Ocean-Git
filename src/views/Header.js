@@ -55,6 +55,12 @@ const Header = () => {
       return "QQ Form Settings";
     } else if (location.pathname == "/password-requests") {
       return "Password Requests";
+    } else if (location.pathname == "/edit-operation") {
+      return "Update Jobs";
+    } else if (location.pathname == "/final-report") {
+      return "Final Report";
+    } else if (location.pathname == "/job-report") {
+      return "Job Report";
     }
     // Add more conditions as needed for other routes
     return "Page";

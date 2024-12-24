@@ -12,7 +12,8 @@ import {
   saveServiceReport,
   getServiceReport,
   uploadDocuments,
-  deletePdaDocument,
+  deleteServiceReportDocument,
+  deleteServiceReport,
 } from "../../services/apiService";
 
 const FinalReport = ({
@@ -93,13 +94,36 @@ const FinalReport = ({
     ]);
   };
 
-  const handleRemoveRow = (index) => {
+  const handleRemoveRow = async (index, event) => {
+    console.log(event, "event");
+
     if (rows.length === 1) {
       alert("At least one row is required.");
       return;
+    } else {
+      if (event?._id) {
+        let payload = {
+          serviceReportId: event?._id,
+        };
+        try {
+          const response = await deleteServiceReport(payload);
+          if (response.status) {
+            serviceReportGet(pdaId);
+            setMessage("Report Deleted Successfully");
+            setOpenPopUp(true);
+          } else {
+            setMessage("Failed please try again!");
+            setOpenPopUp(true);
+          }
+        } catch (error) {
+          setMessage("Failed please try again!");
+          setOpenPopUp(true);
+        }
+      } else {
+        const updatedRows = rows.filter((_, rowIndex) => rowIndex !== index);
+        setRows(updatedRows);
+      }
     }
-    const updatedRows = rows.filter((_, rowIndex) => rowIndex !== index);
-    setRows(updatedRows);
   };
 
   // Handle input changes for specific fields
@@ -179,6 +203,7 @@ const FinalReport = ({
       serviceActivity: report.serviceActivity,
       quantity: report.quantity,
       remark: report.remark,
+      _id: report?._id,
     }));
     console.log(updatedRows, "updatedRows");
     setRows(updatedRows);
@@ -228,7 +253,7 @@ const FinalReport = ({
         documentId: fileUrl?._id,
       };
       try {
-        const response = await deletePdaDocument(payload);
+        const response = await deleteServiceReportDocument(payload);
         if (response.status) {
           const updatedFiles = uploadedFiles.filter(
             (file) => file.url !== fileUrl?.url
@@ -372,7 +397,7 @@ const FinalReport = ({
                   <td className="tdstyl">
                     <i
                       className="bi bi-trash-fill jobdeleiconn"
-                      onClick={() => handleRemoveRow(index)}
+                      onClick={() => handleRemoveRow(index, row)}
                       style={{ cursor: "pointer" }}
                     ></i>
                   </td>

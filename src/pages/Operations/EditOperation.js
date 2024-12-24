@@ -491,13 +491,12 @@ const EditOperation = ({
             </div>
             <div className="col">
               <label for="exampleFormControlInput1" className="form-label">
-                Assigned To{" "}
+                Ops by :
                 {selectedStatus == 6 && (
                   <>
                     <span className="required"> * </span>
                   </>
                 )}{" "}
-                :
               </label>
               <select
                 name="employee"

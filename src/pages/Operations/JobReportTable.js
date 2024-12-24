@@ -107,7 +107,6 @@ const JobReportTable = ({ loginResponse, reportTableList, ports }) => {
           >
             View
           </button>
-
           {loginResponse?.data?.userRole?.roleType == "admin" && (
             <>
               <IconButton

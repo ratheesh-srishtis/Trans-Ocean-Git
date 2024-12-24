@@ -130,8 +130,8 @@ const OpsChargesTable = ({
       const customer = customers.find((s) => s._id === id);
       return customer ? customer.customerName : "Unknown Customer";
     } else if (name === "vendor") {
-      const port = ports.find((s) => s._id === id);
-      return port ? port.portName : "Unknown port";
+      const vendor = vendors.find((s) => s._id === id);
+      return vendor ? vendor.vendorName : "Unknown vendor";
     } else if (name === "chargeType") {
       if (id) {
         fetchSubCharges(id);
@@ -263,8 +263,8 @@ const OpsChargesTable = ({
                       : ""}
                   </td>
                   <td className="subsub">
-                    {charge.subchargeId
-                      ? getItemName(charge.subchargeId, "subChargeType")
+                    {charge.vendorId
+                      ? getItemName(charge.vendorId, "vendor")
                       : ""}
                   </td>
                   <td className="subsub">{charge?.remark}</td>
