@@ -160,7 +160,7 @@ const AnchorageLocationSettings = () => {
           }}
           className="btn btna submit-button btnfsize"
         >
-          Add AnchorageLocation
+          Add Anchorage Location
         </button>
       </div>
 
@@ -175,7 +175,7 @@ const AnchorageLocationSettings = () => {
 
       <div className="row">
         <div className="col-3 mb-3 align-items-start">
-          <div className="">
+          <div className=" portseet">
             <label for="exampleFormControlInput1" className="form-label">
               Ports <span className="required"> * </span> :
             </label>

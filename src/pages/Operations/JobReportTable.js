@@ -254,30 +254,30 @@ const JobReportTable = ({ loginResponse, reportTableList, ports }) => {
     <>
       <div className="d-flex  headerb mb-3 mt-3 ">
         <div className=" d-flex">
-        <div className="col-4">
-            <div className="jobfilter">
-              <div>Filter By:</div>
-              <div>
-                <select
-                  className="form-select jobporrt "
-                  aria-label="Filter select"
-                 
-                >
-                  <option value="month">Monthly</option>
-                  <option value="year">Yearly</option>
-                </select>
-              </div>
-            </div>
+        <div className= "col-5 filtermainleft ">
+            <i className="bi bi-funnel-fill filtericon"></i>
+            <select
+              className="form-select form-select-sm filter"
+              aria-label="Small select example"
+              name="status"
+              onChange={handleSelectChange}
+              value={selectedStatus}
+            >
+              <option value="">Filter by Month</option>
+              <option value="">Filter by Year</option>
+                
+            
+            </select>
           </div>
-          <div className="col-5">
+          <div className="col-4">
             <div className="jobfilter">
-              <div>Choose Month:</div>
+              <div></div>
               <div>
                 <select
                   className="form-select jobporrt"
                   aria-label="Select Month"
                    >
-
+ <option value="month">Choose Month:</option>
                   <option value="month">January</option>
                   <option value="month">February</option>
                   <option value="month">March</option>
@@ -291,17 +291,23 @@ const JobReportTable = ({ loginResponse, reportTableList, ports }) => {
               </div>
             </div>
           </div>
-
-          <div className="col-4">
+          <div className="col-5">
             <div className="jobfilter">
-              <div>Choose Year:</div>
+              <div></div>
               <div>
                 <select
                   className="form-select jobporrt"
+                  aria-label="Select Month"
+                   >
+ <option value="year">Choose year:</option>
+                  <option value="year">2000</option>
+                  <option value="year">2001</option>
+                  <option value="year">2003</option>
+                  <option value="year">2005</option>
+                  <option value="year">2007</option>
+                  <option value="year">2009</option>
+                  <option value="year">2010</option>
 
-                >
-
-                  <option value="month"> 2000   </option>
 
                 </select>
               </div>

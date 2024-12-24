@@ -36,15 +36,15 @@ const Header = () => {
     } else if (location.pathname == "/vessel-type-settings") {
       return "Vessel Type Settings";
     } else if (location.pathname == "/ports-settings") {
-      return "Ports Settings";
+      return "Port Settings";
     } else if (location.pathname == "/customer-settings") {
       return "Customer Settings";
     } else if (location.pathname == "/service-settings") {
       return "Service Settings";
     } else if (location.pathname == "/charges-settings") {
-      return "Charges Settings";
+      return "Charge Settings";
     } else if (location.pathname == "/sub-charges-settings") {
-      return "SubCharge Settings";
+      return "Sub Charge Settings";
     } else if (location.pathname == "/cargo-settings") {
       return "Cargo Settings";
     } else if (location.pathname == "/anchorage-locations") {
@@ -54,7 +54,7 @@ const Header = () => {
     } else if (location.pathname == "/QQform-settings") {
       return "QQ Form Settings";
     } else if (location.pathname == "/password-requests") {
-      return "Password Requests";
+      return "Password Reset Request";
     } else if (location.pathname == "/edit-operation") {
       return "Update Jobs";
     } else if (location.pathname == "/final-report") {
