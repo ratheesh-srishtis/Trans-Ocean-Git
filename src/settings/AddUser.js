@@ -23,11 +23,11 @@ const AddUser = ({ open, onAddUser, onClose, editMode, userSet }) => {
   useEffect(() => {
     if (editMode && userSet) {
       setFormData({
-        name: userSet.name,
-        email: userSet.email,
-        username: userSet.username,
+        name: userSet.name || '',
+        email: userSet.email || '',
+        username: userSet.username || '',
         password: "",
-        role: userSet.userRole._id,
+        role : userSet.userRole?._id || '',
         userId: userSet._id,
       });
     } else {
