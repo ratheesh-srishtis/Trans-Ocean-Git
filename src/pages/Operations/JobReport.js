@@ -211,13 +211,13 @@ const JobReport = ({
           </div> */}
         </div>
         <div className="bbn"> </div>
-        <div className="row mt-4">
-          <div className="col-3">
+        {/* <div className="row mt-4">
+          <div className="col-2">
             <div className="jobfilter">
               <div>Filter By:</div>
               <div>
                 <select
-                  className="form-select jobporrt"
+                  className="form-select "
                   aria-label="Filter select"
                   value={filterType} // Bind selected value
                   onChange={handleFilterTypeChange} // Update state on change
@@ -228,70 +228,56 @@ const JobReport = ({
               </div>
             </div>
           </div>
-          {filterType === "month" && (
-            <>
-              <div className="col-3">
-                <div className="jobfilter">
-                  <div>Choose Month:</div>
-                  <div>
-                    <select
-                      className="form-select jobporrt"
-                      aria-label="Select Month"
-                      value={selectedMonth}
-                      onChange={handleChange} // Update state on change
-                    >
-                      {months.map((month) => (
-                        <option key={month.value} value={month.value}>
-                          {month.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
+          <div className="col-3">
+            <div className="jobfilter">
+              <div>Choose Month:</div>
+              <div>
+                <select
+                  className="form-select jobporrt"
+                  aria-label="Select Month"
+                  value={selectedMonth}
+                  onChange={handleChange} // Update state on change
+                >
+
+                  <option value="month">January</option>
+                  <option value="month">February</option>
+                  <option value="month">March</option>
+                  <option value="month">April</option>
+                  <option value="month">May</option>
+                  <option value="month">June</option>
+                  <option value="month">July</option>
+
+
+                </select>
               </div>
-            </>
-          )}
-          {filterType === "year" && (
-            <>
-              <div className="col-3">
-                <div className="jobfilter">
-                  <div>Choose Year:</div>
-                  <div>
-                    <select
-                      className="form-select jobporrt"
-                      value={selectedYear} // Bind the selected value
-                      onChange={handleYearChange} // Update state on change
-                    >
-                      {years.map((year) => (
-                        <option key={year} value={year}>
-                          {year}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-        </div>
-        <div className="row mt-3">
-          <div className="col-lg-6">
-            <>
-              <div className="jobfilter">
-                <div>Jobs used in each port:</div>
-                <div className="jobs-multi-select">
-                  <Select
-                    options={selectOptions} // Pass the transformed options
-                    isMulti // Enable multi-select
-                    onChange={handleSelectChange} // Handle selection changes
-                    placeholder="Select jobs..."
-                  />
-                </div>
-              </div>
-            </>
+            </div>
           </div>
-          <div className="col-lg-3">
-            <button onClick={() => fetchJobReport()}>filter</button>
+
+          <div className="col-3">
+            <div className="jobfilter">
+              <div>Choose Year:</div>
+              <div>
+                <select
+                  className="form-select jobporrt"
+
+                >
+
+                  <option value="month"> 2000   </option>
+
+                </select>
+              </div>
+            </div>
+          </div>
+
+
+
+
+        </div> */}
+        <div className="row mt-3">
+
+          <div className="col-1">
+            <button type="button"
+            className="btn btn-info filbtn" onClick={() => fetchJobReport()}>Filter</button>
           </div>
         </div>
         <div className="charge mt-2">

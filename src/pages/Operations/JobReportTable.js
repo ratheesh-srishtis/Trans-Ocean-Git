@@ -252,10 +252,65 @@ const JobReportTable = ({ loginResponse, reportTableList, ports }) => {
 
   return (
     <>
-      <div className="d-flex justify-content-between headerb mb-3 mt-3 ">
-        <div className="leftside"></div>
+      <div className="d-flex  headerb mb-3 mt-3 ">
+        <div className=" d-flex">
+        <div className="col-4">
+            <div className="jobfilter">
+              <div>Filter By:</div>
+              <div>
+                <select
+                  className="form-select jobporrt "
+                  aria-label="Filter select"
+                 
+                >
+                  <option value="month">Monthly</option>
+                  <option value="year">Yearly</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div className="col-5">
+            <div className="jobfilter">
+              <div>Choose Month:</div>
+              <div>
+                <select
+                  className="form-select jobporrt"
+                  aria-label="Select Month"
+                   >
 
-        <div className="d-flex gap-3 rightside">
+                  <option value="month">January</option>
+                  <option value="month">February</option>
+                  <option value="month">March</option>
+                  <option value="month">April</option>
+                  <option value="month">May</option>
+                  <option value="month">June</option>
+                  <option value="month">July</option>
+
+
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-4">
+            <div className="jobfilter">
+              <div>Choose Year:</div>
+              <div>
+                <select
+                  className="form-select jobporrt"
+
+                >
+
+                  <option value="month"> 2000   </option>
+
+                </select>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div className="d-flex gap-3 ">
           <div className=" filtermain ">
             <i className="bi bi-funnel-fill filtericon"></i>
             <select
@@ -265,15 +320,16 @@ const JobReportTable = ({ loginResponse, reportTableList, ports }) => {
               onChange={handleSelectChange}
               value={selectedPort}
             >
-              <option value="">Filter by port</option>
-              {ports?.map((port) => (
-                <option key={port?.portId} value={port?.portId}>
-                  {port?.portName}
-                </option>
-              ))}
+             
+             <option value="">Filter by port</option>
+             <option value=""> Port a</option>
+             <option value=""> port b</option>
+             <option value=""> port c</option>
+             <option value=""></option>
+             
             </select>
           </div>
-          <div className=" filtermain ">
+          <div className=" filtermainleft ">
             <i className="bi bi-funnel-fill filtericon"></i>
             <select
               className="form-select form-select-sm filter"

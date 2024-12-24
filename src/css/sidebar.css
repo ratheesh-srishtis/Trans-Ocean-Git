@@ -1,7 +1,18 @@
 
-.menusub{
-    margin-bottom: 7px;
+.menusub{  
+      margin-bottom: 16px;
     border-bottom: 0.5px solid rgba(255, 255, 255, 0.274);
+   
+}
+
+.menusubactive{
+    background-color: #060079;
+    margin-right: 12px;
+    margin-bottom: 16px;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.274);
+    padding: 5px;
+    border-radius: 0.1px;
+   
 }
 .settingsmenu{
     padding-bottom: 10px;
