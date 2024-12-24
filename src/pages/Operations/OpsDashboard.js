@@ -241,7 +241,7 @@ const OpsDashboard = () => {
           )}
           {jobsList?.length == 0 && (
             <>
-              <p>No Jobs available</p>{" "}
+              <p>Currently, there are no available jobs</p>{" "}
             </>
           )}
           {/* <div className=" col-3 shadow p-3 mb-5 bg-body-tertiary rounded">

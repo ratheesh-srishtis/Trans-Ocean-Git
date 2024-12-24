@@ -790,6 +790,24 @@ export const deleteQQFormQuestion = async (userData) => {
     throw error;
   }
 };
+export const deletePdaDocument = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/deletePdaDocument", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+export const deleteTemplate = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/deleteTemplate", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
 
 /* Password Requests */
 
@@ -859,9 +877,9 @@ export const getServiceReport = async (userData) => {
   }
 };
 
-export const getJobReport = async () => {
+export const getJobReport = async (userData) => {
   try {
-    const response = await axiosInstance.post("/getJobReport");
+    const response = await axiosInstance.post("/getJobReport", userData);
     return response.data;
   } catch (error) {
     console.error("Error:", error);

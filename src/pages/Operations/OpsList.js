@@ -397,7 +397,7 @@ const OpsList = ({ loginResponse }) => {
         {filteredQuotations?.length == 0 && (
           <>
             <div className="no-data">
-              <p>No Quotations available for given terms</p>
+              <p>Currently, there are no available jobs</p>
             </div>
           </>
         )}

@@ -6,6 +6,7 @@ import {
   uploadDocuments,
   editPDA,
   changeQuotationStatus,
+  deletePdaDocument,
 } from "../../services/apiService";
 import Loader from "../Loader";
 import PopUp from "../PopUp";
@@ -238,10 +239,29 @@ const EditOperation = ({
     }
   };
 
-  const handleFileDelete = (fileUrl) => {
+  const handleFileDelete = async (fileUrl) => {
     // Update the state by filtering out the file with the specified URL
-    const updatedFiles = uploadedFiles.filter((file) => file.url !== fileUrl);
-    setUploadedFiles(updatedFiles);
+    // const updatedFiles = uploadedFiles.filter((file) => file.url !== fileUrl);
+    // setUploadedFiles(updatedFiles);
+    console.log(fileUrl, "fileUrl");
+    let payload = {
+      pdaId: editData?._id,
+      documentId: fileUrl?._id,
+    };
+    try {
+      const response = await deletePdaDocument(payload);
+      if (response.status) {
+        setMessage("File Deleted Successfully");
+        setOpenPopUp(true);
+        fetchPdaDetails(editData?._id);
+      } else {
+        setMessage("Failed please try again!");
+        setOpenPopUp(true);
+      }
+    } catch (error) {
+      setMessage("Failed please try again!");
+      setOpenPopUp(true);
+    }
   };
 
   const submitJobs = async (status) => {
@@ -589,7 +609,7 @@ const EditOperation = ({
                           </div>
                           <div
                             className="iconpdf"
-                            onClick={() => handleFileDelete(file?.url)}
+                            onClick={() => handleFileDelete(file)}
                           >
                             <i className="bi bi-trash"></i>
                           </div>
