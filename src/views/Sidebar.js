@@ -3,8 +3,12 @@ import { NavLink } from "react-router-dom";
 import "../css/sidebar.css";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+
+
+
 const Sidebar = () => {
   const { loginResponse } = useAuth();
+  
   const { logout } = useAuth();
 
   console.log(loginResponse, "loginResponse_sidebar");
@@ -133,7 +137,7 @@ const Sidebar = () => {
                         <div className="submenu">
                           <ul className="settingsmenu">
                             <li
-                              className="menusub"
+                              className="menusubactive "
                               onClick={() => navigate("/roles-settings")}
                             >
                               Roles
