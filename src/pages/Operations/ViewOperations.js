@@ -15,7 +15,7 @@ const ViewOperations = ({
   customers,
   loginResponse,
 }) => {
-  const Group = require("../../assets/images/viewquo.png");
+  const Group = require("../../assets/images/viewops.png");
 
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(false); // Loader state
