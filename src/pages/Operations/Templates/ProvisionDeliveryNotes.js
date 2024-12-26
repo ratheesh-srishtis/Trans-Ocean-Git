@@ -155,7 +155,7 @@ const ProvisionDeliveryNotes = ({
           maxWidth="lg"
         >
           <div className="d-flex justify-content-between " onClick={onClose}>
-            <DialogTitle>Provision delivery</DialogTitle>
+            <DialogTitle></DialogTitle>
             <div className="closeicon">
               <i className="bi bi-x-lg "></i>
             </div>
@@ -168,7 +168,7 @@ const ProvisionDeliveryNotes = ({
               <div className="d-flex  gap-2">
                 <div className="col-4">
                   <label for="exampleFormControlInput1" className="form-label">
-                    SUPPLY DATE :
+                    Supply Date :
                   </label>
 
                   <DatePicker
@@ -185,7 +185,7 @@ const ProvisionDeliveryNotes = ({
                 </div>
                 <div className="col-4">
                   <label for="exampleFormControlInput1" className="form-label">
-                    REFERENCE NO :{" "}
+                    Reference No :{" "}
                   </label>
                   <input
                     type="text"
@@ -208,7 +208,7 @@ const ProvisionDeliveryNotes = ({
                             htmlFor={`description-${index}`}
                             className="form-label"
                           >
-                            ITEM DESCRIPTION :{" "}
+                            Item description :{" "}
                           </label>
                           <input
                             type="text"
@@ -224,7 +224,7 @@ const ProvisionDeliveryNotes = ({
                             htmlFor={`qty-${index}`}
                             className="form-label"
                           >
-                            QTY:
+                            Qty:
                           </label>
                           <input
                             type="number"
@@ -240,7 +240,7 @@ const ProvisionDeliveryNotes = ({
                             htmlFor={`unit-${index}`}
                             className="form-label"
                           >
-                            UNIT:
+                            Unit:
                           </label>
                           <input
                             type="text"
@@ -271,7 +271,7 @@ const ProvisionDeliveryNotes = ({
               <div className="mt-3">
                 <button
                   type="button"
-                  className="btn btn-primary"
+                  className="btn btn-info addmorebtn"
                   onClick={addItem}
                 >
                   Add More

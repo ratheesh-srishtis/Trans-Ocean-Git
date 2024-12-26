@@ -306,7 +306,7 @@ const OKTBReport = ({
               </div>
 
               <div className="date  ">
-                <div className="col-4 queheading">
+                <div className="col-4 queheading ">
                   <div> Date:</div>
                   <DatePicker
                     dateFormat="dd/MM/yyyy" // Date format without time
@@ -315,9 +315,9 @@ const OKTBReport = ({
                       setDate(selectedDate); // Set the formatted date
                       setDateError(false); // Clear error if a date is selected
                     }}
-                    className="form-control date-input"
+                    className="form-control answidth date-input"
                     id="date-picker"
-                    placeholderText="Select Date"
+                    placeholderText=""
                     autoComplete="off"
                   />
                   {dateError && <div className="invalid">{dateError}</div>}

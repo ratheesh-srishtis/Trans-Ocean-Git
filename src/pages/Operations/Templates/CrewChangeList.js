@@ -26,26 +26,26 @@ const CrewChangeList = ({
   const [formValues, setFormValues] = useState({
     onSigners: [
       {
-        creawName: "",
-        flight: "",
+        CrewName: "",
+        Flight: "",
         ATAMuscat: "",
-        hotel: "",
-        checkIn: "",
-        checkOut: "",
-        food: "",
-        transportation: "",
+        Hotel: "",
+        CheckIn: "",
+        CheckOut: "",
+        Food: "",
+        Transportation: "",
       },
     ],
     offSigners: [
       {
-        creawName: "",
-        flight: "",
+        CrewName: "",
+        Flight: "",
         ATAMuscat: "",
-        hotel: "",
-        checkIn: "",
-        checkOut: "",
-        food: "",
-        transportation: "",
+        Hotel: "",
+        CheckIn: "",
+        CheckOut: "",
+        Food: "",
+        Transportation: "",
       },
     ],
   });
@@ -68,14 +68,14 @@ const CrewChangeList = ({
   // Add New Signer
   const addNewSigner = (type) => {
     const newSigner = {
-      creawName: "",
-      flight: "",
+      CreawName: "",
+      Flight: "",
       ATAMuscat: "",
-      hotel: "",
-      checkIn: "",
-      checkOut: "",
-      food: "",
-      transportation: "",
+      Hotel: "",
+      CheckIn: "",
+      CheckOut: "",
+      Food: "",
+      Transportation: "",
     };
     setFormValues((prevState) => ({
       ...prevState,
