@@ -4,11 +4,9 @@ import "../css/sidebar.css";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-
-
 const Sidebar = () => {
   const { loginResponse } = useAuth();
-  
+
   const { logout } = useAuth();
 
   console.log(loginResponse, "loginResponse_sidebar");
@@ -29,15 +27,21 @@ const Sidebar = () => {
   const [showSubmenu, setShowSubmenu] = useState(false);
 
   const [menuList, setMenuList] = useState([]);
-  const menuArr =["dashboard", "quotations", "reports", "jobs", "payments", "soa"];
+  const menuArr = [
+    "dashboard",
+    "quotations",
+    "reports",
+    "jobs",
+    "payments",
+    "soa",
+  ];
   const handleNavigation = (menuItem) => {
     if (menuArr.includes(menuItem)) {
       setShowSubmenu(false);
       setActiveSubMenu("");
     } else {
       setShowSubmenu((prev) => !prev);
-       if(menuItem!= "settings")
-      setActiveSubMenu(menuItem)
+      if (menuItem != "settings") setActiveSubMenu(menuItem);
     }
     if (lastPath == menuItem) {
       setActiveMenu(lastPath);
@@ -64,48 +68,48 @@ const Sidebar = () => {
       case "soa":
         navigate("/soa"); // Replace with your actual route
         break;
-        case "roles-settings":
-          navigate("/roles-settings");
-          break;
-        case "user-settings":
-          navigate("/user-settings");
-          break;
-        case "vessels-settings":
-          navigate("/vessels-settings");
-          break;
-        case "vessel-type-settings":
-          navigate("/vessel-type-settings");
-          break;
-        case "ports-settings":
-          navigate("/ports-settings");
-          break;
-        case "customer-settings":
-          navigate("/customer-settings");
-          break;
-        case "service-settings":
-          navigate("/service-settings");
-          break;
-        case "charges-settings":
-          navigate("/charges-settings");
-          break;
-        case "sub-charges-settings":
-          navigate("/sub-charges-settings");
-          break;
-        case "cargo-settings":
-          navigate("/cargo-settings");
-          break;
-        case "anchorage-locations":
-          navigate("/anchorage-locations");
-          break;
-        case "vendor-settings":
-          navigate("/vendor-settings");
-          break;
-        case "QQform-settings":
-          navigate("/QQform-settings");
-          break;
-        case "password-requests":
-          navigate("/password-requests");
-          break;
+      case "roles-settings":
+        navigate("/roles-settings");
+        break;
+      case "user-settings":
+        navigate("/user-settings");
+        break;
+      case "vessels-settings":
+        navigate("/vessels-settings");
+        break;
+      case "vessel-type-settings":
+        navigate("/vessel-type-settings");
+        break;
+      case "ports-settings":
+        navigate("/ports-settings");
+        break;
+      case "customer-settings":
+        navigate("/customer-settings");
+        break;
+      case "service-settings":
+        navigate("/service-settings");
+        break;
+      case "charges-settings":
+        navigate("/charges-settings");
+        break;
+      case "sub-charges-settings":
+        navigate("/sub-charges-settings");
+        break;
+      case "cargo-settings":
+        navigate("/cargo-settings");
+        break;
+      case "anchorage-locations":
+        navigate("/anchorage-locations");
+        break;
+      case "vendor-settings":
+        navigate("/vendor-settings");
+        break;
+      case "QQform-settings":
+        navigate("/QQform-settings");
+        break;
+      case "password-requests":
+        navigate("/password-requests");
+        break;
       default:
         break;
     }
@@ -182,87 +186,163 @@ const Sidebar = () => {
                         <div className="submenu">
                           <ul className="settingsmenu">
                             <li
-                               className={activeSubMenu === "roles-settings" ? "menusubactive" : "menusub"}
+                              className={
+                                activeSubMenu === "roles-settings"
+                                  ? "menusubactive"
+                                  : "menusub"
+                              }
                               onClick={() => handleNavigation("roles-settings")}
                             >
                               Roles
                             </li>
                             <li
-                               className={activeSubMenu === "user-settings" ? "menusubactive" : "menusub"}
+                              className={
+                                activeSubMenu === "user-settings"
+                                  ? "menusubactive"
+                                  : "menusub"
+                              }
                               onClick={() => handleNavigation("user-settings")}
                             >
                               User
                             </li>
                             <li
-                               className={activeSubMenu === "vessels-settings" ? "menusubactive" : "menusub"}
-                              onClick={() => handleNavigation("vessels-settings")}
+                              className={
+                                activeSubMenu === "vessels-settings"
+                                  ? "menusubactive"
+                                  : "menusub"
+                              }
+                              onClick={() =>
+                                handleNavigation("vessels-settings")
+                              }
                             >
                               Vessels
                             </li>
                             <li
-                              className={activeSubMenu === "vessel-type-settings" ? "menusubactive" : "menusub"}
-                              onClick={() => handleNavigation("vessel-type-settings")}
+                              className={
+                                activeSubMenu === "vessel-type-settings"
+                                  ? "menusubactive"
+                                  : "menusub"
+                              }
+                              onClick={() =>
+                                handleNavigation("vessel-type-settings")
+                              }
                             >
                               Vessel Types
                             </li>
                             <li
-                              className={activeSubMenu === "ports-settings" ? "menusubactive" : "menusub"}
+                              className={
+                                activeSubMenu === "ports-settings"
+                                  ? "menusubactive"
+                                  : "menusub"
+                              }
                               onClick={() => handleNavigation("ports-settings")}
                             >
                               Ports
                             </li>
 
                             <li
-                              className={activeSubMenu === "customer-settings" ? "menusubactive" : "menusub"}
-                              onClick={() => handleNavigation("customer-settings")}
+                              className={
+                                activeSubMenu === "customer-settings"
+                                  ? "menusubactive"
+                                  : "menusub"
+                              }
+                              onClick={() =>
+                                handleNavigation("customer-settings")
+                              }
                             >
                               Customers
                             </li>
                             <li
-                             className={activeSubMenu === "service-settings" ? "menusubactive" : "menusub"}
-                              onClick={() => handleNavigation("service-settings")}
+                              className={
+                                activeSubMenu === "service-settings"
+                                  ? "menusubactive"
+                                  : "menusub"
+                              }
+                              onClick={() =>
+                                handleNavigation("service-settings")
+                              }
                             >
                               Services
                             </li>
                             <li
-                                className={activeSubMenu === "charges-settings" ? "menusubactive" : "menusub"}
-                              onClick={() => handleNavigation("charges-settings")}
+                              className={
+                                activeSubMenu === "charges-settings"
+                                  ? "menusubactive"
+                                  : "menusub"
+                              }
+                              onClick={() =>
+                                handleNavigation("charges-settings")
+                              }
                             >
                               Charges
                             </li>
                             <li
-                               className={activeSubMenu === "sub-charges-settings" ? "menusubactive" : "menusub"}
-                              onClick={() => handleNavigation("sub-charges-settings")}
+                              className={
+                                activeSubMenu === "sub-charges-settings"
+                                  ? "menusubactive"
+                                  : "menusub"
+                              }
+                              onClick={() =>
+                                handleNavigation("sub-charges-settings")
+                              }
                             >
                               Sub Charges
                             </li>
                             <li
-                              className={activeSubMenu === "cargo-settings" ? "menusubactive" : "menusub"}
+                              className={
+                                activeSubMenu === "cargo-settings"
+                                  ? "menusubactive"
+                                  : "menusub"
+                              }
                               onClick={() => handleNavigation("cargo-settings")}
                             >
                               Cargoes
                             </li>
                             <li
-                              className={activeSubMenu === "anchorage-locations" ? "menusubactive" : "menusub"}
-                              onClick={() => handleNavigation("anchorage-locations")}
+                              className={
+                                activeSubMenu === "anchorage-locations"
+                                  ? "menusubactive"
+                                  : "menusub"
+                              }
+                              onClick={() =>
+                                handleNavigation("anchorage-locations")
+                              }
                             >
                               Anchorage Locations
                             </li>
                             <li
-                              className={activeSubMenu === "vendor-settings" ? "menusubactive" : "menusub"}
-                              onClick={() => handleNavigation("vendor-settings")}
+                              className={
+                                activeSubMenu === "vendor-settings"
+                                  ? "menusubactive"
+                                  : "menusub"
+                              }
+                              onClick={() =>
+                                handleNavigation("vendor-settings")
+                              }
                             >
                               Vendors
                             </li>
                             <li
-                             className={activeSubMenu === "QQform-settings" ? "menusubactive" : "menusub"}
-                              onClick={() => handleNavigation("QQform-settings")}
+                              className={
+                                activeSubMenu === "QQform-settings"
+                                  ? "menusubactive"
+                                  : "menusub"
+                              }
+                              onClick={() =>
+                                handleNavigation("QQform-settings")
+                              }
                             >
                               QQ Form
                             </li>
                             <li
-                               className={activeSubMenu === "password-requests" ? "menusubactive" : "menusub"}
-                              onClick={() => handleNavigation("password-requests")}
+                              className={
+                                activeSubMenu === "password-requests"
+                                  ? "menusubactive"
+                                  : "menusub"
+                              }
+                              onClick={() =>
+                                handleNavigation("password-requests")
+                              }
                             >
                               Password Reset Request
                             </li>

@@ -940,6 +940,8 @@ const AddJobs = ({
           charge={charge}
           onSubmit={handleTransportationSubmit}
           selectedChargesType={selectedChargesType}
+          selectedService={selectedService}
+          services={services}
         />
       )}
       {openPopUp && (

@@ -61,6 +61,8 @@ const Header = () => {
       return "Final Report";
     } else if (location.pathname == "/job-report") {
       return "Job Report";
+    } else if (location.pathname == "/view-operation") {
+      return "View Job";
     }
     // Add more conditions as needed for other routes
     return "Page";
@@ -76,7 +78,7 @@ const Header = () => {
         <div className="header--wrapper">
           <div className="header--title">
             <h5>{getHeaderText()}</h5>
-            <div className="version">Version: 0.021</div>
+            <div className="version">Version: 0.022</div>
           </div>
 
           <div className="d-flex flex-row-reverse ">

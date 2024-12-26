@@ -25,6 +25,8 @@ const Transportationreciept = ({
   selectedTemplateName,
   selectedTemplate,
   selectedChargesType,
+  selectedService,
+  services,
 }) => {
   const [date, setDate] = useState(null);
   const [dateError, setDateError] = useState(null);
@@ -111,9 +113,25 @@ const Transportationreciept = ({
   };
 
   useEffect(() => {
-    console.log(formData, "transportations_formdata");
-    console.log(selectedChargesType, "selectedChargesType");
-  }, [formData, selectedChargesType]);
+    console.log(selectedService?._id, "selectedService?._id");
+    if (selectedService?._id) {
+      const serviceName = getItemName(selectedService?._id, "service");
+      setFormData((prevData) => ({
+        ...prevData,
+        jobTitle: serviceName, // Update jobTitle
+      }));
+    }
+  }, [selectedService?._id]);
+
+  const getItemName = (id, name) => {
+    console.log(id, "getItemName?._id");
+
+    if (name == "service" && id) {
+      const service = services?.find((s) => s._id === id);
+      console.log(service, "getItemName");
+      return service ? service.serviceName : "Unknown Service";
+    }
+  };
 
   const handleSubmit = async () => {
     if (!date) {
