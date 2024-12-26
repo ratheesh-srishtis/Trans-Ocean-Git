@@ -136,27 +136,29 @@ const ViewQuotation = ({
             <span className="viewans"> {editData?.IMONumber}</span>
           </div>
           <div className=" col-4 viewhead">
-            <span> GRT:</span> <span className="viewans"> {editData?.GRT}</span>
+          <span> LOA:</span> <span className="viewans"> {editData?.LOA}</span>
+            
           </div>
           <div className=" col-4 viewhead">
-            <span> ETD:</span>{" "}
-            <span className="viewans">
-              {new Date(editData?.ETD).toLocaleDateString("en-GB")}
-            </span>
+          <span> GRT:</span> <span className="viewans"> {editData?.GRT}</span>
+           
           </div>
         </div>
         <div className="row viewquocontent">
           <div className=" col-4 viewhead">
-            <span> LOA:</span> <span className="viewans"> {editData?.LOA}</span>
+          <span> NRT:</span> <span className="viewans"> {editData?.NRT}</span>
           </div>
           <div className=" col-4 viewhead">
-            <span> NRT:</span> <span className="viewans"> {editData?.NRT}</span>
-          </div>
-          <div className=" col-4 viewhead">
-            <span> ETA:</span>{" "}
+          <span> ETA:</span>{" "}
             <span className="viewans">
               {new Date(editData?.ETD).toLocaleDateString("en-GB")}
               {editData?.ETA}
+            </span>
+          </div>
+          <div className=" col-4 viewhead">
+          <span> ETD:</span>{" "}
+            <span className="viewans">
+              {new Date(editData?.ETD).toLocaleDateString("en-GB")}
             </span>
           </div>
         </div>
