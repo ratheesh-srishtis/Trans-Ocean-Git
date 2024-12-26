@@ -559,7 +559,7 @@ const EditOperation = ({
         {/* fifthrowdocumentsupload */}
         <div className="typesofcall-row ">
           <div className="row align-items-start">
-            <div className="mb-2">
+            <div className="mb-2 col-4 docuplo">
               <label for="formFile" className="form-label">
                 Documents Upload:
               </label>
@@ -572,33 +572,8 @@ const EditOperation = ({
                 onChange={documentsUpload}
               ></input>
             </div>
-          </div>
-        </div>
-        {/* <div className="templateouter">
-          <div className="d-flex justify-content-between ">
-            <div className="tempgenerated ">Upload Image 1</div>
-            <div className="d-flex">
-              <div className="icondown">
-                <i className="bi bi-eye"></i>
-              </div>
-              <div className="iconpdf">
-                <i className="bi bi-trash"></i>
-              </div>
-            </div>
-          </div>
-          <div className="d-flex justify-content-between ">
-            <div className="tempgenerated ">Upload Image 2</div>
-            <div className="d-flex">
-              <div className="icondown">
-                <i className="bi bi-eye"></i>
-              </div>
-              <div className="iconpdf">
-                <i className="bi bi-trash"></i>
-              </div>
-            </div>
-          </div>
-        </div> */}
-        {uploadedFiles && uploadedFiles?.length > 0 && (
+            <div className="mb-2 col-8" >
+            {uploadedFiles && uploadedFiles?.length > 0 && (
           <>
             <div className="templatelink">Uploaded Files:</div>
             <div className="templateouter">
@@ -636,6 +611,34 @@ const EditOperation = ({
             </div>
           </>
         )}
+            </div>
+          </div>
+        </div>
+        {/* <div className="templateouter">
+          <div className="d-flex justify-content-between ">
+            <div className="tempgenerated ">Upload Image 1</div>
+            <div className="d-flex">
+              <div className="icondown">
+                <i className="bi bi-eye"></i>
+              </div>
+              <div className="iconpdf">
+                <i className="bi bi-trash"></i>
+              </div>
+            </div>
+          </div>
+          <div className="d-flex justify-content-between ">
+            <div className="tempgenerated ">Upload Image 2</div>
+            <div className="d-flex">
+              <div className="icondown">
+                <i className="bi bi-eye"></i>
+              </div>
+              <div className="iconpdf">
+                <i className="bi bi-trash"></i>
+              </div>
+            </div>
+          </div>
+        </div> */}
+       
         {/* sixthrowremarks */}
         <div className="row align-items-start">
           <div className="col">
@@ -645,7 +648,7 @@ const EditOperation = ({
                   Remarks:
                 </label>
                 <textarea
-                  rows="1"
+                  rows="3"
                   className="form-control"
                   id="exampleFormControlInput1"
                   placeholder=""

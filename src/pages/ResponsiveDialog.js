@@ -754,7 +754,7 @@ const ResponsiveDialog = ({
         maxWidth="lg"
       >
         <div className="d-flex justify-content-between" onClick={onClose}>
-          <DialogTitle>{isEditcharge ? "Update" : "Add"} Charges</DialogTitle>
+          <DialogTitle>{isEditcharge ? "Update" : "Add"} Charge</DialogTitle>
           <div className="closeicon">
             <i className="bi bi-x-lg "></i>
           </div>
