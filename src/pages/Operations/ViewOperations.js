@@ -15,7 +15,7 @@ const ViewOperations = ({
   customers,
   loginResponse,
 }) => {
-  const Group = require("../../assets/images/viewops.png");
+  const Group = require("../../assets/images/jobview.png");
 
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(false); // Loader state
@@ -134,30 +134,34 @@ const ViewOperations = ({
             <span className="viewans"> {pdaValues?.IMONumber}</span>
           </div>
           <div className=" col-4 viewhead">
-            <span> GRT:</span>{" "}
-            <span className="viewans"> {pdaValues?.GRT}</span>
+          <span> LOA:</span>{" "}
+          <span className="viewans"> {pdaValues?.LOA}</span>
+            
           </div>
           <div className=" col-4 viewhead">
-            <span> ETD:</span>{" "}
-            <span className="viewans">
-              {new Date(pdaValues?.ETD).toLocaleDateString("en-GB")}
-            </span>
+          <span> GRT:</span>{" "}
+          <span className="viewans"> {pdaValues?.GRT}</span>
+           
           </div>
         </div>
         <div className="row viewquocontent">
           <div className=" col-4 viewhead">
-            <span> LOA:</span>{" "}
-            <span className="viewans"> {pdaValues?.LOA}</span>
+          <span> NRT:</span>{" "}
+          <span className="viewans"> {pdaValues?.NRT}</span>
+          
           </div>
           <div className=" col-4 viewhead">
-            <span> NRT:</span>{" "}
-            <span className="viewans"> {pdaValues?.NRT}</span>
-          </div>
-          <div className=" col-4 viewhead">
-            <span> ETA:</span>{" "}
+          <span> ETA:</span>{" "}
             <span className="viewans">
               {new Date(pdaValues?.ETA).toLocaleDateString("en-GB")}
             </span>
+          </div>
+          <div className=" col-4 viewhead">
+          <span> ETD:</span>{" "}
+            <span className="viewans">
+              {new Date(pdaValues?.ETD).toLocaleDateString("en-GB")}
+            </span>
+            
           </div>
         </div>
         {editData?.customerId && (

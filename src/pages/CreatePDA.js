@@ -1192,7 +1192,7 @@ const CreatePDA = ({
             <div className="col-12">
               {uploadedFiles && uploadedFiles?.length > 0 && (
                 <>
-                  <div className="templatelink">Uploaded Files:</div>
+                  <div className="templatelink">Documents:</div>
                   <div className="templateouter">
                     {uploadedFiles?.length > 0 &&
                       uploadedFiles?.map((file, index) => {

@@ -90,6 +90,10 @@
     padding: 10px;
     border: 1px solid rgba(164, 164, 164, 0.421);
     border-radius: 5px;
+    height: 75px; /* Set the fixed width of the div */
+  white-space: nowrap; /* Prevents wrapping of inline elements */
+  overflow-x: auto; /* Enables horizontal scrolling */
+
 }
 .icondown{
     padding-right: 15px;
@@ -101,4 +105,7 @@
 }
 .updatechargremakrs{
     font-size: 12px;
+}
+.docuplo{
+    margin-top: -4px;
 }
