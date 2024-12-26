@@ -38,7 +38,18 @@ const Remarks = ({ open, onClose, onRemarksSubmit }) => {
 
   return (
     <>
-      <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+      <Dialog
+        open={open}
+        onClose={(event, reason) => {
+          if (reason === "backdropClick") {
+            // Prevent dialog from closing when clicking outside
+            return;
+          }
+          onClose(); // Allow dialog to close for other reasons
+        }}
+        fullWidth
+        maxWidth="sm"
+      >
         <div className="d-flex justify-content-between">
           <DialogTitle>Remarks</DialogTitle>
           <div className="closeicon" onClick={onClose}>

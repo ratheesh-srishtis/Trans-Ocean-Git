@@ -103,9 +103,8 @@ const ProvisionDeliveryNotes = ({
         const payload = {
           pdaChargeId: charge?._id,
           templateId: selectedTemplate,
-
           templateName: selectedTemplateName,
-          supplyDate: moment(date).format("DD-MM-YYYY"),
+          supplyDate: moment(date).format("YYYY-MM-DD"),
           refNo: formData.refNo,
           items: formData.items,
         };
@@ -127,7 +126,6 @@ const ProvisionDeliveryNotes = ({
           setOpenPopUp(true);
           onSubmit(error);
         }
-
         console.log("provision_payload>", payload);
         // Submit the payload to the server here
         console.log("Form submitted successfully", formData);
@@ -137,9 +135,13 @@ const ProvisionDeliveryNotes = ({
 
   const handleDateChange = (date) => {
     setDate(date);
+    setDateError(false);
     console.log(date, "handleDateChange");
   };
 
+  useEffect(() => {
+    console.log(date, "date_delivery");
+  }, [date]);
   return (
     <>
       <div>
@@ -150,12 +152,18 @@ const ProvisionDeliveryNotes = ({
             borderRadius: 2,
           }}
           open={open}
-          onClose={onClose}
+          onClose={(event, reason) => {
+            if (reason === "backdropClick") {
+              // Prevent dialog from closing when clicking outside
+              return;
+            }
+            onClose(); // Allow dialog to close for other reasons
+          }}
           fullWidth
           maxWidth="lg"
         >
           <div className="d-flex justify-content-between " onClick={onClose}>
-            <DialogTitle>Provision delivery</DialogTitle>
+            <DialogTitle></DialogTitle>
             <div className="closeicon">
               <i className="bi bi-x-lg "></i>
             </div>

@@ -45,6 +45,7 @@ const ResponsiveDialog = ({
 }) => {
   console.log(services, "services");
   console.log(pdaResponse, "pdaResponse_dialog");
+  const [templatesList, setTemplatesList] = useState([]);
 
   const [selectedServiceError, setSelectedServiceError] = useState(false);
   const [selectedChargesTypeError, setSelectedChargesTypeError] =
@@ -628,7 +629,7 @@ const ResponsiveDialog = ({
     let total = Number(customerAmount) + Number(customerVatAmount);
     setCustomerTotalOmr(total.toFixed(3));
 
-    let customer_total_usd = Number(customerAmount * 2.62);
+    let customer_total_usd = Number(total * 2.62);
     setCustomerTotalUSD(customer_total_usd.toFixed(2));
   }, [customerAmount, customerVatAmount]);
 
@@ -636,7 +637,7 @@ const ResponsiveDialog = ({
     let total = Number(vendorAmount) + Number(vendorVatAmount);
     setVendorTotalOmr(total.toFixed(3));
 
-    let vendor_total_usd = Number(vendorAmount * 2.62);
+    let vendor_total_usd = Number(total * 2.62);
     setVendorTotalUSD(vendor_total_usd.toFixed(2));
   }, [vendorAmount, vendorVatAmount]);
 
@@ -704,8 +705,23 @@ const ResponsiveDialog = ({
       setUpdatedServiceName(editCharge?.serviceName);
       setUpdatedChargename(editCharge?.chargeName);
       setUpdatedSubChargeName(editCharge?.subchargeName);
+      setTemplatesList(editCharge?.templates);
     }
   }, [isEditcharge, open]);
+
+  const handleDownload = (template) => {
+    const link = document.createElement("a");
+    link.href = `${BASE_URL}/${template}`;
+    link.download = template;
+    link.click();
+  };
+  const BASE_URL =
+    "https://hybrid.sicsglobal.com/transocean_api/assets/template_pdf/"; // Replace with your actual base URL
+
+  const handleView = (template) => {
+    console.log(template, "template");
+    window.open(`${BASE_URL}/${template?.pdfPath}`, "_blank");
+  };
 
   const fetchPdaDetails = async (id) => {
     let data = {
@@ -725,7 +741,18 @@ const ResponsiveDialog = ({
 
   return (
     <>
-      <Dialog open={open} onClose={onClose} fullWidth maxWidth="lg">
+      <Dialog
+        open={open}
+        onClose={(event, reason) => {
+          if (reason === "backdropClick") {
+            // Prevent dialog from closing when clicking outside
+            return;
+          }
+          onClose(); // Allow dialog to close for other reasons
+        }}
+        fullWidth
+        maxWidth="lg"
+      >
         <div className="d-flex justify-content-between" onClick={onClose}>
           <DialogTitle>{isEditcharge ? "Update" : "Add"} Charges</DialogTitle>
           <div className="closeicon">
@@ -1722,6 +1749,43 @@ const ResponsiveDialog = ({
                       )}
                     </div>
                   </div>
+                </div>
+                <div className="row mb-2">
+                  {templatesList && templatesList?.length > 0 && (
+                    <>
+                      <div className="templatelink">Template Link:</div>
+                      <div className="templateouter">
+                        {templatesList?.length > 0 &&
+                          templatesList?.map((template, index) => {
+                            return (
+                              <>
+                                <div className="d-flex justify-content-between ">
+                                  <div className="tempgenerated ">
+                                    {template?.templateName}
+                                  </div>
+                                  <div className="d-flex">
+                                    <div
+                                      className="icondown"
+                                      onClick={() =>
+                                        handleDownload(template?.pdfPath)
+                                      }
+                                    >
+                                      <i className="bi bi-download"></i>
+                                    </div>
+                                    <div
+                                      className="iconpdf"
+                                      onClick={() => handleView(template)}
+                                    >
+                                      <i className="bi bi-file-earmark-pdf"></i>
+                                    </div>
+                                  </div>
+                                </div>
+                              </>
+                            );
+                          })}
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
               <div className="row">

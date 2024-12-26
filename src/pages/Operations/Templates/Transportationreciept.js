@@ -24,6 +24,7 @@ const Transportationreciept = ({
   onSubmit,
   selectedTemplateName,
   selectedTemplate,
+  selectedChargesType,
 }) => {
   const [date, setDate] = useState(null);
   const [dateError, setDateError] = useState(null);
@@ -111,7 +112,8 @@ const Transportationreciept = ({
 
   useEffect(() => {
     console.log(formData, "transportations_formdata");
-  }, [formData]);
+    console.log(selectedChargesType, "selectedChargesType");
+  }, [formData, selectedChargesType]);
 
   const handleSubmit = async () => {
     if (!date) {
@@ -128,7 +130,7 @@ const Transportationreciept = ({
 
           templateName: selectedTemplateName,
           jobTitle: formData.jobTitle,
-          date: moment(date).format("DD-MM-YYYY"),
+          date: moment(date).format("YYYY-MM-DD"),
           refNo: formData.refNo,
           agent: formData.agent,
           transporter: formData.transporter,
@@ -175,12 +177,18 @@ const Transportationreciept = ({
             borderRadius: 2,
           }}
           open={open}
-          onClose={onClose}
+          onClose={(event, reason) => {
+            if (reason === "backdropClick") {
+              // Prevent dialog from closing when clicking outside
+              return;
+            }
+            onClose(); // Allow dialog to close for other reasons
+          }}
           fullWidth
           maxWidth="lg"
         >
           <div className="d-flex justify-content-between " onClick={onClose}>
-            <DialogTitle> Transport Receipt</DialogTitle>
+            <DialogTitle></DialogTitle>
             <div className="closeicon">
               <i className="bi bi-x-lg "></i>
             </div>

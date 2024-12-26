@@ -59,6 +59,7 @@ const CreatePDA = ({
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
   const [anchorageLocations, setAnchorageLocations] = useState([]);
+  const [uploadedFiles, setUploadedFiles] = useState([]);
 
   const [formData, setFormData] = useState({
     vesselVoyageNumber: "",
@@ -189,6 +190,7 @@ const CreatePDA = ({
     console.log(etd, "etd");
     console.log(anchorageLocations, "anchorageLocations");
     console.log(selectedAnchorageLocation, "selectedAnchorageLocation");
+    console.log(uploadedFiles, "uploadedFiles");
     console.log("Effect triggered");
   }, [
     selectedPort,
@@ -202,6 +204,7 @@ const CreatePDA = ({
     etd,
     anchorageLocations,
     selectedAnchorageLocation,
+    uploadedFiles,
   ]);
 
   // useEffect(() => {
@@ -604,10 +607,12 @@ const CreatePDA = ({
 
   const updateValues = (response) => {
     console.log(response, "updateValues");
+    console.log(response?.pda?.documents, "response?.pda?.documents");
     setIsVessels(response?.pda?.isVessels);
     setIsServices(response?.pda?.isServices);
     setSelectedBerth(response?.pda?.berth);
     setSelectedCargoCapacity(response?.pda?.cargoCapacity);
+    setUploadedFiles(response?.pda?.documents); // Append new files to existing ones
 
     if (response?.pda?.pdaStatus == 3 || response?.pda?.pdaStatus == 5) {
       setIsApproved(true);
@@ -1180,6 +1185,43 @@ const CreatePDA = ({
                   Add charge
                 </button>
               </div>
+            </div>
+          </div>
+
+          <div className="row mt-2">
+            <div className="col-12">
+              {uploadedFiles && uploadedFiles?.length > 0 && (
+                <>
+                  <div className="templatelink">Uploaded Files:</div>
+                  <div className="templateouter">
+                    {uploadedFiles?.length > 0 &&
+                      uploadedFiles?.map((file, index) => {
+                        return (
+                          <>
+                            <div className="d-flex justify-content-between ">
+                              <div className="tempgenerated ">
+                                {file?.originalName}
+                              </div>
+                              <div className="d-flex">
+                                <div
+                                  className="icondown"
+                                  onClick={() =>
+                                    window.open(
+                                      `https://hybrid.sicsglobal.com/transocean_api/assets/${file?.url}`,
+                                      "_blank"
+                                    )
+                                  }
+                                >
+                                  <i className="bi bi-eye"></i>
+                                </div>
+                              </div>
+                            </div>
+                          </>
+                        );
+                      })}
+                  </div>
+                </>
+              )}
             </div>
           </div>
 

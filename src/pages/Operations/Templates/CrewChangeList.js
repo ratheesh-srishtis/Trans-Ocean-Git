@@ -12,6 +12,9 @@ import {
 } from "@mui/material";
 import { generateTemplatePDF } from "../../../services/apiService";
 import PopUp from "../../PopUp";
+import moment from "moment";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 const CrewChangeList = ({
   open,
   onClose,
@@ -115,11 +118,26 @@ const CrewChangeList = ({
 
       return;
     }
+
+    const formattedOnSigners = formValues.onSigners.map((signer) => ({
+      ...signer,
+      ATAMuscat: signer.ATAMuscat
+        ? moment(signer.ATAMuscat).format("YYYY-MM-DD HH:mm")
+        : "",
+    }));
+
+    const formattedOffSigners = formValues.offSigners.map((signer) => ({
+      ...signer,
+      ATAMuscat: signer.ATAMuscat
+        ? moment(signer.ATAMuscat).format("YYYY-MM-DD HH:mm")
+        : "",
+    }));
+
     const templateBpdy = {
       pdaChargeId: charge?._id,
       templateName: selectedTemplateName,
-      onsigners: formValues.onSigners,
-      offsigners: formValues.offSigners,
+      onsigners: formattedOnSigners,
+      offsigners: formattedOffSigners,
       templateId: selectedTemplate,
     };
     console.log(templateBpdy, "crew_change_payload");
@@ -143,6 +161,35 @@ const CrewChangeList = ({
     // Perform API call here using the payload
   };
 
+  const fieldOrder = [
+    "creawName",
+    "flight",
+    "ATAMuscat",
+    "hotel",
+    "checkIn",
+    "checkOut",
+    "food",
+    "transportation",
+  ];
+
+  const handleDateChange = (date, index, group) => {
+    const updatedGroup = [...formValues[group]];
+    updatedGroup[index]["ATAMuscat"] = date;
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [group]: updatedGroup,
+    }));
+  };
+
+  const handleOffsignersDateChange = (date, index, group) => {
+    const updatedGroup = [...formValues[group]];
+    updatedGroup[index]["ATAMuscat"] = date;
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [group]: updatedGroup,
+    }));
+  };
+
   return (
     <>
       <div>
@@ -153,12 +200,18 @@ const CrewChangeList = ({
             borderRadius: 2,
           }}
           open={open}
-          onClose={onClose}
+          onClose={(event, reason) => {
+            if (reason === "backdropClick") {
+              // Prevent dialog from closing when clicking outside
+              return;
+            }
+            onClose(); // Allow dialog to close for other reasons
+          }}
           fullWidth
           maxWidth="lg"
         >
           <div className="d-flex justify-content-between " onClick={onClose}>
-            <DialogTitle>CrewChangeList </DialogTitle>
+            <DialogTitle> </DialogTitle>
             <div className="closeicon">
               <i className="bi bi-x-lg "></i>
             </div>
@@ -170,20 +223,45 @@ const CrewChangeList = ({
             <div className="onsign">ON SIGNERS</div>
             {formValues.onSigners.map((signer, index) => (
               <div key={index} className="d-flex flex-wrap signers-wrapper">
-                {Object.keys(signer).map((field) => (
-                  <div className="col-3 crew" key={field}>
-                    <label className="form-label">
-                      {field.replace(/([A-Z])/g, " $1")}
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name={field}
-                      value={signer[field]}
-                      onChange={(e) => handleInputChange(e, index, "onSigners")}
-                    />
-                  </div>
-                ))}
+                {fieldOrder.map((field) =>
+                  field === "ATAMuscat" ? (
+                    <div className="col-3 crew" key={field}>
+                      <label className="form-label">
+                        {field.replace(/([A-Z])/g, " $1")}
+                      </label>
+                      <DatePicker
+                        dateFormat="dd/MM/yyyy HH:mm aa"
+                        selected={
+                          signer[field] ? new Date(signer[field]) : null
+                        }
+                        onChange={(date) =>
+                          handleDateChange(date, index, "onSigners")
+                        }
+                        showTimeSelect
+                        timeFormat="HH:mm aa"
+                        timeIntervals={15}
+                        className="form-control date-input"
+                        placeholderText="Select ETA"
+                        autoComplete="off"
+                      />
+                    </div>
+                  ) : (
+                    <div className="col-3 crew" key={field}>
+                      <label className="form-label">
+                        {field.replace(/([A-Z])/g, " $1")}
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name={field}
+                        value={signer[field]}
+                        onChange={(e) =>
+                          handleInputChange(e, index, "onSigners")
+                        }
+                      />
+                    </div>
+                  )
+                )}
                 {formValues.onSigners.length > 1 && (
                   <div className="">
                     <button
@@ -209,30 +287,55 @@ const CrewChangeList = ({
 
             {formValues.offSigners.map((signer, index) => (
               <div key={index} className="d-flex flex-wrap signers-wrapper">
-                {Object.keys(signer).map((field) => (
-                  <div className="col-3 crew" key={field}>
-                    <label className="form-label">
-                      {field.replace(/([A-Z])/g, " $1")}
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name={field}
-                      value={signer[field]}
-                      onChange={(e) =>
-                        handleInputChange(e, index, "offSigners")
-                      }
-                    />
-                  </div>
-                ))}
+                {fieldOrder.map((field) =>
+                  field === "ATAMuscat" ? (
+                    <div className="col-3 crew" key={field}>
+                      <label className="form-label">
+                        {field.replace(/([A-Z])/g, " $1")}
+                      </label>
+                      <DatePicker
+                        dateFormat="dd/MM/yyyy HH:mm aa"
+                        selected={
+                          signer[field] ? new Date(signer[field]) : null
+                        }
+                        onChange={(date) =>
+                          handleOffsignersDateChange(date, index, "offSigners")
+                        }
+                        showTimeSelect
+                        timeFormat="HH:mm aa"
+                        timeIntervals={15}
+                        className="form-control date-input"
+                        placeholderText="Select ETA"
+                        autoComplete="off"
+                      />
+                    </div>
+                  ) : (
+                    <div className="col-3 crew" key={field}>
+                      <label className="form-label">
+                        {field.replace(/([A-Z])/g, " $1")}
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name={field}
+                        value={signer[field]}
+                        onChange={(e) =>
+                          handleInputChange(e, index, "offSigners")
+                        }
+                      />
+                    </div>
+                  )
+                )}
                 {formValues.offSigners.length > 1 && (
-                  <button
-                    type="button"
-                    className="btn generate-buttona crewbtn"
-                    onClick={() => deleteSigner("offSigners", index)}
-                  >
-                    Delete
-                  </button>
+                  <div className="">
+                    <button
+                      type="button"
+                      className="btn generate-buttona crewbtn"
+                      onClick={() => deleteSigner("offSigners", index)}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 )}
               </div>
             ))}

@@ -6,7 +6,7 @@ import { getJobReport } from "../../services/apiService";
 import Loader from "../Loader";
 import JobReportTable from "./JobReportTable";
 import Select from "react-select";
-
+import Multiselect from "multiselect-react-dropdown";
 const JobReport = ({
   open,
   onClose,
@@ -24,9 +24,6 @@ const JobReport = ({
   const [reportList, setReportList] = useState(null);
   const [reportTableList, setReportTableList] = useState(null);
 
-  useEffect(() => {
-    fetchJobReport();
-  }, []);
   useEffect(() => {
     console.log(reportList, "reportList");
     console.log(reportTableList, "reportTableList");
@@ -118,9 +115,38 @@ const JobReport = ({
     }
   };
 
+  const [selectedIds, setSelectedIds] = useState([]);
+
+  const handleSelect = (selectedList) => {
+    const ids = selectedList.map((item) => item._id); // Extract the selected _id values
+    setSelectedIds(ids);
+    console.log("Selected IDs:", ids); // Log the selected IDs
+  };
+
+  const handleRemove = (selectedList) => {
+    const ids = selectedList.map((item) => item._id); // Extract the selected _id values
+    setSelectedIds(ids);
+    console.log("Updated Selected IDs:", ids); // Log the updated IDs
+  };
+
+  const [isClicked, setIsClicked] = useState(false);
+
+  const filterbyJobs = () => {
+    setIsClicked(true); // Notify the child of the click
+  };
+
+  const resetClick = () => {
+    setIsClicked(false); // Reset the state (optional)
+  };
+
   useEffect(() => {
     console.log(selectedJobs, "selectedJobs");
-  }, [selectedJobs]);
+    console.log(selectedIds, "selectedIds");
+  }, [selectedJobs, selectedIds]);
+
+  useEffect(() => {
+    fetchJobReport();
+  }, []);
 
   return (
     <>
@@ -198,86 +224,27 @@ const JobReport = ({
               readOnly
             ></input>
           </div>
-
-          {/* <div className="col-3 totalno">
-            <label for="inputPassword" className=" form-label">
-              Job Used in Each Port :
-            </label>
-            <input
-              type="text"
-              className="form-control totalnoinput"
-              id="inputPassword"
-            ></input>
-          </div> */}
         </div>
         <div className="bbn"> </div>
-        {/* <div className="row mt-4">
-          <div className="col-2">
-            <div className="jobfilter">
-              <div>Filter By:</div>
-              <div>
-                <select
-                  className="form-select "
-                  aria-label="Filter select"
-                  value={filterType} // Bind selected value
-                  onChange={handleFilterTypeChange} // Update state on change
-                >
-                  <option value="month">Monthly</option>
-                  <option value="year">Yearly</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div className="col-3">
-            <div className="jobfilter">
-              <div>Choose Month:</div>
-              <div>
-                <select
-                  className="form-select jobporrt"
-                  aria-label="Select Month"
-                  value={selectedMonth}
-                  onChange={handleChange} // Update state on change
-                >
-
-                  <option value="month">January</option>
-                  <option value="month">February</option>
-                  <option value="month">March</option>
-                  <option value="month">April</option>
-                  <option value="month">May</option>
-                  <option value="month">June</option>
-                  <option value="month">July</option>
-
-
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-3">
-            <div className="jobfilter">
-              <div>Choose Year:</div>
-              <div>
-                <select
-                  className="form-select jobporrt"
-
-                >
-
-                  <option value="month"> 2000   </option>
-
-                </select>
-              </div>
-            </div>
-          </div>
-
-
-
-
-        </div> */}
         <div className="row mt-3">
+          <div className="col-lg-6">
+            <Multiselect
+              options={selectedJobs}
+              displayValue="serviceName" // Display the serviceName in the dropdown
+              showCheckbox
+              onSelect={handleSelect} // Triggered when an item is selected
+              onRemove={handleRemove} // Triggered when an item is removed
+            />
+          </div>
 
           <div className="col-1">
-            <button type="button"
-            className="btn btn-info filbtn" onClick={() => fetchJobReport()}>Filter</button>
+            <button
+              type="button"
+              className="btn btn-info filbtn"
+              onClick={() => filterbyJobs()}
+            >
+              Filter
+            </button>
           </div>
         </div>
         <div className="charge mt-2">
@@ -287,7 +254,12 @@ const JobReport = ({
           </div>
         </div>
         <div className="createtable mt-4">
-          <JobReportTable reportTableList={reportTableList} ports={ports} />
+          <JobReportTable
+            ports={ports}
+            isClicked={isClicked}
+            onReset={resetClick}
+            selectedIds={selectedIds}
+          />
         </div>
       </div>
       {openPopUp && (

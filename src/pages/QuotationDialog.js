@@ -204,7 +204,18 @@ const QuotationDialog = ({
 
   return (
     <>
-      <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
+      <Dialog
+        open={open}
+        onClose={(event, reason) => {
+          if (reason === "backdropClick") {
+            // Prevent dialog from closing when clicking outside
+            return;
+          }
+          onClose(); // Allow dialog to close for other reasons
+        }}
+        fullWidth
+        maxWidth="md"
+      >
         <div className="d-flex justify-content-between">
           <DialogTitle></DialogTitle>
           <div className="closeicon" onClick={onClose}>
@@ -456,7 +467,7 @@ const QuotationDialog = ({
                 </div>
               </div>
             </div>
-            
+
             <div className="firstfooter d-flex justify-content-end">
               <button
                 type="button"

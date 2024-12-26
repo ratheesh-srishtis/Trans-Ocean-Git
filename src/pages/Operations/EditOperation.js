@@ -251,7 +251,7 @@ const EditOperation = ({
     try {
       const response = await deletePdaDocument(payload);
       if (response.status) {
-        setMessage("File Deleted Successfully");
+        setMessage("File has been deleted successfully");
         setOpenPopUp(true);
         fetchPdaDetails(editData?._id);
       } else {
@@ -295,14 +295,14 @@ const EditOperation = ({
         const response = await editPDA(pdaPayload);
         if (response?.status == true) {
           fetchPdaDetails(response?.pda?._id);
-          setMessage("PDA updated successfully");
+          setMessage("Job has been saved successfully");
           setOpenPopUp(true);
         } else {
-          setMessage("PDA failed. Please try again");
+          setMessage("Job updation failed. Please try again");
           setOpenPopUp(true);
         }
       } catch (error) {
-        setMessage("PDA failed. Please try again");
+        setMessage("Job updation failed. Please try again");
         setOpenPopUp(true);
       } finally {
       }
@@ -350,14 +350,14 @@ const EditOperation = ({
       const response = await changeQuotationStatus(pdaPayload);
       console.log(response, "login_response");
       if (response?.status == true) {
-        setMessage("PDA completed successfully");
+        setMessage("Job has been updated successfully");
         setOpenPopUp(true);
       } else {
-        setMessage("PDA failed. Please try again");
+        setMessage("Job updation failed. Please try again");
         setOpenPopUp(true);
       }
     } catch (error) {
-      setMessage("PDA failed. Please try again");
+      setMessage("Job updation failed. Please try again");
       setOpenPopUp(true);
     } finally {
     }

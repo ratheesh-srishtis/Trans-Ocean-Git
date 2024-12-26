@@ -8,17 +8,26 @@ import {
   getAllQuotations,
   deleteQuotation,
   getAllJobs,
+  getJobReport,
 } from "../../services/apiService";
 import { IconButton, TextField } from "@mui/material";
 import { Box, Typography } from "@mui/material";
 import Swal from "sweetalert2";
 import PopUp from "../PopUp";
 import Loader from "../Loader";
-const JobReportTable = ({ loginResponse, reportTableList, ports }) => {
-  console.log(reportTableList, "reportTableList");
+
+const JobReportTable = ({
+  loginResponse,
+  ports,
+  isClicked,
+  onReset,
+  selectedIds,
+}) => {
   console.log(ports, "ports_JobReportTable");
   const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState("all");
+  const [reportList, setReportList] = useState(null);
+  const [reportTableList, setReportTableList] = useState(null);
 
   const [selectedRows, setSelectedRows] = useState([]);
   const [quotationsList, setQuotationsList] = useState([]);
@@ -55,6 +64,15 @@ const JobReportTable = ({ loginResponse, reportTableList, ports }) => {
     if (!date) return "N/A";
     return new Date(date).toLocaleDateString("en-GB"); // Format: dd/mm/yyyy
   };
+
+  useEffect(() => {
+    if (isClicked) {
+      console.log("Parent button was clicked!");
+      fetchJobReport();
+      // Perform any action here when the parent button is clicked
+      onReset(); // Optionally reset the state in the parent
+    }
+  }, [isClicked, onReset]);
 
   const getStatusText = (status) => {
     switch (status) {
@@ -250,70 +268,161 @@ const JobReportTable = ({ loginResponse, reportTableList, ports }) => {
     }
   };
 
+  const [selectedMonth, setSelectedMonth] = useState("12"); // Default to December
+
+  // Array of months
+  const months = [
+    { name: "January", value: "1" },
+    { name: "February", value: "2" },
+    { name: "March", value: "3" },
+    { name: "April", value: "4" },
+    { name: "May", value: "5" },
+    { name: "June", value: "6" },
+    { name: "July", value: "7" },
+    { name: "August", value: "8" },
+    { name: "September", value: "9" },
+    { name: "October", value: "10" },
+    { name: "November", value: "11" },
+    { name: "December", value: "12" },
+  ];
+
+  // Handle month selection
+  const handleChange = (event) => {
+    setSelectedMonth(event.target.value);
+    fetchJobReport(event.target.value, "");
+  };
+
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear()); // Default to current year
+
+  // Generate an array of years (e.g., 2000 to 2030)
+  const startYear = 2000;
+  const endYear = 2030;
+  const years = Array.from(
+    { length: endYear - startYear + 1 },
+    (_, index) => startYear + index
+  );
+
+  // Handle selection change
+  const handleYearChange = (event) => {
+    setSelectedYear(parseInt(event.target.value, 10));
+    fetchJobReport("", parseInt(event.target.value, 10));
+  };
+
+  const [filterType, setFilterType] = useState("month"); // Default to "monthly"
+
+  // Handle filter type selection change
+  const handleFilterTypeChange = (event) => {
+    setFilterType(event.target.value);
+    fetchJobReport();
+  };
+
+  const [selectedJobs, setSelectedJobs] = useState([]);
+  const [jobsList, setJobsList] = useState([]); // Array of selected job _ids
+
+  // Transform job options for react-select
+  const selectOptions = selectedJobs.map((job) => ({
+    value: job._id,
+    label: job.serviceName,
+  }));
+
+  // Handle changes in selection
+  // const handleSelectChange = (selectedOptions) => {
+  //   // Extract _id (value) as strings
+  //   const selectedIds = selectedOptions
+  //     ? selectedOptions.map((option) => option.value)
+  //     : [];
+  //   setJobsList(selectedIds); // Update jobsList state
+  // };
+
+  useEffect(() => {
+    fetchJobReport();
+  }, []);
+
+  const fetchJobReport = async (month, year) => {
+    setIsLoading(true);
+    let payload = {
+      filter: filterType,
+      month: month ? month : selectedMonth,
+      year: String(year ? year : selectedYear),
+      jobs: selectedIds,
+    };
+    try {
+      const reportResponse = await getJobReport(payload);
+      console.log(reportResponse, "reportResponse");
+      setSelectedJobs(reportResponse?.jobs);
+      setReportList(reportResponse);
+      setReportTableList(reportResponse?.pda);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch quotations:", error);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    console.log(selectedJobs, "selectedJobs");
+    console.log(selectedYear, "selectedYear");
+  }, [selectedJobs, selectedYear]);
+
   return (
     <>
       <div className="d-flex  headerb mb-3 mt-3 ">
         <div className=" d-flex">
-        <div className= "col-5 filtermainleft ">
+          <div className="col-5 filtermainleft ">
             <i className="bi bi-funnel-fill filtericon"></i>
             <select
               className="form-select form-select-sm filter"
-              aria-label="Small select example"
-              name="status"
-              onChange={handleSelectChange}
-              value={selectedStatus}
+              aria-label="Filter select"
+              value={filterType} // Bind selected value
+              onChange={handleFilterTypeChange} // Update state on change
             >
-              <option value="">Filter by Month</option>
-              <option value="">Filter by Year</option>
-                
-            
+              <option value="month">Monthly</option>
+              <option value="year">Yearly</option>
             </select>
           </div>
-          <div className="col-4">
-            <div className="jobfilter">
-              <div></div>
-              <div>
-                <select
-                  className="form-select jobporrt"
-                  aria-label="Select Month"
-                   >
- <option value="month">Choose Month:</option>
-                  <option value="month">January</option>
-                  <option value="month">February</option>
-                  <option value="month">March</option>
-                  <option value="month">April</option>
-                  <option value="month">May</option>
-                  <option value="month">June</option>
-                  <option value="month">July</option>
-
-
-                </select>
+          {filterType === "month" && (
+            <div className="col-4">
+              <div className="jobfilter">
+                <div></div>
+                <div>
+                  <select
+                    className="form-select jobporrt"
+                    aria-label="Select Month"
+                    value={selectedMonth}
+                    onChange={handleChange} // Update state on change
+                  >
+                    {months.map((month) => (
+                      <option key={month.value} value={month.value}>
+                        {month.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="col-5">
-            <div className="jobfilter">
-              <div></div>
-              <div>
-                <select
-                  className="form-select jobporrt"
-                  aria-label="Select Month"
-                   >
- <option value="year">Choose year:</option>
-                  <option value="year">2000</option>
-                  <option value="year">2001</option>
-                  <option value="year">2003</option>
-                  <option value="year">2005</option>
-                  <option value="year">2007</option>
-                  <option value="year">2009</option>
-                  <option value="year">2010</option>
-
-
-                </select>
+          )}
+          {filterType === "year" && (
+            <>
+              <div className="col-5">
+                <div className="jobfilter">
+                  <div></div>
+                  <div>
+                    <select
+                      className="form-select jobporrt"
+                      value={selectedYear} // Bind the selected value
+                      onChange={handleYearChange} // Update state on change
+                    >
+                      {years.map((year) => (
+                        <option key={year} value={year}>
+                          {year}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-
+            </>
+          )}
         </div>
 
         <div className="d-flex gap-3 ">
@@ -326,13 +435,12 @@ const JobReportTable = ({ loginResponse, reportTableList, ports }) => {
               onChange={handleSelectChange}
               value={selectedPort}
             >
-             
-             <option value="">Filter by port</option>
-             <option value=""> Port a</option>
-             <option value=""> port b</option>
-             <option value=""> port c</option>
-             <option value=""></option>
-             
+              <option value="">Filter by port</option>
+              {ports?.map((port) => (
+                <option key={port?.portId} value={port?.portId}>
+                  {port?.portName}
+                </option>
+              ))}
             </select>
           </div>
           <div className=" filtermainleft ">
@@ -421,7 +529,7 @@ const JobReportTable = ({ loginResponse, reportTableList, ports }) => {
         {filteredQuotations?.length == 0 && (
           <>
             <div className="no-data">
-              <p>No Quotations available for given terms</p>
+              <p>Currently, there are no available jobs</p>
             </div>
           </>
         )}
