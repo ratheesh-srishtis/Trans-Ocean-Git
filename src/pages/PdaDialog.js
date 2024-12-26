@@ -185,15 +185,23 @@ const PdaDialog = ({
 
   return (
     <>
-      <Dialog sx={{
-            width: 1400,
-            margin: "auto",
-            borderRadius: 2,
-          }}
-           open={open}
-            onClose={onClose}
-             fullWidth
-              maxWidth="lg">
+      <Dialog
+        sx={{
+          width: 1400,
+          margin: "auto",
+          borderRadius: 2,
+        }}
+        open={open}
+        onClose={(event, reason) => {
+          if (reason === "backdropClick") {
+            // Prevent dialog from closing when clicking outside
+            return;
+          }
+          onClose(); // Allow dialog to close for other reasons
+        }}
+        fullWidth
+        maxWidth="lg"
+      >
         <div className="d-flex justify-content-between" onClick={onClose}>
           <DialogTitle></DialogTitle>
           <div className="closeicon">
@@ -274,11 +282,11 @@ const PdaDialog = ({
                 </th>
                 <th className="mvstyl">
                   {" "}
-                  {moment.utc(pdaDetails?.ETA).format("DD-MM-YYYY HH:mm A")}
+                  {moment.utc(pdaDetails?.ETA).format("YYYY-MM-DD HH:mm A")}
                 </th>
                 <th className="mvstyl">
                   {" "}
-                  {moment.utc(pdaDetails?.ETD).format("DD-MM-YYYY HH:mm A")}
+                  {moment.utc(pdaDetails?.ETD).format("YYYY-MM-DD HH:mm A")}
                 </th>
                 <th className="mvstyl">
                   {" "}

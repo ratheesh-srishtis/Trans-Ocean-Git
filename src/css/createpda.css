@@ -152,21 +152,17 @@
 .vesselbox option {
   font-size: 0.7rem !important;
   padding-right: 34px !important;
-  color:black !important;
+  color: black !important;
 }
-
 
 .vessel-voyage {
   font-size: 0.7rem !important;
-  color:black !important;
+  color: black !important;
 }
 
-.vboxholder{
-  color:rgb(0, 0, 0) !important;
+.vboxholder {
+  color: rgb(0, 0, 0) !important;
 }
-
-
-
 
 .rectangle {
   margin-top: 27px;
@@ -442,4 +438,8 @@
 
 .pda-date {
   margin-left: 19px;
+}
+
+.date-input {
+  height: 38px !important;
 }

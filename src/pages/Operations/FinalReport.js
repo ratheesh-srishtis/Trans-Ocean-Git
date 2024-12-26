@@ -109,7 +109,7 @@ const FinalReport = ({
           const response = await deleteServiceReport(payload);
           if (response.status) {
             serviceReportGet(pdaId);
-            setMessage("Report Deleted Successfully");
+            setMessage("File has been deleted successfully");
             setOpenPopUp(true);
           } else {
             setMessage("Failed please try again!");
@@ -198,7 +198,7 @@ const FinalReport = ({
     const updatedRows = serviceReports.map((report) => ({
       description: report.description,
       serviceDate: moment
-        .utc(report.serviceDate, "DD-MM-YYYY HH:mm")
+        .utc(report.serviceDate, "YYYY-MM-DD HH:mm")
         .format("YYYY-MM-DD HH:mm"),
       serviceActivity: report.serviceActivity,
       quantity: report.quantity,
@@ -259,7 +259,7 @@ const FinalReport = ({
             (file) => file.url !== fileUrl?.url
           );
           setUploadedFiles(updatedFiles);
-          setMessage("File Deleted Successfully");
+          setMessage("File has been deleted successfully");
           setOpenPopUp(true);
         } else {
           setMessage("Failed please try again!");

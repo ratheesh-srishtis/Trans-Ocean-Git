@@ -79,7 +79,13 @@ const AddService = ({ open, onAddService, onClose, editMode, serviceSet }) => {
           borderRadius: 2,
         }}
         open={open}
-        onClose={onClose}
+        onClose={(event, reason) => {
+          if (reason === "backdropClick") {
+            // Prevent dialog from closing when clicking outside
+            return;
+          }
+          onClose(); // Allow dialog to close for other reasons
+        }}
         fullWidth
         maxWidth="lg"
       >

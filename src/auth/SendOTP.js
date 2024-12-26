@@ -15,6 +15,7 @@ const SendOTP = () => {
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
+  const [isResendOtp, setIsResendOtp] = useState(false);
 
   const Logo = require("../assets/images/LOGO.png");
   const Group = require("../assets/images/Group 1000002969.png");
@@ -58,10 +59,14 @@ const SendOTP = () => {
           const response = await forgotUserPassword(userData);
           console.log(response, "login_response");
           if (response?.status == true) {
-            navigate("/otp-verification", { state: { emailOrUsername } });
+            // navigate("/otp-verification", { state: { emailOrUsername } });
+            setIsResendOtp(false);
+
             setMessage(`${response?.message}`);
             setOpenPopUp(true);
           } else {
+            setIsResendOtp(true);
+
             setMessage(`${response?.message}`);
             setOpenPopUp(true);
           }
@@ -70,6 +75,15 @@ const SendOTP = () => {
       } finally {
         setLoading(false);
       }
+    }
+  };
+
+  const handlePopupClose = () => {
+    if (isResendOtp == false) {
+      setOpenPopUp(false);
+      navigate("/login");
+    } else {
+      setOpenPopUp(false);
     }
   };
 
@@ -93,38 +107,44 @@ const SendOTP = () => {
                 <div className="logincard">
                   <div className="maincard">
                     <div>
-                      <h3 className="text-center login_text">Send OTP</h3>
+                      <h3 className="text-center login_text">
+                        Forgot Password
+                      </h3>
                     </div>
 
                     <div className="mb-3 ">
                       <label for="exampleInputEmail1" className="form-label">
-                        User Name
+                        Enter Your email ID
                       </label>
 
                       <input
-                        type="text"
-                        className="form-control vessel-voyage"
+                        type="email"
+                        className={`form-control vessel-voyage ${
+                          emailError ? "is-invalid" : ""
+                        }`}
                         id="exampleFormControlInput1"
-                        placeholder="Enter username"
+                        placeholder="Enter email"
                         value={emailOrUsername}
                         onChange={(e) => {
                           setEmailOrUsername(e.target.value);
                           setEmailError(false); // Clear "to" error on change
+                          setEmailValidationError(false); // Clear email error on change
                         }}
                         required
                       />
+
                       {emailError && (
                         <>
-                          <div className="invalid">Please enter username</div>
+                          <div className="invalid">Please enter email</div>
                         </>
                       )}
-                      {/* {emailValidationError && (
+                      {emailValidationError && (
                         <>
                           <div className="invalid">
                             Please enter a valid email address.
                           </div>
                         </>
-                      )} */}
+                      )}
                     </div>
 
                     <button
@@ -149,9 +169,7 @@ const SendOTP = () => {
           </p>
         </div>
       </div>
-      {openPopUp && (
-        <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
-      )}
+      {openPopUp && <PopUp message={message} closePopup={handlePopupClose} />}
     </>
   );
 };

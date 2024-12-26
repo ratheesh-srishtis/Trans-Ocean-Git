@@ -23,11 +23,11 @@ const AddUser = ({ open, onAddUser, onClose, editMode, userSet }) => {
   useEffect(() => {
     if (editMode && userSet) {
       setFormData({
-        name: userSet.name || '',
-        email: userSet.email || '',
-        username: userSet.username || '',
+        name: userSet.name || "",
+        email: userSet.email || "",
+        username: userSet.username || "",
         password: "",
-        role : userSet.userRole?._id || '',
+        role: userSet.userRole?._id || "",
         userId: userSet._id,
       });
     } else {
@@ -124,7 +124,13 @@ const AddUser = ({ open, onAddUser, onClose, editMode, userSet }) => {
           borderRadius: 2,
         }}
         open={open}
-        onClose={onClose}
+        onClose={(event, reason) => {
+          if (reason === "backdropClick") {
+            // Prevent dialog from closing when clicking outside
+            return;
+          }
+          onClose(); // Allow dialog to close for other reasons
+        }}
         fullWidth
         maxWidth="lg"
       >

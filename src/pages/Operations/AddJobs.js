@@ -102,7 +102,7 @@ const AddJobs = ({
   const handleOKTBReportSubmit = (response) => {
     console.log("template_Submitted:", response);
     if (response?.status == true) {
-      setMessage("Template saved successfully!");
+      setMessage("Template has been saved successfully");
       setOpenPopUp(true);
       setIsOKTBOpen(false);
       setTemplatesList((previousTemplates) => [...previousTemplates, response]);
@@ -111,7 +111,7 @@ const AddJobs = ({
   const handleBerthReportSubmit = (response) => {
     console.log("template_Submitted:", response);
     if (response?.status == true) {
-      setMessage("Template saved successfully!");
+      setMessage("Template has been saved successfully");
       setOpenPopUp(true);
       setIsBerthReportOpen(false);
       setTemplatesList((previousTemplates) => [...previousTemplates, response]);
@@ -120,7 +120,7 @@ const AddJobs = ({
   const handleCrewSubmit = (response) => {
     console.log("template_Submitted:", response);
     if (response?.status == true) {
-      setMessage("Template saved successfully!");
+      setMessage("Template has been saved successfully");
       setOpenPopUp(true);
       setIsCrewChangeListOpen(false);
       setTemplatesList((previousTemplates) => [...previousTemplates, response]);
@@ -129,7 +129,7 @@ const AddJobs = ({
   const handleLoadingReportSubmit = (response) => {
     console.log("template_Submitted:", response);
     if (response?.status == true) {
-      setMessage("Template saved successfully!");
+      setMessage("Template has been saved successfully");
       setOpenPopUp(true);
       setIsLoadingReportOpen(false);
       setTemplatesList((previousTemplates) => [...previousTemplates, response]);
@@ -139,7 +139,7 @@ const AddJobs = ({
   const handleProvisionSubmit = (response) => {
     console.log("template_Submitted:", response);
     if (response?.status == true) {
-      setMessage("Template saved successfully!");
+      setMessage("Template has been saved successfully");
       setOpenPopUp(true);
       setIsProvisionOpen(false);
       setTemplatesList((previousTemplates) => [...previousTemplates, response]);
@@ -147,7 +147,7 @@ const AddJobs = ({
   };
   const handleTransportationSubmit = (response) => {
     if (response?.status == true) {
-      setMessage("Template saved successfully!");
+      setMessage("Template has been saved successfully");
       setOpenPopUp(true);
       console.log("template_Submitted:", response);
       setIsTransportationOpen(false);
@@ -306,7 +306,7 @@ const AddJobs = ({
             (file) => file.url !== fileUrl?.url
           );
           setUploadedFiles(updatedFiles);
-          setMessage("File Deleted Successfully");
+          setMessage("File has been deleted successfully");
           setOpenPopUp(true);
         } else {
           setMessage("Failed please try again!");
@@ -317,7 +317,7 @@ const AddJobs = ({
         setOpenPopUp(true);
       }
     } else {
-      setMessage("File Deleted Successfully");
+      setMessage("File has been deleted successfully");
       setOpenPopUp(true);
       const updatedFiles = uploadedFiles.filter(
         (file) => file.url !== fileUrl?.url
@@ -468,7 +468,8 @@ const AddJobs = ({
   };
 
   const handleView = (template) => {
-    window.open(`${BASE_URL}/${template}`, "_blank");
+    console.log(template, "template");
+    window.open(`${BASE_URL}/${template?.pdfPath}`, "_blank");
   };
 
   const handleTemplateFileDelete = async (fileUrl) => {
@@ -489,7 +490,7 @@ const AddJobs = ({
           );
           setTemplatesList(updatedFiles);
 
-          setMessage("File Deleted Successfully");
+          setMessage("File has been deleted successfully");
           setOpenPopUp(true);
         } else {
           setMessage("Failed please try again!");
@@ -518,7 +519,13 @@ const AddJobs = ({
             borderRadius: 2,
           }}
           open={open}
-          onClose={onClose}
+          onClose={(event, reason) => {
+            if (reason === "backdropClick") {
+              // Prevent dialog from closing when clicking outside
+              return;
+            }
+            onClose(); // Allow dialog to close for other reasons
+          }}
           fullWidth
           maxWidth="lg"
         >
@@ -681,7 +688,7 @@ const AddJobs = ({
 
               <div className=" typesofcall-row mb-2">
                 <div className="row align-items-start">
-                  {charge?.isPrivateVendor === false && (
+                  {charge?.isPrivateVendor === true && (
                     <>
                       <div className="col-4">
                         <label
@@ -770,7 +777,7 @@ const AddJobs = ({
                                 </div>
                                 <div
                                   className="iconpdf"
-                                  onClick={() => handleView(template?.pdfPath)}
+                                  onClick={() => handleView(template)}
                                 >
                                   <i className="bi bi-file-earmark-pdf"></i>
                                 </div>
@@ -932,6 +939,7 @@ const AddJobs = ({
           selectedTemplate={selectedTemplate}
           charge={charge}
           onSubmit={handleTransportationSubmit}
+          selectedChargesType={selectedChargesType}
         />
       )}
       {openPopUp && (

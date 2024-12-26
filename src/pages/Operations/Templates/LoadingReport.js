@@ -48,7 +48,7 @@ const LoadingReport = ({
   const handleDateChange = (key, date) => {
     setFormData((prev) => ({
       ...prev,
-      [key]: date ? moment(date).format("DD-MM-YYYY HH:mm") : null, // Format date before saving
+      [key]: date, // Format date before saving
     }));
   };
 
@@ -111,7 +111,7 @@ const LoadingReport = ({
     if (date) {
       setEta(date);
       console.log(date, "datehandleEtaChange");
-      let formatDate = date ? moment(date).format("DD-MM-YYYY HH:mm ") : null;
+      let formatDate = date ? moment(date).format("YYYY-MM-DD HH:mm ") : null;
       console.log(formatDate, "formatDate");
 
       setFormState((prevState) => ({
@@ -122,12 +122,19 @@ const LoadingReport = ({
   };
 
   const saveTemplate = async (status) => {
+    const formattedFormData = Object.keys(formData).reduce((acc, key) => {
+      acc[key] = formData[key]
+        ? moment(formData[key]).format("YYYY-MM-DD HH:mm")
+        : ""; // Format the date or assign an empty string if null/undefined
+      return acc;
+    }, {});
+
     let templateBpdy = {
       pdaChargeId: charge?._id,
       templateId: selectedTemplate,
 
       templateName: selectedTemplateName,
-      ...formData, // Spread dynamic form data from state
+      ...formattedFormData, // Use the formatted date values
       draftOnArrivalFWD: formState.draftOnArrivalFWD,
       draftOnArrivalAFT: formState.draftOnArrivalAFT,
       bunkersOnArrivalFO: formState.bunkersOnArrivalFO,
@@ -178,7 +185,13 @@ const LoadingReport = ({
             borderRadius: 2,
           }}
           open={open}
-          onClose={onClose}
+          onClose={(event, reason) => {
+            if (reason === "backdropClick") {
+              // Prevent dialog from closing when clicking outside
+              return;
+            }
+            onClose(); // Allow dialog to close for other reasons
+          }}
           fullWidth
           maxWidth="lg"
         >
