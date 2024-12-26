@@ -96,5 +96,9 @@
     cursor: pointer;
 }
 .iconpdf{
+    padding-right: 15px;
     cursor: pointer;
+}
+.updatechargremakrs{
+    font-size: 12px;
 }

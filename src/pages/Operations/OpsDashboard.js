@@ -153,7 +153,7 @@ const OpsDashboard = () => {
           <div className=" filtermainjobs ">
             <i className="bi bi-funnel-fill filtericon"></i>
             <select
-              className="form-select form-select-sm filter"
+              className="form-select form-select-sm filter opsstatus"
               aria-label="Small select example"
               name="status"
               onChange={handleSelectChange}

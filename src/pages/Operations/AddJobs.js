@@ -673,7 +673,7 @@ const AddJobs = ({
                         </label>
                         <textarea
                           rows="1"
-                          className="form-control"
+                          className="form-control updatechargremakrs"
                           id="exampleFormControlInput1"
                           placeholder=""
                           name="remarks"

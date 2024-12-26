@@ -462,6 +462,22 @@ const EditOperation = ({
                 </>
               )}
             </div>
+            <div className="col">
+                <label for="exampleFormControlInput1" className="form-label">
+                  Anchorage Location:
+                </label>
+                <div className="vessel-select">
+                  <select
+                    name="anchorageLocation"
+                    className="form-select vesselbox vboxholder"
+                                      >
+                    <option value="">Choose Anchorage Location</option>
+                   
+                  </select>
+                </div>
+              </div>
+
+
           </div>
         </div>
         {/* fourthrow */}

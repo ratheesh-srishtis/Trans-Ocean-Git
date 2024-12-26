@@ -54,13 +54,13 @@ const LoadingReport = ({
 
   const rows = [
     { id: "draftSurveyCommenced", label: "Draft Survey Commenced" },
-    { id: "dtaftSurveyCompleted", label: "Dtaft Survey Completed" },
+    { id: "dtaftSurveyCompleted", label: "Draft Survey Completed" },
     { id: "commencedLoading", label: "Commenced Loading" },
     { id: "loadingCompleted", label: "Loading Completed" },
     { id: "finalDraftSurveyCommenced", label: "Final Draft Survey Commenced" },
     { id: "finalDraftSurveyCompleted", label: "Final Draft Survey Completed" },
     { id: "documentsOnboard", label: "Documents Onboard" },
-    { id: "pilotOnBoard", label: "Pilot OnBoard" },
+    { id: "pilotOnBoard", label: "Pilot On Board" },
     { id: "vesselUnmoored", label: "Vessel Unmoored" },
     { id: "pilotAway", label: "Pilot Away" },
     { id: "cosp", label: "Cosp" },

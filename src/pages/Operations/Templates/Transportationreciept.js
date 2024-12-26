@@ -188,7 +188,7 @@ const Transportationreciept = ({
           maxWidth="lg"
         >
           <div className="d-flex justify-content-between " onClick={onClose}>
-            <DialogTitle></DialogTitle>
+            <DialogTitle> </DialogTitle>
             <div className="closeicon">
               <i className="bi bi-x-lg "></i>
             </div>
@@ -221,7 +221,7 @@ const Transportationreciept = ({
                   onChange={handleMainDateChange}
                   className="form-control date-input"
                   id="etd-picker"
-                  placeholderText="Select Date"
+                  placeholderText=""
                   autoComplete="off"
                 />
 
@@ -281,7 +281,7 @@ const Transportationreciept = ({
                         }
                         className="form-control date-input"
                         id={`date-${index}`}
-                        placeholderText="Select Date"
+                        placeholderText=""
                         autoComplete="off"
                       />
                     </div>
@@ -330,7 +330,7 @@ const Transportationreciept = ({
             <div className="mt-3">
               <button
                 type="button"
-                className="btn btn-primary"
+                className="btn btn-info addmorebtn"
                 onClick={addItem}
               >
                 Add More
