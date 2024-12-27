@@ -43,6 +43,7 @@ const AddUser = ({ open, onAddUser, onClose, editMode, userSet }) => {
   const fetchrolesList = async () => {
     try {
       const listallroles = await getAllUserRoles();
+      console.log(listallroles, "listallroles");
       setRolesList(listallroles?.roles || []);
     } catch (error) {
       console.error("Failed to fetch roles", error);
@@ -243,7 +244,7 @@ const AddUser = ({ open, onAddUser, onClose, editMode, userSet }) => {
                       <option value="">Choose Role </option>
                       {RolesList.map((roles) => (
                         <option key={roles._id} value={roles._id}>
-                          {roles.roleType}{" "}
+                          {roles.role}{" "}
                         </option>
                       ))}
                     </select>
