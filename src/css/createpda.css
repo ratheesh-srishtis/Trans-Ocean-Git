@@ -440,6 +440,22 @@
   margin-left: 19px;
 }
 
+.date-input-small {
+  height: 30px !important;
+}
 .date-input {
   height: 38px !important;
+  font-size: 1rem !important;
+}
+
+/* For most modern browsers */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* For Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }

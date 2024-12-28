@@ -146,16 +146,18 @@ const ChargesTable = ({
   };
 
   const fetchSubCharges = async (id) => {
-    if (!fetchedSubCharges.has(id)) {
-      try {
-        const response = await getSubcharges({
-          chargeId: id,
-        });
-        setSubCharges((prev) => [...prev, ...response?.subcharges]);
-        setFetchedSubCharges((prev) => new Set(prev).add(id));
-        console.log("Fetched SubCharges:", response);
-      } catch (error) {
-        console.error("Error fetching subcharges:", error);
+    if (id) {
+      if (!fetchedSubCharges.has(id)) {
+        try {
+          const response = await getSubcharges({
+            chargeId: id,
+          });
+          setSubCharges((prev) => [...prev, ...response?.subcharges]);
+          setFetchedSubCharges((prev) => new Set(prev).add(id));
+          console.log("Fetched SubCharges:", response);
+        } catch (error) {
+          console.error("Error fetching subcharges:", error);
+        }
       }
     }
   };

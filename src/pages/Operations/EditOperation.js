@@ -7,6 +7,7 @@ import {
   editPDA,
   changeQuotationStatus,
   deletePdaDocument,
+  getAnchorageLocations,
 } from "../../services/apiService";
 import Loader from "../Loader";
 import PopUp from "../PopUp";
@@ -39,6 +40,7 @@ const EditOperation = ({
   const [isLoading, setIsLoading] = useState(false); // Loader state
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
+  const [anchorageLocations, setAnchorageLocations] = useState([]);
 
   const row = location.state?.row; // Access the passed row object
   const [editData, setEditData] = useState(null);
@@ -60,7 +62,8 @@ const EditOperation = ({
   const [selectedPortError, setSelectedPortError] = useState(false);
   const [assignedToError, setAssignedToError] = useState(false);
   const [selectedCargoError, setSelectedCargoError] = useState(false);
-
+  const [selectedAnchorageLocation, setSelectedAnchorageLocation] =
+    useState(null);
   console.log("Row data:", row);
 
   // Initialize `editData` when `row` is available
@@ -73,7 +76,7 @@ const EditOperation = ({
   // Fetch data only once when `editData` changes "6756c8e1b42b5b76e6934d29"
   useEffect(() => {
     console.log(editData, "editData");
-    if (editData && !fetchInitiated) {
+    if (editData && !fetchInitiated && editData?._id) {
       setFetchInitiated(true); // Mark fetch as initiated
       fetchPdaDetails(editData?._id);
     }
@@ -89,18 +92,19 @@ const EditOperation = ({
 
   const fetchPdaDetails = async (id) => {
     // alert("fetchPdaDetails");
-    setIsLoading(true);
-    let data = {
-      pdaId: id,
-    };
-    try {
-      const pdaDetails = await getPdaDetails(data);
-
-      updateValues(pdaDetails);
-      setIsLoading(false);
-    } catch (error) {
-      console.error("Failed to fetch quotations:", error);
-      setIsLoading(false);
+    if (id) {
+      setIsLoading(true);
+      let data = {
+        pdaId: id,
+      };
+      try {
+        const pdaDetails = await getPdaDetails(data);
+        updateValues(pdaDetails);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Failed to fetch quotations:", error);
+        setIsLoading(false);
+      }
     }
   };
 
@@ -121,6 +125,20 @@ const EditOperation = ({
     //   ...response?.pda?.documents,
     // ]); // Append new files to existing ones
     setUploadedFiles(response?.pda?.documents); // Append new files to existing ones
+
+    let selected_anchorage_location;
+    if (response?.pda?.anchorageLocation) {
+      let anchorage_locations_list = localStorage.getItem(
+        "anchorage_locations_list"
+      );
+      selected_anchorage_location = JSON.parse(anchorage_locations_list).find(
+        (location) => location._id === response?.pda?.anchorageLocation
+      );
+    }
+
+    if (selected_anchorage_location) {
+      setSelectedAnchorageLocation(selected_anchorage_location);
+    }
 
     let selectedVessel;
     if (response?.pda?.vesselId) {
@@ -144,6 +162,7 @@ const EditOperation = ({
     }
     if (selectedPort) {
       setSelectedPort(selectedPort);
+      fetchAnchorageValues(selectedPort);
     }
 
     let selectedCargo;
@@ -184,6 +203,8 @@ const EditOperation = ({
       case "port":
         setSelectedPort(ports.find((port) => port._id === value));
         setSelectedPortError(false);
+        fetchAnchorageValues(ports.find((port) => port._id === value));
+
         break;
       case "cargo":
         setSelectedCargo(cargos.find((cargo) => cargo._id === value));
@@ -196,6 +217,11 @@ const EditOperation = ({
         break;
       case "status":
         setSelectedStatus(value);
+        break;
+      case "anchorageLocation":
+        setSelectedAnchorageLocation(
+          anchorageLocations.find((location) => location._id === value)
+        );
         break;
       default:
         break;
@@ -288,6 +314,7 @@ const EditOperation = ({
         documents: uploadedFiles,
         charges: finalChargesArray,
         pdaStatus: Number(selectedStatus),
+        anchorageLocation: selectedAnchorageLocation?._id,
         remark: remarks,
       };
       console.log(pdaPayload, "pdaPayload");
@@ -309,6 +336,26 @@ const EditOperation = ({
     } else {
       setMessage("Please fill all the required fields");
       setOpenPopUp(true);
+    }
+  };
+
+  const fetchAnchorageValues = async (data) => {
+    console.log(data, "id_fetchAnchorageValues");
+    try {
+      const formdata = {
+        portId: data?._id,
+      };
+      const response = await getAnchorageLocations(formdata);
+      console.log(response, "response_fetchAnchorageValues");
+      if (response.status) {
+        setAnchorageLocations(response?.area);
+        localStorage.setItem(
+          "anchorage_locations_list",
+          JSON.stringify(response.area)
+        );
+      }
+    } catch (error) {
+      console.error("Error fetching anchorage values:", error);
     }
   };
 
@@ -350,7 +397,7 @@ const EditOperation = ({
       const response = await changeQuotationStatus(pdaPayload);
       console.log(response, "login_response");
       if (response?.status == true) {
-        setMessage("Job has been updated successfully");
+        setMessage("Job has been successfully completed");
         setOpenPopUp(true);
       } else {
         setMessage("Job updation failed. Please try again");
@@ -463,21 +510,26 @@ const EditOperation = ({
               )}
             </div>
             <div className="col">
-                <label for="exampleFormControlInput1" className="form-label">
-                  Anchorage Location:
-                </label>
-                <div className="vessel-select">
-                  <select
-                    name="anchorageLocation"
-                    className="form-select vesselbox vboxholder"
-                                      >
-                    <option value="">Choose Anchorage Location</option>
-                   
-                  </select>
-                </div>
+              <label for="exampleFormControlInput1" className="form-label">
+                Anchorage Location:
+              </label>
+              <div className="vessel-select">
+                <select
+                  name="anchorageLocation"
+                  className="form-select vesselbox vboxholder"
+                  onChange={handleSelectChange}
+                  aria-label="Default select example"
+                  value={selectedAnchorageLocation?._id}
+                >
+                  <option value="">Choose Anchorage Location</option>
+                  {anchorageLocations.map((location) => (
+                    <option key={location._id} value={location._id}>
+                      {location.area}
+                    </option>
+                  ))}
+                </select>
               </div>
-
-
+            </div>
           </div>
         </div>
         {/* fourthrow */}
@@ -507,7 +559,7 @@ const EditOperation = ({
             </div>
             <div className="col">
               <label for="exampleFormControlInput1" className="form-label">
-                Ops by :
+                Ops By :
                 {selectedStatus == 6 && (
                   <>
                     <span className="required"> * </span>
@@ -572,45 +624,45 @@ const EditOperation = ({
                 onChange={documentsUpload}
               ></input>
             </div>
-            <div className="mb-2 col-8" >
-            {uploadedFiles && uploadedFiles?.length > 0 && (
-          <>
-            <div className="templatelink">Uploaded Files:</div>
-            <div className="templateouter">
-              {uploadedFiles?.length > 0 &&
-                uploadedFiles?.map((file, index) => {
-                  return (
-                    <>
-                      <div className="d-flex justify-content-between ">
-                        <div className="tempgenerated ">
-                          {file?.originalName}
-                        </div>
-                        <div className="d-flex">
-                          <div
-                            className="icondown"
-                            onClick={() =>
-                              window.open(
-                                `https://hybrid.sicsglobal.com/transocean_api/assets/${file?.url}`,
-                                "_blank"
-                              )
-                            }
-                          >
-                            <i className="bi bi-eye"></i>
-                          </div>
-                          <div
-                            className="iconpdf"
-                            onClick={() => handleFileDelete(file)}
-                          >
-                            <i className="bi bi-trash"></i>
-                          </div>
-                        </div>
-                      </div>
-                    </>
-                  );
-                })}
-            </div>
-          </>
-        )}
+            <div className="mb-2 col-8">
+              {uploadedFiles && uploadedFiles?.length > 0 && (
+                <>
+                  <div className="templatelink">Uploaded Files:</div>
+                  <div className="templateouter">
+                    {uploadedFiles?.length > 0 &&
+                      uploadedFiles?.map((file, index) => {
+                        return (
+                          <>
+                            <div className="d-flex justify-content-between ">
+                              <div className="tempgenerated ">
+                                {file?.originalName}
+                              </div>
+                              <div className="d-flex">
+                                <div
+                                  className="icondown"
+                                  onClick={() =>
+                                    window.open(
+                                      `https://hybrid.sicsglobal.com/transocean_api/assets/${file?.url}`,
+                                      "_blank"
+                                    )
+                                  }
+                                >
+                                  <i className="bi bi-eye"></i>
+                                </div>
+                                <div
+                                  className="iconpdf"
+                                  onClick={() => handleFileDelete(file)}
+                                >
+                                  <i className="bi bi-trash"></i>
+                                </div>
+                              </div>
+                            </div>
+                          </>
+                        );
+                      })}
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -638,7 +690,7 @@ const EditOperation = ({
             </div>
           </div>
         </div> */}
-       
+
         {/* sixthrowremarks */}
         <div className="row align-items-start">
           <div className="col">

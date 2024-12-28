@@ -203,10 +203,15 @@ const OpsDashboard = () => {
                               : ""}
                           </div>
                         </div>
-                        <div>
-                          <span className="dashhead"> Job ID:</span>
-                          <p className="toms">{job?.jobId}</p>
-                        </div>
+                        {job?.jobId && (
+                          <>
+                            <div>
+                              <span className="dashhead"> Job ID:</span>
+                              <p className="toms">{job?.jobId}</p>
+                            </div>
+                          </>
+                        )}
+
                         <div>
                           <span className="dashhead"> Port Name:</span>
                           <p className="toms">{job?.portId?.portName}</p>

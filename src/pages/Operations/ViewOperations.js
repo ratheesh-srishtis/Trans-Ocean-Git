@@ -134,34 +134,48 @@ const ViewOperations = ({
             <span className="viewans"> {pdaValues?.IMONumber}</span>
           </div>
           <div className=" col-4 viewhead">
-          <span> LOA:</span>{" "}
-          <span className="viewans"> {pdaValues?.LOA}</span>
-            
+            <span> LOA:</span>{" "}
+            <span className="viewans"> {pdaValues?.LOA}</span>
           </div>
           <div className=" col-4 viewhead">
-          <span> GRT:</span>{" "}
-          <span className="viewans"> {pdaValues?.GRT}</span>
-           
+            <span> GRT:</span>{" "}
+            <span className="viewans"> {pdaValues?.GRT}</span>
           </div>
         </div>
         <div className="row viewquocontent">
           <div className=" col-4 viewhead">
-          <span> NRT:</span>{" "}
-          <span className="viewans"> {pdaValues?.NRT}</span>
-          
+            <span> NRT:</span>{" "}
+            <span className="viewans"> {pdaValues?.NRT}</span>
           </div>
           <div className=" col-4 viewhead">
-          <span> ETA:</span>{" "}
+            <span> ETA:</span>{" "}
             <span className="viewans">
-              {new Date(pdaValues?.ETA).toLocaleDateString("en-GB")}
+              {new Date(pdaValues?.ETA)
+                .toLocaleString("en-GB", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: true,
+                })
+                .replace(",", "")}
             </span>
           </div>
           <div className=" col-4 viewhead">
-          <span> ETD:</span>{" "}
+            <span> ETD:</span>{" "}
             <span className="viewans">
-              {new Date(pdaValues?.ETD).toLocaleDateString("en-GB")}
+              {new Date(pdaValues?.ETD)
+                .toLocaleString("en-GB", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: true,
+                })
+                .replace(",", "")}
             </span>
-            
           </div>
         </div>
         {editData?.customerId && (

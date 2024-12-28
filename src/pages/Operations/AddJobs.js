@@ -246,14 +246,16 @@ const AddJobs = ({
   useEffect(() => {
     const fetchSubCharges = async () => {
       // alert(selectedService?._id);
-      try {
-        const response = await getSubcharges({
-          chargeId: selectedChargesType?.chargeId || selectedChargesType?._id,
-        });
-        setSubCharges(response?.subcharges);
-        console.log("fetchSubCharges:", response);
-      } catch (error) {
-        console.error("Error fetching PDA values:", error);
+      if (selectedChargesType?.chargeId || selectedChargesType?._id) {
+        try {
+          const response = await getSubcharges({
+            chargeId: selectedChargesType?.chargeId || selectedChargesType?._id,
+          });
+          setSubCharges(response?.subcharges);
+          console.log("fetchSubCharges:", response);
+        } catch (error) {
+          console.error("Error fetching PDA values:", error);
+        }
       }
     };
     if (selectedChargesType) {
@@ -688,7 +690,7 @@ const AddJobs = ({
 
               <div className=" typesofcall-row mb-2">
                 <div className="row align-items-start">
-                  {charge?.isPrivateVendor === true && (
+                  {charge?.isPrivateVendor === false && (
                     <>
                       <div className="col-4">
                         <label

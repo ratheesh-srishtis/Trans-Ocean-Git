@@ -132,7 +132,7 @@ const FinalReportDialog = ({ open, onClose, pdaId, ports }) => {
           maxWidth="lg"
         >
           <div className="d-flex justify-content-between " onClick={onClose}>
-            <DialogTitle>final report dialog </DialogTitle>
+            <DialogTitle> </DialogTitle>
             <div className="closeicon">
               <i className="bi bi-x-lg "></i>
             </div>

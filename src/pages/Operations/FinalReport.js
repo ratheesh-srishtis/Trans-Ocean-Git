@@ -15,7 +15,7 @@ import {
   deleteServiceReportDocument,
   deleteServiceReport,
 } from "../../services/apiService";
-
+import Loader from "../Loader";
 const FinalReport = ({
   vessels,
   ports,
@@ -34,6 +34,7 @@ const FinalReport = ({
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
   const [serviceReports, setServiceReports] = useState([]);
+  const [isLoading, setIsLoading] = useState(false); // Loader state
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -74,7 +75,7 @@ const FinalReport = ({
   const [rows, setRows] = useState([
     {
       description: "",
-      serviceDate: null,
+      serviceDate: "",
       serviceActivity: "",
       quantity: "",
       remark: "",
@@ -86,7 +87,7 @@ const FinalReport = ({
       ...rows,
       {
         description: "",
-        serviceDate: null,
+        serviceDate: "",
         serviceActivity: "",
         quantity: "",
         remark: "",
@@ -134,36 +135,11 @@ const FinalReport = ({
     setRows(updatedRows);
   };
 
-  const handleSubmit = async () => {
-    const payload = {
-      pdaId: pdaId,
-      reports: rows.map((row) => ({
-        description: row.description,
-        serviceDate: row.serviceDate
-          ? moment(row.serviceDate).format("YYYY-MM-DD HH:mm ")
-          : null,
-        serviceActivity: row.serviceActivity,
-        quantity: row.quantity,
-        remark: row.remark,
-      })),
-      serviceDocuments: uploadedFiles,
-    };
-    console.log("Payload to be sent:", payload);
-    // Call the POST API
-    try {
-      const response = await saveServiceReport(payload);
-      console.log(response, "login_response");
-      if (response?.status === true) {
-        setMessage("Report saved successfully!");
-        setOpenPopUp(true);
-      } else {
-        setMessage("Report failed. Please try again.");
-        setOpenPopUp(true);
-      }
-    } catch (error) {
-      setMessage("Report failed. Please try again.");
-      setOpenPopUp(true);
-    }
+  const isFormValid = () => {
+    // Check if any row object has at least one non-empty field
+    return rows.some((row) =>
+      Object.values(row).some((value) => String(value).trim() !== "")
+    );
   };
 
   const location = useLocation();
@@ -291,13 +267,14 @@ const FinalReport = ({
 
   const openDialog = () => {
     // Check if there is at least one row with any valid (non-empty, non-null) value
+    serviceReportGet(pdaId);
     const isValid = serviceReports.some((row) =>
       Object.values(row).some((value) => value !== null && value !== "")
     );
 
     if (!isValid) {
       // alert("At least one field in the rows must have a valid value.");
-      setMessage("At least one field in the rows must have a valid value");
+      setMessage("please save the report before sending report");
       setOpenPopUp(true);
       return; // Exit the function if validation fails
     }
@@ -307,6 +284,46 @@ const FinalReport = ({
     handleClickOpen();
   };
 
+  const handleSubmit = async () => {
+    if (!isFormValid()) {
+      setMessage("At least one field must be filled.");
+      setOpenPopUp(true);
+      return;
+    }
+    setIsLoading(true);
+    const payload = {
+      pdaId: pdaId,
+      reports: rows.map((row) => ({
+        description: row.description,
+        serviceDate: row.serviceDate
+          ? moment(row.serviceDate).format("YYYY-MM-DD HH:mm")
+          : "",
+        serviceActivity: row.serviceActivity,
+        quantity: row.quantity,
+        remark: row.remark,
+      })),
+      serviceDocuments: uploadedFiles?.length > 0 ? uploadedFiles : [],
+    };
+    console.log("Payload to be sent:", payload);
+    // Call the POST API
+    try {
+      const response = await saveServiceReport(payload);
+      console.log(response, "login_response");
+      if (response?.status === true) {
+        setMessage("Report saved successfully!");
+        setOpenPopUp(true);
+        setIsLoading(false);
+      } else {
+        setMessage("Report failed. Please try again.");
+        setOpenPopUp(true);
+        setIsLoading(false);
+      }
+    } catch (error) {
+      setMessage("Report failed. Please try again.");
+      setOpenPopUp(true);
+      setIsLoading(false);
+    }
+  };
   return (
     <>
       <div className="">
@@ -347,7 +364,7 @@ const FinalReport = ({
                     <DatePicker
                       dateFormat="dd/MM/yyyy HH:mm aa"
                       selected={
-                        row.serviceDate ? new Date(row.serviceDate) : null
+                        row.serviceDate ? new Date(row.serviceDate) : ""
                       }
                       onChange={(date) =>
                         handleInputChange(index, "serviceDate", date)
@@ -535,6 +552,7 @@ const FinalReport = ({
       {openPopUp && (
         <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
       )}
+      <Loader isLoading={isLoading} />
     </>
   );
 };

@@ -15,7 +15,7 @@ import {
 import { generateTemplatePDF } from "../../../services/apiService";
 import moment from "moment";
 import { parse, format } from "date-fns";
-
+import PopUp from "../../PopUp";
 const LoadingReport = ({
   open,
   onClose,
@@ -66,26 +66,23 @@ const LoadingReport = ({
     { id: "cosp", label: "Cosp" },
   ];
 
-  const [generalRemarks, setGeneralRemarks] = useState(null);
-  const [shipperRemarks, setShipperRemarks] = useState(null);
-  const [masterRemarks, setMasterRemarks] = useState(null);
-  const [generalRemarksError, setGeneralRemarksError] = useState(null);
-  const [shipperRemarksError, setShipperRemarksError] = useState(null);
-  const [masterRemarksError, setMasterRemarksError] = useState(null);
+  const [generalRemarks, setGeneralRemarks] = useState("");
+  const [shipperRemarks, setShipperRemarks] = useState("");
+  const [masterRemarks, setMasterRemarks] = useState("");
 
   const [formState, setFormState] = useState({
-    draftOnArrivalFWD: null,
-    draftOnArrivalAFT: null,
-    bunkersOnArrivalFO: null,
-    bunkersOnArrivalDO: null,
-    bunkersOnArrivalAFT: null,
-    draftOnDepartureFWD: null,
-    draftOnDepartureAFT: null,
-    bunkersOnDepartureFO: null,
-    bunkersOnDepartureDO: null,
-    bunkersOnDepartureAFT: null,
-    bunkersOnDepartureNextPort: null,
-    bunkersOnDepartureETA: null,
+    draftOnArrivalFWD: "",
+    draftOnArrivalAFT: "",
+    bunkersOnArrivalFO: "",
+    bunkersOnArrivalDO: "",
+    bunkersOnArrivalAFT: "",
+    draftOnDepartureFWD: "",
+    draftOnDepartureAFT: "",
+    bunkersOnDepartureFO: "",
+    bunkersOnDepartureDO: "",
+    bunkersOnDepartureAFT: "",
+    bunkersOnDepartureNextPort: "",
+    bunkersOnDepartureETA: "",
   });
 
   const handleInputChange = (e) => {
@@ -121,7 +118,34 @@ const LoadingReport = ({
     }
   };
 
+  const isFormValid = () => {
+    // Check if any field in formState has a value
+    const isFormStateValid = Object.values(formState).some(
+      (value) => String(value).trim() !== ""
+    );
+
+    // Check if any field in formData has a value
+    const isFormDataValid = Object.values(formData).some(
+      (value) => String(value).trim() !== ""
+    );
+
+    // Check if any remarks are non-empty
+    const areRemarksValid =
+      String(generalRemarks).trim() !== "" ||
+      String(shipperRemarks).trim() !== "" ||
+      String(masterRemarks).trim() !== "";
+
+    // Return true if at least one of these is valid
+    return isFormStateValid || isFormDataValid || areRemarksValid;
+  };
+
   const saveTemplate = async (status) => {
+    if (!isFormValid()) {
+      setMessage("At least one field must be filled.");
+      setOpenPopUp(true);
+      return;
+    }
+
     const formattedFormData = Object.keys(formData).reduce((acc, key) => {
       acc[key] = formData[key]
         ? moment(formData[key]).format("YYYY-MM-DD HH:mm")
@@ -505,6 +529,9 @@ const LoadingReport = ({
           </DialogContent>
         </Dialog>
       </div>
+      {openPopUp && (
+        <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
+      )}{" "}
     </>
   );
 };

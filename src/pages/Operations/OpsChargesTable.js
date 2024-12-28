@@ -105,16 +105,20 @@ const OpsChargesTable = ({
   };
 
   const fetchSubCharges = async (id) => {
-    if (!fetchedSubCharges.has(id) && id) {
-      try {
-        const response = await getSubcharges({
-          chargeId: id,
-        });
-        setSubCharges((prev) => [...prev, ...response?.subcharges]);
-        setFetchedSubCharges((prev) => new Set(prev).add(id));
-        console.log("Fetched SubCharges:", response);
-      } catch (error) {
-        console.error("Error fetching subcharges:", error);
+    console.log(id, "id_fetchSubCharges");
+    if (id) {
+      if (!fetchedSubCharges.has(id) && id) {
+        // alert("fetchSubCharges ops charge table");
+        try {
+          const response = await getSubcharges({
+            chargeId: id ? id : "",
+          });
+          setSubCharges((prev) => [...prev, ...response?.subcharges]);
+          setFetchedSubCharges((prev) => new Set(prev).add(id));
+          console.log("Fetched SubCharges:", response);
+        } catch (error) {
+          console.error("Error fetching subcharges:", error);
+        }
       }
     }
   };
@@ -133,6 +137,7 @@ const OpsChargesTable = ({
       const vendor = vendors.find((s) => s._id === id);
       return vendor ? vendor.vendorName : "Unknown vendor";
     } else if (name === "chargeType") {
+      console.log(id, "getItemName_id");
       if (id) {
         fetchSubCharges(id);
       }
@@ -253,9 +258,13 @@ const OpsChargesTable = ({
                       : ""}
                   </td>
                   <td>
-                    {charge.chargeId
-                      ? getItemName(charge.chargeId, "chargeType")
-                      : ""}
+                    {charge?.chargeId && (
+                      <>
+                        {charge?.chargeId
+                          ? getItemName(charge?.chargeId, "chargeType")
+                          : ""}
+                      </>
+                    )}
                   </td>
                   <td className="subsub">
                     {charge.subchargeId

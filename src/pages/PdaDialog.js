@@ -151,16 +151,19 @@ const PdaDialog = ({
   };
 
   const fetchSubCharges = async (id) => {
-    if (!fetchedSubCharges.has(id)) {
-      try {
-        const response = await getSubcharges({
-          chargeId: id,
-        });
-        setSubCharges((prev) => [...prev, ...response?.subcharges]);
-        setFetchedSubCharges((prev) => new Set(prev).add(id));
-        console.log("Fetched SubCharges:", response);
-      } catch (error) {
-        console.error("Error fetching subcharges:", error);
+    if (id) {
+      if (!fetchedSubCharges.has(id)) {
+        alert("fetchSubCharges pda ");
+        try {
+          const response = await getSubcharges({
+            chargeId: id,
+          });
+          setSubCharges((prev) => [...prev, ...response?.subcharges]);
+          setFetchedSubCharges((prev) => new Set(prev).add(id));
+          console.log("Fetched SubCharges:", response);
+        } catch (error) {
+          console.error("Error fetching subcharges:", error);
+        }
       }
     }
   };
@@ -326,37 +329,40 @@ const PdaDialog = ({
             <tbody className="tablebody">
               {pdaServices?.length > 0 &&
                 pdaServices.map((charge, index) => (
-                  <tr key={index}>
-                    <td className="stylc">{index + 1}</td>
-                    <td className="stylc">
-                      {charge.serviceId
-                        ? getItemName(charge.serviceId, "service")
-                        : ""}
-                    </td>
-                    <td className="stylc">{charge?.quantity}</td>
+                  <>
+                    <tr key={index}>
+                      <td className="stylc">{index + 1}</td>
+                      <td className="stylc">
+                        {charge.serviceId
+                          ? getItemName(charge.serviceId, "service")
+                          : ""}
+                      </td>
+                      <td className="stylc">{charge?.quantity}</td>
 
-                    <td className="styld">{charge.customerOMR.toFixed(3)}</td>
-                    <td className="styld">{charge.customerVAT.toFixed(3)}</td>
-                    <td className="styld">
-                      {(
-                        parseFloat(charge.customerOMR) +
-                        parseFloat(charge.customerVAT)
-                      ).toFixed(3)}
-                    </td>
-                    <td className="styld">
-                      {charge.customerTotalUSD.toFixed(2)}
-                    </td>
-                  </tr>
+                      <td className="styld">{charge.customerOMR.toFixed(3)}</td>
+                      <td className="styld">{charge.customerVAT.toFixed(3)}</td>
+                      <td className="styld">
+                        {(
+                          parseFloat(charge.customerOMR) +
+                          parseFloat(charge.customerVAT)
+                        ).toFixed(3)}
+                      </td>
+                      <td className="styld">
+                        {charge.customerTotalUSD.toFixed(2)}
+                      </td>
+                    </tr>
+                    {charge?.remark && (
+                      <>
+                        <tr>
+                          <td className="stylc"></td>
+                          <td colspan="6" className="stylg ">
+                            {charge?.remark}
+                          </td>
+                        </tr>
+                      </>
+                    )}
+                  </>
                 ))}
-              <tr>
-                <td className="stylc"></td>
-                <td colspan="6" className="stylg ">
-                  {" "}
-                  * CUSTOMS FINE : - As per the Salalah port customs rule it’s
-                  mandatory to mention in last port clearance next port as
-                  Salalah, failing to comply it will attract fine USD 1310.00
-                </td>
-              </tr>
 
               <tr>
                 <td colspan="5" className="stylh">

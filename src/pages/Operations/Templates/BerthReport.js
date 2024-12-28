@@ -115,8 +115,36 @@ const BerthReport = ({
     }
   };
 
+  const isFormValid = () => {
+    // Check if any field in formState has a value
+    const isFormStateValid = Object.values(formState).some(
+      (value) => String(value).trim() !== ""
+    );
+
+    // Check if any field in formData has a value
+    const isFormDataValid = Object.values(formData).some(
+      (value) => String(value).trim() !== ""
+    );
+
+    // Check if any remarks are non-empty
+    const areRemarksValid =
+      String(generalRemarks).trim() !== "" ||
+      String(shipperRemarks).trim() !== "" ||
+      String(masterRemarks).trim() !== "";
+
+    // Return true if at least one of these is valid
+    return isFormStateValid || isFormDataValid || areRemarksValid;
+  };
+
   const saveTemplate = async (status) => {
     // Convert all date fields in formData to the desired format
+
+    if (!isFormValid()) {
+      setMessage("At least one field must be filled.");
+      setOpenPopUp(true);
+      return;
+    }
+
     const formattedFormData = Object.keys(formData).reduce((acc, key) => {
       acc[key] = formData[key]
         ? moment(formData[key]).format("YYYY-MM-DD HH:mm")

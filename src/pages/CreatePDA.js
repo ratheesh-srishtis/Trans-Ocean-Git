@@ -1100,7 +1100,7 @@ const CreatePDA = ({
                     showTimeSelect
                     timeFormat="HH:mm aa"
                     timeIntervals={15}
-                    className="form-control date-input"
+                    className="form-control date-input-small"
                     id="eta-picker"
                     placeholderText="Select ETA"
                     autoComplete="off"
@@ -1119,7 +1119,7 @@ const CreatePDA = ({
                   showTimeSelect
                   timeFormat="HH:mm aa"
                   timeIntervals={15}
-                  className="form-control date-input"
+                  className="form-control  date-input-small"
                   id="etd-picker"
                   placeholderText="Select ETD"
                   autoComplete="off"

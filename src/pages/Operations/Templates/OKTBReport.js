@@ -39,7 +39,9 @@ const OKTBReport = ({
   const [refNumber, setRefNumber] = useState(null);
   const [bookingRef, setBookingRef] = useState(null);
   const [passengersName, setPassengersName] = useState(null);
-  const [airportArrivalDetails, setSirportArrivalDetails] = useState(null);
+  const [airportArrivalDetails, setSirportArrivalDetails] = useState(
+    "Dear Sir, This is to advise that the following persons are arriving at Muscat Airport as follows:"
+  );
 
   // Error states
   const [toError, setToError] = useState(null);

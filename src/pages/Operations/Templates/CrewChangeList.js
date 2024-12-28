@@ -100,7 +100,7 @@ const CrewChangeList = ({
   const isFormValid = () => {
     const validateSigners = (signers) =>
       signers.some((signer) =>
-        Object.values(signer).some((value) => value.trim() !== "")
+        Object.values(signer).some((value) => String(value).trim() !== "")
       );
     return (
       validateSigners(formValues.onSigners) ||
@@ -115,7 +115,6 @@ const CrewChangeList = ({
         "At least one field must be filled in either On-Signers or Off-Signers."
       );
       setOpenPopUp(true);
-
       return;
     }
 

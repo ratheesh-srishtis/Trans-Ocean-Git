@@ -4,13 +4,7 @@ import React, { useState, useEffect } from "react";
 import "../css/addcharges.css";
 import "../css/editcharges.css";
 import "../css/sendquotation.css";
-import {
-  getSubcharges,
-  getCharges,
-  editChargeQuotation,
-  addPDACharges,
-  sendQuotationAPI,
-} from "../services/apiService";
+
 import PopUp from "./PopUp";
 import {
   Dialog,
