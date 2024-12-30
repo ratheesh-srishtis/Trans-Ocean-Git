@@ -76,7 +76,7 @@ const VesselTypeSettings = () => {
             setOpenPopUp(true);
             fetchVesselTypeList();
           } catch (error) {
-            Swal.fire("Error deleting VesselType");
+            Swal.fire("Error deleting Vessel Type");
             fetchVesselTypeList();
           }
         }
@@ -128,7 +128,7 @@ const VesselTypeSettings = () => {
           }}
           className="btn btna submit-button btnfsize"
         >
-          Add VesselType
+          Add Vessel Type
         </button>
       </div>
 
