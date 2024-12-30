@@ -491,7 +491,6 @@ const AddJobs = ({
             (file) => file.pdfPath !== fileUrl?.pdfPath
           );
           setTemplatesList(updatedFiles);
-
           setMessage("File has been deleted successfully");
           setOpenPopUp(true);
         } else {

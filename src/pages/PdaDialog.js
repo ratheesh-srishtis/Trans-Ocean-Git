@@ -203,7 +203,7 @@ const PdaDialog = ({
           onClose(); // Allow dialog to close for other reasons
         }}
         fullWidth
-        maxWidth="lg"
+        maxWidth="xl"
       >
         <div className="d-flex justify-content-between" onClick={onClose}>
           <DialogTitle></DialogTitle>

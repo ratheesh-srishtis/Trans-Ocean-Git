@@ -36,7 +36,7 @@
   align-items: center;
 }
 .jobporrt {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 .jobviewbtnn {
   height: 20px;
@@ -69,9 +69,9 @@
   padding-left: 10px;
   width: 1000px;
 }
-.filbtn{
+.filbtn {
   color: white;
-  width:85px;
+  width: 85px;
   display: flex;
   justify-content: center;
   margin-right: 20px;
@@ -83,11 +83,38 @@
   min-height: 37px;
   padding: 5px;
   position: relative;
-  width:1000px;
+  width: 1000px;
 }
-.selectionfieldjobs{
+.selectionfieldjobs {
   margin-top: 0;
 }
-.jobused{
+.jobused {
   margin-right: 10px;
+}
+
+.custom-multiselect .multiSelectContainer li:hover {
+  background-color: #eee !important;
+  color: #000 !important;
+}
+
+.custom-multiselect .option:hover {
+  background-color: #eee !important; /* Override the default hover color */
+  color: #000 !important; /* Optional: Set text color for better contrast */
+  cursor: pointer;
+}
+
+.custom-multiselect .multiSelectContainer li {
+  background: none !important; /* Ensure no background by default */
+  color: inherit !important; /* Use default text color */
+}
+
+.custom-multiselect .multiSelectContainer li:first-child {
+  background: none !important; /* Remove background */
+  color: inherit !important; /* Reset text color */
+}
+
+/* Override the default highlight style */
+.custom-multiselect .highlightOption {
+  background: none !important; /* Remove background color */
+  color: inherit !important; /* Reset text color */
 }
