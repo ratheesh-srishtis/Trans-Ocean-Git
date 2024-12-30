@@ -47,7 +47,8 @@ const SendReport = ({
     subject: "",
     cc: "",
     bcc: "",
-    emailbody: "",
+    emailbody:
+      "I am writing to seek your approval for the Quotation. Please find attached a copy of the signed quotation for your records. Once approved, we will proceed with the Quotation as per our standard procedures. Thank you for your prompt attention to this matter.",
     pdaId: "",
     files: [],
   });
@@ -157,7 +158,7 @@ const SendReport = ({
       const response = await sendServiceReport(formDataToSend);
       console.log(response, "sendServiceReport_response");
       if (response?.status === true) {
-        setMessage("Quotation sent successfully");
+        setMessage("Report sent successfully");
         setFormData({
           to: "",
           subject: "",
@@ -171,11 +172,11 @@ const SendReport = ({
 
         setOpenPopUp(true);
       } else {
-        setMessage("Send quotation failed. please try again");
+        setMessage("Send report failed. please try again");
         setOpenPopUp(true);
       }
     } catch (error) {
-      setMessage("Send quotation failed. please try again");
+      setMessage("Send report failed. please try again");
       setOpenPopUp(true);
     } finally {
       onClose();
@@ -209,7 +210,7 @@ const SendReport = ({
           maxWidth="lg"
         >
           <div className="d-flex justify-content-between " onClick={onClose}>
-            <DialogTitle> send report</DialogTitle>
+            <DialogTitle></DialogTitle>
             <div className="closeicon">
               <i className="bi bi-x-lg "></i>
             </div>

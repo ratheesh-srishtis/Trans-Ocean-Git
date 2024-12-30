@@ -471,7 +471,7 @@ const JobReportTable = ({
                 filteredQuotations?.length > 0
                   ? filteredQuotations?.map((item) => ({
                       id: item._id,
-                      JobId: item.jobId,
+                      JobId: item.jobId || "N/A",
                       vessel: item.vesselId[0]?.vesselName || "N/A",
                       job:
                         item.jobs

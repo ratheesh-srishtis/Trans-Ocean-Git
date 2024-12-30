@@ -342,7 +342,7 @@ const OpsList = ({ loginResponse }) => {
                 filteredQuotations.length > 0
                   ? filteredQuotations.map((item) => ({
                       id: item._id,
-                      JobId: item.jobId,
+                      JobId: item.jobId || "N/A",
                       vessel: item.vesselId?.vesselName || "N/A",
                       port: item.portId?.portName || "N/A",
                       cargo: item.cargoId?.cargoName || "N/A",

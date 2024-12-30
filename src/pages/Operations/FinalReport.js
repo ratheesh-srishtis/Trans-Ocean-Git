@@ -266,6 +266,7 @@ const FinalReport = ({
   }, [rows]);
 
   const openDialog = () => {
+    // handleSubmit();
     // Check if there is at least one row with any valid (non-empty, non-null) value
     serviceReportGet(pdaId);
     const isValid = serviceReports.some((row) =>
