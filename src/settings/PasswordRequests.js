@@ -124,10 +124,13 @@ const PasswordRequests = () => {
             "& .MuiDataGrid-root": {
               border: "none",
             },
-            "& .MuiDataGrid-columnHeaders": {
+            "& .MuiDataGrid-columnHeader": {
               backgroundColor: "#eee !important",
               color: "#000000",
               fontWeight: "bold",
+            },
+            "& .MuiDataGrid-columnHeaderTitle": 
+            { fontWeight: "bold", 
             },
             "& .MuiDataGrid-cell": {
               whiteSpace: "nowrap",
@@ -136,6 +139,9 @@ const PasswordRequests = () => {
             },
             "& .MuiTablePagination-toolbar": {
               alignItems: "baseline",
+            },
+            "& .MuiDataGrid-footerContainer": {
+              backgroundColor: "#eee", // Gray background for the footer
             },
           }}
           pagination
