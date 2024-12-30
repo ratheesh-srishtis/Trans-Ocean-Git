@@ -71,8 +71,23 @@
 }
 .filbtn{
   color: white;
-  width:100px;
+  width:85px;
   display: flex;
   justify-content: center;
   margin-right: 20px;
+}
+
+.searchWrapper {
+  border: 1px solid #dee2e6 !important;
+  border-radius: 4px;
+  min-height: 37px;
+  padding: 5px;
+  position: relative;
+  width:1000px;
+}
+.selectionfieldjobs{
+  margin-top: 0;
+}
+.jobused{
+  margin-right: 10px;
 }

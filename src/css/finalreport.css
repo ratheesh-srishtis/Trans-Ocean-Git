@@ -25,11 +25,11 @@
 }
 .addmorebutton {
   margin-right: 0px;
-  height: 50px;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: blue;
+  background-color: #1ebbee;
 }
 
 .templateouter-space {

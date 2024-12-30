@@ -224,11 +224,18 @@ const JobReport = ({
               readOnly
             ></input>
           </div>
+
+
+
         </div>
         <div className="bbn"> </div>
         <div className="row mt-3">
-          <div className="col-lg-6">
-            <Multiselect
+        <div className="col-11 totalno ">
+          <label for="inputPassword" className=" form-label jobused">
+              {" "}
+             Jobs used in each port :
+            </label>
+            <Multiselect 
               options={selectedJobs}
               displayValue="serviceName" // Display the serviceName in the dropdown
               showCheckbox
@@ -246,6 +253,7 @@ const JobReport = ({
               Filter
             </button>
           </div>
+
         </div>
         <div className="charge mt-2">
           <div className="rectangle"></div>

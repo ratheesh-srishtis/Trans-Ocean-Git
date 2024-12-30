@@ -82,7 +82,7 @@
   border: 1px solid #80808041;
   width: 252px;
   max-width: 100%;
-  margin-left: 89px;
+  
   border-radius: 5px;
   display: flex;
   align-items: center;
@@ -212,4 +212,11 @@
   overflow-x: hidden;
  margin-left: 20px;
 }
-  
+.mmonth{
+  font-size: 0.8rem;
+  height: 34px;
+  margin-right: 32px;
+}
+  .yearjobreport{
+    margin-right: 23px;
+  }
