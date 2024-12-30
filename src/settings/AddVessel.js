@@ -53,6 +53,7 @@ const AddVessel = ({ open, onAddVessel, onClose, editMode, roleVessel }) => {
     if (!formData.vesselName) newErrors.vesselName = "Vessel Name is required";
     if (!formData.IMONumber) newErrors.IMONumber = "IMO Number is required";
     if (!formData.loa) newErrors.loa = "LOA is required";
+    else if (isNaN(formData.loa) || formData.loa <= 0) { newErrors.loa = "LOA must be a positive number";}
     if (!formData.grt) newErrors.grt = "GRT is required";
     if (!formData.nrt) newErrors.nrt = "NRT is required";
     setErrors(newErrors);
@@ -152,7 +153,7 @@ const AddVessel = ({ open, onAddVessel, onClose, editMode, roleVessel }) => {
                   </label>
                   <input
                     name="IMONumber"
-                    type=""
+                    type="number"
                     className="form-control vessel-voyage"
                     id="exampleFormControlInput1"
                     placeholder=""

@@ -59,7 +59,7 @@ const RolesSettings = () => {
 
   const handleDelete = async (item) => {
     let isDeleteUser ="";
-    Swal.fire({
+   Swal.fire({
       title: "Do you want to delete users who has this role?",
       text: "",
       icon: "warning",
@@ -68,12 +68,15 @@ const RolesSettings = () => {
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Yes",
       cancelButtonText: "No",
+      //allowOutsideClick: false,
     }).then(async (result) => {
-      if (result.isConfirmed) 
-        isDeleteUser =true;
-      else 
-      isDeleteUser =false;
-        if (item?._id) {
+      if (result.isConfirmed) { 
+        isDeleteUser = true; 
+      } 
+      else if (result.dismiss === Swal.DismissReason.cancel){ 
+          isDeleteUser = false;
+        }
+        if (item?._id && isDeleteUser!=='') {
           try {
             let payload = {
               roleId: item?._id,
@@ -164,10 +167,13 @@ const RolesSettings = () => {
             "& .MuiDataGrid-root": {
               border: "none",
             },
-            "& .MuiDataGrid-columnHeaders": {
+            "& .MuiDataGrid-columnHeader": {
               backgroundColor: "#eee !important", // Set gray background color
               color: "#000000", // Set white text color for contrast
               fontWeight: "bold", // Optional: Make the text bold
+            },
+            "& .MuiDataGrid-columnHeaderTitle": 
+            { fontWeight: "bold", 
             },
             "& .MuiDataGrid-cell": {
               whiteSpace: "nowrap",
@@ -176,6 +182,9 @@ const RolesSettings = () => {
             },
             "& .MuiTablePagination-toolbar": {
               alignItems: "baseline", // Apply align-items baseline
+            },
+            "& .MuiDataGrid-footerContainer": {
+              backgroundColor: "#eee", // Gray background for the footer
             },
           }}
           pagination // Enables pagination

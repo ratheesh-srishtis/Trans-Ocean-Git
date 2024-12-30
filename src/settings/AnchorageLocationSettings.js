@@ -177,7 +177,7 @@ const AnchorageLocationSettings = () => {
         <div className="col-3 mb-3 align-items-start">
           <div className=" portseet">
             <label for="exampleFormControlInput1" className="form-label">
-              Ports <span className="required"> * </span> :
+              <b>Ports</b> <span className="required"> * </span> :
             </label>
             <div className="vessel-select">
               <select
@@ -215,11 +215,15 @@ const AnchorageLocationSettings = () => {
             "& .MuiDataGrid-root": {
               border: "none",
             },
-            "& .MuiDataGrid-columnHeaders": {
+            "& .MuiDataGrid-columnHeader": {
               backgroundColor: "#eee !important", // Set gray background color
               color: "#000000", // Set white text color for contrast
               fontWeight: "bold", // Optional: Make the text bold
             },
+            "& .MuiDataGrid-columnHeaderTitle": 
+            { fontWeight: "bold", 
+            },
+          
             "& .MuiDataGrid-cell": {
               whiteSpace: "nowrap",
               overflow: "hidden",
@@ -227,6 +231,9 @@ const AnchorageLocationSettings = () => {
             },
             "& .MuiTablePagination-toolbar": {
               alignItems: "baseline", // Apply align-items baseline
+            },
+            "& .MuiDataGrid-footerContainer": {
+              backgroundColor: "#eee", // Gray background for the footer
             },
           }}
           pagination // Enables pagination

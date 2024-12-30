@@ -159,10 +159,13 @@ const QQFormSettings = () => {
             "& .MuiDataGrid-root": {
               border: "none",
             },
-            "& .MuiDataGrid-columnHeaders": {
+            "& .MuiDataGrid-columnHeader": {
               backgroundColor: "#eee !important", // Set gray background color
               color: "#000000", // Set white text color for contrast
               fontWeight: "bold", // Optional: Make the text bold
+            },
+            "& .MuiDataGrid-columnHeaderTitle": 
+            { fontWeight: "bold", 
             },
             "& .MuiDataGrid-cell": {
               whiteSpace: "nowrap",
@@ -171,6 +174,12 @@ const QQFormSettings = () => {
             },
             "& .MuiTablePagination-toolbar": {
               alignItems: "baseline", // Apply align-items baseline
+            },
+            "& .MuiDataGrid-columnHeaderTitle": 
+            { fontWeight: "bold", 
+            },
+            "& .MuiDataGrid-footerContainer": {
+              backgroundColor: "#eee", // Gray background for the footer
             },
           }}
           pagination // Enables pagination
