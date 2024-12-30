@@ -616,7 +616,7 @@ const EditOperation = ({
                 Documents Upload:
               </label>
               <input
-                className="form-control documentsfsize"
+                className="form-control documentsfsize linheight"
                 type="file"
                 id="portofolio"
                 accept="image/*"

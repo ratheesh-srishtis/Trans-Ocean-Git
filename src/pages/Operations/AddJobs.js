@@ -804,7 +804,7 @@ const AddJobs = ({
                 <div className="row align-items-start">
                   <div className="mb-2">
                     <label for="formFile" className="form-label">
-                      Documents Upload:
+                      Document Upload:
                     </label>
                     <input
                       className="form-control documentsfsize"

@@ -27,7 +27,7 @@ const FinalReport = ({
   templates,
   vendors,
 }) => {
-  const Group = require("../../assets/images/jobreport.png");
+  const Group = require("../../assets/images/final.png");
   const navigate = useNavigate();
   const [openPopUp, setOpenPopUp] = useState(false);
   const [pdaId, setPdaId] = useState("");
@@ -403,14 +403,13 @@ const FinalReport = ({
                     />
                   </td>
                   <td className="tdstyl">
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={row.remark}
+                
+                   
+                    <textarea class="form-control"  id="exampleFormControlTextarea1" rows="1" value={row.remark}
                       onChange={(e) =>
                         handleInputChange(index, "remark", e.target.value)
-                      }
-                    />
+                      } ></textarea>
+
                   </td>
                   <td className="tdstyl">
                     <i

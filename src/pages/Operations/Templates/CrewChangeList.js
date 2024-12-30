@@ -71,7 +71,7 @@ const CrewChangeList = ({
   // Add New Signer
   const addNewSigner = (type) => {
     const newSigner = {
-      CreawName: "",
+      CrewName: "",
       Flight: "",
       ATAMuscat: "",
       Hotel: "",
@@ -161,14 +161,14 @@ const CrewChangeList = ({
   };
 
   const fieldOrder = [
-    "creawName",
-    "flight",
+    "CrewName",
+    "Flight",
     "ATAMuscat",
-    "hotel",
-    "checkIn",
-    "checkOut",
-    "food",
-    "transportation",
+    "Hotel",
+    "CheckIn",
+    "CheckOut",
+    "Food",
+    "Transportation",
   ];
 
   const handleDateChange = (date, index, group) => {
@@ -240,7 +240,7 @@ const CrewChangeList = ({
                         timeFormat="HH:mm aa"
                         timeIntervals={15}
                         className="form-control date-input"
-                        placeholderText="Select ETA"
+                        placeholderText=""
                         autoComplete="off"
                       />
                     </div>
@@ -304,7 +304,7 @@ const CrewChangeList = ({
                         timeFormat="HH:mm aa"
                         timeIntervals={15}
                         className="form-control date-input"
-                        placeholderText="Select ETA"
+                        placeholderText=""
                         autoComplete="off"
                       />
                     </div>

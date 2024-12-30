@@ -386,7 +386,7 @@ const JobReportTable = ({
                 <div></div>
                 <div>
                   <select
-                    className="form-select jobporrt"
+                    className="form-select jobporrt mmonth"
                     aria-label="Select Month"
                     value={selectedMonth}
                     onChange={handleChange} // Update state on change
@@ -406,9 +406,9 @@ const JobReportTable = ({
               <div className="col-5">
                 <div className="jobfilter">
                   <div></div>
-                  <div>
+                  <div className="yearjobreport">
                     <select
-                      className="form-select jobporrt"
+                      className="form-select jobporrt mmonth"
                       value={selectedYear} // Bind the selected value
                       onChange={handleYearChange} // Update state on change
                     >
