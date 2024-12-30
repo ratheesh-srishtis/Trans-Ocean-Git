@@ -201,7 +201,7 @@ const AddRole = ({ open, onAddRole, onClose, editMode, roleSet }) => {
                     />
                     <label for="" className="permissionfont">
                       {" "}
-                      {perm.permission}
+                      {perm.permission.toUpperCase()}
                     </label>
                   </div>
                 ))}
