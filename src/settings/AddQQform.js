@@ -91,7 +91,7 @@ const AddVendor = ({ open, onAddQQ, onClose, editMode, QQSet }) => {
       >
         <div className="d-flex justify-content-between" onClick={onClose}>
           <DialogTitle>
-            {editMode ? "Edit QQForm Question" : "Add QQForm Question"}
+            {editMode ? "Edit QQForm Question" : "Add QQ Form Question"}
           </DialogTitle>
           <div className="closeicon">
             <i className="bi bi-x-lg "></i>

@@ -96,7 +96,7 @@ const CargoSettings = () => {
     </Box>
   );
   const columns = [
-    { field: "cargoName", headerName: "Cargos", flex: 1 },
+    { field: "cargoName", headerName: "Cargoes", flex: 1 },
 
     {
       field: "actions",

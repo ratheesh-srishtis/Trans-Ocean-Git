@@ -10,22 +10,27 @@
 .totalno {
   display: flex;
   align-items: center;
+  margin-right: 27px;
+ 
 }
 .totalnoinput {
-  width: 150px;
-  margin-left: 10px;
+  width: 50px;
+  margin-left: 5px;
+  
 }
 .bbn {
-  margin-top: 20px;
+ 
   border-bottom: 1px solid #9898984f;
 }
 .totalnoinputa {
-  width: 150px;
-  margin-left: 22px;
+  width: 50px;
+  margin-left: 5px;
+  
 }
 .totalnoinputb {
-  width: 150px;
-  margin-left: 19px;
+  width: 50px;
+  margin-left: 5px;
+  
 }
 .weekly {
   width: 176px;
@@ -71,7 +76,7 @@
 }
 .filbtn {
   color: white;
-  width: 85px;
+  width:117px;
   display: flex;
   justify-content: center;
   margin-right: 20px;
@@ -83,7 +88,7 @@
   min-height: 37px;
   padding: 5px;
   position: relative;
-  width: 1000px;
+  width:714px;
 }
 .selectionfieldjobs {
   margin-top: 0;
@@ -91,30 +96,8 @@
 .jobused {
   margin-right: 10px;
 }
-
-.custom-multiselect .multiSelectContainer li:hover {
-  background-color: #eee !important;
-  color: #000 !important;
-}
-
-.custom-multiselect .option:hover {
-  background-color: #eee !important; /* Override the default hover color */
-  color: #000 !important; /* Optional: Set text color for better contrast */
-  cursor: pointer;
-}
-
-.custom-multiselect .multiSelectContainer li {
-  background: none !important; /* Ensure no background by default */
-  color: inherit !important; /* Use default text color */
-}
-
-.custom-multiselect .multiSelectContainer li:first-child {
-  background: none !important; /* Remove background */
-  color: inherit !important; /* Reset text color */
-}
-
-/* Override the default highlight style */
-.custom-multiselect .highlightOption {
-  background: none !important; /* Remove background color */
-  color: inherit !important; /* Reset text color */
+.jobtotal {
+  display: flex;
+  align-items: center;
+ 
 }

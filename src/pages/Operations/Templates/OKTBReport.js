@@ -368,7 +368,7 @@ const OKTBReport = ({
                     )}
                   </div>
                   <div className="col-8 queheading">
-                    <div> Passangers Name:</div>
+                    <div> Passenger's  Name:</div>
                     <textarea
                       type="text"
                       className="form-control passwidth"

@@ -97,7 +97,7 @@ const Quotations = ({ loginResponse }) => {
     { field: "vessel", headerName: "Vessel Name", flex: 2 },
     { field: "date", headerName: "Date", flex: 1 },
     { field: "port", headerName: "Port Name", flex: 2 },
-    { field: "cargo", headerName: "Cargo", flex: 2 },
+    { field: "cargo", headerName: "Cargoes", flex: 2 },
     { field: "preparedBy", headerName: "Prepared By", flex: 1 },
     { field: "status", headerName: "Status", flex: 2 },
     {
