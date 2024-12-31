@@ -153,8 +153,8 @@ const JobReport = ({
       <div className="p-3">
         <div className="summary">SUMMARY</div>
         <div className="bb"> </div>
-        <div className="row mt-3">
-          <div className="col-3 totalno">
+        <div className=" mt-3 d-flex">
+          <div className=" totalno">
             <label for="inputPassword" className=" form-label">
               Total No.of Vessels :
             </label>
@@ -167,7 +167,7 @@ const JobReport = ({
             ></input>
           </div>
 
-          <div className="col-3 totalno">
+          <div className="totalno">
             <label for="inputPassword" className=" form-label">
               Total No.of Services :
             </label>
@@ -180,7 +180,7 @@ const JobReport = ({
             ></input>
           </div>
 
-          <div className="col-3 totalno">
+          <div className="totalno">
             <label for="inputPassword" className=" form-label">
               {" "}
               No.of Tanker Vessels :
@@ -194,7 +194,7 @@ const JobReport = ({
             ></input>
           </div>
 
-          <div className="col-3 totalno">
+          <div className=" totalno">
             <label for="inputPassword" className=" form-label">
               {" "}
               No.of Bulk Vessels :
@@ -207,9 +207,7 @@ const JobReport = ({
               readOnly
             ></input>
           </div>
-        </div>
-        <div className="row mt-3">
-          <div className="col-3 totalno">
+          <div className="totalno">
             <label for="inputPassword" className=" form-label">
               Other Client Vessels :
             </label>
@@ -224,13 +222,16 @@ const JobReport = ({
               readOnly
             ></input>
           </div>
+        </div>
+        <div className="row mt-3">
+
 
 
 
         </div>
         <div className="bbn"> </div>
         <div className="row mt-3">
-        <div className="col-11 totalno ">
+        <div className="col-10 jobtotal ">
           <label for="inputPassword" className=" form-label jobused">
               {" "}
              Jobs used in each port :

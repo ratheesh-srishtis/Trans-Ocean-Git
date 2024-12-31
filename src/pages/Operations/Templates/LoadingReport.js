@@ -444,7 +444,7 @@ const LoadingReport = ({
                     timeIntervals={15}
                     className="form-control date-input"
                     id="eta-picker"
-                    placeholderText="Select ETA"
+                    placeholderText=""
                     autoComplete="off"
                   />
                 </div>

@@ -168,7 +168,7 @@ const AddUser = ({ open, onAddUser, onClose, editMode, userSet }) => {
                 <div className="">
                   <label for="exampleFormControlInput1" className="form-label">
                     {" "}
-                    User Name:
+                    Username:
                   </label>
                   <input
                     name="username"

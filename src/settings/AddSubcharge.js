@@ -127,7 +127,7 @@ const AddSubcharge = ({
       >
         <div className="d-flex justify-content-between " onClick={onClose}>
           <DialogTitle>
-            {editMode ? "Edit Subcharge" : "Add Subcharge"}
+            {editMode ? "Edit Subcharge" : "Add Sub Charge"}
           </DialogTitle>
           <div className="closeicon">
             <i className="bi bi-x-lg "></i>

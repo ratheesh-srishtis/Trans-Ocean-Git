@@ -130,7 +130,7 @@ const QQFormSettings = () => {
           }}
           className="btn btna submit-button btnfsize"
         >
-          Add QQForm Question
+          Add QQ Form Question
         </button>
       </div>
 
