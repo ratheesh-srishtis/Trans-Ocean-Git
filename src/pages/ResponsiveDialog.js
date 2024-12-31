@@ -1661,7 +1661,7 @@ const ResponsiveDialog = ({
                         for="exampleFormControlInput1"
                         className="form-label"
                       >
-                        Charges Type:<span className="required"> * </span>
+                        Charge Type:<span className="required"> * </span>
                       </label>
                       <div className="vessel-select">
                         <select
@@ -1695,7 +1695,7 @@ const ResponsiveDialog = ({
                         for="exampleFormControlInput1"
                         className="form-label"
                       >
-                        Sub Charges Type:<span className="required"> * </span>
+                        Sub Charge Type:<span className="required"> * </span>
                       </label>
                       <div className="vessel-select">
                         <select

@@ -190,7 +190,7 @@ const PdaDialog = ({
     <>
       <Dialog
         sx={{
-          width: 1800,
+          width: 1250,
           margin: "auto",
           borderRadius: 2,
         }}
@@ -203,7 +203,10 @@ const PdaDialog = ({
           onClose(); // Allow dialog to close for other reasons
         }}
         fullWidth
-        maxWidth="xl"
+        maxWidth="lg"
+        PaperProps={{
+          style: { width: "1700px" }, // Custom width
+        }}
       >
         <div className="d-flex justify-content-between" onClick={onClose}>
           <DialogTitle></DialogTitle>
