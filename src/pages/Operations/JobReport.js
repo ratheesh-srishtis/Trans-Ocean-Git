@@ -24,6 +24,24 @@ const JobReport = ({
   const [reportList, setReportList] = useState(null);
   const [reportTableList, setReportTableList] = useState(null);
 
+  const customStyles = {
+    multiselectContainer: {
+      // Optional: Style for the container if needed
+    },
+    option: {
+      fontSize: "0.7rem", // Set font size for dropdown options
+      padding: "5px 10px", // Optional: Add padding for better spacing
+      cursor: "pointer", // Ensure options look clickable
+    },
+    optionContainer: {
+      // Optional: Customize the option container (dropdown menu)
+    },
+  };
+
+  const hoverStyles = {
+    backgroundColor: "#eee !important", // Apply the background color on hover
+  };
+
   useEffect(() => {
     console.log(reportList, "reportList");
     console.log(reportTableList, "reportTableList");
@@ -234,14 +252,22 @@ const JobReport = ({
         <div className="col-10 jobtotal ">
           <label for="inputPassword" className=" form-label jobused">
               {" "}
-             Jobs used in each port :
+              Jobs used in each port :
             </label>
-            <Multiselect 
+            <Multiselect
               options={selectedJobs}
               displayValue="serviceName" // Display the serviceName in the dropdown
               showCheckbox
               onSelect={handleSelect} // Triggered when an item is selected
               onRemove={handleRemove} // Triggered when an item is removed
+              className="custom-multiselect" // Apply custom class
+              style={{
+                ...customStyles,
+                option: {
+                  ...customStyles.option,
+                  ":hover": hoverStyles, // Add hover styling
+                },
+              }}
             />
           </div>
 
@@ -254,7 +280,6 @@ const JobReport = ({
               Filter
             </button>
           </div>
-
         </div>
         <div className="charge mt-2">
           <div className="rectangle"></div>

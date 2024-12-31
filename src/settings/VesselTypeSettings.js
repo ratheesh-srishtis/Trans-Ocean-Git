@@ -76,7 +76,7 @@ const VesselTypeSettings = () => {
             setOpenPopUp(true);
             fetchVesselTypeList();
           } catch (error) {
-            Swal.fire("Error deleting VesselType");
+            Swal.fire("Error deleting Vessel Type");
             fetchVesselTypeList();
           }
         }
@@ -128,7 +128,7 @@ const VesselTypeSettings = () => {
           }}
           className="btn btna submit-button btnfsize"
         >
-          Add VesselType
+          Add Vessel Type
         </button>
       </div>
 
@@ -157,7 +157,7 @@ const VesselTypeSettings = () => {
             "& .MuiDataGrid-root": {
               border: "none",
             },
-            "& .MuiDataGrid-columnHeaders": {
+            "& .MuiDataGrid-columnHeader": {
               backgroundColor: "#eee !important", // Set gray background color
               color: "#000000", // Set white text color for contrast
               fontWeight: "bold", // Optional: Make the text bold
@@ -169,6 +169,12 @@ const VesselTypeSettings = () => {
             },
             "& .MuiTablePagination-toolbar": {
               alignItems: "baseline", // Apply align-items baseline
+            },
+            "& .MuiDataGrid-columnHeaderTitle": 
+            { fontWeight: "bold", 
+            },
+            "& .MuiDataGrid-footerContainer": {
+              backgroundColor: "#eee", // Gray background for the footer
             },
           }}
           pagination // Enables pagination

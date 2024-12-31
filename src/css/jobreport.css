@@ -41,7 +41,7 @@
   align-items: center;
 }
 .jobporrt {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 .jobviewbtnn {
   height: 20px;
@@ -74,7 +74,7 @@
   padding-left: 10px;
   width: 1000px;
 }
-.filbtn{
+.filbtn {
   color: white;
   width:117px;
   display: flex;
@@ -90,10 +90,10 @@
   position: relative;
   width:714px;
 }
-.selectionfieldjobs{
+.selectionfieldjobs {
   margin-top: 0;
 }
-.jobused{
+.jobused {
   margin-right: 10px;
 }
 .jobtotal {

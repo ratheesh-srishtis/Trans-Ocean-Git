@@ -123,12 +123,24 @@ const CrewChangeList = ({
       ATAMuscat: signer.ATAMuscat
         ? moment(signer.ATAMuscat).format("YYYY-MM-DD HH:mm")
         : "",
+      CheckIn: signer.CheckIn
+        ? moment(signer.CheckIn).format("YYYY-MM-DD")
+        : "",
+      CheckOut: signer.CheckOut
+        ? moment(signer.CheckOut).format("YYYY-MM-DD")
+        : "",
     }));
 
     const formattedOffSigners = formValues.offSigners.map((signer) => ({
       ...signer,
       ATAMuscat: signer.ATAMuscat
         ? moment(signer.ATAMuscat).format("YYYY-MM-DD HH:mm")
+        : "",
+      CheckIn: signer.CheckIn
+        ? moment(signer.CheckIn).format("YYYY-MM-DD")
+        : "",
+      CheckOut: signer.CheckOut
+        ? moment(signer.CheckOut).format("YYYY-MM-DD")
         : "",
     }));
 
@@ -179,10 +191,43 @@ const CrewChangeList = ({
       [group]: updatedGroup,
     }));
   };
+  const handleCheckInDateChange = (date, index, group) => {
+    const updatedGroup = [...formValues[group]];
+    updatedGroup[index]["CheckIn"] = date;
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [group]: updatedGroup,
+    }));
+  };
+  const handleCheckOutDateChange = (date, index, group) => {
+    const updatedGroup = [...formValues[group]];
+    updatedGroup[index]["CheckOut"] = date;
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [group]: updatedGroup,
+    }));
+  };
 
   const handleOffsignersDateChange = (date, index, group) => {
     const updatedGroup = [...formValues[group]];
     updatedGroup[index]["ATAMuscat"] = date;
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [group]: updatedGroup,
+    }));
+  };
+
+  const handleOffsignersCheckInChange = (date, index, group) => {
+    const updatedGroup = [...formValues[group]];
+    updatedGroup[index]["CheckIn"] = date;
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [group]: updatedGroup,
+    }));
+  };
+  const handleOffsignersCheckoutChange = (date, index, group) => {
+    const updatedGroup = [...formValues[group]];
+    updatedGroup[index]["CheckOut"] = date;
     setFormValues((prevValues) => ({
       ...prevValues,
       [group]: updatedGroup,
@@ -244,6 +289,48 @@ const CrewChangeList = ({
                         autoComplete="off"
                       />
                     </div>
+                  ) : field === "CheckIn" ? (
+                    <>
+                      <div className="col-3 crew" key={field}>
+                        <label className="form-label">
+                          {field.replace(/([A-Z])/g, " $1")}
+                        </label>
+
+                        <DatePicker
+                          dateFormat="dd/MM/yyyy"
+                          selected={
+                            signer[field] ? new Date(signer[field]) : null
+                          }
+                          onChange={(date) =>
+                            handleCheckInDateChange(date, index, "onSigners")
+                          }
+                          className="form-control date-input"
+                          placeholderText=""
+                          autoComplete="off"
+                        />
+                      </div>
+                    </>
+                  ) : field === "CheckOut" ? (
+                    <>
+                      <div className="col-3 crew" key={field}>
+                        <label className="form-label">
+                          {field.replace(/([A-Z])/g, " $1")}
+                        </label>
+
+                        <DatePicker
+                          dateFormat="dd/MM/yyyy"
+                          selected={
+                            signer[field] ? new Date(signer[field]) : null
+                          }
+                          onChange={(date) =>
+                            handleCheckOutDateChange(date, index, "onSigners")
+                          }
+                          className="form-control date-input"
+                          placeholderText=""
+                          autoComplete="off"
+                        />
+                      </div>
+                    </>
                   ) : (
                     <div className="col-3 crew" key={field}>
                       <label className="form-label">
@@ -308,6 +395,56 @@ const CrewChangeList = ({
                         autoComplete="off"
                       />
                     </div>
+                  ) : field === "CheckIn" ? (
+                    <>
+                      <div className="col-3 crew" key={field}>
+                        <label className="form-label">
+                          {field.replace(/([A-Z])/g, " $1")}
+                        </label>
+
+                        <DatePicker
+                          dateFormat="dd/MM/yyyy"
+                          selected={
+                            signer[field] ? new Date(signer[field]) : null
+                          }
+                          onChange={(date) =>
+                            handleOffsignersCheckInChange(
+                              date,
+                              index,
+                              "offSigners"
+                            )
+                          }
+                          className="form-control date-input"
+                          placeholderText=""
+                          autoComplete="off"
+                        />
+                      </div>
+                    </>
+                  ) : field === "CheckOut" ? (
+                    <>
+                      <div className="col-3 crew" key={field}>
+                        <label className="form-label">
+                          {field.replace(/([A-Z])/g, " $1")}
+                        </label>
+
+                        <DatePicker
+                          dateFormat="dd/MM/yyyy"
+                          selected={
+                            signer[field] ? new Date(signer[field]) : null
+                          }
+                          onChange={(date) =>
+                            handleOffsignersCheckoutChange(
+                              date,
+                              index,
+                              "offSigners"
+                            )
+                          }
+                          className="form-control date-input"
+                          placeholderText=""
+                          autoComplete="off"
+                        />
+                      </div>
+                    </>
                   ) : (
                     <div className="col-3 crew" key={field}>
                       <label className="form-label">

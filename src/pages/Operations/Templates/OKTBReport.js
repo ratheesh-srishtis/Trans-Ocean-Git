@@ -39,9 +39,7 @@ const OKTBReport = ({
   const [refNumber, setRefNumber] = useState(null);
   const [bookingRef, setBookingRef] = useState(null);
   const [passengersName, setPassengersName] = useState(null);
-  const [airportArrivalDetails, setSirportArrivalDetails] = useState(
-    "Dear Sir, This is to advise that the following persons are arriving at Muscat Airport as follows:"
-  );
+  const [airportArrivalDetails, setSirportArrivalDetails] = useState("");
 
   // Error states
   const [toError, setToError] = useState(null);
@@ -350,7 +348,7 @@ const OKTBReport = ({
               <div className="dear">
                 <div>
                   Dear Sir, This is to advise that the following persons are
-                  arriving at Muscat Airport as follows:
+                  arriving at {to ? to : "Muscat"} Airport as follows:
                   <br />
                 </div>
                 <div className="date ">
@@ -402,11 +400,11 @@ const OKTBReport = ({
                 </div>
                 <div className="wetrans">
                   We TRANS OCEAN MARITIME SERVICE LLC are sponsoring the above
-                  persons at Muscat Airport on under our company visa and would
-                  be grateful if you would please arrange to send To Board
-                  message to your respective above country offices and include
-                  this message in your reservation, such that they are allowed
-                  to board the flight.
+                  persons at {to ? to : "Muscat"} Airport on under our company
+                  visa and would be grateful if you would please arrange to send
+                  To Board message to your respective above country offices and
+                  include this message in your reservation, such that they are
+                  allowed to board the flight.
                 </div>
                 <div className="clarification">
                   If you need any clarifications, please contact us on: +968

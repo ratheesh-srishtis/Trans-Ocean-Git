@@ -97,7 +97,7 @@ const AddVesselType = ({
       >
         <div className="d-flex justify-content-between" onClick={onClose}>
           <DialogTitle>
-            {editMode ? "Edit VesselType" : "Add VesselType"}
+            {editMode ? "Edit Vessel Type" : "Add Vessel Type"}
           </DialogTitle>
           <div className="closeicon">
             <i className="bi bi-x-lg "></i>
