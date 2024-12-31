@@ -26,29 +26,30 @@ const CrewChangeList = ({
 }) => {
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
+
   const [formValues, setFormValues] = useState({
     onSigners: [
       {
-        CrewName: "",
-        Flight: "",
+        creawName: "",
+        flight: "",
         ATAMuscat: "",
-        Hotel: "",
-        CheckIn: "",
-        CheckOut: "",
-        Food: "",
-        Transportation: "",
+        hotel: "",
+        checkIn: "",
+        checkOut: "",
+        food: "",
+        transportation: "",
       },
     ],
     offSigners: [
       {
-        CrewName: "",
-        Flight: "",
+        creawName: "",
+        flight: "",
         ATAMuscat: "",
-        Hotel: "",
-        CheckIn: "",
-        CheckOut: "",
-        Food: "",
-        Transportation: "",
+        hotel: "",
+        checkIn: "",
+        checkOut: "",
+        food: "",
+        transportation: "",
       },
     ],
   });
@@ -71,14 +72,14 @@ const CrewChangeList = ({
   // Add New Signer
   const addNewSigner = (type) => {
     const newSigner = {
-      CrewName: "",
-      Flight: "",
+      creawName: "",
+      flight: "",
       ATAMuscat: "",
-      Hotel: "",
-      CheckIn: "",
-      CheckOut: "",
-      Food: "",
-      Transportation: "",
+      hotel: "",
+      checkIn: "",
+      checkOut: "",
+      food: "",
+      transportation: "",
     };
     setFormValues((prevState) => ({
       ...prevState,
@@ -123,11 +124,11 @@ const CrewChangeList = ({
       ATAMuscat: signer.ATAMuscat
         ? moment(signer.ATAMuscat).format("YYYY-MM-DD HH:mm")
         : "",
-      CheckIn: signer.CheckIn
-        ? moment(signer.CheckIn).format("YYYY-MM-DD")
+      checkIn: signer.checkIn
+        ? moment(signer.checkIn).format("YYYY-MM-DD")
         : "",
-      CheckOut: signer.CheckOut
-        ? moment(signer.CheckOut).format("YYYY-MM-DD")
+      checkOut: signer.checkOut
+        ? moment(signer.checkOut).format("YYYY-MM-DD")
         : "",
     }));
 
@@ -136,11 +137,11 @@ const CrewChangeList = ({
       ATAMuscat: signer.ATAMuscat
         ? moment(signer.ATAMuscat).format("YYYY-MM-DD HH:mm")
         : "",
-      CheckIn: signer.CheckIn
-        ? moment(signer.CheckIn).format("YYYY-MM-DD")
+      checkIn: signer.checkIn
+        ? moment(signer.checkIn).format("YYYY-MM-DD")
         : "",
-      CheckOut: signer.CheckOut
-        ? moment(signer.CheckOut).format("YYYY-MM-DD")
+      checkOut: signer.checkOut
+        ? moment(signer.checkOut).format("YYYY-MM-DD")
         : "",
     }));
 
@@ -173,14 +174,14 @@ const CrewChangeList = ({
   };
 
   const fieldOrder = [
-    "CrewName",
-    "Flight",
+    "creawName",
+    "flight",
     "ATAMuscat",
-    "Hotel",
-    "CheckIn",
-    "CheckOut",
-    "Food",
-    "Transportation",
+    "hotel",
+    "checkIn",
+    "checkOut",
+    "food",
+    "transportation",
   ];
 
   const handleDateChange = (date, index, group) => {
@@ -191,17 +192,17 @@ const CrewChangeList = ({
       [group]: updatedGroup,
     }));
   };
-  const handleCheckInDateChange = (date, index, group) => {
+  const handlecheckInDateChange = (date, index, group) => {
     const updatedGroup = [...formValues[group]];
-    updatedGroup[index]["CheckIn"] = date;
+    updatedGroup[index]["checkIn"] = date;
     setFormValues((prevValues) => ({
       ...prevValues,
       [group]: updatedGroup,
     }));
   };
-  const handleCheckOutDateChange = (date, index, group) => {
+  const handlecheckOutDateChange = (date, index, group) => {
     const updatedGroup = [...formValues[group]];
-    updatedGroup[index]["CheckOut"] = date;
+    updatedGroup[index]["checkOut"] = date;
     setFormValues((prevValues) => ({
       ...prevValues,
       [group]: updatedGroup,
@@ -217,9 +218,9 @@ const CrewChangeList = ({
     }));
   };
 
-  const handleOffsignersCheckInChange = (date, index, group) => {
+  const handleOffsignerscheckInChange = (date, index, group) => {
     const updatedGroup = [...formValues[group]];
-    updatedGroup[index]["CheckIn"] = date;
+    updatedGroup[index]["checkIn"] = date;
     setFormValues((prevValues) => ({
       ...prevValues,
       [group]: updatedGroup,
@@ -227,7 +228,7 @@ const CrewChangeList = ({
   };
   const handleOffsignersCheckoutChange = (date, index, group) => {
     const updatedGroup = [...formValues[group]];
-    updatedGroup[index]["CheckOut"] = date;
+    updatedGroup[index]["checkOut"] = date;
     setFormValues((prevValues) => ({
       ...prevValues,
       [group]: updatedGroup,
@@ -289,7 +290,7 @@ const CrewChangeList = ({
                         autoComplete="off"
                       />
                     </div>
-                  ) : field === "CheckIn" ? (
+                  ) : field === "checkIn" ? (
                     <>
                       <div className="col-3 crew" key={field}>
                         <label className="form-label">
@@ -302,7 +303,7 @@ const CrewChangeList = ({
                             signer[field] ? new Date(signer[field]) : null
                           }
                           onChange={(date) =>
-                            handleCheckInDateChange(date, index, "onSigners")
+                            handlecheckInDateChange(date, index, "onSigners")
                           }
                           className="form-control date-input"
                           placeholderText=""
@@ -310,7 +311,7 @@ const CrewChangeList = ({
                         />
                       </div>
                     </>
-                  ) : field === "CheckOut" ? (
+                  ) : field === "checkOut" ? (
                     <>
                       <div className="col-3 crew" key={field}>
                         <label className="form-label">
@@ -323,7 +324,7 @@ const CrewChangeList = ({
                             signer[field] ? new Date(signer[field]) : null
                           }
                           onChange={(date) =>
-                            handleCheckOutDateChange(date, index, "onSigners")
+                            handlecheckOutDateChange(date, index, "onSigners")
                           }
                           className="form-control date-input"
                           placeholderText=""
@@ -395,7 +396,7 @@ const CrewChangeList = ({
                         autoComplete="off"
                       />
                     </div>
-                  ) : field === "CheckIn" ? (
+                  ) : field === "checkIn" ? (
                     <>
                       <div className="col-3 crew" key={field}>
                         <label className="form-label">
@@ -408,7 +409,7 @@ const CrewChangeList = ({
                             signer[field] ? new Date(signer[field]) : null
                           }
                           onChange={(date) =>
-                            handleOffsignersCheckInChange(
+                            handleOffsignerscheckInChange(
                               date,
                               index,
                               "offSigners"
@@ -420,7 +421,7 @@ const CrewChangeList = ({
                         />
                       </div>
                     </>
-                  ) : field === "CheckOut" ? (
+                  ) : field === "checkOut" ? (
                     <>
                       <div className="col-3 crew" key={field}>
                         <label className="form-label">

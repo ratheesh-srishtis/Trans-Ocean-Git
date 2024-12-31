@@ -6,6 +6,8 @@ import "../../css/viewquotation.css";
 import ChargesTable from "../ChargesTable";
 import { getPdaDetails } from "../../services/apiService";
 import Loader from "../Loader";
+import moment from "moment";
+
 const ViewOperations = ({
   vessels,
   ports,
@@ -49,6 +51,15 @@ const ViewOperations = ({
       const customer = customers?.find((s) => s._id === id);
       console.log(customer, "customer");
       return customer ? customer.customerName : "Unknown Customer";
+    } else if (name == "cargo") {
+      const cargo = cargos?.find((s) => s._id === id);
+      return cargo ? cargo.cargoName : "Unknown cargo";
+    } else if (name == "vessel") {
+      const vessel = vessels?.find((s) => s._id === id);
+      return vessel ? vessel.vesselName : "Unknown Vessel";
+    } else if (name == "port") {
+      const port = ports?.find((s) => s._id === id);
+      return port ? port.portName : "Unknown Port";
     }
   };
 
@@ -78,7 +89,8 @@ const ViewOperations = ({
   useEffect(() => {
     console.log(pdaValues, "pdaValues");
     console.log(services, "services");
-  }, [pdaValues, services]);
+    console.log(cargos, "cargos");
+  }, [pdaValues, services, cargos]);
   return (
     <>
       <div className="pda-no">
@@ -117,15 +129,22 @@ const ViewOperations = ({
         <div className="row viewquocontent">
           <div className=" col-4 viewhead">
             <span> VesselName:</span>{" "}
-            <span className="viewans">{editData?.vesselId?.vesselName}</span>
+            <span className="viewans">
+              {getItemName(pdaValues?.vesselId, "vessel")}
+            </span>
           </div>
           <div className=" col-4 viewhead">
             <span> PortName:</span>{" "}
-            <span className="viewans">{editData?.portId?.portName}</span>
+            <span className="viewans">
+              {getItemName(pdaValues?.portId, "port")}
+            </span>
           </div>
           <div className=" col-4 viewhead">
             <span> Cargo:</span>{" "}
-            <span className="viewans">{editData?.cargoId?.cargoName}</span>
+            <span className="viewans">
+              {getItemName(pdaValues?.cargoId, "cargo")}
+              {/* {getItemName(pdaValues?.cargoId, "cargo")} */}
+            </span>
           </div>
         </div>
         <div className="row viewquocontent">
@@ -150,41 +169,23 @@ const ViewOperations = ({
           <div className=" col-4 viewhead">
             <span> ETA:</span>{" "}
             <span className="viewans">
-              {new Date(pdaValues?.ETA)
-                .toLocaleString("en-GB", {
-                  day: "2-digit",
-                  month: "2-digit",
-                  year: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  hour12: true,
-                })
-                .replace(",", "")}
+              {moment.utc(pdaValues?.ETA).format("DD-MM-YYYY HH:mm A")}
             </span>
           </div>
           <div className=" col-4 viewhead">
             <span> ETD:</span>{" "}
             <span className="viewans">
-              {new Date(pdaValues?.ETD)
-                .toLocaleString("en-GB", {
-                  day: "2-digit",
-                  month: "2-digit",
-                  year: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  hour12: true,
-                })
-                .replace(",", "")}
+              {moment.utc(pdaValues?.ETD).format("DD-MM-YYYY HH:mm A")}
             </span>
           </div>
         </div>
-        {editData?.customerId && (
+        {pdaValues?.customerId && (
           <>
             <div className="row viewquocontent">
               <div className=" col-4 viewhead">
                 <span> Customer Name:</span>{" "}
                 <span className="viewans">
-                  {getItemName(editData?.customerId, "customer")}
+                  {getItemName(pdaValues?.customerId, "customer")}
                 </span>
               </div>
             </div>

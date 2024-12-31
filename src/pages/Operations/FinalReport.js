@@ -275,7 +275,7 @@ const FinalReport = ({
 
     if (!isValid) {
       // alert("At least one field in the rows must have a valid value.");
-      setMessage("please save the report before sending report");
+      setMessage("Please make sure to save the report before sending it.");
       setOpenPopUp(true);
       return; // Exit the function if validation fails
     }
@@ -403,13 +403,15 @@ const FinalReport = ({
                     />
                   </td>
                   <td className="tdstyl">
-                
-                   
-                    <textarea class="form-control"  id="exampleFormControlTextarea1" rows="1" value={row.remark}
+                    <textarea
+                      class="form-control"
+                      id="exampleFormControlTextarea1"
+                      rows="1"
+                      value={row.remark}
                       onChange={(e) =>
                         handleInputChange(index, "remark", e.target.value)
-                      } ></textarea>
-
+                      }
+                    ></textarea>
                   </td>
                   <td className="tdstyl">
                     <i

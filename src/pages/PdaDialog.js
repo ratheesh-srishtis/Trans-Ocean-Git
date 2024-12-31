@@ -190,7 +190,7 @@ const PdaDialog = ({
     <>
       <Dialog
         sx={{
-          width: 1400,
+          width: 1800,
           margin: "auto",
           borderRadius: 2,
         }}
@@ -285,11 +285,12 @@ const PdaDialog = ({
                 </th>
                 <th className="mvstyl">
                   {" "}
-                  {moment.utc(pdaDetails?.ETA).format("YYYY-MM-DD HH:mm A")}
+                  {/* {moment.utc(pdaDetails?.ETA).format("DD-MM-YYYY HH:mm A")} */}
+                  {moment.utc(pdaDetails?.ETA).format("DD-MM-YYYY HH:mm")}
                 </th>
                 <th className="mvstyl">
                   {" "}
-                  {moment.utc(pdaDetails?.ETD).format("YYYY-MM-DD HH:mm A")}
+                  {moment.utc(pdaDetails?.ETD).format("DD-MM-YYYY HH:mm")}
                 </th>
                 <th className="mvstyl">
                   {" "}

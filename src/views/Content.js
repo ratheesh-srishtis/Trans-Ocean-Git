@@ -109,7 +109,15 @@ const Content = () => {
       />
       <Route
         path="/view-operation"
-        element={<ViewOperations services={services} />}
+        element={
+          <ViewOperations
+            services={services}
+            customers={customers}
+            cargos={cargos}
+            vessels={vessels}
+            ports={ports}
+          />
+        }
       />
       <Route
         path="/edit-operation"

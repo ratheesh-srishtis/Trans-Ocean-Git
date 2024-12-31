@@ -98,7 +98,7 @@ const OpsList = ({ loginResponse }) => {
     { field: "vessel", headerName: "Vessel Name", flex: 1 },
     { field: "port", headerName: "Port Name", flex: 2 },
     { field: "cargo", headerName: "Cargo", flex: 2 },
-    { field: "AssignedTo", headerName: "Assigned To", flex: 1 },
+    { field: "AssignedTo", headerName: "Ops By", flex: 1 },
     { field: "status", headerName: "Status", flex: 2 },
     {
       field: "actions",

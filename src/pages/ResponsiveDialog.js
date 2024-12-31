@@ -805,7 +805,7 @@ const ResponsiveDialog = ({
                             for="exampleFormControlInput1"
                             className="form-label"
                           >
-                            Charges Type:<span className="required"> * </span>
+                            Charge Type:<span className="required"> * </span>
                           </label>
                           <div className="vessel-select">
                             <select
@@ -826,7 +826,7 @@ const ResponsiveDialog = ({
                           {selectedChargesTypeError && (
                             <>
                               <div className="invalid">
-                                Please select charges type
+                                Please select charge type
                               </div>
                             </>
                           )}
@@ -841,7 +841,7 @@ const ResponsiveDialog = ({
                             for="exampleFormControlInput1"
                             className="form-label"
                           >
-                            Sub Charges Type:
+                            Sub Charge Type:
                             <span className="required"> * </span>
                           </label>
                           <div className="vessel-select">
@@ -863,7 +863,7 @@ const ResponsiveDialog = ({
                           {selectedSubhargesTypeError && (
                             <>
                               <div className="invalid">
-                                Please select sub charges type
+                                Please select sub charge type
                               </div>
                             </>
                           )}

@@ -106,12 +106,22 @@ const OpsChargesTable = ({
 
   const fetchSubCharges = async (id) => {
     console.log(id, "id_fetchSubCharges");
+    if (!id) {
+      console.warn("fetchSubCharges called with invalid id:", id);
+      return; // Prevent API call if id is invalid
+    }
+
+    if (fetchedSubCharges.has(id)) {
+      console.log(`Subcharges for ID ${id} already fetched`);
+      return; // Skip if subcharges are already fetched
+    }
+
     if (id) {
       if (!fetchedSubCharges.has(id) && id) {
         // alert("fetchSubCharges ops charge table");
         try {
           const response = await getSubcharges({
-            chargeId: id ? id : "",
+            chargeId: id,
           });
           setSubCharges((prev) => [...prev, ...response?.subcharges]);
           setFetchedSubCharges((prev) => new Set(prev).add(id));
@@ -122,6 +132,16 @@ const OpsChargesTable = ({
       }
     }
   };
+
+  const debounce = (func, delay) => {
+    let timeout;
+    return (...args) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func(...args), delay);
+    };
+  };
+
+  const debouncedFetchSubCharges = debounce(fetchSubCharges, 300);
 
   const getItemName = (id, name) => {
     if (name === "service") {
@@ -138,8 +158,8 @@ const OpsChargesTable = ({
       return vendor ? vendor.vendorName : "Unknown vendor";
     } else if (name === "chargeType") {
       console.log(id, "getItemName_id");
-      if (id) {
-        fetchSubCharges(id);
+      if (id && !fetchedSubCharges.has(id)) {
+        debouncedFetchSubCharges(id); // Use debounced version
       }
       const charge = charges.find((s) => s._id === id);
       return charge ? charge.chargeName : "Unknown charge";
@@ -272,9 +292,13 @@ const OpsChargesTable = ({
                       : ""}
                   </td>
                   <td className="subsub">
-                    {charge.vendorId
-                      ? getItemName(charge.vendorId, "vendor")
-                      : ""}
+                    {charge?.isPrivateVendor == false && (
+                      <>
+                        {charge.vendorId
+                          ? getItemName(charge.vendorId, "vendor")
+                          : ""}
+                      </>
+                    )}
                   </td>
                   <td className="subsub">{charge?.remark}</td>
                   {/* <td>{charge.quantity}</td> */}

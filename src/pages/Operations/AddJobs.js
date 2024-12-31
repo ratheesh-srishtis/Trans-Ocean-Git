@@ -294,7 +294,6 @@ const AddJobs = ({
 
   const handleFileDelete = async (fileUrl) => {
     // Update the state by filtering out the file with the specified URL
-
     console.log(fileUrl, "fileUrl");
     if (fileUrl?._id) {
       let payload = {

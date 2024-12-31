@@ -6,6 +6,8 @@ import "../css/viewquotation.css";
 import ChargesTable from "./ChargesTable";
 import { getPdaDetails } from "../services/apiService";
 import Loader from "./Loader";
+import moment from "moment";
+
 const ViewQuotation = ({
   vessels,
   ports,
@@ -149,31 +151,13 @@ const ViewQuotation = ({
           <div className=" col-4 viewhead">
             <span> ETA:</span>{" "}
             <span className="viewans">
-              {new Date(editData?.ETA)
-                .toLocaleString("en-GB", {
-                  day: "2-digit",
-                  month: "2-digit",
-                  year: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  hour12: true,
-                })
-                .replace(",", "")}
+              {moment.utc(editData?.ETA).format("DD-MM-YYYY HH:mm A")}
             </span>
           </div>
           <div className=" col-4 viewhead">
             <span> ETD:</span>
             <span className="viewans">
-              {new Date(editData?.ETD)
-                .toLocaleString("en-GB", {
-                  day: "2-digit",
-                  month: "2-digit",
-                  year: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  hour12: true,
-                })
-                .replace(",", "")}
+              {moment.utc(editData?.ETD).format("DD-MM-YYYY HH:mm A")}
             </span>
           </div>
         </div>
