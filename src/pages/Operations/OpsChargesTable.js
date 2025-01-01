@@ -1,42 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Swal from "sweetalert2";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
+
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import {
-  getCharges,
-  getSubcharges,
-  deleteQuotationCharge,
-} from "../../services/apiService";
+import { getCharges, getSubcharges } from "../../services/apiService";
 import PopUp from "../PopUp";
 import AddJobs from "./AddJobs";
 import "../../css/addjobs.css";
-function CustomTabPanel(props) {
-  const { children, value, index, ...other } = props;
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
 
 const OpsChargesTable = ({
   chargesArray,
@@ -49,10 +18,6 @@ const OpsChargesTable = ({
   templates,
   vendors,
 }) => {
-  const [charges, setCharges] = useState([]);
-  const [subCharges, setSubCharges] = useState([]);
-  const [fetchedCharges, setFetchedCharges] = useState(new Set());
-  const [fetchedSubCharges, setFetchedSubCharges] = useState(new Set());
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
   const [selectedCharge, setSelectedCharge] = useState(null); // State to hold the selected charge
@@ -89,86 +54,6 @@ const OpsChargesTable = ({
     console.log(charge);
   };
 
-  const fetchCharges = async (id) => {
-    if (!fetchedCharges.has(id)) {
-      try {
-        const response = await getCharges({
-          serviceId: id,
-        });
-        setCharges((prev) => [...prev, ...response?.charges]);
-        setFetchedCharges((prev) => new Set(prev).add(id));
-        console.log("Fetched Charges:", response);
-      } catch (error) {
-        console.error("Error fetching charges:", error);
-      }
-    }
-  };
-
-  const fetchSubCharges = async (id) => {
-    console.log(id, "id_fetchSubCharges");
-    if (!id) {
-      console.warn("fetchSubCharges called with invalid id:", id);
-      return; // Prevent API call if id is invalid
-    }
-
-    if (fetchedSubCharges.has(id)) {
-      console.log(`Subcharges for ID ${id} already fetched`);
-      return; // Skip if subcharges are already fetched
-    }
-
-    if (id) {
-      if (!fetchedSubCharges.has(id) && id) {
-        // alert("fetchSubCharges ops charge table");
-        try {
-          const response = await getSubcharges({
-            chargeId: id,
-          });
-          setSubCharges((prev) => [...prev, ...response?.subcharges]);
-          setFetchedSubCharges((prev) => new Set(prev).add(id));
-          console.log("Fetched SubCharges:", response);
-        } catch (error) {
-          console.error("Error fetching subcharges:", error);
-        }
-      }
-    }
-  };
-
-  const debounce = (func, delay) => {
-    let timeout;
-    return (...args) => {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => func(...args), delay);
-    };
-  };
-
-  const debouncedFetchSubCharges = debounce(fetchSubCharges, 300);
-
-  const getItemName = (id, name) => {
-    if (name === "service") {
-      if (id) {
-        fetchCharges(id);
-      }
-      const service = services.find((s) => s._id === id);
-      return service ? service.serviceName : "Unknown Service";
-    } else if (name === "customer") {
-      const customer = customers.find((s) => s._id === id);
-      return customer ? customer.customerName : "Unknown Customer";
-    } else if (name === "vendor") {
-      const vendor = vendors.find((s) => s._id === id);
-      return vendor ? vendor.vendorName : "Unknown vendor";
-    } else if (name === "chargeType") {
-      console.log(id, "getItemName_id");
-      if (id && !fetchedSubCharges.has(id)) {
-        debouncedFetchSubCharges(id); // Use debounced version
-      }
-      const charge = charges.find((s) => s._id === id);
-      return charge ? charge.chargeName : "Unknown charge";
-    } else if (name === "subChargeType") {
-      const subCharge = subCharges.find((s) => s._id === id);
-      return subCharge ? subCharge.subchargeName : "Unknown subCharge";
-    }
-  };
-
   // Function to handle edit action
   const handleEdit = (charge, index) => {
     console.log("Edit:", charge);
@@ -176,49 +61,6 @@ const OpsChargesTable = ({
     // Implement your edit logic here
   };
 
-  const handleDelete = async (charge, index) => {
-    console.log(charge, "charge handleDelete");
-    console.log(index, "index handleDelete");
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, delete it!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        console.log("Delete:", charge);
-        // Implement your delete logic here (e.g., API call to delete the charge)
-        if (charge?._id) {
-          try {
-            let chargesPayload = {
-              pdaChargeId: charge?._id,
-            };
-            const response = await deleteQuotationCharge(chargesPayload);
-            console.log("Fetched Charges:", response);
-            const updatedChargesArray = chargesArray.filter(
-              (_, i) => i !== index
-            );
-            onSubmit(updatedChargesArray);
-            setMessage("Charge deleted successfully");
-            setOpenPopUp(true);
-          } catch (error) {
-            console.error("Error fetching charges:", error);
-            Swal.fire("Error deleting charges");
-          }
-        } else {
-          const updatedChargesArray = chargesArray.filter(
-            (_, i) => i !== index
-          );
-          onSubmit(updatedChargesArray);
-          setMessage("Charge deleted successfully");
-          setOpenPopUp(true);
-        }
-      }
-    });
-  };
   const [valueTabs, setValueTabs] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -246,6 +88,78 @@ const OpsChargesTable = ({
     console.log(selectedCharge, "selectedCharge");
   }, [selectedCharge]);
 
+  const [chargesData, setChargesData] = useState({}); // Store charges by serviceId
+  const [subchargesData, setSubchargesData] = useState({}); // Store subcharges by chargeId
+  const [isLoading, setIsLoading] = useState(true); // Track loading state
+
+  // Fetch all charges and subcharges on component mount
+  useEffect(() => {
+    const fetchAllData = async () => {
+      try {
+        const uniqueServiceIds = [
+          ...new Set(chargesArray.map((charge) => charge.serviceId)),
+        ];
+        const fetchedCharges = {};
+
+        // Fetch charges for all unique serviceIds
+        await Promise.all(
+          uniqueServiceIds.map(async (serviceId) => {
+            const response = await getCharges({ serviceId });
+            fetchedCharges[serviceId] = response?.charges || [];
+          })
+        );
+        setChargesData(fetchedCharges);
+
+        // Extract all unique chargeIds for fetching subcharges
+        const uniqueChargeIds = [
+          ...new Set(
+            Object.values(fetchedCharges)
+              .flat()
+              .map((charge) => charge._id)
+          ),
+        ];
+        const fetchedSubcharges = {};
+
+        // Fetch subcharges for all unique chargeIds
+        await Promise.all(
+          uniqueChargeIds.map(async (chargeId) => {
+            const response = await getSubcharges({ chargeId });
+            fetchedSubcharges[chargeId] = response?.subcharges || [];
+          })
+        );
+        setSubchargesData(fetchedSubcharges);
+      } catch (error) {
+        console.error("Error fetching charges or subcharges:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchAllData();
+  }, [chargesArray]);
+
+  const getServiceName = (serviceId) => {
+    const service = services.find((s) => s._id === serviceId);
+    return service?.serviceName || "Unknown Service";
+  };
+
+  const getChargeName = (serviceId, chargeId) => {
+    const serviceCharges = chargesData[serviceId] || [];
+    const charge = serviceCharges.find((c) => c._id === chargeId);
+    return charge?.chargeName || "N/A";
+  };
+
+  const getSubchargeName = (chargeId, subchargeId) => {
+    const chargeSubcharges = subchargesData[chargeId] || [];
+    const subcharge = chargeSubcharges.find((s) => s._id === subchargeId);
+    return subcharge?.subchargeName || "N/A";
+  };
+
+  const getVendorName = (vendorId) => {
+    const vendor = vendors.find((v) => v._id === vendorId);
+    return vendor?.vendorName || "Unknown Vendor";
+  };
+
   return (
     <>
       <div className="createtable">
@@ -256,7 +170,7 @@ const OpsChargesTable = ({
               <th className="tableheadcolor">Service Type</th>
               <th className="tableheadcolor">Charge Type</th>
               <th className="tableheadcolor">Sub Charge Type</th>
-              <th className="tableheadcolor">Vendors</th>
+              <th className="tableheadcolor">Vendor Name</th>
               <th className="tableheadcolor">Remarks</th>
             </tr>
           </thead>
@@ -272,36 +186,17 @@ const OpsChargesTable = ({
                   >
                     {index + 1}
                   </td>
+                  <td>{getServiceName(charge.serviceId)}</td>
+                  <td>{getChargeName(charge.serviceId, charge.chargeId)}</td>
                   <td>
-                    {charge.serviceId
-                      ? getItemName(charge.serviceId, "service")
-                      : ""}
+                    {getSubchargeName(charge.chargeId, charge.subchargeId)}
                   </td>
                   <td>
-                    {charge?.chargeId && (
-                      <>
-                        {charge?.chargeId
-                          ? getItemName(charge?.chargeId, "chargeType")
-                          : ""}
-                      </>
-                    )}
-                  </td>
-                  <td className="subsub">
-                    {charge.subchargeId
-                      ? getItemName(charge.subchargeId, "subChargeType")
-                      : ""}
-                  </td>
-                  <td className="subsub">
                     {charge?.isPrivateVendor == false && (
-                      <>
-                        {charge.vendorId
-                          ? getItemName(charge.vendorId, "vendor")
-                          : ""}
-                      </>
+                      <>{getVendorName(charge.vendorId)}</>
                     )}
                   </td>
-                  <td className="subsub">{charge?.remark}</td>
-                  {/* <td>{charge.quantity}</td> */}
+                  <td className="subsub">{charge.remark}</td>
                 </tr>
               ))}
           </tbody>

@@ -136,21 +136,24 @@ const PdaDialog = ({
   };
 
   const fetchCharges = async (id) => {
-    if (!fetchedCharges.has(id)) {
-      try {
-        const response = await getCharges({
-          serviceId: id,
-        });
-        setCharges((prev) => [...prev, ...response?.charges]);
-        setFetchedCharges((prev) => new Set(prev).add(id));
-        console.log("Fetched Charges:", response);
-      } catch (error) {
-        console.error("Error fetching charges:", error);
+    if (id) {
+      if (!fetchedCharges.has(id)) {
+        try {
+          const response = await getCharges({
+            serviceId: id,
+          });
+          setCharges((prev) => [...prev, ...response?.charges]);
+          setFetchedCharges((prev) => new Set(prev).add(id));
+          console.log("Fetched Charges:", response);
+        } catch (error) {
+          console.error("Error fetching charges:", error);
+        }
       }
     }
   };
 
   const fetchSubCharges = async (id) => {
+    console.log(id, "fetchSubCharges_ID_PDADIALOG");
     if (id) {
       if (!fetchedSubCharges.has(id)) {
         alert("fetchSubCharges pda ");

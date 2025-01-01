@@ -245,24 +245,46 @@ const AddJobs = ({
 
   useEffect(() => {
     const fetchSubCharges = async () => {
-      // alert(selectedService?._id);
-      if (selectedChargesType?.chargeId || selectedChargesType?._id) {
+      // Check that chargeId and _id are not undefined or empty strings
+      console.log(
+        selectedChargesType?.chargeId,
+        "selectedChargesType?.chargeId fetchSubChargesChecking"
+      );
+      console.log(
+        selectedChargesType?._id,
+        "selectedChargesType?._id fetchSubChargesChecking"
+      );
+      const isValidChargeId =
+        selectedChargesType?.chargeId && selectedChargesType?.chargeId !== "";
+      const isValidId =
+        selectedChargesType?._id && selectedChargesType?._id !== "";
+
+      if (isValidChargeId || isValidId) {
         try {
-          const response = await getSubcharges({
+          let formdata = {
             chargeId: selectedChargesType?.chargeId || selectedChargesType?._id,
-          });
+          };
+          const response = await getSubcharges(formdata);
           setSubCharges(response?.subcharges);
-          console.log("fetchSubCharges:", response);
+          console.log(response);
         } catch (error) {
           console.error("Error fetching PDA values:", error);
         }
+      } else {
+        console.log("No valid chargeId or _id available, skipping API call.");
       }
     };
-    if (selectedChargesType) {
+
+    // Trigger fetchSubCharges only if chargeId or _id is valid
+    if (selectedChargesType?.chargeId) {
       fetchSubCharges();
-      console.log(selectedChargesType, "selectedChargesType");
+      console.log("selectedChargesType:", selectedChargesType);
+    } else if (selectedChargesType?._id) {
+      fetchSubCharges();
+    } else {
+      console.log("selectedChargesType does not have chargeId or _id.");
     }
-  }, [selectedChargesType]);
+  }, [selectedChargesType?.chargeId, selectedChargesType?._id]);
 
   const [uploadStatus, setUploadStatus] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -436,24 +458,24 @@ const AddJobs = ({
     }
   }, [selectedService]);
 
-  useEffect(() => {
-    const fetchSubCharges = async () => {
-      // alert(selectedService?._id);
-      try {
-        const response = await getSubcharges({
-          chargeId: selectedChargesType?.chargeId || selectedChargesType?._id,
-        });
-        setSubCharges(response?.subcharges);
-        console.log("fetchSubCharges:", response);
-      } catch (error) {
-        console.error("Error fetching PDA values:", error);
-      }
-    };
-    if (selectedChargesType) {
-      fetchSubCharges();
-      console.log(selectedChargesType, "selectedChargesType");
-    }
-  }, [selectedChargesType]);
+  // useEffect(() => {
+  //   const fetchSubCharges = async () => {
+  //     // alert(selectedService?._id);
+  //     try {
+  //       const response = await getSubcharges({
+  //         chargeId: selectedChargesType?.chargeId || selectedChargesType?._id,
+  //       });
+  //       setSubCharges(response?.subcharges);
+  //       console.log("fetchSubCharges:", response);
+  //     } catch (error) {
+  //       console.error("Error fetching PDA values:", error);
+  //     }
+  //   };
+  //   if (selectedChargesType) {
+  //     fetchSubCharges();
+  //     console.log(selectedChargesType, "selectedChargesType");
+  //   }
+  // }, [selectedChargesType]);
 
   useEffect(() => {
     console.log(templatesList, "templatesList");
@@ -470,12 +492,13 @@ const AddJobs = ({
 
   const handleView = (template) => {
     console.log(template, "template");
-    window.open(`${BASE_URL}/${template?.pdfPath}`, "_blank");
+    window.open(`${BASE_URL}${template?.pdfPath}`, "_blank");
   };
 
-  const handleTemplateFileDelete = async (fileUrl) => {
+  const handleTemplateFileDelete = async (fileUrl, index) => {
     // Update the state by filtering out the file with the specified URL
     console.log(fileUrl, "fileUrl");
+    console.log(index, "index");
 
     if (fileUrl?._id) {
       let payload = {
@@ -486,9 +509,8 @@ const AddJobs = ({
       try {
         const response = await deleteTemplate(payload);
         if (response.status) {
-          const updatedFiles = templatesList.filter(
-            (file) => file.pdfPath !== fileUrl?.pdfPath
-          );
+          const updatedFiles = templatesList.filter((_, i) => i !== index);
+          console.log(updatedFiles, "updatedFiles");
           setTemplatesList(updatedFiles);
           setMessage("File has been deleted successfully");
           setOpenPopUp(true);
@@ -501,11 +523,11 @@ const AddJobs = ({
         setOpenPopUp(true);
       }
     } else {
-      const updatedFiles = templatesList.filter(
-        (file) => file.pdfPath !== fileUrl?.pdfPath
-      );
+      const updatedFiles = templatesList.filter((_, i) => i !== index);
       console.log(updatedFiles, "updatedFiles");
       setTemplatesList(updatedFiles);
+      setMessage("File has been deleted successfully");
+      setOpenPopUp(true);
     }
   };
 
@@ -784,7 +806,7 @@ const AddJobs = ({
                                 <div
                                   className="iconpdf"
                                   onClick={() =>
-                                    handleTemplateFileDelete(template)
+                                    handleTemplateFileDelete(template, index)
                                   }
                                 >
                                   <i className="bi bi-trash"></i>

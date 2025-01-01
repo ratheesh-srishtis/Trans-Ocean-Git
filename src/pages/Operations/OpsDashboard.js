@@ -109,6 +109,28 @@ const OpsDashboard = () => {
     });
   };
 
+  // Initializing state for pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
+
+  // Calculate total pages
+  const totalItems = jobsList.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  // Calculate indices for the current page
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentJobs = jobsList.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Handle page change
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  // Handle items per page change
+  const handleItemsPerPageChange = (e) => {
+    setItemsPerPage(Number(e.target.value));
+    setCurrentPage(1); // Reset to first page
+  };
+
   return (
     <>
       <div className="d-flex justify-content-between mt-3">
@@ -172,221 +194,122 @@ const OpsDashboard = () => {
 
       <div className="firsttile">
         <div className="row  gap-5 d-flex justify-content-center ">
-          {jobsList && jobsList?.length > 0 && (
-            <>
-              {jobsList?.length > 0 &&
-                jobsList?.map((job, index) => {
-                  return (
-                    <>
-                      <div className=" col-3 shadow p-3 mb-5 bg-body-tertiary rounded">
-                        <div className="d-flex justify-content-between">
-                          <div>
-                            <img src={Group}></img>
-                          </div>
-                          <div
-                            className={`dashstatus ${
-                              job?.pdaStatus === 5
-                                ? "customer-approved"
-                                : job?.pdaStatus === 6
-                                ? "pending"
-                                : job?.pdaStatus === 7
-                                ? "Operations"
-                                : ""
-                            }`}
-                          >
-                            {job?.pdaStatus == 5
-                              ? "Customer Approved"
-                              : job?.pdaStatus == 6
-                              ? "Pending from operations"
-                              : job?.pdaStatus == 7
-                              ? "Operations Completed"
-                              : ""}
-                          </div>
-                        </div>
-                        {job?.jobId && (
-                          <>
-                            <div>
-                              <span className="dashhead"> Job ID:</span>
-                              <p className="toms">{job?.jobId}</p>
-                            </div>
-                          </>
-                        )}
+          {currentJobs?.map((job, index) => (
+            <div
+              className="col-3 shadow p-3 mb-5 bg-body-tertiary rounded"
+              key={index}
+            >
+              <div className="d-flex justify-content-between">
+                <div>
+                  <img src={Group} alt="Group" />
+                </div>
+                <div
+                  className={`dashstatus ${
+                    job?.pdaStatus === 5
+                      ? "customer-approved"
+                      : job?.pdaStatus === 6
+                      ? "pending"
+                      : job?.pdaStatus === 7
+                      ? "Operations"
+                      : ""
+                  }`}
+                >
+                  {job?.pdaStatus === 5
+                    ? "Customer Approved"
+                    : job?.pdaStatus === 6
+                    ? "Pending from operations"
+                    : job?.pdaStatus === 7
+                    ? "Operations Completed"
+                    : ""}
+                </div>
+              </div>
+              {job?.jobId && (
+                <>
+                  <div>
+                    <span className="dashhead">Job ID:</span>
+                    <p className="toms">{job?.jobId}</p>
+                  </div>
+                </>
+              )}
 
-                        <div>
-                          <span className="dashhead"> Port Name:</span>
-                          <p className="toms">{job?.portId?.portName}</p>
-                        </div>
-                        <div>
-                          <span className="dashhead"> Vessel Name:</span>
-                          <p className="toms">{job?.vesselId?.vesselName}</p>
-                        </div>
-                        <div className="d-flex justify-content-between">
-                          <div
-                            className="viewdetail"
-                            onClick={() => handleJobClick(job)}
-                          >
-                            View Detail >>>
-                          </div>
-                          <div className="d-flex">
-                            <i
-                              className="bi bi-pencil-square dashedit"
-                              onClick={() => handleEditJob(job)}
-                            ></i>
-                            {/* <i
-                              className="bi bi-trash-fill dashdelete"
-                              onClick={() => handleDelete(job)}
-                            ></i> */}
-                          </div>
-                        </div>
-                      </div>
-                    </>
-                  );
-                })}
-            </>
-          )}
+              <div>
+                <span className="dashhead">Port Name:</span>
+                <p className="toms">{job?.portId?.portName}</p>
+              </div>
+              <div>
+                <span className="dashhead">Vessel Name:</span>
+                <p className="toms">{job?.vesselId?.vesselName}</p>
+              </div>
+              <div className="d-flex justify-content-between">
+                <div className="viewdetail" onClick={() => handleJobClick(job)}>
+                  View Detail >>>
+                </div>
+                <div className="d-flex">
+                  <i
+                    className="bi bi-pencil-square dashedit"
+                    onClick={() => handleEditJob(job)}
+                  ></i>
+                  {/* <i
+                  className="bi bi-trash-fill dashdelete"
+                  onClick={() => handleDelete(job)}
+                ></i> */}
+                </div>
+              </div>
+            </div>
+          ))}
+
           {jobsList?.length == 0 && (
             <>
               <p>Currently, there are no available jobs</p>{" "}
             </>
           )}
-          {/* <div className=" col-3 shadow p-3 mb-5 bg-body-tertiary rounded">
-            <div className="d-flex justify-content-between">
-              <div>
-                <img src={Group}></img>
-              </div>
-              <div className="pending">Pending From Operations</div>
-            </div>
-            <div>
-              <span className="dashhead"> Job ID:</span>
-              <p className="toms">TOMS/OM/24/123</p>
-            </div>
-            <div>
-              <span className="dashhead"> Port Name:</span>
-              <p className="toms">Sohar Port</p>
-            </div>
-            <div>
-              <span className="dashhead"> Vessel Name:</span>
-              <p className="toms">MV Viva Globus</p>
-            </div>
-            <div className="d-flex justify-content-between">
-              <div className="viewdetail">View Detail >>></div>
-              <div className="d-flex">
-                <i className="bi bi-pencil-square dashedit"></i>
-                <i className="bi bi-trash-fill dashdelete"></i>
-              </div>
-            </div>
+
+          <div className="pagination-section">
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className="previous-btn"
+            >
+              Previous
+            </button>
+
+            {[...Array(totalPages)].map((_, index) => (
+              <button
+                key={index}
+                onClick={() => paginate(index + 1)}
+                className={
+                  currentPage === index + 1
+                    ? "active"
+                    : "other-pagination-buttons"
+                }
+              >
+                {index + 1}
+              </button>
+            ))}
+
+            <button
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+              }
+              disabled={currentPage === totalPages}
+              className="next-btn-pagination"
+            >
+              Next
+            </button>
           </div>
-          <div className=" col-3 shadow p-3 mb-5 bg-body-tertiary rounded">
-            <div className="d-flex justify-content-between">
-              <div>
-                <img src={Group}></img>
-              </div>
-              <div className="Operations">Operations Completed</div>
-            </div>
-            <div>
-              <span className="dashhead"> Job ID:</span>
-              <p className="toms">TOMS/OM/24/123</p>
-            </div>
-            <div>
-              <span className="dashhead"> Port Name:</span>
-              <p className="toms">Sohar Port</p>
-            </div>
-            <div>
-              <span className="dashhead"> Vessel Name:</span>
-              <p className="toms">MV Viva Globus</p>
-            </div>
-            <div className="d-flex justify-content-between">
-              <div className="viewdetail">View Detail >>></div>
-              <div className="d-flex">
-                <i className="bi bi-pencil-square dashedit"></i>
-                <i className="bi bi-trash-fill dashdelete"></i>
-              </div>
-            </div>
-          </div> */}
+
+          <div>
+            <label htmlFor="itemsPerPage">Items per page: </label>
+            <select id="itemsPerPage">
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={15}>15</option>
+              <option value={20}>20</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
+            </select>
+          </div>
         </div>
-        {/* <div className="row  gap-5 d-flex justify-content-center ">
-          <div className=" col-3 shadow p-3 mb-5 bg-body-tertiary rounded">
-            <div className="d-flex justify-content-between">
-              <div>
-                <img src={Group}></img>
-              </div>
-              <div className="dashstatus">Customer Approved</div>
-            </div>
-            <div>
-              <span className="dashhead"> Job ID:</span>
-              <p className="toms">TOMS/OM/24/123</p>
-            </div>
-            <div>
-              <span className="dashhead"> Port Name:</span>
-              <p className="toms">Sohar Port</p>
-            </div>
-            <div>
-              <span className="dashhead"> Vessel Name:</span>
-              <p className="toms">MV Viva Globus</p>
-            </div>
-            <div className="d-flex justify-content-between">
-              <div className="viewdetail">View Detail >>></div>
-              <div className="d-flex">
-                <i className="bi bi-pencil-square dashedit"></i>
-                <i className="bi bi-trash-fill dashdelete"></i>
-              </div>
-            </div>
-          </div>
-          <div className=" col-3 shadow p-3 mb-5 bg-body-tertiary rounded">
-            <div className="d-flex justify-content-between">
-              <div>
-                <img src={Group}></img>
-              </div>
-              <div className="pending">Pending From Operations</div>
-            </div>
-            <div>
-              <span className="dashhead"> Job ID:</span>
-              <p className="toms">TOMS/OM/24/123</p>
-            </div>
-            <div>
-              <span className="dashhead"> Port Name:</span>
-              <p className="toms">Sohar Port</p>
-            </div>
-            <div>
-              <span className="dashhead"> Vessel Name:</span>
-              <p className="toms">MV Viva Globus</p>
-            </div>
-            <div className="d-flex justify-content-between">
-              <div className="viewdetail">View Detail >>></div>
-              <div className="d-flex">
-                <i className="bi bi-pencil-square dashedit"></i>
-                <i className="bi bi-trash-fill dashdelete"></i>
-              </div>
-            </div>
-          </div>
-          <div className=" col-3 shadow p-3 mb-5 bg-body-tertiary rounded">
-            <div className="d-flex justify-content-between">
-              <div>
-                <img src={Group}></img>
-              </div>
-              <div className="Operations">Operations Completed</div>
-            </div>
-            <div>
-              <span className="dashhead"> Job ID:</span>
-              <p className="toms">TOMS/OM/24/123</p>
-            </div>
-            <div>
-              <span className="dashhead"> Port Name:</span>
-              <p className="toms">Sohar Port</p>
-            </div>
-            <div>
-              <span className="dashhead"> Vessel Name:</span>
-              <p className="toms">MV Viva Globus</p>
-            </div>
-            <div className="d-flex justify-content-between">
-              <div className="viewdetail">View Detail >>></div>
-              <div className="d-flex">
-                <i className="bi bi-pencil-square dashedit"></i>
-                <i className="bi bi-trash-fill dashdelete"></i>
-              </div>
-            </div>
-          </div>
-        </div> */}
       </div>
       <Loader isLoading={isLoading} />
       {openPopUp && (
@@ -397,3 +320,49 @@ const OpsDashboard = () => {
 };
 
 export default OpsDashboard;
+
+{
+  /* <div className="pagination-controls">
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+            >
+              Previous
+            </button>
+
+            {[...Array(totalPages)].map((_, index) => (
+              <button
+                key={index}
+                onClick={() => paginate(index + 1)}
+                className={currentPage === index + 1 ? "active" : ""}
+              >
+                {index + 1}
+              </button>
+            ))}
+
+            <button
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+              }
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </button>
+          </div>
+
+          <div>
+            <label htmlFor="itemsPerPage">Items per page: </label>
+            <select
+              id="itemsPerPage"
+              value={itemsPerPage}
+              onChange={handleItemsPerPageChange}
+            >
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={15}>15</option>
+              <option value={20}>20</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
+            </select>
+          </div> */
+}
