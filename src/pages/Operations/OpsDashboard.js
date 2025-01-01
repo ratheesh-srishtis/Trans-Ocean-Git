@@ -138,9 +138,8 @@ const OpsDashboard = () => {
           <ul className="nav nav-underline gap-3 ">
             <li className="nav-item nav-item-filter">
               <a
-                className={`nav-link carduppercontent ${
-                  selectedTab === "all" ? "active-nav-style" : ""
-                }`}
+                className={`nav-link carduppercontent ${selectedTab === "all" ? "active-nav-style" : ""
+                  }`}
                 aria-current="page"
                 onClick={() => fetchAllJObs("all", selectedStatus, searchTerm)}
               >
@@ -149,9 +148,8 @@ const OpsDashboard = () => {
             </li>
             <li className="nav-item nav-item-filter">
               <a
-                className={`nav-link carduppercontent ${
-                  selectedTab === "day" ? "active-nav-style" : ""
-                }`}
+                className={`nav-link carduppercontent ${selectedTab === "day" ? "active-nav-style" : ""
+                  }`}
                 onClick={() => fetchAllJObs("day", selectedStatus, searchTerm)}
               >
                 Last 24 Hour
@@ -204,23 +202,22 @@ const OpsDashboard = () => {
                   <img src={Group} alt="Group" />
                 </div>
                 <div
-                  className={`dashstatus ${
-                    job?.pdaStatus === 5
+                  className={`dashstatus ${job?.pdaStatus === 5
                       ? "customer-approved"
                       : job?.pdaStatus === 6
-                      ? "pending"
-                      : job?.pdaStatus === 7
-                      ? "Operations"
-                      : ""
-                  }`}
+                        ? "pending"
+                        : job?.pdaStatus === 7
+                          ? "Operations"
+                          : ""
+                    }`}
                 >
                   {job?.pdaStatus === 5
                     ? "Customer Approved"
                     : job?.pdaStatus === 6
-                    ? "Pending from operations"
-                    : job?.pdaStatus === 7
-                    ? "Operations Completed"
-                    : ""}
+                      ? "Pending from operations"
+                      : job?.pdaStatus === 7
+                        ? "Operations Completed"
+                        : ""}
                 </div>
               </div>
               {job?.jobId && (
@@ -264,50 +261,52 @@ const OpsDashboard = () => {
             </>
           )}
 
-          <div className="pagination-section">
-            <button
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-              className="previous-btn"
-            >
-              Previous
-            </button>
-
-            {[...Array(totalPages)].map((_, index) => (
+          <div className="d-flex justify-content-end">
+            <div className="pagination-section">
               <button
-                key={index}
-                onClick={() => paginate(index + 1)}
-                className={
-                  currentPage === index + 1
-                    ? "active"
-                    : "other-pagination-buttons"
-                }
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="previousbtn"
               >
-                {index + 1}
+                Previous
               </button>
-            ))}
 
-            <button
-              onClick={() =>
-                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-              }
-              disabled={currentPage === totalPages}
-              className="next-btn-pagination"
-            >
-              Next
-            </button>
-          </div>
+              {[...Array(totalPages)].map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => paginate(index + 1)}
+                  className={
+                    currentPage === index + 1
+                      ? "active activepagination"
+                      : "otherpaginationbuttons"
+                  }
+                >
+                  {index + 1}
+                </button>
+              ))}
 
-          <div>
-            <label htmlFor="itemsPerPage">Items per page: </label>
-            <select id="itemsPerPage">
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={15}>15</option>
-              <option value={20}>20</option>
-              <option value={50}>50</option>
-              <option value={100}>100</option>
-            </select>
+              <button
+                onClick={() =>
+                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                }
+                disabled={currentPage === totalPages}
+                className="nextbtnpagination"
+              >
+                Next
+              </button>
+            </div>
+
+            <div className="itemspagination">
+              <label htmlFor="itemsPerPage">Items per page: </label>
+              <select className="itemsspace" id="itemsPerPage">
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={15}>15</option>
+                <option value={20}>20</option>
+                <option value={50}>50</option>
+                <option value={100}>100</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>

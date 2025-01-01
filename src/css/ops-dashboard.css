@@ -77,3 +77,32 @@
 .opsstatus{
   padding-right: 31px !important;
 }
+.otherpaginationbuttons{
+  border: 1px solid #53535380;
+  margin-left: 5px;
+  font-size: 0.8rem;
+}
+.activepagination{
+  border: 1px solid #53535380;
+  margin-left: 5px;
+  font-size: 0.8rem;
+}
+.previousbtn{
+  border: 1px solid #53535380;
+  font-size: 0.8rem;
+  
+ }
+ .nextbtnpagination{
+  border: 1px solid #53535380;
+  font-size: 0.8rem;
+  margin-left: 5px;
+ }
+ .itemspagination{
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+ }
+ .itemsspace{
+  margin-left: 5px;
+ }
