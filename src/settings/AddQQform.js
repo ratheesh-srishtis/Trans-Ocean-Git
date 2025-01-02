@@ -100,7 +100,7 @@ const AddVendor = ({ open, onAddQQ, onClose, editMode, QQSet }) => {
         <DialogContent style={{ marginBottom: "60px" }}>
           <form onSubmit={handleSubmit}>
             <div className="row">
-              <div className="col-1 mb-3 align-items-start">
+              <div className="col-12 mb-3 align-items-start">
                 <div className="">
                   <label for="exampleFormControlInput1" className="form-label">
                     {" "}
