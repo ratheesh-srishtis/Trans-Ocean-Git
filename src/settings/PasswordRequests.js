@@ -8,6 +8,7 @@ import { getAllResetPasswordRequests } from "../services/apiService";
 import Swal from "sweetalert2";
 import Loader from "../pages/Loader";
 import PopUp from "../pages/PopUp";
+import { WidthFull } from "@mui/icons-material";
 const PasswordRequests = () => {
   const [selectedRow, setSelectedRow] = useState(null);
   const [open, setOpen] = useState(false);
@@ -69,14 +70,14 @@ const PasswordRequests = () => {
   );
 
   const columns = [
-    { field: "name", headerName: "Name", flex: 2 },
-    { field: "username", headerName: "Username", flex: 2 },
-    { field: "email", headerName: "Email", flex: 2 },
-    { field: "role", headerName: "Role", flex: 2 },
+    { field: "name", headerName: "Name",  flex: 2  },
+    { field: "username", headerName: "Username",  flex: 2},
+    { field: "email", headerName: "Email",  flex: 2  },
+    { field: "role", headerName: "Role",  flex: 2 },
     {
       field: "actions",
       headerName: "Action",
-      flex: 0,
+      flex: 2,
       renderCell: (params) => (
         <>
           <button
