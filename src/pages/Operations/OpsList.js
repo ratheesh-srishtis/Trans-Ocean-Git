@@ -387,7 +387,7 @@ const OpsList = ({ loginResponse }) => {
                 },
               }}
               pagination // Enables pagination
-              pageSizeOptions={[5, 10, 20]} // Sets available page size options
+              pageSizeOptions={[5, 10, 20, 50, 100]} // Sets available page size options
               initialState={{
                 pagination: {
                   paginationModel: {
