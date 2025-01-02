@@ -69,6 +69,8 @@ const JobReportTable = ({
     if (isClicked) {
       console.log("Parent button was clicked!");
       fetchJobReport();
+      setSelectedPort("");
+      setSelectedStatus("");
       // Perform any action here when the parent button is clicked
       onReset(); // Optionally reset the state in the parent
     }
@@ -268,7 +270,9 @@ const JobReportTable = ({
     }
   };
 
-  const [selectedMonth, setSelectedMonth] = useState("12"); // Default to December
+  const [selectedMonth, setSelectedMonth] = useState(
+    (new Date().getMonth() + 1).toString()
+  ); // Default to December
 
   // Array of months
   const months = [

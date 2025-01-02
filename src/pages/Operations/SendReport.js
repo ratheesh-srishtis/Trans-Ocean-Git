@@ -358,7 +358,7 @@ const SendReport = ({
                         for="exampleFormControlInput1"
                         className="form-label formlabelcolor"
                       >
-                        EmailBody:
+                        Email Body:
                       </label>
                       <textarea
                         rows="3"
@@ -408,7 +408,10 @@ const SendReport = ({
                       <input
                         type="file"
                         multiple
-                        onChange={handleFileUpload}
+                        onChange={(e) => {
+                          handleFileUpload(e); // Call your upload handler
+                          e.target.value = ""; // Reset the file input value to hide uploaded file names
+                        }}
                         style={{ display: "none" }}
                         id="file-upload"
                       />

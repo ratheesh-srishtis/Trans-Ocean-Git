@@ -411,6 +411,7 @@ const EditOperation = ({
       if (response?.status == true) {
         setMessage("Job has been successfully completed");
         setOpenPopUp(true);
+        fetchPdaDetails(editData?._id);
       } else {
         setMessage("Job updation failed. Please try again");
         setOpenPopUp(true);
@@ -458,6 +459,22 @@ const EditOperation = ({
               </div>
             </div>
           </div>
+          {pdaResponse?.pdaStatus == 6 && (
+            <>
+              <div className="draft-pda ">
+                {pdaResponse?.pdaStatus == 6 && (
+                  <>
+                    <span className="badge statusbadge ">
+                      <i className="bi bi-check2-circle circle"></i>{" "}
+                    </span>{" "}
+                  </>
+                )}
+                <div className="pdabadge">
+                  {pdaResponse?.pdaStatus == 6 ? "Completed" : ""}
+                </div>
+              </div>
+            </>
+          )}
         </div>
         {/* secondrow */}
         <div className="charge">
@@ -633,7 +650,10 @@ const EditOperation = ({
                 id="portofolio"
                 accept="image/*"
                 multiple
-                onChange={documentsUpload}
+                onChange={(e) => {
+                  documentsUpload(e); // Call your upload handler
+                  e.target.value = ""; // Reset the file input value to hide uploaded file names
+                }}
               ></input>
             </div>
             <div className="mb-2 col-8">
@@ -765,14 +785,19 @@ const EditOperation = ({
             >
               Final Report
             </button>
-            <button
-              className="btn btna submit-button btnfsize"
-              onClick={() => {
-                updateQuotation();
-              }}
-            >
-              Completed
-            </button>
+            {pdaResponse?.pdaStatus != 6 && (
+              <>
+                <button
+                  className="btn btna submit-button btnfsize"
+                  onClick={() => {
+                    updateQuotation();
+                  }}
+                >
+                  Completed
+                </button>
+              </>
+            )}
+
             <button
               className="btn btna submit-button btnfsize"
               onClick={() => {

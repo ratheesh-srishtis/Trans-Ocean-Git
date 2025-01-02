@@ -47,7 +47,9 @@ const JobReport = ({
     console.log(reportTableList, "reportTableList");
   }, [reportList, reportTableList]);
 
-  const [selectedMonth, setSelectedMonth] = useState("12"); // Default to December
+  const [selectedMonth, setSelectedMonth] = useState(() =>
+    (new Date().getMonth() + 1).toString()
+  );
 
   // Array of months
   const months = [
@@ -160,7 +162,8 @@ const JobReport = ({
   useEffect(() => {
     console.log(selectedJobs, "selectedJobs");
     console.log(selectedIds, "selectedIds");
-  }, [selectedJobs, selectedIds]);
+    console.log(selectedMonth, "selectedMonth");
+  }, [selectedJobs, selectedIds, selectedMonth]);
 
   useEffect(() => {
     fetchJobReport();
@@ -241,16 +244,11 @@ const JobReport = ({
             ></input>
           </div>
         </div>
-        <div className="row mt-3">
-
-
-
-
-        </div>
+        <div className="row mt-3"></div>
         <div className="bbn"> </div>
         <div className="row mt-3">
-        <div className="col-10 jobtotal ">
-          <label for="inputPassword" className=" form-label jobused">
+          <div className="col-10 jobtotal ">
+            <label for="inputPassword" className=" form-label jobused">
               {" "}
               Jobs used in each port :
             </label>
