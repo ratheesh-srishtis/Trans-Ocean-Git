@@ -219,8 +219,10 @@ const FinalReport = ({
     }
   };
 
-  const handleFileDelete = async (fileUrl) => {
+  const handleFileDelete = async (fileUrl, index) => {
     // Update the state by filtering out the file with the specified URL
+    // const updatedFiles = uploadedFiles.filter((file) => file.url !== fileUrl);
+    // setUploadedFiles(updatedFiles);
     console.log(fileUrl, "fileUrl");
 
     if (fileUrl?._id) {
@@ -231,9 +233,8 @@ const FinalReport = ({
       try {
         const response = await deleteServiceReportDocument(payload);
         if (response.status) {
-          const updatedFiles = uploadedFiles.filter(
-            (file) => file.url !== fileUrl?.url
-          );
+          const updatedFiles = uploadedFiles.filter((_, i) => i !== index);
+          console.log(updatedFiles, "updatedFiles");
           setUploadedFiles(updatedFiles);
           setMessage("File has been deleted successfully");
           setOpenPopUp(true);
@@ -245,13 +246,48 @@ const FinalReport = ({
         setMessage("Failed please try again!");
         setOpenPopUp(true);
       }
-    } else {
-      const updatedFiles = uploadedFiles.filter(
-        (file) => file.url !== fileUrl?.url
-      );
+    } else if (!fileUrl?._id) {
+      const updatedFiles = uploadedFiles.filter((_, i) => i !== index);
+      console.log(updatedFiles, "updatedFiles");
       setUploadedFiles(updatedFiles);
+      setMessage("File has been deleted successfully");
+      setOpenPopUp(true);
     }
   };
+
+  // const handleFileDelete = async (fileUrl) => {
+  //   // Update the state by filtering out the file with the specified URL
+  //   console.log(fileUrl, "fileUrl");
+
+  //   if (fileUrl?._id) {
+  //     let payload = {
+  //       pdaId: pdaId,
+  //       documentId: fileUrl?._id,
+  //     };
+  //     try {
+  //       const response = await deleteServiceReportDocument(payload);
+  //       if (response.status) {
+  //         const updatedFiles = uploadedFiles.filter(
+  //           (file) => file.url !== fileUrl?.url
+  //         );
+  //         setUploadedFiles(updatedFiles);
+  //         setMessage("File has been deleted successfully");
+  //         setOpenPopUp(true);
+  //       } else {
+  //         setMessage("Failed please try again!");
+  //         setOpenPopUp(true);
+  //       }
+  //     } catch (error) {
+  //       setMessage("Failed please try again!");
+  //       setOpenPopUp(true);
+  //     }
+  //   } else {
+  //     const updatedFiles = uploadedFiles.filter(
+  //       (file) => file.url !== fileUrl?.url
+  //     );
+  //     setUploadedFiles(updatedFiles);
+  //   }
+  // };
 
   useEffect(() => {
     console.log("serviceReports:", serviceReports);
@@ -472,7 +508,9 @@ const FinalReport = ({
                                     </div>
                                     <div
                                       className="iconpdf"
-                                      onClick={() => handleFileDelete(file)}
+                                      onClick={() =>
+                                        handleFileDelete(file, index)
+                                      }
                                     >
                                       <i className="bi bi-trash"></i>
                                     </div>

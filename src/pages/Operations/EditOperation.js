@@ -265,27 +265,39 @@ const EditOperation = ({
     }
   };
 
-  const handleFileDelete = async (fileUrl) => {
+  const handleFileDelete = async (fileUrl, index) => {
     // Update the state by filtering out the file with the specified URL
     // const updatedFiles = uploadedFiles.filter((file) => file.url !== fileUrl);
     // setUploadedFiles(updatedFiles);
     console.log(fileUrl, "fileUrl");
-    let payload = {
-      pdaId: editData?._id,
-      documentId: fileUrl?._id,
-    };
-    try {
-      const response = await deletePdaDocument(payload);
-      if (response.status) {
-        setMessage("File has been deleted successfully");
-        setOpenPopUp(true);
-        fetchPdaDetails(editData?._id);
-      } else {
+
+    if (fileUrl?._id) {
+      let payload = {
+        pdaId: editData?._id,
+        documentId: fileUrl?._id,
+      };
+      try {
+        const response = await deletePdaDocument(payload);
+        if (response.status) {
+          const updatedFiles = uploadedFiles.filter((_, i) => i !== index);
+          console.log(updatedFiles, "updatedFiles");
+          setUploadedFiles(updatedFiles);
+          setMessage("File has been deleted successfully");
+          setOpenPopUp(true);
+          fetchPdaDetails(editData?._id);
+        } else {
+          setMessage("Failed please try again!");
+          setOpenPopUp(true);
+        }
+      } catch (error) {
         setMessage("Failed please try again!");
         setOpenPopUp(true);
       }
-    } catch (error) {
-      setMessage("Failed please try again!");
+    } else if (!fileUrl?._id) {
+      const updatedFiles = uploadedFiles.filter((_, i) => i !== index);
+      console.log(updatedFiles, "updatedFiles");
+      setUploadedFiles(updatedFiles);
+      setMessage("File has been deleted successfully");
       setOpenPopUp(true);
     }
   };
@@ -651,7 +663,7 @@ const EditOperation = ({
                                 </div>
                                 <div
                                   className="iconpdf"
-                                  onClick={() => handleFileDelete(file)}
+                                  onClick={() => handleFileDelete(file, index)}
                                 >
                                   <i className="bi bi-trash"></i>
                                 </div>

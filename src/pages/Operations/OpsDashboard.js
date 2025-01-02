@@ -138,8 +138,9 @@ const OpsDashboard = () => {
           <ul className="nav nav-underline gap-3 ">
             <li className="nav-item nav-item-filter">
               <a
-                className={`nav-link carduppercontent ${selectedTab === "all" ? "active-nav-style" : ""
-                  }`}
+                className={`nav-link carduppercontent ${
+                  selectedTab === "all" ? "active-nav-style" : ""
+                }`}
                 aria-current="page"
                 onClick={() => fetchAllJObs("all", selectedStatus, searchTerm)}
               >
@@ -148,8 +149,9 @@ const OpsDashboard = () => {
             </li>
             <li className="nav-item nav-item-filter">
               <a
-                className={`nav-link carduppercontent ${selectedTab === "day" ? "active-nav-style" : ""
-                  }`}
+                className={`nav-link carduppercontent ${
+                  selectedTab === "day" ? "active-nav-style" : ""
+                }`}
                 onClick={() => fetchAllJObs("day", selectedStatus, searchTerm)}
               >
                 Last 24 Hour
@@ -202,22 +204,23 @@ const OpsDashboard = () => {
                   <img src={Group} alt="Group" />
                 </div>
                 <div
-                  className={`dashstatus ${job?.pdaStatus === 5
+                  className={`dashstatus ${
+                    job?.pdaStatus === 5
                       ? "customer-approved"
                       : job?.pdaStatus === 6
-                        ? "pending"
-                        : job?.pdaStatus === 7
-                          ? "Operations"
-                          : ""
-                    }`}
+                      ? "pending"
+                      : job?.pdaStatus === 7
+                      ? "Operations"
+                      : ""
+                  }`}
                 >
                   {job?.pdaStatus === 5
                     ? "Customer Approved"
                     : job?.pdaStatus === 6
-                      ? "Pending from operations"
-                      : job?.pdaStatus === 7
-                        ? "Operations Completed"
-                        : ""}
+                    ? "Pending from operations"
+                    : job?.pdaStatus === 7
+                    ? "Operations Completed"
+                    : ""}
                 </div>
               </div>
               {job?.jobId && (
@@ -298,7 +301,12 @@ const OpsDashboard = () => {
 
             <div className="itemspagination">
               <label htmlFor="itemsPerPage">Items per page: </label>
-              <select className="itemsspace" id="itemsPerPage">
+              <select
+                className="itemsspace"
+                id="itemsPerPage"
+                value={itemsPerPage}
+                onChange={handleItemsPerPageChange}
+              >
                 <option value={5}>5</option>
                 <option value={10}>10</option>
                 <option value={15}>15</option>
