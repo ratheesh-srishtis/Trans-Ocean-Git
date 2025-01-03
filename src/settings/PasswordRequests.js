@@ -80,7 +80,7 @@ const PasswordRequests = () => {
       renderCell: (params) => (
         <>
           <button
-            className="btn btna submit-button btnfsize"
+            className="btn btna submitpaymentbutton btnfsize"
             onClick={() => handleEdit(params.row)}
           >
             Reset Password
