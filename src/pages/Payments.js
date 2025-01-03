@@ -84,11 +84,9 @@ const Payments = () => {
             <select
               name="status"
               className="form-select vesselbox statuss"
-
             >
               <option value={1}>Monthly </option>
               <option value={2}>Yearly </option>
-
             </select>
           </div>
         </div>
