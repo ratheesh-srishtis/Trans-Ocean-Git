@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Dashboard from "../pages/Dashboard";
 import Quotations from "../pages/Quotations";
 import Payments from "../pages/Payments";
+import CustomerPayments from "../pages/CustomerPayments";
 import Soa from "../pages/Soa";
 import CreatePDA from "../pages/CreatePDA";
 import { useAuth } from "../context/AuthContext";
@@ -102,6 +103,7 @@ const Content = () => {
         element={<Quotations loginResponse={loginResponse} />}
       />
       <Route path="/payments" element={<Payments />} />
+      <Route path="/customerpayment" element={<CustomerPayments />} />
       <Route path="/soa" element={<Soa />} />
       <Route
         path="/update-jobs"

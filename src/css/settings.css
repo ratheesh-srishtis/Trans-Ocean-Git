@@ -1,9 +1,10 @@
-.submit-button {
+.submitpaymentbutton {
     color: #ffffff;
     background-color: #1ebbee;
     border-color: #1ebbee;
     display: flex;
     justify-content: end;
+    margin-top: 10px;
   }
   .choosepermi{
     font-size: 13px;
