@@ -403,7 +403,7 @@ const EditOperation = ({
   const updateQuotation = async () => {
     let pdaPayload = {
       pdaId: editData?._id,
-      status: 6,
+      status: 7,
     };
     try {
       const response = await changeQuotationStatus(pdaPayload);
@@ -459,10 +459,10 @@ const EditOperation = ({
               </div>
             </div>
           </div>
-          {pdaResponse?.pdaStatus == 6 && (
+          {pdaResponse?.pdaStatus == 7 && (
             <>
               <div className="draft-pda ">
-                {pdaResponse?.pdaStatus == 6 && (
+                {pdaResponse?.pdaStatus == 7 && (
                   <>
                     <span className="badge statusbadge ">
                       <i className="bi bi-check2-circle circle"></i>{" "}
@@ -470,7 +470,7 @@ const EditOperation = ({
                   </>
                 )}
                 <div className="pdabadge">
-                  {pdaResponse?.pdaStatus == 6 ? "Completed" : ""}
+                  {pdaResponse?.pdaStatus == 7 ? "Completed" : ""}
                 </div>
               </div>
             </>
@@ -785,7 +785,7 @@ const EditOperation = ({
             >
               Final Report
             </button>
-            {pdaResponse?.pdaStatus != 6 && (
+            {pdaResponse?.pdaStatus != 7 && (
               <>
                 <button
                   className="btn btna submit-button btnfsize"
