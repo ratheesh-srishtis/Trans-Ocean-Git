@@ -30,7 +30,7 @@ const CrewChangeList = ({
   const [formValues, setFormValues] = useState({
     onSigners: [
       {
-        creawName: "",
+        crewName: "",
         flight: "",
         ATAMuscat: "",
         hotel: "",
@@ -42,9 +42,9 @@ const CrewChangeList = ({
     ],
     offSigners: [
       {
-        creawName: "",
+        crewName: "",
         flight: "",
-        ATAMuscat: "",
+        ATDMuscat: "",
         hotel: "",
         checkIn: "",
         checkOut: "",
@@ -72,7 +72,7 @@ const CrewChangeList = ({
   // Add New Signer
   const addNewSigner = (type) => {
     const newSigner = {
-      creawName: "",
+      crewName: "",
       flight: "",
       ATAMuscat: "",
       hotel: "",
@@ -134,8 +134,8 @@ const CrewChangeList = ({
 
     const formattedOffSigners = formValues.offSigners.map((signer) => ({
       ...signer,
-      ATAMuscat: signer.ATAMuscat
-        ? moment(signer.ATAMuscat).format("YYYY-MM-DD HH:mm")
+      ATDMuscat: signer.ATDMuscat
+        ? moment(signer.ATDMuscat).format("YYYY-MM-DD HH:mm")
         : "",
       checkIn: signer.checkIn
         ? moment(signer.checkIn).format("YYYY-MM-DD")
@@ -174,9 +174,19 @@ const CrewChangeList = ({
   };
 
   const fieldOrder = [
-    "creawName",
+    "crewName",
     "flight",
     "ATAMuscat",
+    "hotel",
+    "checkIn",
+    "checkOut",
+    "food",
+    "transportation",
+  ];
+  const offSignersFieldOrder = [
+    "crewName",
+    "flight",
+    "ATDMuscat",
     "hotel",
     "checkIn",
     "checkOut",
@@ -211,7 +221,7 @@ const CrewChangeList = ({
 
   const handleOffsignersDateChange = (date, index, group) => {
     const updatedGroup = [...formValues[group]];
-    updatedGroup[index]["ATAMuscat"] = date;
+    updatedGroup[index]["ATDMuscat"] = date;
     setFormValues((prevValues) => ({
       ...prevValues,
       [group]: updatedGroup,
@@ -272,8 +282,15 @@ const CrewChangeList = ({
                   field === "ATAMuscat" ? (
                     <div className="col-3 crew" key={field}>
                       <label className="form-label">
-                        {field.replace(/([A-Z])/g, " $1")}
+                        {
+                          field
+                            .replace(/([A-Z])/g, " $1") // Add space before capital letters
+                            .replace(/^./, (str) => str.toUpperCase()) // Capitalize the first letter of the first word
+                            .toLowerCase() // Convert the rest to lowercase
+                            .replace(/\b\w/g, (str) => str.toUpperCase()) // Capitalize each word
+                        }
                       </label>
+
                       <DatePicker
                         dateFormat="dd/MM/yyyy HH:mm aa"
                         selected={
@@ -294,7 +311,13 @@ const CrewChangeList = ({
                     <>
                       <div className="col-3 crew" key={field}>
                         <label className="form-label">
-                          {field.replace(/([A-Z])/g, " $1")}
+                          {
+                            field
+                              .replace(/([A-Z])/g, " $1") // Add space before capital letters
+                              .replace(/^./, (str) => str.toUpperCase()) // Capitalize the first letter of the first word
+                              .toLowerCase() // Convert the rest to lowercase
+                              .replace(/\b\w/g, (str) => str.toUpperCase()) // Capitalize each word
+                          }
                         </label>
 
                         <DatePicker
@@ -315,7 +338,13 @@ const CrewChangeList = ({
                     <>
                       <div className="col-3 crew" key={field}>
                         <label className="form-label">
-                          {field.replace(/([A-Z])/g, " $1")}
+                          {
+                            field
+                              .replace(/([A-Z])/g, " $1") // Add space before capital letters
+                              .replace(/^./, (str) => str.toUpperCase()) // Capitalize the first letter of the first word
+                              .toLowerCase() // Convert the rest to lowercase
+                              .replace(/\b\w/g, (str) => str.toUpperCase()) // Capitalize each word
+                          }
                         </label>
 
                         <DatePicker
@@ -335,8 +364,15 @@ const CrewChangeList = ({
                   ) : (
                     <div className="col-3 crew" key={field}>
                       <label className="form-label">
-                        {field.replace(/([A-Z])/g, " $1")}
+                        {
+                          field
+                            .replace(/([A-Z])/g, " $1") // Add space before capital letters
+                            .replace(/^./, (str) => str.toUpperCase()) // Capitalize the first letter of the first word
+                            .toLowerCase() // Convert the rest to lowercase
+                            .replace(/\b\w/g, (str) => str.toUpperCase()) // Capitalize each word
+                        }
                       </label>
+
                       <input
                         type="text"
                         className="form-control"
@@ -374,12 +410,19 @@ const CrewChangeList = ({
 
             {formValues.offSigners.map((signer, index) => (
               <div key={index} className="d-flex flex-wrap signers-wrapper">
-                {fieldOrder.map((field) =>
-                  field === "ATAMuscat" ? (
+                {offSignersFieldOrder.map((field) =>
+                  field === "ATDMuscat" ? (
                     <div className="col-3 crew" key={field}>
                       <label className="form-label">
-                        {field.replace(/([A-Z])/g, " $1")}
+                        {
+                          field
+                            .replace(/([A-Z])/g, " $1") // Add space before capital letters
+                            .replace(/^./, (str) => str.toUpperCase()) // Capitalize the first letter of the first word
+                            .toLowerCase() // Convert the rest to lowercase
+                            .replace(/\b\w/g, (str) => str.toUpperCase()) // Capitalize each word
+                        }
                       </label>
+
                       <DatePicker
                         dateFormat="dd/MM/yyyy HH:mm aa"
                         selected={
@@ -400,7 +443,13 @@ const CrewChangeList = ({
                     <>
                       <div className="col-3 crew" key={field}>
                         <label className="form-label">
-                          {field.replace(/([A-Z])/g, " $1")}
+                          {
+                            field
+                              .replace(/([A-Z])/g, " $1") // Add space before capital letters
+                              .replace(/^./, (str) => str.toUpperCase()) // Capitalize the first letter of the first word
+                              .toLowerCase() // Convert the rest to lowercase
+                              .replace(/\b\w/g, (str) => str.toUpperCase()) // Capitalize each word
+                          }
                         </label>
 
                         <DatePicker
@@ -425,7 +474,13 @@ const CrewChangeList = ({
                     <>
                       <div className="col-3 crew" key={field}>
                         <label className="form-label">
-                          {field.replace(/([A-Z])/g, " $1")}
+                          {
+                            field
+                              .replace(/([A-Z])/g, " $1") // Add space before capital letters
+                              .replace(/^./, (str) => str.toUpperCase()) // Capitalize the first letter of the first word
+                              .toLowerCase() // Convert the rest to lowercase
+                              .replace(/\b\w/g, (str) => str.toUpperCase()) // Capitalize each word
+                          }
                         </label>
 
                         <DatePicker
@@ -449,8 +504,15 @@ const CrewChangeList = ({
                   ) : (
                     <div className="col-3 crew" key={field}>
                       <label className="form-label">
-                        {field.replace(/([A-Z])/g, " $1")}
+                        {
+                          field
+                            .replace(/([A-Z])/g, " $1") // Add space before capital letters
+                            .replace(/^./, (str) => str.toUpperCase()) // Capitalize the first letter of the first word
+                            .toLowerCase() // Convert the rest to lowercase
+                            .replace(/\b\w/g, (str) => str.toUpperCase()) // Capitalize each word
+                        }
                       </label>
+
                       <input
                         type="text"
                         className="form-control"

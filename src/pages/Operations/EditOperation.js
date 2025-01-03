@@ -265,27 +265,39 @@ const EditOperation = ({
     }
   };
 
-  const handleFileDelete = async (fileUrl) => {
+  const handleFileDelete = async (fileUrl, index) => {
     // Update the state by filtering out the file with the specified URL
     // const updatedFiles = uploadedFiles.filter((file) => file.url !== fileUrl);
     // setUploadedFiles(updatedFiles);
     console.log(fileUrl, "fileUrl");
-    let payload = {
-      pdaId: editData?._id,
-      documentId: fileUrl?._id,
-    };
-    try {
-      const response = await deletePdaDocument(payload);
-      if (response.status) {
-        setMessage("File has been deleted successfully");
-        setOpenPopUp(true);
-        fetchPdaDetails(editData?._id);
-      } else {
+
+    if (fileUrl?._id) {
+      let payload = {
+        pdaId: editData?._id,
+        documentId: fileUrl?._id,
+      };
+      try {
+        const response = await deletePdaDocument(payload);
+        if (response.status) {
+          const updatedFiles = uploadedFiles.filter((_, i) => i !== index);
+          console.log(updatedFiles, "updatedFiles");
+          setUploadedFiles(updatedFiles);
+          setMessage("File has been deleted successfully");
+          setOpenPopUp(true);
+          fetchPdaDetails(editData?._id);
+        } else {
+          setMessage("Failed please try again!");
+          setOpenPopUp(true);
+        }
+      } catch (error) {
         setMessage("Failed please try again!");
         setOpenPopUp(true);
       }
-    } catch (error) {
-      setMessage("Failed please try again!");
+    } else if (!fileUrl?._id) {
+      const updatedFiles = uploadedFiles.filter((_, i) => i !== index);
+      console.log(updatedFiles, "updatedFiles");
+      setUploadedFiles(updatedFiles);
+      setMessage("File has been deleted successfully");
       setOpenPopUp(true);
     }
   };
@@ -399,6 +411,7 @@ const EditOperation = ({
       if (response?.status == true) {
         setMessage("Job has been successfully completed");
         setOpenPopUp(true);
+        fetchPdaDetails(editData?._id);
       } else {
         setMessage("Job updation failed. Please try again");
         setOpenPopUp(true);
@@ -446,6 +459,22 @@ const EditOperation = ({
               </div>
             </div>
           </div>
+          {pdaResponse?.pdaStatus == 6 && (
+            <>
+              <div className="draft-pda ">
+                {pdaResponse?.pdaStatus == 6 && (
+                  <>
+                    <span className="badge statusbadge ">
+                      <i className="bi bi-check2-circle circle"></i>{" "}
+                    </span>{" "}
+                  </>
+                )}
+                <div className="pdabadge">
+                  {pdaResponse?.pdaStatus == 6 ? "Completed" : ""}
+                </div>
+              </div>
+            </>
+          )}
         </div>
         {/* secondrow */}
         <div className="charge">
@@ -621,7 +650,10 @@ const EditOperation = ({
                 id="portofolio"
                 accept="image/*"
                 multiple
-                onChange={documentsUpload}
+                onChange={(e) => {
+                  documentsUpload(e); // Call your upload handler
+                  e.target.value = ""; // Reset the file input value to hide uploaded file names
+                }}
               ></input>
             </div>
             <div className="mb-2 col-8">
@@ -651,7 +683,7 @@ const EditOperation = ({
                                 </div>
                                 <div
                                   className="iconpdf"
-                                  onClick={() => handleFileDelete(file)}
+                                  onClick={() => handleFileDelete(file, index)}
                                 >
                                   <i className="bi bi-trash"></i>
                                 </div>
@@ -753,14 +785,19 @@ const EditOperation = ({
             >
               Final Report
             </button>
-            <button
-              className="btn btna submit-button btnfsize"
-              onClick={() => {
-                updateQuotation();
-              }}
-            >
-              Completed
-            </button>
+            {pdaResponse?.pdaStatus != 6 && (
+              <>
+                <button
+                  className="btn btna submit-button btnfsize"
+                  onClick={() => {
+                    updateQuotation();
+                  }}
+                >
+                  Completed
+                </button>
+              </>
+            )}
+
             <button
               className="btn btna submit-button btnfsize"
               onClick={() => {

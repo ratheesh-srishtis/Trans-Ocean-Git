@@ -347,7 +347,8 @@ const OKTBReport = ({
               <div className="urgent">For urgent attention</div>
               <div className="dear">
                 <div>
-                  Dear Sir, This is to advise that the following persons are
+                  Dear Sir,
+                  <br></br> This is to advise that the following persons are
                   arriving at {to ? to : "Muscat"} Airport as follows:
                   <br />
                 </div>
@@ -368,7 +369,7 @@ const OKTBReport = ({
                     )}
                   </div>
                   <div className="col-8 queheading">
-                    <div> Passenger's  Name:</div>
+                    <div> Passengers Name:</div>
                     <textarea
                       type="text"
                       className="form-control passwidth"

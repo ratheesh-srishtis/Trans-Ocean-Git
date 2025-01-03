@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 
 const QQDialog = ({ open, onClose, pdaId, ports, vessels }) => {
+  console.log(vessels, "vessels_QQDialog");
   const transwave = require("../../assets/images/EPDA-MV-TBN-SALALAH-CARGO-(3)-1.jpg");
   const Group = require("../../assets/images/TRANSocean-LOGO.png");
   const footer = require("../../assets/images/4.jpg");
@@ -76,7 +77,7 @@ const QQDialog = ({ open, onClose, pdaId, ports, vessels }) => {
           maxWidth="lg"
         >
           <div className="d-flex justify-content-between " onClick={onClose}>
-            <DialogTitle>QQ Dialog </DialogTitle>
+            <DialogTitle></DialogTitle>
             <div className="closeicon">
               <i className="bi bi-x-lg "></i>
             </div>

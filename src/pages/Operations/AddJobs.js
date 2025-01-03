@@ -832,7 +832,10 @@ const AddJobs = ({
                       id="portofolio"
                       accept="image/*"
                       multiple
-                      onChange={documentsUpload}
+                      onChange={(e) => {
+                        documentsUpload(e); // Call your upload handler
+                        e.target.value = ""; // Reset the file input value to hide uploaded file names
+                      }}
                     ></input>
                   </div>
                 </div>

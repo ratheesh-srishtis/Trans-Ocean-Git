@@ -16,6 +16,7 @@ import {
   getAnchorageLocations,
 } from "../../services/apiService";
 import { useRef } from "react";
+import moment from "moment";
 
 const FinalReportDialog = ({ open, onClose, pdaId, ports }) => {
   const transwave = require("../../assets/images/EPDA-MV-TBN-SALALAH-CARGO-(3)-1.jpg");
@@ -204,7 +205,11 @@ const FinalReportDialog = ({ open, onClose, pdaId, ports }) => {
                     serviceReports.map((report, index) => (
                       <tr key={index}>
                         <td className="pocstyl">{report?.description}</td>
-                        <td className="pocstyl">{report?.serviceDate}</td>
+                        <td className="pocstyl">
+                          {moment
+                            .utc(report?.serviceDate, "DD-MM-YYYY HH:mm")
+                            .format("DD-MM-YYYY HH:mm A")}
+                        </td>
                         <td className="pocstyl">{report?.serviceActivity}</td>
                         <td className="pocstyl">{report?.quantity}</td>
                         <td className="pocstyl">{report?.remark}</td>

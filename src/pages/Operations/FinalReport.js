@@ -154,10 +154,17 @@ const FinalReport = ({
       const serviceReportResponse = await getServiceReport(data);
       console.log("serviceReportGet", serviceReportResponse);
 
-      setServiceReports(serviceReportResponse?.report);
-      setUploadedFiles(serviceReportResponse?.reportDocument?.serviceDocuments);
+      // Update state with the fetched data
+      setServiceReports(serviceReportResponse?.report || []);
+      setUploadedFiles(
+        serviceReportResponse?.reportDocument?.serviceDocuments || []
+      );
+
+      // Return the fetched reports for immediate validation
+      return serviceReportResponse?.report || [];
     } catch (error) {
-      console.error("Failed to fetch quotations:", error);
+      console.error("Failed to fetch service reports:", error);
+      return []; // Return an empty array in case of error
     }
   };
 
@@ -219,8 +226,10 @@ const FinalReport = ({
     }
   };
 
-  const handleFileDelete = async (fileUrl) => {
+  const handleFileDelete = async (fileUrl, index) => {
     // Update the state by filtering out the file with the specified URL
+    // const updatedFiles = uploadedFiles.filter((file) => file.url !== fileUrl);
+    // setUploadedFiles(updatedFiles);
     console.log(fileUrl, "fileUrl");
 
     if (fileUrl?._id) {
@@ -231,9 +240,8 @@ const FinalReport = ({
       try {
         const response = await deleteServiceReportDocument(payload);
         if (response.status) {
-          const updatedFiles = uploadedFiles.filter(
-            (file) => file.url !== fileUrl?.url
-          );
+          const updatedFiles = uploadedFiles.filter((_, i) => i !== index);
+          console.log(updatedFiles, "updatedFiles");
           setUploadedFiles(updatedFiles);
           setMessage("File has been deleted successfully");
           setOpenPopUp(true);
@@ -245,13 +253,48 @@ const FinalReport = ({
         setMessage("Failed please try again!");
         setOpenPopUp(true);
       }
-    } else {
-      const updatedFiles = uploadedFiles.filter(
-        (file) => file.url !== fileUrl?.url
-      );
+    } else if (!fileUrl?._id) {
+      const updatedFiles = uploadedFiles.filter((_, i) => i !== index);
+      console.log(updatedFiles, "updatedFiles");
       setUploadedFiles(updatedFiles);
+      setMessage("File has been deleted successfully");
+      setOpenPopUp(true);
     }
   };
+
+  // const handleFileDelete = async (fileUrl) => {
+  //   // Update the state by filtering out the file with the specified URL
+  //   console.log(fileUrl, "fileUrl");
+
+  //   if (fileUrl?._id) {
+  //     let payload = {
+  //       pdaId: pdaId,
+  //       documentId: fileUrl?._id,
+  //     };
+  //     try {
+  //       const response = await deleteServiceReportDocument(payload);
+  //       if (response.status) {
+  //         const updatedFiles = uploadedFiles.filter(
+  //           (file) => file.url !== fileUrl?.url
+  //         );
+  //         setUploadedFiles(updatedFiles);
+  //         setMessage("File has been deleted successfully");
+  //         setOpenPopUp(true);
+  //       } else {
+  //         setMessage("Failed please try again!");
+  //         setOpenPopUp(true);
+  //       }
+  //     } catch (error) {
+  //       setMessage("Failed please try again!");
+  //       setOpenPopUp(true);
+  //     }
+  //   } else {
+  //     const updatedFiles = uploadedFiles.filter(
+  //       (file) => file.url !== fileUrl?.url
+  //     );
+  //     setUploadedFiles(updatedFiles);
+  //   }
+  // };
 
   useEffect(() => {
     console.log("serviceReports:", serviceReports);
@@ -265,24 +308,27 @@ const FinalReport = ({
     console.log("rows:", rows);
   }, [rows]);
 
-  const openDialog = () => {
-    // handleSubmit();
-    // Check if there is at least one row with any valid (non-empty, non-null) value
-    serviceReportGet(pdaId);
-    const isValid = serviceReports.some((row) =>
-      Object.values(row).some((value) => value !== null && value !== "")
-    );
+  const openDialog = async () => {
+    try {
+      // Fetch service reports and wait for it to complete
+      const serviceReportResponse = await serviceReportGet(pdaId);
 
-    if (!isValid) {
-      // alert("At least one field in the rows must have a valid value.");
-      setMessage("Please make sure to save the report before sending it.");
-      setOpenPopUp(true);
-      return; // Exit the function if validation fails
+      // Check if there is at least one row with any valid (non-empty, non-null) value
+      const isValid = serviceReportResponse.some((row) =>
+        Object.values(row).some((value) => value !== null && value !== "")
+      );
+
+      if (!isValid) {
+        setMessage("Please make sure to save the report before sending it.");
+        setOpenPopUp(true);
+        return; // Exit the function if validation fails
+      }
+
+      // Proceed with the submit logic if the validation passes
+      handleClickOpen();
+    } catch (error) {
+      console.error("Error during validation:", error);
     }
-
-    // Proceed with the submit logic if the validation passes
-
-    handleClickOpen();
   };
 
   const handleSubmit = async () => {
@@ -437,12 +483,15 @@ const FinalReport = ({
               <div className="row align-items-start">
                 <div className="mb-2">
                   <input
-                    className="form-control documentsfsize"
+                    className="form-control documentsfsize hide-file-names"
                     type="file"
                     id="portofolio"
                     accept="image/*"
                     multiple
-                    onChange={documentsUpload}
+                    onChange={(e) => {
+                      documentsUpload(e); // Call your upload handler
+                      e.target.value = ""; // Reset the file input value to hide uploaded file names
+                    }}
                   ></input>
                 </div>
                 <div className="ml-2">
@@ -472,7 +521,9 @@ const FinalReport = ({
                                     </div>
                                     <div
                                       className="iconpdf"
-                                      onClick={() => handleFileDelete(file)}
+                                      onClick={() =>
+                                        handleFileDelete(file, index)
+                                      }
                                     >
                                       <i className="bi bi-trash"></i>
                                     </div>
