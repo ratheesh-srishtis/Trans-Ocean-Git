@@ -426,17 +426,17 @@ const PdaDialog = ({
                           ? getItemName(charge.subchargeId, "subChargeType")
                           : ""}
                       </td>
-                      <td className="stylc">{charge?.quantity}</td>
+                      <td className="stylq">{charge?.quantity}</td>
 
-                      <td className="styld">{charge.customerOMR.toFixed(3)}</td>
-                      <td className="styld">{charge.customerVAT.toFixed(3)}</td>
-                      <td className="styld">
+                      <td className="stylq">{charge.customerOMR.toFixed(3)}</td>
+                      <td className="stylq">{charge.customerVAT.toFixed(3)}</td>
+                      <td className="stylq">
                         {(
                           parseFloat(charge.customerOMR) +
                           parseFloat(charge.customerVAT)
                         ).toFixed(3)}
                       </td>
-                      <td className="styld">
+                      <td className="stylq">
                         {charge.customerTotalUSD.toFixed(2)}
                       </td>
                     </tr>
@@ -458,13 +458,13 @@ const PdaDialog = ({
                   TOTAL AMOUNT
                 </td>
 
-                <td className="stylh">
+                <td className="stylt">
                   {(
                     parseFloat(formattedTotals.customerOMR) +
                     parseFloat(formattedTotals.customerVAT)
                   ).toFixed(3)}
                 </td>
-                <td className="stylh">{formattedTotals.customerTotalUSD}</td>
+                <td className="stylt">{formattedTotals.customerTotalUSD}</td>
               </tr>
             </tbody>
           </table>
@@ -497,13 +497,13 @@ const PdaDialog = ({
             </thead>
             <tbody className="tablebody">
               <tr>
-                <td className="stylc">1</td>
-                <td className="stylc"> 185-199.99 M </td>
+                <td className="stylk">1</td>
+                <td className="stylk"> 185-199.99 M </td>
                 <td className="stylm">
                   Charges per day(minimum a calendar day / 24 hours )
                 </td>
-                <td className="styld">38.610</td>
-                <td className="styld"> 100.00</td>
+                <td className="stylq">38.610</td>
+                <td className="stylq"> 100.00</td>
               </tr>
               <tr>
                 <td colspan="6" className="styln">
