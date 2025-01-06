@@ -50,8 +50,8 @@ const PdaDialog = ({
   const [pdaServices, setpdaServices] = useState(null);
   const [charges, setCharges] = useState([]);
   const [subCharges, setSubCharges] = useState([]);
-  const [fetchedCharges, setFetchedCharges] = useState(new Set());
-  const [fetchedSubCharges, setFetchedSubCharges] = useState(new Set());
+  // const [fetchedCharges, setFetchedCharges] = useState(new Set());
+  // const [fetchedSubCharges, setFetchedSubCharges] = useState(new Set());
   const fetchPdaFile = async () => {
     if (pdaResponse?._id) {
       setIsLoading(true);
@@ -101,75 +101,77 @@ const PdaDialog = ({
     console.log(pdfData, "pdfData");
   }, [pdfData]);
 
-  const getItemName = (id, name) => {
-    if (name === "service") {
-      if (id) {
-        fetchCharges(id);
-      }
-      const service = services?.find((s) => s._id === id);
-      return service ? service.serviceName : "Unknown Service";
-    } else if (name === "customer") {
-      const customer = customers?.find((s) => s._id === id);
-      return customer ? customer.customerName : "Unknown Customer";
-    } else if (name === "vendor") {
-      const vendor = vendors?.find((s) => s._id === id);
-      return vendor ? vendor.vendorName : "Unknown vendor";
-    } else if (name === "vessel") {
-      const vessel = vessels?.find((s) => s._id === id);
-      return vessel ? vessel.vesselName : "Unknown vessel";
-    } else if (name === "port") {
-      const port = ports?.find((s) => s._id === id);
-      return port ? port.portName : "Unknown port";
-    } else if (name === "cargo") {
-      const cargo = cargos?.find((s) => s._id === id);
-      return cargo ? cargo.cargoName : "Unknown cargo";
-    } else if (name === "chargeType") {
-      if (id) {
-        fetchSubCharges(id);
-      }
-      const charge = charges.find((s) => s._id === id);
-      return charge ? charge.chargeName : "Unknown charge";
-    } else if (name === "subChargeType") {
-      const subCharge = subCharges.find((s) => s._id === id);
-      return subCharge ? subCharge.subchargeName : "Unknown subCharge";
-    }
-  };
+  // const getItemName = (id, name) => {
+  //   // if (name === "service") {
+  //   //   if (id) {
+  //   //     fetchCharges(id);
+  //   //   }
+  //   //   const service = services?.find((s) => s._id === id);
+  //   //   return service ? service.serviceName : "Unknown Service";
+  //   // } else if (name === "customer") {
+  //   //   const customer = customers?.find((s) => s._id === id);
+  //   //   return customer ? customer.customerName : "Unknown Customer";
+  //   // } else if (name === "vendor") {
+  //   //   const vendor = vendors?.find((s) => s._id === id);
+  //   //   return vendor ? vendor.vendorName : "Unknown vendor";
+  //   // } else if (name === "vessel") {
+  //   //   const vessel = vessels?.find((s) => s._id === id);
+  //   //   return vessel ? vessel.vesselName : "Unknown vessel";
+  //   // } else if (name === "port") {
+  //   //   const port = ports?.find((s) => s._id === id);
+  //   //   return port ? port.portName : "Unknown port";
+  //   // } else if (name === "cargo") {
+  //   //   const cargo = cargos?.find((s) => s._id === id);
+  //   //   return cargo ? cargo.cargoName : "Unknown cargo";
+  //   // } else if (name === "chargeType") {
+  //   //   if (id) {
+  //   //     fetchSubCharges(id);
+  //   //   }
+  //   //   const charge = charges.find((s) => s._id === id);
+  //   //   return charge ? charge.chargeName : "Unknown charge";
+  //   // } else
 
-  const fetchCharges = async (id) => {
-    if (id) {
-      if (!fetchedCharges.has(id)) {
-        try {
-          const response = await getCharges({
-            serviceId: id,
-          });
-          setCharges((prev) => [...prev, ...response?.charges]);
-          setFetchedCharges((prev) => new Set(prev).add(id));
-          console.log("Fetched Charges:", response);
-        } catch (error) {
-          console.error("Error fetching charges:", error);
-        }
-      }
-    }
-  };
+  //   if (name === "subChargeType") {
+  //     const subCharge = subCharges.find((s) => s._id === id);
+  //     return subCharge ? subCharge.subchargeName : "Unknown subCharge";
+  //   }
+  // };
 
-  const fetchSubCharges = async (id) => {
-    console.log(id, "fetchSubCharges_ID_PDADIALOG");
-    if (id) {
-      if (!fetchedSubCharges.has(id)) {
-        alert("fetchSubCharges pda ");
-        try {
-          const response = await getSubcharges({
-            chargeId: id,
-          });
-          setSubCharges((prev) => [...prev, ...response?.subcharges]);
-          setFetchedSubCharges((prev) => new Set(prev).add(id));
-          console.log("Fetched SubCharges:", response);
-        } catch (error) {
-          console.error("Error fetching subcharges:", error);
-        }
-      }
-    }
-  };
+  // const fetchCharges = async (id) => {
+  //   if (id) {
+  //     if (!fetchedCharges.has(id)) {
+  //       try {
+  //         const response = await getCharges({
+  //           serviceId: id,
+  //         });
+  //         setCharges((prev) => [...prev, ...response?.charges]);
+  //         setFetchedCharges((prev) => new Set(prev).add(id));
+  //         console.log("Fetched Charges:", response);
+  //       } catch (error) {
+  //         console.error("Error fetching charges:", error);
+  //       }
+  //     }
+  //   }
+  // };
+
+  // const fetchSubCharges = async (id) => {
+  //   console.log(id, "fetchSubCharges_ID_PDADIALOG");
+  //   if (id) {
+  //     if (!fetchedSubCharges.has(id)) {
+  //       alert("fetchSubCharges pda ");
+  //       try {
+  //         const response = await getSubcharges({
+  //           chargeId: id,
+  //         });
+  //         setSubCharges((prev) => [...prev, ...response?.subcharges]);
+  //         setFetchedSubCharges((prev) => new Set(prev).add(id));
+  //         console.log("Fetched SubCharges:", response);
+  //       } catch (error) {
+  //         console.error("Error fetching subcharges:", error);
+  //       }
+  //     }
+  //   }
+  // };
 
   const totalValues = pdaServices?.reduce(
     (totals, charge) => {
@@ -188,6 +190,86 @@ const PdaDialog = ({
     customerVAT: totalValues?.customerVAT.toFixed(3),
     customerTotalUSD: totalValues?.customerTotalUSD.toFixed(2),
   };
+
+  const [fetchedCharges, setFetchedCharges] = useState(new Set());
+  const [fetchedSubCharges, setFetchedSubCharges] = useState(new Set());
+
+  // Fetch charges
+  useEffect(() => {
+    const uniqueChargeIds = new Set(
+      pdaServices?.map((service) => service.serviceId).filter(Boolean)
+    );
+
+    uniqueChargeIds.forEach((id) => {
+      if (!fetchedCharges.has(id)) {
+        fetchCharges(id);
+      }
+    });
+  }, [pdaServices, fetchedCharges]);
+
+  // Fetch subcharges
+  useEffect(() => {
+    const uniqueSubChargeIds = new Set(
+      pdaServices?.map((service) => service.chargeId).filter(Boolean)
+    );
+
+    uniqueSubChargeIds.forEach((id) => {
+      if (!fetchedSubCharges.has(id)) {
+        fetchSubCharges(id);
+      }
+    });
+  }, [pdaServices, fetchedSubCharges]);
+
+  const fetchCharges = async (id) => {
+    if (!fetchedCharges.has(id)) {
+      try {
+        const response = await getCharges({ serviceId: id });
+        console.log(response, "fetchCharges");
+
+        setCharges((prev) => [...prev, ...response?.charges]);
+        setFetchedCharges((prev) => new Set(prev).add(id));
+      } catch (error) {
+        console.error("Error fetching charges:", error);
+      }
+    }
+  };
+
+  const fetchSubCharges = async (id) => {
+    if (!fetchedSubCharges.has(id)) {
+      try {
+        const response = await getSubcharges({ chargeId: id });
+        console.log(response, "fetchSubCharges");
+        setSubCharges((prev) => [...prev, ...response?.subcharges]);
+        setFetchedSubCharges((prev) => new Set(prev).add(id));
+      } catch (error) {
+        console.error("Error fetching subcharges:", error);
+      }
+    }
+  };
+
+  const getItemName = (id, name) => {
+    if (name === "subChargeType") {
+      const subCharge = subCharges.find((s) => s._id === id);
+      return subCharge ? subCharge.subchargeName : "Unknown subCharge";
+    }
+    if (name === "cargo") {
+      const cargo = cargos?.find((s) => s._id === id);
+      return cargo ? cargo.cargoName : "Unknown cargo";
+    }
+    if (name === "vessel") {
+      const vessel = vessels?.find((s) => s._id === id);
+      return vessel ? vessel.vesselName : "Unknown vessel";
+    }
+    if (name === "port") {
+      const port = ports?.find((s) => s._id === id);
+      return port ? port.portName : "Unknown port";
+    }
+  };
+
+  useEffect(() => {
+    console.log(fetchedSubCharges, "fetchedSubCharges");
+    console.log(subCharges, "subCharges");
+  }, [fetchedSubCharges, subCharges]);
 
   return (
     <>
@@ -340,8 +422,8 @@ const PdaDialog = ({
                     <tr key={index}>
                       <td className="stylc">{index + 1}</td>
                       <td className="stylc">
-                        {charge.serviceId
-                          ? getItemName(charge.serviceId, "service")
+                        {charge.subchargeId
+                          ? getItemName(charge.subchargeId, "subChargeType")
                           : ""}
                       </td>
                       <td className="stylc">{charge?.quantity}</td>
