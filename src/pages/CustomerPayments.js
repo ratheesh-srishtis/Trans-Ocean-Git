@@ -8,6 +8,27 @@ const CustomerPayments = () => {
   return (
     <div >
       <div className=" mt-3 d-flex">
+      <div className=" d-flex paymentbycus">
+          <label
+            for="exampleFormControlInput1"
+            className="form-label filterbypayment "
+          >
+            {" "}
+            Customer Name: 
+          </label>
+          <div className="vessel-select">
+            <select
+              name="status"
+              className="form-select vesselbox statuss"
+            >
+              <option value={1}>Customer 1 </option>
+              <option value={2}>Customer 2 </option>
+              <option value={3}>Customer 3 </option>
+              <option value={4}>Customer 4 </option>
+              <option value={5}>Customer 5 </option>
+            </select>
+          </div>
+        </div>
         <div className="pdadate">
           <label
             for="inputPassword"
@@ -65,6 +86,34 @@ const CustomerPayments = () => {
       
       {/*<p>Selected Customer ID: {customerId}</p>
       <p>Selected Customer ID: {customerName}</p>*/}
+
+     <div className="amount">
+     <div className=" d-flex" >
+       <div className="totalinvocie"> Total Invoice Amount:</div> <div className="amountpayment"> 6000$ </div>
+      </div>
+      <div className=" d-flex" >
+       <div className="totalinvocie"> Paid Amount:</div> <div className="amountpayment"> 1500$ </div>
+      </div>
+      <div className=" d-flex" >
+       <div className="totalinvocie"> Balance Amount:</div> <div className="amountpayment"> 4500$ </div>
+      </div>
+      <div className=" ">
+      <button
+        type="button"
+        className="btn btn-info infobtn"
+      >
+        Add Voucher
+      </button>
+    </div>
+    <div className=" paymentbtn">
+      <button
+        type="button"
+        className="btn btn-info infobtn"
+      >
+       View Voucher
+      </button>
+    </div>
+     </div>
 
     </div>
   );
