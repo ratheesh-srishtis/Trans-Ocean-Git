@@ -192,6 +192,11 @@
   padding: 8px;
   text-align: left;
 }
+.stylq{
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
 
 .styld {
   border: 1px solid #ddd;
@@ -220,10 +225,17 @@
   color: red;
 }
 
-.stylh {
+.stylh {  
   border: 1px solid #ddd;
   padding: 8px;
   text-align: right;
+  font-weight: bolder;
+  font-size: 15px;
+}
+.stylt{
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
   font-weight: bolder;
   font-size: 15px;
 }
@@ -258,7 +270,7 @@
 .stylm {
   border: 1px solid #ddd;
   padding: 8px;
-  text-align: left;
+  text-align: center;
   min-width: 300px;
   max-width: 100%;
 }
