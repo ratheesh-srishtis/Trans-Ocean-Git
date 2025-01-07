@@ -907,3 +907,28 @@ export const getJobReport = async (userData) => {
     throw error;
   }
 };
+
+
+//Save payments
+export const savePayment =async(paymentData)=>{
+  try{
+    const response = await axiosInstance.post("/savePayment",paymentData);
+    return response.data;
+
+  }catch(error){
+    console.log("Error in payment save api",error);
+    throw error;
+  }
+ 
+};
+ // list customer payments
+  
+ export const getPayments = async(getpayment)=>{
+  try{
+
+    const response = await axiosInstance.post("/getPayments",getpayment)
+    return response.data;
+  }catch(error){
+    console.log("Error in payment",error);
+  }
+};

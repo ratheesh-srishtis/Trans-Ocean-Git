@@ -182,7 +182,7 @@ const VesselTypeSettings = () => {
           initialState={{
             pagination: {
               paginationModel: {
-                pageSize: 5, // Default page size
+                pageSize: 10, // Default page size
                 page: 0, // Default page index
               },
             },
