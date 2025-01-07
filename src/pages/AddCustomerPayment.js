@@ -1,7 +1,7 @@
 // ResponsiveDialog.js
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
-import{getAllQuotations,savePayment} from "../services/apiService";
+import{getAllQuotationIds,savePayment} from "../services/apiService";
 import PopUp from "./PopUp";
 
 const AddCustomerPayment = ({ open,onClose,customerId,ListCustomer,Balance}) => {
@@ -35,9 +35,9 @@ const AddCustomerPayment = ({ open,onClose,customerId,ListCustomer,Balance}) => 
   }
   const fecthQuotations = async()=>{
     try{
-       const payload = {filter:"all"};
-      const listquotations = await getAllQuotations(payload);
-      setQuotationList(listquotations?.pda||[]);
+      
+      const listquotations = await getAllQuotationIds();
+      setQuotationList(listquotations?.quotations||[]);
     }catch(error){
       console.log("Invoice list Error",error);
     }

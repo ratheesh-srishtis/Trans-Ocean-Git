@@ -11,6 +11,7 @@ const Payments = () => {
   const [formData, setFormData] = useState({
     customers: "",
       vendors: "",
+      voucher:"",
      
     });
     
@@ -50,6 +51,10 @@ const Payments = () => {
     else if(name === "vendors"){
       const selectedVendor = VendorList.find(vendor => vendor._id === e.target.value);
       navigate('/vendorpayment', { state: { vendorId: value,totalInvoiceAmount: selectedVendor.totalInvoiceAmount,paidAmount: selectedVendor.paidAmount} });
+    }
+    else if(name === "voucher"){
+      const selectedVendorvoucher = VendorList.find(vendor => vendor._id === e.target.value);
+      navigate('/vendorvouchers', { state: { vendorId: value,totalInvoiceAmount: selectedVendorvoucher.totalInvoiceAmount,paidAmount: selectedVendorvoucher.paidAmount} });
     }
     
   };
@@ -117,6 +122,32 @@ const Payments = () => {
               </div>
             </div>
           </div>  
+
+          <div className="choosecargo-row p-3 ">
+          <div className="row ">
+          <div className="col-6">
+          <div className="mb-3">
+                  <label for="exampleFormControlInput1" className="form-label customerpayment">
+                    Petty Payment:
+                  </label>
+                  <div className="vessel-select">
+                    <select
+                      name="voucher" onChange={handleChange}
+                      value={formData.voucher}
+                      className="form-select vesselbox vboxholder paymentcustomer"
+                    >
+                      <option value="">Choose Vendor Name</option>
+                      {VendorList.map((vendor) => (
+                        <option key={vendor._id} value={vendor._id}>
+                          {vendor.vendorName}{" "}
+                        </option>
+                      ))}
+                    </select>
+                    </div>
+                  </div>
+                  </div>
+            </div>
+            </div>
 
 
     </div>

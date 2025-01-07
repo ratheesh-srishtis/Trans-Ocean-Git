@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
-import { getAllCustomers,getPayments,getAllQuotations} from "../services/apiService";
+import { getAllCustomers,getPayments,getAllQuotationIds} from "../services/apiService";
 import { Box, Typography, IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import Addpayment from './AddCustomerPayment';
@@ -31,9 +31,9 @@ const CustomerPayments = () => {
   };
     const fecthQuotations = async()=>{
       try{
-         const payload = {filter:"all"};
-        const listquotations = await getAllQuotations(payload);
-        setQuotationList(listquotations?.pda||[]);
+         
+        const listquotations = await getAllQuotationIds();
+        setQuotationList(listquotations?.quotations||[]);
       }catch(error){
         console.log("Invoice list Error",error);
       }

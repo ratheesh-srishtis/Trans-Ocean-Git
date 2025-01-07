@@ -932,3 +932,36 @@ export const savePayment =async(paymentData)=>{
     console.log("Error in payment",error);
   }
 };
+
+// list quotationIds 
+  
+export const getAllQuotationIds = async()=>{
+  try{
+
+    const response = await axiosInstance.post("/getAllQuotationIds")
+    return response.data;
+  }catch(error){
+    console.log("Error in quotations",error);
+  }
+};
+  //list getVouchers
+export const getVouchers = async(vouchers)=>{
+  try{
+
+    const response = await axiosInstance.post("/getVouchers",vouchers)
+    return response.data;
+  }catch(error){
+    console.log("Error in vouchers",error);
+  }
+};
+
+//save vouchers
+export const saveVoucher = async(vouchers)=>{
+  try{
+
+    const response = await axiosInstance.post("/saveVoucher",vouchers)
+    return response.data;
+  }catch(error){
+    console.log("Error in vouchers",error);
+  }
+};

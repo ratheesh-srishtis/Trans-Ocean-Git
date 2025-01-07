@@ -1,34 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
-import { getAllVendors,getPayments,getAllQuotationIds} from "../services/apiService";
+import {getVouchers,getAllVendors,getAllQuotationIds} from "../services/apiService";
 import { Box, Typography, IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import Addpayment from './AddCustomerPayment';
+import Addvoucher from './AddVoucher';
+import ViewVoucher from './ViewVoucher';
 import "../css/payment.css";
-const VendorPayments = () => {
+ const VendorVouchers = () => {
   const Group = require("../assets/images/payments.png");
-  const[QuotationList,setQuotationList] = useState([]);
+  const [selectedRow, setSelectedRow] = useState(null);
   const [vendorList,setVendorList]=useState([]);
   const [selectedVendorid,setSelectedVendorid]=useState("");
-  const [totalInvoiceAmount, setInvoiceAmount] = useState(0); 
-  const [paidAmount, setPaidAmount] = useState(0); 
-  const [balanceAmount, setBalanceAmount] = useState(0);
   const[open,setOpen]=useState(false);
-   const[vendorpayment,setVendorpayment]=useState([]);
-   const location = useLocation(); 
-    const { vendorId} = location.state || {};
-  //const { customerId,totalInvoiceAmount,paidAmount } = location.state || {};
-  //const balanceAmount = totalInvoiceAmount - paidAmount;
-  const fecthQuotations = async()=>{
-        try{
-          
-          const listquotations = await getAllQuotationIds();
-          setQuotationList(listquotations?.quotations||[]);
-        }catch(error){
-          console.log("Invoice list Error",error);
-        }
-    
-      };
+  const[viewopen,setviewOpen]=useState(false);
+  const[voucherlist,setVoucherList]=useState([]);
+  
+  const location = useLocation(); 
+  const { vendorId} = location.state || {};
+ 
   const fetchVendorList=async()=>{
     try{
       const listvendors = await getAllVendors();
@@ -39,50 +28,43 @@ const VendorPayments = () => {
     }
 
   };
-  useEffect(() => {
-    if (location.state) {
-      const { totalInvoiceAmount, paidAmount } = location.state;
-      setInvoiceAmount(totalInvoiceAmount);
-      setPaidAmount(paidAmount);
-      setBalanceAmount(totalInvoiceAmount - paidAmount);
-    }
-  }, [location.state]);
+
   useEffect(()=>{
     fetchVendorList();
-    fecthQuotations();
+    
     if(vendorId)
       setSelectedVendorid(vendorId);
-    fetchVendorpayments();
+    fetchVouchers();
   },[vendorId]);
   useEffect(() => { 
     if (selectedVendorid) { 
-      fetchVendorpayments(); 
+      fetchVouchers(); 
     } 
    }, [selectedVendorid]);
-  const fetchVendorpayments =async()=>{
+  const fetchVouchers =async()=>{
     let payload ="";
     if(selectedVendorid)
-    payload = {customerId:selectedVendorid};
+    payload = {vendorId:selectedVendorid};
     else
-    payload = {customerId:vendorId};
+    payload = {vendorId:vendorId};
  
     try{
-      const Listpayments = await getPayments(payload);
-      setVendorpayment(Listpayments?.payments||[]);  
-
+      const Listvouchers = await getVouchers(payload);
+      setVoucherList(Listvouchers?.vouchers||[]);  
+      
     }catch(error){
       console.log("Error in Api",error);
     }
   
     }
 
-    const handleListVendor = (newUsers) => {
-      fetchVendorpayments();
+    const handleListVouchers = (newUsers) => {
+      fetchVouchers();
       setOpen(false);
     };
 
     const handleChange =(e)=>{
-    const selectedVendor = vendorList.find(customer => customer._id === e.target.value);
+    /*const selectedVendor = vendorList.find(customer => customer._id === e.target.value);
     if (selectedVendor) {
       const totalInvoiceAmount = selectedVendor.totalInvoiceAmount;
       const paidAmount = selectedVendor.paidAmount;
@@ -91,8 +73,8 @@ const VendorPayments = () => {
       setPaidAmount(paidAmount);
       setBalanceAmount(totalInvoiceAmount - paidAmount);
       setSelectedVendorid(e.target.value);
-    }
-    //setSelectedVendorid(e.target.value); 
+    }*/
+    setSelectedVendorid(e.target.value); 
     
   };
   const OpenDialog =()=>{
@@ -104,6 +86,21 @@ const VendorPayments = () => {
   const handleClose=()=>{
     setOpen(false);
   }
+  const handleView = (row) => {
+    setSelectedRow(row);
+    openViewDialog();
+  };
+  const openViewDialog=()=>{
+    handleClickOpenView();
+  }
+  const handleClickOpenView = () => {
+    setviewOpen(true);
+  };
+
+  const handleCloseView = () => {
+    setviewOpen(false);
+    setSelectedRow(null);
+  };
   const NoRowsOverlay = () => (
     <Box
       sx={{
@@ -119,18 +116,32 @@ const VendorPayments = () => {
   );
 
   const columns = [
-    { field: "jobId", headerName: "jobId", flex: 2 },
-    { field: "quotation", headerName: "Quotation Number", flex: 2 },
-    { field: "invoice", headerName: "Invoice", flex: 4 },
-    { field: "amount", headerName: "Paid Amount", flex: 2 },
-    { field: "currency", headerName: "Currency", flex: 2 },
-    { field: "modeofPayment", headerName: "Mode of Payment", flex: 2 },
-    { field: "createdDate", headerName: "CreatedAt", flex: 2 },
-    { field: "bank", headerName: "Bank", flex: 2 },
+    { field: "voucher", headerName: "Voucher Number", flex: 2 },
+    { field: "through", headerName: "Through", flex: 2 },
+    { field: "amount", headerName: "Amount", flex: 2 },
+    { field: "particulars", headerName: "Particulars", flex: 2 },
+    { field: "accountof", headerName: "On Account Of", flex: 2 },
+    { field: "created", headerName: "Created At", flex: 2 },
+    {
+      field: "actions",
+      headerName: "Action",
+      flex: 2,
+      renderCell: (params) => (
+        <>
+          <button
+            className="btn btna submitpaymentbutton btnfsize"
+            onClick={() => handleView(params.row)}
+          >
+            View
+          </button>
+        </>
+      ),
+    },
 
   ];
   return (
     <div >
+
       <div className=" mt-3 d-flex">
       <div className=" d-flex paymentbycus">
           <label
@@ -162,7 +173,7 @@ const VendorPayments = () => {
            
             </div>
           </div>
-        </div>*/}
+        </div>
         <div className=" sortpayment ">
           <i className="bi bi-funnel-fill filtericon"></i>
           <select
@@ -179,7 +190,7 @@ const VendorPayments = () => {
                                   ))}
                                 </select>
        
-        </div>
+        </div>*/}
         <div className=" d-flex filterpayment">
           <label
             for="exampleFormControlInput1"
@@ -209,11 +220,11 @@ const VendorPayments = () => {
       </div>
 
      
-      <Addpayment open={open} onClose={handleClose} customerId={selectedVendorid}  ListCustomer={handleListVendor} Balance={balanceAmount}/>
-      
+     <Addvoucher open={open} onClose={handleClose} vendorId={selectedVendorid}  ListVouchers={handleListVouchers}/>
+      <ViewVoucher open={viewopen} onClose={handleCloseView} getvoucher={selectedRow}/>
      
      <div className="amount">
-     <div className=" d-flex" >
+     {/*<div className=" d-flex" >
        <div className="totalinvocie"> Total Invoice Amount:</div> <div className="amountpayment"> ${totalInvoiceAmount} </div>
       </div>
       <div className=" d-flex" >
@@ -237,32 +248,29 @@ const VendorPayments = () => {
       >
        View Voucher
       </button>
-    </div>
-    <div className="paymentbtn">
+    </div>*/}
+    <div className="">
         <button onClick={()=>{
           OpenDialog();
-        }}  className="btn btn-info infobtn">Add payment</button>
+        }}  className="btn btn-info infobtn">Add Voucher</button>
       </div>
      </div>
 
 
      <DataGrid
-       rows={vendorpayment.map((item) => {
+       rows={voucherlist.map((item) => {
         // Check if item.pdaIds is an array and contains objects
-        const pdaIds = Array.isArray(item.pdaIds) ? item.pdaIds.filter(pda => pda.invoiceId).map(pda => pda.invoiceId).join(', '): '';
-        const pdaNumbers = Array.isArray(item.pdaIds) ? item.pdaIds.filter(pda => pda.pdaNumber).map(pda => pda.pdaNumber).join(', ') : ''; 
-        const jobIds = Array.isArray(item.pdaIds) ? item.pdaIds.filter(pda => pda.jobId).map(pda => pda.jobId).join(', ') : '';
+       
         const dateOnly = (item.createdAt).split('T')[0];
         return {
           id: item._id,
-          jobId:jobIds || "N/A",
-          quotation:pdaNumbers || "N/A",
-          invoice: pdaIds || "N/A",
+          voucher:item.voucherNumber || "N/A",
+          through: item.through || "N/A",
           amount: item.amount || "N/A",
-          currency: item.currency || "N/A",
-          modeofPayment: item.modeofPayment || "N/A",
-          createdDate:dateOnly || "N/A",
-          bank: item.bank || "N/A",
+          particulars: item.voucherParticulers || "N/A",
+          accountof: item.voucherAccount || "N/A",
+          created:dateOnly || "N/A",
+         
 
           ...item,
         };
@@ -309,7 +317,7 @@ const VendorPayments = () => {
                 },
               }}
             />
-      {vendorpayment?.length === 0 && (
+      {voucherlist?.length === 0 && (
         <div className="no-data">
           <p>No Data Found</p>
         </div>
@@ -325,4 +333,4 @@ const VendorPayments = () => {
   );
 };
 
-export default VendorPayments;
+export default VendorVouchers;
