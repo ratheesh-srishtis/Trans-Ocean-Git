@@ -220,22 +220,7 @@ const CustomerPayments = () => {
       <div className=" d-flex" >
        <div className="totalinvocie"> Balance Amount:</div> <div className="amountpayment"> ${balanceAmount} </div>
       </div>
-      <div className=" ">
-      <button
-        type="button"
-        className="btn btn-info infobtn"
-      >
-        Add Voucher
-      </button>
-    </div>
-    <div className=" paymentbtn">
-      <button
-        type="button"
-        className="btn btn-info infobtn"
-      >
-       View Voucher
-      </button>
-    </div>
+     
     <div className="paymentbtn">
         <button onClick={()=>{
           OpenDialog();
