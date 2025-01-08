@@ -4,6 +4,8 @@ import Dashboard from "../pages/Dashboard";
 import Quotations from "../pages/Quotations";
 import Payments from "../pages/Payments";
 import CustomerPayments from "../pages/CustomerPayments";
+import VendorPayments from "../pages/VendorPayments";
+import VendorVouchers from "../pages/VendorVouchers";
 import Soa from "../pages/Soa";
 import CreatePDA from "../pages/CreatePDA";
 import { useAuth } from "../context/AuthContext";
@@ -104,6 +106,8 @@ const Content = () => {
       />
       <Route path="/payments" element={<Payments />} />
       <Route path="/customerpayment" element={<CustomerPayments />} />
+      <Route path="/vendorpayment" element={<VendorPayments />} />
+      <Route path="/vendorvouchers" element={<VendorVouchers />} />
       <Route path="/soa" element={<Soa />} />
       <Route
         path="/update-jobs"

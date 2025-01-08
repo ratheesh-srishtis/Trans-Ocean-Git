@@ -907,3 +907,73 @@ export const getJobReport = async (userData) => {
     throw error;
   }
 };
+
+
+//Save payments
+export const savePayment =async(paymentData)=>{
+  try{
+    const response = await axiosInstance.post("/savePayment",paymentData);
+    return response.data;
+
+  }catch(error){
+    console.log("Error in payment save api",error);
+    throw error;
+  }
+ 
+};
+ // list customer payments
+  
+ export const getPayments = async(getpayment)=>{
+  try{
+
+    const response = await axiosInstance.post("/getPayments",getpayment)
+    return response.data;
+  }catch(error){
+    console.log("Error in payment",error);
+  }
+};
+
+// list vendor payments
+
+export const getVendorPayments = async(getpayment)=>{
+  try{
+
+    const response = await axiosInstance.post("/getVendorPayments",getpayment)
+    return response.data;
+  }catch(error){
+    console.log("Error in payment",error);
+  }
+};
+
+// list quotationIds 
+  
+export const getAllQuotationIds = async()=>{
+  try{
+
+    const response = await axiosInstance.post("/getAllQuotationIds")
+    return response.data;
+  }catch(error){
+    console.log("Error in quotations",error);
+  }
+};
+  //list getVouchers
+export const getVouchers = async(vouchers)=>{
+  try{
+
+    const response = await axiosInstance.post("/getVouchers",vouchers)
+    return response.data;
+  }catch(error){
+    console.log("Error in vouchers",error);
+  }
+};
+
+//save vouchers
+export const saveVoucher = async(vouchers)=>{
+  try{
+
+    const response = await axiosInstance.post("/saveVoucher",vouchers)
+    return response.data;
+  }catch(error){
+    console.log("Error in vouchers",error);
+  }
+};

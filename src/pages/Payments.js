@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import { getAllPdaValuesApi } from "../services/apiService";
+import { getAllCustomers,getAllVendors } from "../services/apiService";
 import "../css/payment.css";
 const Payments = () => {
   const Group = require("../assets/images/payments.png");
@@ -11,18 +11,30 @@ const Payments = () => {
   const [formData, setFormData] = useState({
     customers: "",
       vendors: "",
+      voucher:"",
      
     });
     
-  const fetchCustomerVendorList = async () => {
+  const fetchCustomerList = async () => {
     try {
-      const listallUsers = await getAllPdaValuesApi();
+      let payload = {sortByName:true};
+      const listallUsers = await getAllCustomers(payload);
       setCustomerList(listallUsers?.customers || []);
-      setVendorList(listallUsers?.vendors || []);
+     
+      } catch (error) {
+      console.error("Failed to fetch customers", error);
+      
+    }
+  };
+  const fetchVendorList = async () => {
+    try {
+      let payload = {sortByName:true};
+      const listallVendors = await getAllVendors(payload);
+      setVendorList(listallVendors?.vendors || []);
       
       
     } catch (error) {
-      console.error("Failed to fetch customers", error);
+      console.error("Failed to fetch vendors", error);
       
     }
   };
@@ -32,66 +44,32 @@ const Payments = () => {
       ...prevData,
       [name]: value,
     }));
-    const selectedCustomer = CustomerList.find(customer => customer._id === e.target.value);
-    navigate('/customerpayment', { state: { customerId: value,customerName: selectedCustomer.customerName } });
+    if(name === "customers"){
+      const selectedCustomer = CustomerList.find(customer => customer._id === e.target.value);
+      navigate('/customerpayment', { state: { customerId: value,totalInvoiceAmount: selectedCustomer.totalInvoiceAmount,paidAmount: selectedCustomer.paidAmount} });
+    }
+    else if(name === "vendors"){
+      const selectedVendor = VendorList.find(vendor => vendor._id === e.target.value);
+      navigate('/vendorpayment', { state: { vendorId: value,totalInvoiceAmount: selectedVendor.totalInvoiceAmount,paidAmount: selectedVendor.paidAmount} });
+    }
+    else if(name === "voucher"){
+      const selectedVendorvoucher = VendorList.find(vendor => vendor._id === e.target.value);
+      navigate('/vendorvouchers', { state: { vendorId: value,totalInvoiceAmount: selectedVendorvoucher.totalInvoiceAmount,paidAmount: selectedVendorvoucher.paidAmount} });
+    }
+    
   };
   useEffect(() => {
     const today = new Date();
     const formattedDate = `${("0" + (today.getMonth() + 1)).slice(-2)}/${("0" + today.getDate()).slice(-2)}/${today.getFullYear()}`;
     setCurrentDate(formattedDate);
-    fetchCustomerVendorList();
+    fetchCustomerList();
+    fetchVendorList();
   }, []);
 
   return (
     <div >
 
-      <div className=" mt-3 d-flex">
-        <div className="pdadate">
-          <label
-            for="inputPassword"
-            className=" col-form-label text-nowrap"
-          >
-            Quotation Date:
-          </label>
-          <div className="">
-            <div className="fw-bolder paymentpdafontweight">
-            {currentDate}
-            </div>
-          </div>
-        </div>
-        <div className=" sortpayment ">
-          <i className="bi bi-funnel-fill filtericon"></i>
-          <select
-            className="form-select form-select-sm filter"
-            aria-label="Small select example"
-            name="status"    >
-            <option value="">Sort by Quotation</option>
-            <option value="">Quotation 1</option>
-            <option value="">Quotation 2</option>
-            <option value="">Quotation 3</option>
-            <option value="">Quotation 4</option>
-            <option value="">Quotation 5</option>
-          </select>
-        </div>
-        <div className=" d-flex filterpayment">
-          <label
-            for="exampleFormControlInput1"
-            className="form-label filterbypayment "
-          >
-            {" "}
-            Filter By:
-          </label>
-          <div className="vessel-select">
-            <select
-              name="status"
-              className="form-select vesselbox statuss"
-            >
-              <option value={1}>Monthly </option>
-              <option value={2}>Yearly </option>
-            </select>
-          </div>
-        </div>
-      </div>
+    
       <div className="charge">
         <div className="rectangle"></div>
         <div>
@@ -144,6 +122,32 @@ const Payments = () => {
               </div>
             </div>
           </div>  
+
+          <div className="choosecargo-row p-3 ">
+          <div className="row ">
+          <div className="col-6">
+          <div className="mb-3">
+                  <label for="exampleFormControlInput1" className="form-label customerpayment">
+                    Petty Payment:
+                  </label>
+                  <div className="vessel-select">
+                    <select
+                      name="voucher" onChange={handleChange}
+                      value={formData.voucher}
+                      className="form-select vesselbox vboxholder paymentcustomer"
+                    >
+                      <option value="">Choose Vendor Name</option>
+                      {VendorList.map((vendor) => (
+                        <option key={vendor._id} value={vendor._id}>
+                          {vendor.vendorName}{" "}
+                        </option>
+                      ))}
+                    </select>
+                    </div>
+                  </div>
+                  </div>
+            </div>
+            </div>
 
 
     </div>
