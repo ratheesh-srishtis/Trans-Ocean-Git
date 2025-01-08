@@ -150,7 +150,7 @@ const PasswordRequests = () => {
           initialState={{
             pagination: {
               paginationModel: {
-                pageSize: 5,
+                pageSize: 10,
                 page: 0,
               },
             },
