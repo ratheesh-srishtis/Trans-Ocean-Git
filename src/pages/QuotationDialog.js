@@ -359,7 +359,7 @@ const QuotationDialog = ({
                       for="exampleFormControlInput1"
                       className="form-label formlabelcolor"
                     >
-                      EmailBody:
+                      Email Body:
                     </label>
                     <textarea
                       rows="3"

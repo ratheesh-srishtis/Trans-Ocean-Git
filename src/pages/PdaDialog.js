@@ -264,6 +264,10 @@ const PdaDialog = ({
       const port = ports?.find((s) => s._id === id);
       return port ? port.portName : "Unknown port";
     }
+    if (name === "customer") {
+      const customer = customers?.find((s) => s._id === id);
+      return customer ? customer.customerName : "Unknown Customer";
+    }
   };
 
   useEffect(() => {
@@ -330,7 +334,7 @@ const PdaDialog = ({
             <thead className="tableheading">
               <tr>
                 <th colspan="5" className="styltwo">
-                  To{" "}
+                  To :{" "}
                   {pdaDetails?.customerId
                     ? getItemName(pdaDetails?.customerId, "customer")
                     : ""}
