@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
 import { getAllCustomers,getPayments,getAllQuotationIds} from "../services/apiService";
-import { Box, Typography, IconButton } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import Addpayment from './AddCustomerPayment';
+import Addpayment from './AddPayment';
 import "../css/payment.css";
 const CustomerPayments = () => {
   const Group = require("../assets/images/payments.png");
@@ -207,7 +207,7 @@ const CustomerPayments = () => {
       </div>
 
      
-      <Addpayment open={open} onClose={handleClose} customerId={selectedCustomerid}  ListCustomer={handleListCustomer} Balance={balanceAmount}/>
+      <Addpayment open={open} onClose={handleClose} customerId={selectedCustomerid} vendorId="" ListCustomer={handleListCustomer} Balance={balanceAmount}/>
       
      
      <div className="amount">

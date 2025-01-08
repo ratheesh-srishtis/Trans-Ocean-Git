@@ -933,6 +933,18 @@ export const savePayment =async(paymentData)=>{
   }
 };
 
+// list vendor payments
+
+export const getVendorPayments = async(getpayment)=>{
+  try{
+
+    const response = await axiosInstance.post("/getVendorPayments",getpayment)
+    return response.data;
+  }catch(error){
+    console.log("Error in payment",error);
+  }
+};
+
 // list quotationIds 
   
 export const getAllQuotationIds = async()=>{

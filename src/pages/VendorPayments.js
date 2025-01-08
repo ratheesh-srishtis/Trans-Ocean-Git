@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
-import { getAllVendors,getPayments,getAllQuotationIds} from "../services/apiService";
-import { Box, Typography, IconButton } from "@mui/material";
+import { getAllVendors,getVendorPayments,getAllQuotationIds} from "../services/apiService";
+import { Box, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import Addpayment from './AddCustomerPayment';
+import Addpayment from './AddPayment';
 import "../css/payment.css";
 const VendorPayments = () => {
   const Group = require("../assets/images/payments.png");
@@ -62,12 +62,12 @@ const VendorPayments = () => {
   const fetchVendorpayments =async()=>{
     let payload ="";
     if(selectedVendorid)
-    payload = {customerId:selectedVendorid};
+    payload = {vendorId:selectedVendorid};
     else
-    payload = {customerId:vendorId};
+    payload = {vendorId:vendorId};
  
     try{
-      const Listpayments = await getPayments(payload);
+      const Listpayments = await getVendorPayments(payload);
       setVendorpayment(Listpayments?.payments||[]);  
 
     }catch(error){
@@ -209,7 +209,7 @@ const VendorPayments = () => {
       </div>
 
      
-      <Addpayment open={open} onClose={handleClose} customerId={selectedVendorid}  ListCustomer={handleListVendor} Balance={balanceAmount}/>
+      <Addpayment open={open} onClose={handleClose} customerId="" vendorId={selectedVendorid}  ListCustomer={handleListVendor} Balance={balanceAmount}/>
       
      
      <div className="amount">

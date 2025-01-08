@@ -2,10 +2,14 @@
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import{getAllQuotationIds,savePayment} from "../services/apiService";
+import Multiselect from "multiselect-react-dropdown";
 import PopUp from "./PopUp";
 
-const AddCustomerPayment = ({ open,onClose,customerId,ListCustomer,Balance}) => {
+const AddCustomerPayment = ({ open,onClose,customerId,vendorId,ListCustomer,Balance}) => {
   const[QuotationList,setQuotationList] = useState([]);
+  const [errors, setErrors] = useState({});
+  const [message, setMessage] = useState("");
+  const [openPopUp, setOpenPopUp] = useState(false);
   const [formData, setFormData] = useState({
       pdaIds: [],
       balance: "",
@@ -15,23 +19,11 @@ const AddCustomerPayment = ({ open,onClose,customerId,ListCustomer,Balance}) => 
       bank:"",
     });
   const handleChange = (e) =>{
-   const {name,value,options,type} = e.target;
-   if(type === "select-multiple"){
-    const selectedValues = Array.from(options).filter(option=>option.selected).map(option=>option.value);
-    setFormData((prevData)=>({
-      ...prevData,
-      [name]:selectedValues,
-     }))
-
-   }else{
-
+   const {name,value} = e.target;
     setFormData((prevData)=>({
       ...prevData,
       [name]:value,
      }))
-
-   }
-   
   }
   const fecthQuotations = async()=>{
     try{
@@ -46,10 +38,52 @@ const AddCustomerPayment = ({ open,onClose,customerId,ListCustomer,Balance}) => 
 useEffect(()=>{
   fecthQuotations();
 },[]);
+
+ // Multi select
+ const customStyles = {
+  multiselectContainer: {
+    // Optional: Style for the container if needed
+  },
+  option: {
+    fontSize: "0.7rem", // Set font size for dropdown options
+    padding: "5px 10px", // Optional: Add padding for better spacing
+    cursor: "pointer", // Ensure options look clickable
+  },
+  optionContainer: {
+    // Optional: Customize the option container (dropdown menu)
+  },
+};
+
+const hoverStyles = {
+  backgroundColor: "#eee !important", // Apply the background color on hover
+};
+
+const options = QuotationList.map((invoice) => ({
+  pdaIds: invoice.pdaNumber ? `${invoice.pdaNumber}${invoice.invoiceId ? ` - ${invoice.invoiceId}` : ""}` : "",
+  value: invoice._id,
+}));
+
+const handleSelect = (selectedList) => {
+  setFormData((prevData) => ({
+    ...prevData,
+    pdaIds: selectedList.map((item) => item.value),
+  }));
+ 
+};
+
+const handleRemove = (selectedList) => {
+  setFormData((prevData) => ({
+    ...prevData,
+    pdaIds: selectedList.map((item) => item.value),
+  }));
+ 
+};
+
+
+
+// end of multi select
   
-  const [errors, setErrors] = useState({});
-  const [message, setMessage] = useState("");
-  const [openPopUp, setOpenPopUp] = useState(false);
+  
    const validateForm=()=>{
    const newErrors={};
    if (formData.pdaIds.length === 0) newErrors.pdaIds = "Invoice is required";
@@ -66,8 +100,15 @@ const handleSubmit =async(event)=>{
   event.preventDefault();
   if (!validateForm()) return;
   try{
-    formData.vendorId="";
-   formData.customerId = customerId;
+    if(vendorId){
+      formData.vendorId=vendorId;
+      formData.customerId = "";
+    }
+    else if(customerId){
+      formData.vendorId="";
+      formData.customerId = customerId;
+    }
+   
    const response =await savePayment(formData);
     if(response.status === true){
         setOpenPopUp(true);
@@ -135,8 +176,24 @@ const fetchPayments = async()=>{
                                         {" "}
                                        Quotation Number:
                                       </label>
+
+                                       <Multiselect
+                                                    options={options}
+                                                    displayValue="pdaIds" // Display the serviceName in the dropdown
+                                                    showCheckbox
+                                                    onSelect={handleSelect} // Triggered when an item is selected
+                                                    onRemove={handleRemove} // Triggered when an item is removed
+                                                    className="custom-multiselect" // Apply custom class
+                                                    style={{
+                                                      ...customStyles,
+                                                      option: {
+                                                        ...customStyles.option,
+                                                        ":hover": hoverStyles, // Add hover styling
+                                                      },
+                                                    }}
+                                                  />
                                      
-                                      <select
+                                      {/*<select
                                   name="pdaIds"
                                   className="form-select vesselbox"
                                   aria-label="Default select example"
@@ -150,7 +207,7 @@ const fetchPayments = async()=>{
                                      {invoice.pdaNumber}{invoice.invoiceId ? ` - ${invoice.invoiceId}` : ''}
                                     </option>
                                   ))}
-                                </select>
+                                </select>*/}
                                 {errors.pdaIds && (
                     <span className="invalid">{errors.pdaIds}</span>
                    )}
