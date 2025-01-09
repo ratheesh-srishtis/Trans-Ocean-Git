@@ -65,7 +65,7 @@
   min-width: 580px;
   max-width: 100%;
 }
-.vessel {
+.vesselpdf {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: center;
@@ -142,15 +142,15 @@
   max-width: 100%;
 }
 .imgone {
-  max-height: 100px;
-  max-width: 300px;
+  max-height: 50px;
+  max-width: 50px;
 }
 .padd {
   padding: 12px;
 }
 .imgtwo {
-  max-height: 100px;
-  max-width: 150px;
+  max-height: 50px;
+  max-width: 50px;
   display: flex;
   align-items: center;
 }

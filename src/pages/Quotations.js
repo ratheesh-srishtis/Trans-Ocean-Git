@@ -504,9 +504,9 @@ const Quotations = ({ loginResponse }) => {
         </div>
 
         <div className="buttons-wrapper">
-          <div className="left">
+          <div className="left mt-4">
             <button
-              className="btn btna submit-button"
+              className="btn btna generate-button"
               onClick={() => {
                 generateInvoiceOpenClick();
               }}
@@ -515,7 +515,7 @@ const Quotations = ({ loginResponse }) => {
               Generate Invoice
             </button>
             <button
-              className="btn btna submit-button"
+              className="btn btna generate-button"
               onClick={() => {
                 SendInvoiceOpen();
               }}

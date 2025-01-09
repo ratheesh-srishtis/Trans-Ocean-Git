@@ -95,7 +95,7 @@ const fetchVouchers = async()=>{
              maxWidth="lg"
            >
             <div className="d-flex justify-content-between " onClick={onClose}>
-                      <DialogTitle>Add Payment</DialogTitle>
+                      <DialogTitle>Add Voucher</DialogTitle>
                       <div className="closeicon">
                         <i className="bi bi-x-lg "></i>
                       </div>
@@ -181,7 +181,7 @@ const fetchVouchers = async()=>{
                                   </div>
                                 </div>
                                 <div className="row">
-                                  <div className="col mb-3 align-items-start">
+                                  <div className="col-6 mb-3 align-items-start">
                                     <div className="">
                                       <label for="exampleFormControlInput1" className="form-label">
                                        On Account of <span className="required"> * </span> :
@@ -197,6 +197,26 @@ const fetchVouchers = async()=>{
                                         value={formData.voucherAccount}
                                       ></input>
                                        {errors.voucherAccount && (<span className="invalid">{errors.voucherAccount}</span>)}
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="col-6 mb-3 align-items-start">
+                                    <div className="">
+                                      <label for="exampleFormControlInput1" className="form-label">
+                                       Payment Date <span className="required">  </span> :
+                                      </label>
+                                      <div className="vessel-select">
+                                      <input
+                                        name="paymentDate"
+                                        type="date"
+                                        className="form-control vessel-voyage"
+                                        id="bank"
+                                        placeholder=""
+                                        onChange={handleChange}
+                                        value={formData.paymentDate}
+                                      ></input>
+                                        
+                                       {errors.paymentDate && (<span className="invalid">{errors.paymentDate}</span>)}
                                       </div>
                                     </div>
                                   </div>

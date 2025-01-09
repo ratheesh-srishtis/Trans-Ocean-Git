@@ -22,8 +22,7 @@ import {
 import moment from "moment";
 
 import PopUp from "./PopUp";
-const transwave = require("../assets/images/EPDA-MV-TBN-SALALAH-CARGO-(3)-1.jpg");
-const Group = require("../assets/images/TRANSocean-LOGO.png");
+
 
 const InvoicePdf = ({
   open,
@@ -37,6 +36,8 @@ const InvoicePdf = ({
   cargos,
   selectedPdaData,
 }) => {
+  const transwave = require("../assets/images/EPDA-MV-TBN-SALALAH-CARGO-(3)-1.jpg");
+  const Group = require("../assets/images/TRANSocean-LOGO.png");
   console.log(services, "services");
   console.log(pdaResponse, "pdaResponse_dialog");
 
@@ -323,14 +324,13 @@ const InvoicePdf = ({
           <table class="column">
             <thead>
               <tr>
-                <th colspan="6" class=" stileeight " className=" stileseven">
-                  <img class="imgtwo" src="./TRANSocean-LOGO.png" />
-                  <img
-                    class="imgone"
-                    src="./EPDA-MV-TBN-SALALAH-CARGO-(3)-1.jpg"
-                  />
+                <th colspan="6" className=" tableimage ">
+                  <img className="logoimg" src={Group}></img>
+
+                  <img className="sublogoimg" src={transwave}></img>
                 </th>
-                <th class="stilesix"></th>
+
+                <th className="stylone"></th>
               </tr>
             </thead>
           </table>
@@ -375,7 +375,7 @@ const InvoicePdf = ({
           <table class="column">
             <thead class="tablebody">
               <tr>
-                <th colspan="3" class="vessel">
+                <th colspan="3" class="vesselpdf">
                   VESSEL
                 </th>
 
