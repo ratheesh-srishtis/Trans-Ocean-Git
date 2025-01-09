@@ -4,12 +4,18 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
 import "../css/quotation.css";
-import { getAllQuotations, deleteQuotation } from "../services/apiService";
+import {
+  getAllQuotations,
+  deleteQuotation,
+  getPdaDetails,
+} from "../services/apiService";
 import { IconButton, TextField } from "@mui/material";
 import { Box, Typography } from "@mui/material";
 import Loader from "./Loader";
 import Swal from "sweetalert2";
 import PopUp from "./PopUp";
+import SendInvoice from "./SendInvoice";
+import InvoicePdf from "./InvoicePdf";
 
 const Quotations = ({ loginResponse }) => {
   const navigate = useNavigate();
@@ -23,7 +29,6 @@ const Quotations = ({ loginResponse }) => {
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
   const [selectedTab, setSelectedTab] = useState("all");
-
   const fetchQuotations = async (type) => {
     setSelectedTab(type);
 
@@ -74,7 +79,53 @@ const Quotations = ({ loginResponse }) => {
     }
   };
 
+  const [selectedRowId, setSelectedRowId] = useState(null);
+  const [selectedPdaData, setSelectedPdaData] = useState(null);
+
+  const handleRowSelection = (params) => {
+    console.log(params?.row, "params_handleRowSelection");
+    setSelectedRowId(params.id); // Store the selected row ID
+    setSelectedPdaData(params.row);
+    fetchPdaDetails(params.row?.id);
+  };
+
   const columns = [
+    {
+      field: "select",
+      headerName: "",
+      width: 50,
+      sortable: false,
+      disableColumnMenu: true,
+      renderCell: (params) => (
+        <div
+          style={{
+            width: "20px",
+            height: "20px",
+            border: `2px solid ${
+              params.id === selectedRowId ? "#1ebbee" : "#ccc"
+            }`,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "pointer",
+            borderRadius: "4px", // Slightly rounded corners
+          }}
+          onClick={() => handleRowSelection(params)}
+        >
+          {params.id === selectedRowId && (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="#1ebbee"
+              width="16px"
+              height="16px"
+            >
+              <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z" />
+            </svg>
+          )}
+        </div>
+      ),
+    },
     {
       field: "pdaNumber",
       headerName: "Job ID",
@@ -246,6 +297,50 @@ const Quotations = ({ loginResponse }) => {
     }
   };
 
+  const [invoiceOpen, setInvoiceOpen] = useState(false);
+
+  const SendInvoiceOpen = () => {
+    setInvoiceOpen(true);
+  };
+  const handleInvoiceClose = () => {
+    setInvoiceOpen(false);
+  };
+
+  const [generateInvoiceOpen, setGenerateInvoiceOpen] = useState(false);
+
+  const generateInvoiceOpenClick = () => {
+    setGenerateInvoiceOpen(true);
+  };
+  const generateInvoiceCloseClick = () => {
+    setGenerateInvoiceOpen(false);
+  };
+
+  const rows = filteredQuotations.map((item) => ({
+    id: item._id,
+    vessel: item.vesselId?.vesselName || "N/A",
+    port: item.portId?.portName || "N/A",
+    cargo: item.cargoId?.cargoName || "N/A",
+    date: formatDate(item.createdAt),
+    preparedBy: item.preparedUserId?.name || "N/A",
+    status: getStatusText(item.pdaStatus),
+    ...item,
+  }));
+  const [pdaResponse, setPdaResponse] = useState(null);
+
+  const fetchPdaDetails = async (id) => {
+    localStorage?.setItem("PDA_ID", id);
+    let data = {
+      pdaId: id,
+    };
+    try {
+      const pdaDetails = await getPdaDetails(data);
+      console.log("PDADETAILS", pdaDetails);
+      setPdaResponse(pdaDetails?.pda);
+    } catch (error) {
+      console.error("Failed to fetch quotations:", error);
+    }
+  };
+
   return (
     <>
       <div className="d-flex justify-content-between headerb mb-3 mt-3 ">
@@ -340,24 +435,23 @@ const Quotations = ({ loginResponse }) => {
         <div className="quotation-outer-div">
           <div>
             <DataGrid
-              rows={
-                filteredQuotations.length > 0
-                  ? filteredQuotations.map((item) => ({
-                      id: item._id,
-                      vessel: item.vesselId?.vesselName || "N/A",
-                      port: item.portId?.portName || "N/A",
-                      cargo: item.cargoId?.cargoName || "N/A",
-                      date: formatDate(item.createdAt),
-                      preparedBy: item.preparedUserId?.name || "N/A",
-                      status: getStatusText(item.pdaStatus),
-                      ...item,
-                    }))
-                  : []
-              }
+              // rows={
+              //   filteredQuotations.length > 0
+              //     ? filteredQuotations.map((item) => ({
+              //         id: item._id,
+              //         vessel: item.vesselId?.vesselName || "N/A",
+              //         port: item.portId?.portName || "N/A",
+              //         cargo: item.cargoId?.cargoName || "N/A",
+              //         date: formatDate(item.createdAt),
+              //         preparedBy: item.preparedUserId?.name || "N/A",
+              //         status: getStatusText(item.pdaStatus),
+              //         ...item,
+              //       }))
+              //     : []
+              // }
+              rows={rows}
               columns={columns}
               getRowId={(row) => row.id} // Use id field for unique row identification
-              disableSelectionOnClick // Disables checkbox selection to prevent empty column
-              disableColumnMenu // Removes column menu
               components={{
                 NoRowsOverlay,
               }}
@@ -385,6 +479,15 @@ const Quotations = ({ loginResponse }) => {
                 "& .MuiDataGrid-columnHeaderTitle": {
                   fontWeight: "bold", // Bold font for header text
                 },
+                "& .MuiDataGrid-cell:focus": {
+                  outline: "none", // Remove the blue focus outline
+                },
+                "& .MuiDataGrid-cell": {
+                  display: "flex",
+                  alignItems: "center", // Center vertically
+                  justifyContent: "center", // Center horizontally
+                  textOverflow: "ellipsis",
+                },
               }}
               pagination // Enables pagination
               pageSizeOptions={[5, 10, 20, 50, 100]} // Sets available page size options
@@ -400,6 +503,31 @@ const Quotations = ({ loginResponse }) => {
           </div>
         </div>
 
+        <div className="buttons-wrapper">
+          <div className="left">
+            <button
+              className="btn btna submit-button"
+              onClick={() => {
+                generateInvoiceOpenClick();
+              }}
+              disabled={!selectedRowId || selectedPdaData?.pdaStatus != 7}
+            >
+              Generate Invoice
+            </button>
+            <button
+              className="btn btna submit-button"
+              onClick={() => {
+                SendInvoiceOpen();
+              }}
+              disabled={!selectedRowId || selectedPdaData?.pdaStatus != 7}
+            >
+              Send Invoice
+            </button>
+          </div>
+
+          <div className="right d-flex"></div>
+        </div>
+
         {filteredQuotations?.length == 0 && (
           <>
             <div className="no-data">
@@ -413,6 +541,17 @@ const Quotations = ({ loginResponse }) => {
       {openPopUp && (
         <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
       )}
+      <SendInvoice
+        open={invoiceOpen}
+        onClose={handleInvoiceClose}
+        selectedPdaData={selectedPdaData}
+      />
+      <InvoicePdf
+        open={generateInvoiceOpen}
+        onClose={generateInvoiceCloseClick}
+        selectedPdaData={selectedPdaData}
+        pdaResponse={pdaResponse}
+      />
     </>
   );
 };

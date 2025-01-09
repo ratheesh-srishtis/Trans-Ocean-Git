@@ -21,6 +21,7 @@ import {
   editChargeQuotation,
   deletePdaDocument,
   deleteTemplate,
+  getPdaTemplateDataAPI,
 } from "../../services/apiService";
 import PopUp from "../PopUp";
 import ProvisionDeliveryNotes from "./Templates/ProvisionDeliveryNotes";
@@ -33,11 +34,15 @@ const AddJobs = ({
   services,
   ports,
   customers,
-
+  pdaResponse,
   vendors,
 }) => {
   console.log(templates, "templates");
+  console.log(pdaResponse, "pdaResponse");
   console.log(charge, "AddJobs_charge");
+  const [isLoading, setIsLoading] = useState(false); // Loader state
+
+  const [editChargeData, setEditChargeData] = useState(null);
   const [selectedTemplate, setSelectedTemplate] = useState("");
   const [selectedTemplateName, setSelectedTemplateName] = useState("");
   const [isBerthReportOpen, setIsBerthReportOpen] = useState(false);
@@ -495,6 +500,25 @@ const AddJobs = ({
     window.open(`${BASE_URL}${template?.pdfPath}`, "_blank");
   };
 
+  const handleEdit = (template) => {
+    console.log(template, "template_handleEdit");
+    setSelectedTemplate(template?.templateId); // Set the selected _id in the state
+
+    if (template?.templateId === "6745cbea3b3ccd845065a96c") {
+      setIsBerthReportOpen(true);
+    } else if (template?.templateId === "6745cbc83b3ccd845065a922") {
+      setIsCrewChangeListOpen(true);
+    } else if (template?.templateId === "6745cbdd3b3ccd845065a955") {
+      setIsLoadingReportOpen(true);
+    } else if (template?.templateId === "6745c91e3b3ccd845065a12b") {
+      setIsOKTBOpen(true);
+    } else if (template?.templateId === "675182753b3ccd8450734a09") {
+      setIsProvisionOpen(true);
+    } else if (template?.templateId === "675182483b3ccd84507349d7") {
+      setIsTransportationOpen(true);
+    }
+  };
+
   const handleTemplateFileDelete = async (fileUrl, index) => {
     // Update the state by filtering out the file with the specified URL
     console.log(fileUrl, "fileUrl");
@@ -805,6 +829,12 @@ const AddJobs = ({
                                 </div>
                                 <div
                                   className="iconpdf"
+                                  onClick={() => handleEdit(template)}
+                                >
+                                  <i class="bi bi-pencil-square"></i>
+                                </div>
+                                <div
+                                  className="iconpdf"
                                   onClick={() =>
                                     handleTemplateFileDelete(template, index)
                                   }
@@ -913,6 +943,7 @@ const AddJobs = ({
           charge={charge}
           selectedTemplateName={selectedTemplateName}
           selectedTemplate={selectedTemplate}
+          pdaResponse={pdaResponse}
           onSubmit={handleBerthReportSubmit}
         />
       )}
@@ -924,6 +955,7 @@ const AddJobs = ({
           selectedTemplateName={selectedTemplateName}
           selectedTemplate={selectedTemplate}
           onSubmit={handleCrewSubmit}
+          pdaResponse={pdaResponse}
         />
       )}
       {isLoadingReportOpen && (
@@ -934,6 +966,7 @@ const AddJobs = ({
           selectedTemplateName={selectedTemplateName}
           selectedTemplate={selectedTemplate}
           onSubmit={handleLoadingReportSubmit}
+          pdaResponse={pdaResponse}
         />
       )}
       {isOKTBOpen && (
@@ -944,6 +977,7 @@ const AddJobs = ({
           selectedTemplateName={selectedTemplateName}
           selectedTemplate={selectedTemplate}
           onSubmit={handleOKTBReportSubmit}
+          pdaResponse={pdaResponse}
         />
       )}
       {isProvisionOpen && (
@@ -954,6 +988,7 @@ const AddJobs = ({
           onSubmit={handleProvisionSubmit}
           selectedTemplateName={selectedTemplateName}
           selectedTemplate={selectedTemplate}
+          pdaResponse={pdaResponse}
         />
       )}
       {isTransportationOpen && (
@@ -967,6 +1002,7 @@ const AddJobs = ({
           selectedChargesType={selectedChargesType}
           selectedService={selectedService}
           services={services}
+          pdaResponse={pdaResponse}
         />
       )}
       {openPopUp && (

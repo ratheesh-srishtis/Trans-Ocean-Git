@@ -758,6 +758,7 @@ const EditOperation = ({
                 templates={templates}
                 vendors={vendors}
                 isAction={true}
+                pdaResponse={pdaResponse}
               />
             </div>
           </div>
