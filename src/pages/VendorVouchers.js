@@ -153,7 +153,7 @@ import "../css/payment.css";
           </label>
           <div className="vessel-select">
             <select
-               name="vendors" value={selectedVendorid || ''} onChange={handleChange}>
+              className="form-select vesselbox statuss" name="vendors" value={selectedVendorid || ''} onChange={handleChange}>
                {vendorList.map((vendor)=>(
                   <option key= {vendor._id} value={vendor._id}>{vendor.vendorName} {""}</option>
                  ))}
@@ -223,7 +223,7 @@ import "../css/payment.css";
      <Addvoucher open={open} onClose={handleClose} vendorId={selectedVendorid}  ListVouchers={handleListVouchers}/>
       <ViewVoucher open={viewopen} onClose={handleCloseView} getvoucher={selectedRow}/>
      
-     <div className="amount">
+     <div className="voucheramount">
      {/*<div className=" d-flex" >
        <div className="totalinvocie"> Total Invoice Amount:</div> <div className="amountpayment"> ${totalInvoiceAmount} </div>
       </div>

@@ -164,7 +164,7 @@ const ViewQuotation = ({
         {editData?.customerId && (
           <>
             <div className="row viewquocontent">
-              <div className=" col-4 viewhead">
+              <div className=" col-6 viewhead">
                 <span> Customer Name:</span>{" "}
                 <span className="viewans">
                   {getItemName(editData?.customerId, "customer")}
