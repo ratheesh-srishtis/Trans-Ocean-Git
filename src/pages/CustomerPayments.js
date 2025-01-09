@@ -133,7 +133,7 @@ const CustomerPayments = () => {
     { field: "amount", headerName: "Paid Amount", flex: 2 },
     { field: "currency", headerName: "Currency", flex: 2 },
     { field: "modeofPayment", headerName: "Mode of Payment", flex: 2 },
-    { field: "paymentDate", headerName: "Payment Date", flex: 2 },
+    { field: "dateofpay", headerName: "Payment Date", flex: 2 },
     { field: "bank", headerName: "Bank", flex: 2 },
 
   ];
@@ -158,19 +158,24 @@ const CustomerPayments = () => {
              </select>
           </div>
         </div>
-        {/*<div className="pdadate">
+        <div className="pdadate">
           <label
             for="inputPassword"
             className=" col-form-label text-nowrap"
           >
-            Quotation Date:
+            Payment Date:
           </label>
           <div className="">
             <div className="fw-bolder paymentpdafontweight">
            
             </div>
           </div>
-        </div>*/}
+        </div>
+        <div className="">
+          {/*<i className="bi bi-funnel-fill filtericon"></i>*/}
+          <input type="date" name="search-voucher-date" class="sortpayment" placeholder="Select Date"></input>
+       
+        </div>
         <div className=" sortpayment ">
           <i className="bi bi-funnel-fill filtericon"></i>
           <select 
@@ -243,7 +248,7 @@ const CustomerPayments = () => {
         const pdaIds = Array.isArray(item.pdaIds) ? item.pdaIds.filter(pda => pda.invoiceId).map(pda => pda.invoiceId).join(', '): '';
         const pdaNumbers = Array.isArray(item.pdaIds) ? item.pdaIds.filter(pda => pda.pdaNumber).map(pda => pda.pdaNumber).join(', ') : ''; 
         const jobIds = Array.isArray(item.pdaIds) ? item.pdaIds.filter(pda => pda.jobId).map(pda => pda.jobId).join(', ') : '';
-        const dateOnly = (item.createdAt).split('T')[0];
+        const dateOnly = (item.paymentDate).split('T')[0];
         return {
           id: item._id,
           jobId:jobIds || "N/A",
@@ -252,7 +257,7 @@ const CustomerPayments = () => {
           amount: item.amount || "N/A",
           currency: item.currency || "N/A",
           modeofPayment: item.modeofPayment || "N/A",
-          paymentDate:dateOnly || "N/A",
+          dateofpay:dateOnly || "N/A",
           bank: item.bank || "N/A",
 
           ...item,

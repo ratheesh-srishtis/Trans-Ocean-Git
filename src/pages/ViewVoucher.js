@@ -25,7 +25,7 @@ const ViewVoucher = ({ open,onClose,getvoucher}) => {
              maxWidth="lg"
            >
             <div className="d-flex justify-content-between " onClick={onClose}>
-                      <DialogTitle>View Voucher</DialogTitle>
+                      <DialogTitle>View Petty</DialogTitle>
                       <div className="closeicon">
                         <i className="bi bi-x-lg "></i>
                       </div>

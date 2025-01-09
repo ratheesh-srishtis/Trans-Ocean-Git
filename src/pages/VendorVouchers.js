@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
-import {getVouchers,getAllVendors,getAllQuotationIds} from "../services/apiService";
+import {getVouchers,getAllVendors} from "../services/apiService";
 import { Box, Typography, IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import Addvoucher from './AddVoucher';
@@ -121,7 +121,7 @@ import "../css/payment.css";
     { field: "amount", headerName: "Amount", flex: 2 },
     { field: "particulars", headerName: "Particulars", flex: 2 },
     { field: "accountof", headerName: "On Account Of", flex: 2 },
-    { field: "created", headerName: "Created At", flex: 2 },
+    { field: "dateofPay", headerName: "Payment Date", flex: 2 },
     {
       field: "actions",
       headerName: "Action",
@@ -161,12 +161,12 @@ import "../css/payment.css";
              </select>
           </div>
         </div>
-        {/*<div className="pdadate">
+        <div className="pdadate">
           <label
             for="inputPassword"
             className=" col-form-label text-nowrap"
           >
-            Quotation Date:
+            Payment Date:
           </label>
           <div className="">
             <div className="fw-bolder paymentpdafontweight">
@@ -174,23 +174,11 @@ import "../css/payment.css";
             </div>
           </div>
         </div>
-        <div className=" sortpayment ">
-          <i className="bi bi-funnel-fill filtericon"></i>
-          <select
-                                name="quotations"
-                                  className="form-select form-select-sm filter"
-                                  aria-label="Small select example"
-                                  
-                                >
-                                  <option value="">Choose Quotation </option>
-                                  {QuotationList.map((invoice) => (
-                                    <option key={invoice._id} value={invoice._id}>
-                                     {invoice.pdaNumber}{invoice.invoiceId ? ` - ${invoice.invoiceId}` : ''}
-                                    </option>
-                                  ))}
-                                </select>
+        <div className="">
+          {/*<i className="bi bi-funnel-fill filtericon"></i>*/}
+         <input type="date" name="search-voucher-date" class="sortpayment" placeholder="Select Date"></input>
        
-        </div>*/}
+        </div>
         <div className=" d-flex filterpayment">
           <label
             for="exampleFormControlInput1"
@@ -252,7 +240,7 @@ import "../css/payment.css";
     <div className="">
         <button onClick={()=>{
           OpenDialog();
-        }}  className="btn btn-info infobtn">Add Voucher</button>
+        }}  className="btn btn-info infobtn">Add Petty</button>
       </div>
      </div>
 
@@ -261,7 +249,7 @@ import "../css/payment.css";
        rows={voucherlist.map((item) => {
         // Check if item.pdaIds is an array and contains objects
        
-        const dateOnly = (item.createdAt).split('T')[0];
+       const dateOnly = item.paymentDate ? item.paymentDate.split('T')[0] : "N/A";
         return {
           id: item._id,
           voucher:item.voucherNumber || "N/A",
@@ -269,7 +257,7 @@ import "../css/payment.css";
           amount: item.amount || "N/A",
           particulars: item.voucherParticulers || "N/A",
           accountof: item.voucherAccount || "N/A",
-          created:dateOnly || "N/A",
+          dateofPay:dateOnly || "N/A",
          
 
           ...item,
