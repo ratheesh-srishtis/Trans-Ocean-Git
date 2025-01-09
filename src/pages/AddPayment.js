@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import{getAllQuotationIds,savePayment} from "../services/apiService";
 import Multiselect from "multiselect-react-dropdown";
 import PopUp from "./PopUp";
-
+import "../css/payment.css";
 const AddCustomerPayment = ({ open,onClose,customerId,vendorId,ListCustomer,Balance}) => {
   const[QuotationList,setQuotationList] = useState([]);
   const [errors, setErrors] = useState({});
@@ -17,6 +17,7 @@ const AddCustomerPayment = ({ open,onClose,customerId,vendorId,ListCustomer,Bala
       amount: "",
       modeofPayment: "",
       bank:"",
+      paymentDate:"",
     });
   const handleChange = (e) =>{
    const {name,value} = e.target;
@@ -40,8 +41,10 @@ useEffect(()=>{
 },[]);
 
  // Multi select
+ 
  const customStyles = {
   multiselectContainer: {
+    width: "700px",
     // Optional: Style for the container if needed
   },
   option: {
@@ -93,6 +96,8 @@ const handleRemove = (selectedList) => {
    else if (!/^\d*\.?\d+$/.test(formData.amount) || parseFloat(formData.amount) <= 0) { newErrors.amount = "Amount must be numbers"; }
    if(!formData.modeofPayment) newErrors.modeofPayment = "mode of payment is required";
    if (formData.modeofPayment === "bank" && !formData.bank) { newErrors.bank = "Bank name is required"};
+   if (!formData.paymentDate) { newErrors.paymentDate = "Payment Date  is required"};
+   
    setErrors(newErrors);
    return Object.keys(newErrors).length === 0;
  };
@@ -120,6 +125,7 @@ const handleSubmit =async(event)=>{
           amount: "",
           modeofPayment: "",
           bank:"",
+          paymentDate:"",
         });
         ListCustomer();
         onClose();
@@ -146,7 +152,7 @@ const fetchPayments = async()=>{
     <>
       <Dialog
              sx={{
-               width: 800,
+               width: 850,
                margin: "auto",
                borderRadius: 2,
              }}
@@ -185,6 +191,7 @@ const fetchPayments = async()=>{
                                                     onRemove={handleRemove} // Triggered when an item is removed
                                                     className="custom-multiselect" // Apply custom class
                                                     style={{
+                                                     
                                                       ...customStyles,
                                                       option: {
                                                         ...customStyles.option,
@@ -276,7 +283,7 @@ const fetchPayments = async()=>{
                                   </div>
                                 </div>
                                 <div className="row">
-                                  <div className="col mb-3 align-items-start">
+                                  <div className="col-6 mb-3 align-items-start">
                                     <div className="">
                                       <label for="exampleFormControlInput1" className="form-label">
                                         Mode of Payment <span className="required"> * </span> :
@@ -297,6 +304,27 @@ const fetchPayments = async()=>{
                                       </div>
                                     </div>
                                   </div>
+                                  <div className="col-6 mb-3 align-items-start">
+                                    <div className="">
+                                      <label for="exampleFormControlInput1" className="form-label">
+                                       Payment Date <span className="required">  </span> :
+                                      </label>
+                                      <div className="vessel-select">
+                                      <input
+                                        name="paymentDate"
+                                        type="date"
+                                        className="form-control vessel-voyage"
+                                        id="bank"
+                                        placeholder=""
+                                        onChange={handleChange}
+                                        value={formData.paymentDate}
+                                      ></input>
+                                        
+                                       {errors.paymentDate && (<span className="invalid">{errors.paymentDate}</span>)}
+                                      </div>
+                                    </div>
+                                  </div>
+                                  
                                   
                                 </div>
                                 <div className="row">
@@ -321,6 +349,9 @@ const fetchPayments = async()=>{
                                     </div>
                                   </div>
                                   
+                                </div>
+                                <div className="row">
+
                                 </div>
                     
                                 <div className="btnuser">

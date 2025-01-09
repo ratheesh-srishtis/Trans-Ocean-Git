@@ -316,13 +316,13 @@ const SendInvoice = ({
           </div>
         </div>
         <DialogContent>
-          <div class="Anchoragecall">
-            <div class="toaddress ">
-              <div class="row align-items-start">
-                <div class="col">
-                  <div class="mb-3">
-                    <div class="col">
-                      <label for="exampleFormControlInput1" class="form-label">
+          <div className="Anchoragecall">
+            <div className="toaddress ">
+              <div className="row align-items-start">
+                <div className="col">
+                  <div className="mb-3">
+                    <div className="col">
+                      <label for="exampleFormControlInput1" className="form-label">
                         To Address:
                       </label>
                       <input
@@ -351,12 +351,12 @@ const SendInvoice = ({
                 </div>
               </div>
             </div>
-            <div class="ccbcc ">
-              <div class="row align-items-start">
-                <div class="col">
-                  <div class="mb-3">
-                    <div class="col">
-                      <label for="exampleFormControlInput1" class="form-label">
+            <div className="ccbcc ">
+              <div className="row align-items-start">
+                <div className="col">
+                  <div className="mb-3">
+                    <div className="col">
+                      <label for="exampleFormControlInput1" className="form-label">
                         Cc:
                       </label>
                       <input
@@ -372,10 +372,10 @@ const SendInvoice = ({
                     </div>
                   </div>
                 </div>
-                <div class="col">
-                  <div class="mb-3">
-                    <div class="col">
-                      <label for="exampleFormControlInput1" class="form-label">
+                <div className="col">
+                  <div className="mb-3">
+                    <div className="col">
+                      <label for="exampleFormControlInput1" className="form-label">
                         Bcc:
                       </label>
                       <input
@@ -393,12 +393,12 @@ const SendInvoice = ({
                 </div>
               </div>
             </div>
-            <div class="ccbcc ">
-              <div class="row align-items-start">
-                <div class="col">
-                  <div class="mb-3">
-                    <div class="col">
-                      <label for="exampleFormControlInput1" class="form-label">
+            <div className="ccbcc ">
+              <div className="row align-items-start">
+                <div className="col">
+                  <div className="mb-3">
+                    <div className="col">
+                      <label for="exampleFormControlInput1" className="form-label">
                         Subject:
                       </label>
                       <input
@@ -420,14 +420,14 @@ const SendInvoice = ({
                     </div>
                   </div>
                 </div>
-                <div class="col">
-                  <div class="mb-3">
-                    <div class="col">
-                      <label for="exampleFormControlInput1" class="form-label">
+                <div className="col">
+                  <div className="mb-3">
+                    <div className="col">
+                      <label for="exampleFormControlInput1" className="form-label">
                         Upload Attachments:
                       </label>
                       <input
-                        class="form-control vessel-voyage"
+                        className="form-control vessel-voyage"
                         id="exampleFormControlInput1"
                         placeholder=" "
                       />
@@ -436,11 +436,11 @@ const SendInvoice = ({
                 </div>
               </div>
             </div>
-            <div class="row ">
-              <div class="col">
-                <div class="mb-3">
-                  <div class="col">
-                    <label for="exampleFormControlInput1" class="form-label">
+            <div className="row ">
+              <div className="col">
+                <div className="mb-3">
+                  <div className="col">
+                    <label for="exampleFormControlInput1" className="form-label">
                       Email Body:
                     </label>
                     <textarea
@@ -540,21 +540,21 @@ const SendInvoice = ({
                 </div>
               </div>
             </div>
-            <div class="row ">
-              <div class="col-7">
-                <div class="mb-3">
-                  <div class="col">
-                    <label for="exampleFormControlInput1" class="form-label">
+            <div className="row ">
+              <div className="col-7">
+                <div className="mb-3">
+                  <div className="col">
+                    <label for="exampleFormControlInput1" className="form-label">
                       Supporting Documents:
                     </label>
-                    <div class="rec">
+                    <div className="rec">
                       <ul>
                         {fecthedDocuments?.length > 0 &&
                           fecthedDocuments?.map((file, index) => {
                             return (
                               <>
                                 <a
-                                  class="supporting"
+                                  className="supporting"
                                   onClick={() =>
                                     window.open(
                                       `https://hybrid.sicsglobal.com/transocean_api/assets/template_pdf/${file?.pdfPath}`,
@@ -562,7 +562,7 @@ const SendInvoice = ({
                                     )
                                   }
                                 >
-                                  <li class="supporting">
+                                  <li className="supporting">
                                     {" "}
                                     {file?.templateName}
                                   </li>
@@ -578,19 +578,19 @@ const SendInvoice = ({
 
               {isFinalreport && (
                 <>
-                  <div class="col-5">
-                    <div class="mb-3">
-                      <div class="col">
+                  <div className="col-5">
+                    <div className="mb-3">
+                      <div className="col">
                         <label
                           for="exampleFormControlInput1"
-                          class="form-label"
+                          className="form-label"
                         >
                           Attach Invoice:
                         </label>
-                        <div class="rectangle-invoice">
-                          <div class="invoice">Invoice PDF</div>
-                          <div class="Attach">
-                            <i class="bi bi-file-earmark-fill"></i>
+                        <div className="rectangle-invoice">
+                          <div className="invoice">Invoice PDF</div>
+                          <div className="Attach">
+                            <i className="bi bi-file-earmark-fill"></i>
                           </div>
                         </div>
                       </div>
@@ -600,10 +600,10 @@ const SendInvoice = ({
               )}
             </div>
 
-            <div class="firstfooter d-flex justify-content-end">
+            <div className="firstfooter d-flex justify-content-end">
               <button
                 type="button"
-                class="btn add-button"
+                className="btn add-button"
                 onClick={handleSubmit}
               >
                 OK
