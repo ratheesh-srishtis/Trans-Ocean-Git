@@ -13,7 +13,10 @@ import {
 import DatePicker from "react-datepicker";
 import { format, parse } from "date-fns";
 import "react-datepicker/dist/react-datepicker.css";
-import { generateTemplatePDF } from "../../../services/apiService";
+import {
+  generateTemplatePDF,
+  getPdaTemplateDataAPI,
+} from "../../../services/apiService";
 import { da } from "date-fns/locale";
 import PopUp from "../../PopUp";
 import moment from "moment";
@@ -26,11 +29,13 @@ const ProvisionDeliveryNotes = ({
   onSubmit,
   selectedTemplateName,
   selectedTemplate,
+  pdaResponse,
 }) => {
   const [date, setDate] = useState(null);
   const [dateError, setDateError] = useState(null);
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false); // Loader state
 
   const [formData, setFormData] = useState({
     supplyDate: "",
@@ -142,6 +147,51 @@ const ProvisionDeliveryNotes = ({
   useEffect(() => {
     console.log(date, "date_delivery");
   }, [date]);
+
+  const getPdaTemplateData = async () => {
+    setIsLoading(true);
+    try {
+      let userData = {
+        pdaId: pdaResponse?._id,
+        templateId: selectedTemplate,
+      };
+      const response = await getPdaTemplateDataAPI(userData);
+
+      if (response?.templateData) {
+        const templateData = response.templateData;
+        console.log(templateData, "templateData");
+        setDate(
+          templateData?.supplyDate
+            ? moment.utc(templateData?.supplyDate).format("YYYY-MM-DD")
+            : ""
+        );
+        setFormData({
+          supplyDate: templateData?.supplyDate
+            ? moment.utc(templateData?.supplyDate).format("YYYY-MM-DD")
+            : "",
+
+          refNo: templateData.refNo || "",
+          items: templateData.items.map((item) => ({
+            description: item.description || "",
+            qty: item.qty || "",
+            unit: item.unit || "",
+          })),
+        });
+      }
+
+      console.log("getPdaTemplateData:", response);
+
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch invoices:", error);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getPdaTemplateData();
+  }, []);
+
   return (
     <>
       <div>

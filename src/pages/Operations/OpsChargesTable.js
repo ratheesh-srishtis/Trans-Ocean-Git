@@ -212,6 +212,7 @@ const OpsChargesTable = ({
         ports={ports}
         customers={customers}
         vendors={vendors}
+        pdaResponse={pdaResponse}
       />
       {openPopUp && (
         <PopUp message={message} closePopup={() => setOpenPopUp(false)} />

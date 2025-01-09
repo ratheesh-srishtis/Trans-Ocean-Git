@@ -12,7 +12,10 @@ import {
   Grid,
   Button,
 } from "@mui/material";
-import { generateTemplatePDF } from "../../../services/apiService";
+import {
+  generateTemplatePDF,
+  getPdaTemplateDataAPI,
+} from "../../../services/apiService";
 import moment from "moment";
 import PopUp from "../../PopUp";
 const BerthReport = ({
@@ -23,6 +26,7 @@ const BerthReport = ({
   charge,
   selectedTemplateName,
   selectedTemplate,
+  pdaResponse,
 }) => {
   console.log(templates, "templates");
   const [openPopUp, setOpenPopUp] = useState(false);
@@ -40,6 +44,7 @@ const BerthReport = ({
     customClearence: "",
     freePratique: "",
   });
+  const [isLoading, setIsLoading] = useState(false); // Loader state
 
   // Handler to update date values
   const handleDateChange = (key, date) => {
@@ -194,6 +199,108 @@ const BerthReport = ({
   useEffect(() => {
     console.log(formState, "formState");
   }, [formState]);
+
+  const getPdaTemplateData = async () => {
+    setIsLoading(true);
+    try {
+      let userData = {
+        pdaId: pdaResponse?._id,
+        templateId: selectedTemplate,
+      };
+      const response = await getPdaTemplateDataAPI(userData);
+
+      if (response?.templateData) {
+        const templateData = response.templateData;
+
+        setEta(
+          templateData?.bunkersOnDepartureETA
+            ? moment
+                .utc(templateData?.bunkersOnDepartureETA)
+                .format("YYYY-MM-DD HH:mm")
+            : ""
+        );
+
+        setGeneralRemarks(templateData?.generalRemarks);
+        setShipperRemarks(templateData?.shipperRemarks);
+        setMasterRemarks(templateData?.masterRemarks);
+
+        // Update formData with respective fields
+
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          esop: templateData?.esop
+            ? moment.utc(templateData?.esop).format("YYYY-MM-DD HH:mm")
+            : "",
+          anchored: templateData?.anchored
+            ? moment.utc(templateData?.anchored).format("YYYY-MM-DD HH:mm")
+            : "",
+          norTender: templateData?.norTender
+            ? moment.utc(templateData?.norTender).format("YYYY-MM-DD HH:mm")
+            : "",
+          anchorAweigh: templateData?.anchorAweigh
+            ? moment.utc(templateData?.anchorAweigh).format("YYYY-MM-DD HH:mm")
+            : "",
+          pob: templateData?.pob
+            ? moment.utc(templateData?.pob).format("YYYY-MM-DD HH:mm")
+            : "",
+          firstline: templateData?.firstline
+            ? moment.utc(templateData?.firstline).format("YYYY-MM-DD HH:mm")
+            : "",
+          allfast: templateData?.allfast
+            ? moment.utc(templateData?.allfast).format("YYYY-MM-DD HH:mm")
+            : "",
+          pilotOff: templateData?.pilotOff
+            ? moment.utc(templateData?.pilotOff).format("YYYY-MM-DD HH:mm")
+            : "",
+          gangwayLowered: templateData?.gangwayLowered
+            ? moment
+                .utc(templateData?.gangwayLowered)
+                .format("YYYY-MM-DD HH:mm")
+            : "",
+          customClearence: templateData?.customClearence
+            ? moment
+                .utc(templateData?.customClearence)
+                .format("YYYY-MM-DD HH:mm")
+            : "",
+          freePratique: templateData?.freePratique
+            ? moment.utc(templateData?.freePratique).format("YYYY-MM-DD HH:mm")
+            : "",
+        }));
+
+        // Update formState with the respective fields
+        setFormState((prevFormState) => ({
+          ...prevFormState,
+          draftOnArrivalFWD: templateData?.draftOnArrivalFWD || "",
+          draftOnArrivalAFT: templateData?.draftOnArrivalAFT || "",
+          bunkersOnArrivalFO: templateData?.bunkersOnArrivalFO || "",
+          bunkersOnArrivalDO: templateData?.bunkersOnArrivalDO || "",
+          bunkersOnArrivalAFT: templateData?.bunkersOnArrivalAFT || "",
+          draftOnDepartureFWD: templateData?.draftOnDepartureFWD || "",
+          draftOnDepartureAFT: templateData?.draftOnDepartureAFT || "",
+          bunkersOnDepartureFO: templateData?.bunkersOnDepartureFO || "",
+          bunkersOnDepartureDO: templateData?.bunkersOnDepartureDO || "",
+          bunkersOnDepartureAFT: templateData?.bunkersOnDepartureAFT || "",
+          bunkersOnDepartureNextPort:
+            templateData?.bunkersOnDepartureNextPort || "",
+          bunkersOnDepartureETA: templateData?.bunkersOnDepartureETA
+            ? moment
+                .utc(templateData?.bunkersOnDepartureETA)
+                .format("YYYY-MM-DD HH:mm")
+            : "",
+        }));
+      }
+
+      console.log("getPdaTemplateData:", response);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch invoices:", error);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getPdaTemplateData();
+  }, []);
 
   return (
     <>

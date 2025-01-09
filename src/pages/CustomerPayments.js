@@ -150,7 +150,7 @@ const CustomerPayments = () => {
           </label>
           <div className="vessel-select">
             <select
-               name="customers" value={selectedCustomerid || ''} onChange={handleChange}>
+               className="form-select vesselbox statuss" name="customers" value={selectedCustomerid || ''} onChange={handleChange}>
                {customerList.map((customer)=>(
                   <option key= {customer._id} value={customer._id}>{customer.customerName} {""}</option>
                  ))}
@@ -218,7 +218,7 @@ const CustomerPayments = () => {
       <Addpayment open={open} onClose={handleClose} customerId={selectedCustomerid} vendorId="" ListCustomer={handleListCustomer} Balance={balanceAmount}/>
       
      
-     <div className="amount">
+     <div className="paymeamount">
      <div className=" d-flex" >
        <div className="totalinvocie"> Total Invoice Amount:</div> <div className="amountpayment"> ${totalInvoiceAmount} </div>
       </div>

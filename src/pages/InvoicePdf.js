@@ -10,11 +10,8 @@ import {
   Button,
 } from "@mui/material";
 import Loader from "./Loader";
-import "../css/addcharges.css";
-import "../css/editcharges.css";
-import "../css/sendquotation.css";
-import "../css/generatepda.css";
-import "../css/epda.css";
+
+import "../css/invoicepdf.css";
 import { getPdaFile, getPdaDetails } from "../services/apiService";
 import {
   getSubcharges,
@@ -23,11 +20,11 @@ import {
   addPDACharges,
 } from "../services/apiService";
 import moment from "moment";
-import PopUp from "./PopUp";
-const transwave = require("../assets/images/EPDA-MV-TBN-SALALAH-CARGO-(3)-1.jpg");
-const Group = require("../assets/images/TRANSocean-LOGO.png");
 
-const PdaDialog = ({
+import PopUp from "./PopUp";
+
+
+const InvoicePdf = ({
   open,
   onClose,
   services,
@@ -37,7 +34,10 @@ const PdaDialog = ({
   vendors,
   vessels,
   cargos,
+  selectedPdaData,
 }) => {
+  const transwave = require("../assets/images/EPDA-MV-TBN-SALALAH-CARGO-(3)-1.jpg");
+  const Group = require("../assets/images/TRANSocean-LOGO.png");
   console.log(services, "services");
   console.log(pdaResponse, "pdaResponse_dialog");
 
@@ -274,6 +274,24 @@ const PdaDialog = ({
     console.log(subCharges, "subCharges");
   }, [fetchedSubCharges, subCharges]);
 
+  const vendorTotalValues = pdaServices?.reduce(
+    (totals, charge) => {
+      totals.quantity += parseInt(charge.quantity || 0, 10); // Default to 0 if null/undefined
+      totals.vendorOMR += parseFloat(charge.vendorOMR || 0);
+      totals.vendorVAT += parseFloat(charge.vendorVAT || 0);
+      totals.vendorTotalUSD += parseFloat(charge.vendorTotalUSD || 0);
+      return totals;
+    },
+    { quantity: 0, vendorOMR: 0, vendorVAT: 0, vendorTotalUSD: 0 }
+  );
+
+  const formattedVendorTotals = {
+    quantity: vendorTotalValues?.quantity,
+    vendorOMR: vendorTotalValues?.vendorOMR.toFixed(3),
+    vendorVAT: vendorTotalValues?.vendorVAT.toFixed(3),
+    vendorTotalUSD: vendorTotalValues?.vendorTotalUSD.toFixed(2),
+  };
+
   return (
     <>
       <Dialog
@@ -303,20 +321,7 @@ const PdaDialog = ({
           </div>
         </div>
         <DialogContent>
-          {/* {pdfData?.status && (
-            <>
-              <iframe
-                src={`${pdfData.pdfPath}#toolbar=0&navpanes=0&scrollbar=0`}
-                title="PDF Viewer"
-                style={{
-                  width: "100%",
-                  height: "700px",
-                  border: "none",
-                }}
-              />
-            </>
-          )} */}
-          <table className="tabstyle">
+          <table class="column">
             <thead>
               <tr>
                 <th colspan="6" className=" tableimage ">
@@ -329,124 +334,114 @@ const PdaDialog = ({
               </tr>
             </thead>
           </table>
-          <table className="tabstyle">
-            <thead className="tableheading">
+          <table class="column">
+            <thead class="tablebody">
               <tr>
-                <th colspan="5" className="styltwo">
-                  To :{" "}
-                  {pdaDetails?.customerId
-                    ? getItemName(pdaDetails?.customerId, "customer")
-                    : ""}
+                <th class="taxinvoice ">
+                  <span class="tax">TAX INVOICE</span>
+                  <span class="vatin">VATIN OM1100059900</span>
                 </th>
-
-                <th className="stylthree">
-                  Date:{" "}
-                  {new Date(pdaDetails?.createdAt).toLocaleDateString("en-GB")}
-                </th>
-                <th className="stylfour"></th>
               </tr>
             </thead>
           </table>
-          <table className="tabstyle">
-            <thead className="tableheading">
+          <table class="column">
+            <thead class=".tablebody">
               <tr>
-                <th colspan="3" className="stylfive">
+                <th colspan="5" class="totba">
+                  TO TBA
+                </th>
+
+                <th class="codefda">FDA CODE : JUL/23/407</th>
+
+                <th class="tabl">
+                  <table class="column">
+                    <tr>
+                      <th class=" dateinvoice">
+                        <div>Date :</div>
+                        <div>31-07-2024</div>
+                      </th>
+                    </tr>
+                    <tr>
+                      <th class=" ref">
+                        <div>Ref :</div>
+                        <div>TOMS/OM/23/0741</div>
+                      </th>
+                    </tr>
+                  </table>
+                </th>
+              </tr>
+            </thead>
+          </table>
+          <table class="column">
+            <thead class="tablebody">
+              <tr>
+                <th colspan="3" class="vesselpdf">
                   VESSEL
                 </th>
 
-                <th className="stylsix">LOCATION</th>
-                <th className="stylseven">ETA</th>
-                <th className="styleight">ETD</th>
-                <th className="stylnine">CARGO</th>
-                <th className="stylten">LOA</th>
-                <th className="styla"></th>
+                <th class="location">LOCATION</th>
+                <th rowspan="2" class="stilefive">
+                  VESSEL ARRIVED : 11/07/2023
+                </th>
+                <th rowspan="2" class="stilefive">
+                  VESSEL SAILED : 11/07/2023
+                </th>
               </tr>
               <tr>
-                <th colspan="3" className="mvstyl">
+                <th colspan="3" class="stilefive">
                   {" "}
-                  {pdaDetails?.vesselId
-                    ? getItemName(pdaDetails?.vesselId, "vessel")
-                    : ""}
+                  VESSEL 1
                 </th>
 
-                <th className="mvstyl">
-                  {pdaDetails?.portId
-                    ? getItemName(pdaDetails?.portId, "port")
-                    : ""}
-                </th>
-                <th className="mvstyl">
-                  {" "}
-                  {/* {moment.utc(pdaDetails?.ETA).format("DD-MM-YYYY HH:mm A")} */}
-                  {moment.utc(pdaDetails?.ETA).format("DD-MM-YYYY HH:mm")}
-                </th>
-                <th className="mvstyl">
-                  {" "}
-                  {moment.utc(pdaDetails?.ETD).format("DD-MM-YYYY HH:mm")}
-                </th>
-                <th className="mvstyl">
-                  {" "}
-                  {pdaDetails?.cargoId
-                    ? getItemName(pdaDetails?.cargoId, "cargo")
-                    : ""}
-                </th>
-                <th className="mvstyl">{pdaDetails?.LOA}</th>
-                <th className="stylee "></th>
-              </tr>
-              <tr>
-                <th colspan="3" className="mvstyl">
-                  GRT
-                </th>
-
-                <th className="stylee">{pdaDetails?.GRT}</th>
-                <th className="mvstyl"> NRT</th>
-                <th className="mvstyl">{pdaDetails?.NRT}</th>
-                <th className="mvstyl"></th>
-                <th className="mvstyl"></th>
-                <th className="stylb"></th>
+                <th class="stilefive">SOHAR ANCHORAGE</th>
               </tr>
             </thead>
           </table>
-          <table className="tabstyle">
-            <thead className="tableheading">
+          <table class="column">
+            <thead style={{ fontSize: "12px" }}>
               <tr>
-                <th className="slstyl">Sl.No</th>
-                <th className="slstyl">Particulars</th>
-                <th className="slstyl">Quantity</th>
-                <th className="omrstyl">Amount (OMR)</th>
-                <th className="omrstyl">VAT AMOUNT</th>
-                <th className="omrstyl">TOTAL AMOUNT (OMR)</th>
-                <th className="omrstyl">TOTAL AMOUNT (USD)</th>
+                <th class="stilefour">Sl.No</th>
+                <th class="stilefour">Particulars</th>
+                <th class="stilefour">Quantity</th>
+                <th class="stilethree">Amount (OMR)</th>
+                <th class="stilethree">VAT AMOUNT</th>
+                <th class="stilethree">TOTAL AMOUNT (OMR)</th>
+                <th class="stilethree">TOTAL AMOUNT (USD)</th>
               </tr>
             </thead>
-            <tbody className="tablebody">
+            <tbody class="tableheading">
               {pdaServices?.length > 0 &&
                 pdaServices.map((charge, index) => (
                   <>
                     <tr key={index}>
-                      <td className="stylc">{index + 1}</td>
-                      <td className="stylc">
+                      <td className="stiletwo">{index + 1}</td>
+                      <td className="stiletwo">
                         {charge.subchargeId
                           ? getItemName(charge.subchargeId, "subChargeType")
                           : ""}
                       </td>
-                      <td className="stylq">{charge?.quantity}</td>
+                      <td className="stiletwo">{charge?.quantity}</td>
 
-                      <td className="stylq">{charge.customerOMR.toFixed(3)}</td>
-                      <td className="stylq">{charge.customerVAT.toFixed(3)}</td>
-                      <td className="stylq">
+                      <td className="stileone">
+                        {charge.customerOMR.toFixed(3)}
+                      </td>
+                      <td className="stileone">
+                        {charge.customerVAT.toFixed(3)}
+                      </td>
+                      <td className="stileone">
                         {(
                           parseFloat(charge.customerOMR) +
                           parseFloat(charge.customerVAT)
                         ).toFixed(3)}
                       </td>
-                      <td className="stylq">
+                      <td className="stileone">
                         {charge.customerTotalUSD.toFixed(2)}
                       </td>
                     </tr>
                     {charge?.remark && (
                       <>
                         <tr>
-                          <td className="stylc"></td>
+                          <td className="stileone"></td>
                           <td colspan="6" className="stylg ">
                             {charge?.remark}
                           </td>
@@ -457,70 +452,45 @@ const PdaDialog = ({
                 ))}
 
               <tr>
-                <td colspan="5" className="stylh">
-                  TOTAL AMOUNT
+                <td colspan="6" class="amount">
+                  TOTAL VAT AMOUNT
                 </td>
 
-                <td className="stylt">
-                  {(
-                    parseFloat(formattedTotals.customerOMR) +
-                    parseFloat(formattedTotals.customerVAT)
-                  ).toFixed(3)}
+                <td class="amount">{formattedVendorTotals.vendorVAT}</td>
+              </tr>
+              <tr>
+                <td colspan="6" class="amount">
+                  TOTAL AMOUNT IN OMR
                 </td>
-                <td className="stylt">{formattedTotals.customerTotalUSD}</td>
+
+                <td class="amount">{formattedVendorTotals.vendorOMR}</td>
+              </tr>
+              <tr>
+                <td colspan="6" class="amount">
+                  TOTAL AMOUNT IN USD
+                </td>
+
+                <td class="amount">{formattedVendorTotals.vendorTotalUSD}</td>
               </tr>
             </tbody>
           </table>
           <div>
-            <div className="col-1 note">Note</div>
-            <div className="subnote">
-              **“Effective from 16th April 2021, 5% of VAT will applicable as
-              per new Government regulation in the Sultanate of Oman."
+            <div class=" ">Note</div>
+            <div class="subnote">
+              *Payment due within 3days of invoicing
               <br />
-              ***Denotes estimated charges and actual as per port bills <br />
-              ****Agency fess does not include Immarsat calls or telexes. If
-              necessary will be charged out of costs
+              *2% interest/month shall be charged if the payment is not made
+              with in the due date.
+              <br />
+              *Our standard terms and conditons apply, copy available upon
+              request
             </div>
           </div>
-          <table className="styli">
-            <thead className="tableheading">
-              <tr>
-                <th className="slstyl"></th>
-                <th colspan="4" className="stylj">
-                  Anchorage Stay Charges
-                </th>
-              </tr>
-              <tr>
-                <th className="stylk">NO</th>
-                <th className="stylk">Duration </th>
-                <th className="styll">Description</th>
-                <th className="stylk">OMR</th>
-                <th className="stylk">USD</th>
-              </tr>
-            </thead>
-            <tbody className="tablebody">
-              <tr>
-                <td className="stylk">1</td>
-                <td className="stylk"> 185-199.99 M </td>
-                <td className="stylm">
-                  Charges per day(minimum a calendar day / 24 hours )
-                </td>
-                <td className="stylq">38.610</td>
-                <td className="stylq"> 100.00</td>
-              </tr>
-              <tr>
-                <td colspan="6" className="styln">
-                  Vessels waiting at anchorage due non-availability of berth
-                  shall not be charged anchorage fees.
-                </td>
-              </tr>
-            </tbody>
-          </table>
+
           <div>
-            <div className="payment">
-              Payment:
-              <br /> Payment in advance prior to vessel arrival as per below
-              bank account details:
+            <div class="payment">
+              Ple/ase remit to the following bank account with advice to us
+              <br /> Kindly find our OMR account in below
               <br /> OUR BANKING ACCOUNT DETAILS
               <br /> TRANS OCEAN MARITIME SERVICES LLC
               <br /> BANK MUSCAT
@@ -540,4 +510,4 @@ const PdaDialog = ({
   );
 };
 
-export default PdaDialog;
+export default InvoicePdf;

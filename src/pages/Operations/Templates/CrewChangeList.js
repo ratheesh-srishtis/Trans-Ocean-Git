@@ -10,7 +10,10 @@ import {
   Grid,
   Button,
 } from "@mui/material";
-import { generateTemplatePDF } from "../../../services/apiService";
+import {
+  generateTemplatePDF,
+  getPdaTemplateDataAPI,
+} from "../../../services/apiService";
 import PopUp from "../../PopUp";
 import moment from "moment";
 import DatePicker from "react-datepicker";
@@ -23,9 +26,11 @@ const CrewChangeList = ({
   charge,
   selectedTemplateName,
   selectedTemplate,
+  pdaResponse,
 }) => {
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false); // Loader state
 
   const [formValues, setFormValues] = useState({
     onSigners: [
@@ -244,6 +249,55 @@ const CrewChangeList = ({
       [group]: updatedGroup,
     }));
   };
+
+  const getPdaTemplateData = async () => {
+    setIsLoading(true);
+    try {
+      let userData = {
+        pdaId: pdaResponse?._id,
+        templateId: selectedTemplate,
+      };
+      const response = await getPdaTemplateDataAPI(userData);
+
+      if (response?.templateData) {
+        const templateData = response.templateData;
+        // Populate formValues with API data
+        setFormValues({
+          onSigners: templateData.onsigners.map((signer) => ({
+            crewName: signer.crewName || "",
+            flight: signer.flight || "",
+            ATAMuscat: signer.ATAMuscat || "",
+            hotel: signer.hotel || "",
+            checkIn: signer.checkIn || "",
+            checkOut: signer.checkOut || "",
+            food: signer.food || "",
+            transportation: signer.transportation || "",
+          })),
+          offSigners: templateData.offsigners.map((signer) => ({
+            crewName: signer.crewName || "",
+            flight: signer.flight || "",
+            ATDMuscat: signer.ATDMuscat || "",
+            hotel: signer.hotel || "",
+            checkIn: signer.checkIn || "",
+            checkOut: signer.checkOut || "",
+            food: signer.food || "",
+            transportation: signer.transportation || "",
+          })),
+        });
+      }
+
+      console.log("getPdaTemplateData:", response);
+
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch invoices:", error);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getPdaTemplateData();
+  }, []);
 
   return (
     <>

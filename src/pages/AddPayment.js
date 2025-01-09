@@ -283,7 +283,7 @@ const fetchPayments = async()=>{
                                   </div>
                                 </div>
                                 <div className="row">
-                                  <div className="col mb-3 align-items-start">
+                                  <div className="col-6 mb-3 align-items-start">
                                     <div className="">
                                       <label for="exampleFormControlInput1" className="form-label">
                                         Mode of Payment <span className="required"> * </span> :
@@ -304,6 +304,27 @@ const fetchPayments = async()=>{
                                       </div>
                                     </div>
                                   </div>
+                                  <div className="col-6 mb-3 align-items-start">
+                                    <div className="">
+                                      <label for="exampleFormControlInput1" className="form-label">
+                                       Payment Date <span className="required">  </span> :
+                                      </label>
+                                      <div className="vessel-select">
+                                      <input
+                                        name="paymentDate"
+                                        type="date"
+                                        className="form-control vessel-voyage"
+                                        id="bank"
+                                        placeholder=""
+                                        onChange={handleChange}
+                                        value={formData.paymentDate}
+                                      ></input>
+                                        
+                                       {errors.paymentDate && (<span className="invalid">{errors.paymentDate}</span>)}
+                                      </div>
+                                    </div>
+                                  </div>
+                                  
                                   
                                 </div>
                                 <div className="row">
@@ -329,29 +350,7 @@ const fetchPayments = async()=>{
                                   </div>
                                   
                                 </div>
-                                <div className="row">
-                                  <div className="col mb-3 align-items-start">
-                                    <div className="">
-                                      <label for="exampleFormControlInput1" className="form-label">
-                                       Payment Date <span className="required">  </span> :
-                                      </label>
-                                      <div className="vessel-select">
-                                      <input
-                                        name="paymentDate"
-                                        type="date"
-                                        className="form-control vessel-voyage"
-                                        id="bank"
-                                        placeholder=""
-                                        onChange={handleChange}
-                                        value={formData.paymentDate}
-                                      ></input>
-                                        
-                                       {errors.paymentDate && (<span className="invalid">{errors.paymentDate}</span>)}
-                                      </div>
-                                    </div>
-                                  </div>
-                                  
-                                </div>
+
                     
                                 <div className="btnuser">
                                   <button className="btn btna submit-button btnfsize">

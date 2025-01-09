@@ -45,21 +45,28 @@
     color: rgb(109, 109, 109);
     margin-right: 20px;
 }
-.amount{
+.paymeamount{
     display: flex;
     align-items: center;
+    margin-bottom: 10px;
 
 }
 .paymentbtn{
     margin-left: 15px;
 }
 
-.searchWrapper {
-    border: 1px solid #dee2e6 !important;
+
+.searchWrapper{
+ border: 1px solid #dee2e6 !important;
     border-radius: 4px;
     min-height: 37px;
     padding: 5px;
     position: relative;
-    width:300px;
-  }
-  
+    width: 714px;
+}
+.voucheramount{
+    display: flex;
+    justify-content: end;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
