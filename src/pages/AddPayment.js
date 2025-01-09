@@ -350,9 +350,7 @@ const fetchPayments = async()=>{
                                   </div>
                                   
                                 </div>
-                                <div className="row">
 
-                                </div>
                     
                                 <div className="btnuser">
                                   <button className="btn btna submit-button btnfsize">

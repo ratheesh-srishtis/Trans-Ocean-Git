@@ -39,14 +39,14 @@ const VendorPayments = () => {
     }
 
   };
-  useEffect(() => {
+ /* useEffect(() => {
     if (location.state) {
       const { totalInvoiceAmount, paidAmount } = location.state;
       setInvoiceAmount(totalInvoiceAmount);
       setPaidAmount(paidAmount);
       setBalanceAmount(totalInvoiceAmount - paidAmount);
     }
-  }, [location.state]);
+  }, [location.state]);*/
   useEffect(()=>{
     fetchVendorList();
     fecthQuotations();
@@ -68,7 +68,12 @@ const VendorPayments = () => {
  
     try{
       const Listpayments = await getVendorPayments(payload);
-      setVendorpayment(Listpayments?.payments||[]);  
+      setVendorpayment(Listpayments?.payments||[]); 
+      setInvoiceAmount(Listpayments?.totalInvoiceAmount||0);
+       setPaidAmount(Listpayments?.paidAmount||0);
+        const totalAmount = Listpayments?.totalInvoiceAmount || 0;
+        const amountpaid = Listpayments?.paidAmount || 0
+       setBalanceAmount(totalAmount - amountpaid);    
 
     }catch(error){
       console.log("Error in Api",error);
@@ -82,7 +87,7 @@ const VendorPayments = () => {
     };
 
     const handleChange =(e)=>{
-    const selectedVendor = vendorList.find(customer => customer._id === e.target.value);
+    /*const selectedVendor = vendorList.find(customer => customer._id === e.target.value);
     if (selectedVendor) {
       const totalInvoiceAmount = selectedVendor.totalInvoiceAmount;
       const paidAmount = selectedVendor.paidAmount;
@@ -91,8 +96,10 @@ const VendorPayments = () => {
       setPaidAmount(paidAmount);
       setBalanceAmount(totalInvoiceAmount - paidAmount);
       setSelectedVendorid(e.target.value);
-    }
-    //setSelectedVendorid(e.target.value); 
+    }*/
+      fetchVendorpayments();
+      setSelectedVendorid("");
+    setSelectedVendorid(e.target.value); 
     
   };
   const OpenDialog =()=>{
