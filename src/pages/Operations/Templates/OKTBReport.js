@@ -11,7 +11,10 @@ import {
   Button,
 } from "@mui/material";
 import DatePicker from "react-datepicker";
-import { generateTemplatePDF } from "../../../services/apiService";
+import {
+  generateTemplatePDF,
+  getPdaTemplateDataAPI,
+} from "../../../services/apiService";
 import PopUp from "../../PopUp";
 import { format } from "date-fns";
 import moment from "moment";
@@ -24,10 +27,12 @@ const OKTBReport = ({
   selectedTemplateName,
   onSubmit,
   selectedTemplate,
+  pdaResponse,
 }) => {
   console.log(templates, "templates");
   console.log(charge, "charge_OKTBReport");
   console.log(selectedTemplateName, "selectedTemplateName");
+  const [isLoading, setIsLoading] = useState(false); // Loader state
 
   const [to, setTo] = useState(null);
   const [faxNumber, setFaxNumber] = useState(null);
@@ -190,6 +195,49 @@ const OKTBReport = ({
       onSubmit(error);
     }
   };
+
+  const getPdaTemplateData = async () => {
+    setIsLoading(true);
+    try {
+      let userData = {
+        pdaId: pdaResponse?._id,
+        templateId: selectedTemplate,
+      };
+      const response = await getPdaTemplateDataAPI(userData);
+
+      if (response?.templateData) {
+        const templateData = response.templateData;
+        console.log(templateData, "templateData");
+
+        setTo(templateData?.to);
+        setFaxNumber(templateData?.faxNo);
+        setAttn(templateData?.attn);
+        setPages(templateData?.pages);
+        setfrom(templateData?.from);
+        setTelephoneNumber(templateData?.telNo);
+        setDate(
+          templateData?.date
+            ? moment.utc(templateData?.date).format("YYYY-MM-DD")
+            : ""
+        );
+
+        setRefNumber(templateData?.refNo);
+        setBookingRef(templateData?.bookingRefNo);
+        setPassengersName(templateData?.passengersNames);
+        setSirportArrivalDetails(templateData?.arrivalFlightDetails);
+      }
+
+      console.log("getPdaTemplateData:", response);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch invoices:", error);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getPdaTemplateData();
+  }, []);
 
   return (
     <>
