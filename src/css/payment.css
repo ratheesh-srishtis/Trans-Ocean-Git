@@ -55,15 +55,11 @@
     margin-left: 15px;
 }
 
-
-.searchWrapper{
- border: 1px solid #dee2e6 !important;
-    border-radius: 4px;
-    min-height: 37px;
-    padding: 5px;
-    position: relative;
-    width: 714px;
-}
+.payment-page .searchWrapper { 
+    width: 300px;
+    font-size: smaller;
+ }
+ 
 .voucheramount{
     display: flex;
     justify-content: end;

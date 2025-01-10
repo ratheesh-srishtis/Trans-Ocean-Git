@@ -11,6 +11,7 @@ const AddVoucher = ({ open,onClose,vendorId,ListVouchers}) => {
       through: "",
       voucherParticulers: "",
       voucherAccount: "",
+      paymentDate:"",
      
     });
   const handleChange = (e) =>{
@@ -34,6 +35,7 @@ const AddVoucher = ({ open,onClose,vendorId,ListVouchers}) => {
    if(!formData.through) newErrors.through = "Through is required";
    if(!formData.voucherParticulers) newErrors.voucherParticulers = "Voucher particular is required";
    if(!formData.voucherAccount) newErrors.voucherAccount = "Voucher Account is required";
+   if (!formData.paymentDate) { newErrors.paymentDate = "Payment Date  is required"};
    setErrors(newErrors);
    return Object.keys(newErrors).length === 0;
  };
@@ -53,6 +55,7 @@ const handleSubmit =async(event)=>{
           through: "",
           voucherParticulers: "",
           voucherAccount: "",
+          paymentDate:"",
         });
         ListVouchers();
         onClose();
@@ -95,7 +98,7 @@ const fetchVouchers = async()=>{
              maxWidth="lg"
            >
             <div className="d-flex justify-content-between " onClick={onClose}>
-                      <DialogTitle>Add Voucher</DialogTitle>
+                      <DialogTitle>Add Petty</DialogTitle>
                       <div className="closeicon">
                         <i className="bi bi-x-lg "></i>
                       </div>
