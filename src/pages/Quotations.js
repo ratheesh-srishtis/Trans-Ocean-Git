@@ -16,6 +16,7 @@ import Swal from "sweetalert2";
 import PopUp from "./PopUp";
 import SendInvoice from "./SendInvoice";
 import InvoicePdf from "./InvoicePdf";
+import InvoicePage from "./InvoicePage";
 
 const Quotations = ({ loginResponse }) => {
   const navigate = useNavigate();
@@ -314,6 +315,14 @@ const Quotations = ({ loginResponse }) => {
   const generateInvoiceCloseClick = () => {
     setGenerateInvoiceOpen(false);
   };
+  const [invoiceDialogOpen, setInvoiceDialogOpen] = useState(false);
+
+  const openInvoicePage = () => {
+    setInvoiceDialogOpen(true);
+  };
+  const closeInvoicePage = () => {
+    setInvoiceDialogOpen(false);
+  };
 
   const rows = filteredQuotations.map((item) => ({
     id: item._id,
@@ -512,6 +521,15 @@ const Quotations = ({ loginResponse }) => {
               }}
               disabled={!selectedRowId || selectedPdaData?.pdaStatus != 7}
             >
+              Generate Quotation
+            </button>
+            <button
+              className="btn btna generate-button"
+              onClick={() => {
+                openInvoicePage();
+              }}
+              disabled={!selectedRowId || selectedPdaData?.pdaStatus != 7}
+            >
               Generate Invoice
             </button>
             <button
@@ -544,6 +562,11 @@ const Quotations = ({ loginResponse }) => {
       <SendInvoice
         open={invoiceOpen}
         onClose={handleInvoiceClose}
+        selectedPdaData={selectedPdaData}
+      />
+      <InvoicePage
+        open={invoiceDialogOpen}
+        onClose={closeInvoicePage}
         selectedPdaData={selectedPdaData}
       />
       <InvoicePdf
