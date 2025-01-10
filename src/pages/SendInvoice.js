@@ -420,20 +420,7 @@ const SendInvoice = ({
                     </div>
                   </div>
                 </div>
-                <div className="col">
-                  <div className="mb-3">
-                    <div className="col">
-                      <label for="exampleFormControlInput1" className="form-label">
-                        Upload Attachments:
-                      </label>
-                      <input
-                        className="form-control vessel-voyage"
-                        id="exampleFormControlInput1"
-                        placeholder=" "
-                      />
-                    </div>
-                  </div>
-                </div>
+              
               </div>
             </div>
             <div className="row ">
@@ -463,21 +450,8 @@ const SendInvoice = ({
                 </div>
               </div>
             </div>
-            <div className="row">
-              <div className="mb-3">
-                <div className="col">
-                  <label for="exampleFormControlInput1" className="form-label">
-                    Attachments:
-                  </label>
-                  <div className="rectangle-quotation">
-                    <div className="invoice">Quotation PDF</div>
-                    <div className="Attach">
-                      <i className="bi bi-filetype-pdf"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            
+
             <div className="typesofcall-row ">
               <div className="row align-items-start">
                 <div className="mb-2 col-4 docuplo">
@@ -548,29 +522,68 @@ const SendInvoice = ({
                       Supporting Documents:
                     </label>
                     <div className="rec">
-                      <ul>
-                        {fecthedDocuments?.length > 0 &&
-                          fecthedDocuments?.map((file, index) => {
-                            return (
-                              <>
-                                <a
-                                  className="supporting"
-                                  onClick={() =>
-                                    window.open(
-                                      `https://hybrid.sicsglobal.com/transocean_api/assets/template_pdf/${file?.pdfPath}`,
-                                      "_blank"
-                                    )
-                                  }
-                                >
-                                  <li className="supporting">
-                                    {" "}
-                                    {file?.templateName}
-                                  </li>
-                                </a>
-                              </>
-                            );
-                          })}
-                      </ul>
+                      
+                      {fecthedDocuments?.length > 0 && (
+  <>
+    <ul className="firstsection">
+      {fecthedDocuments
+        .slice(0, Math.ceil(fecthedDocuments.length / 3))
+        .map((file, index) => (
+          <a
+            key={`first-${index}`}
+            className="supporting"
+            onClick={() =>
+              window.open(
+                `https://hybrid.sicsglobal.com/transocean_api/assets/template_pdf/${file?.pdfPath}`,
+                "_blank"
+              )
+            }
+          >
+            <li className="supporting">{file?.templateName}</li>
+          </a>
+        ))}
+    </ul>
+    <ul className="secondsection">
+      {fecthedDocuments
+        .slice(
+          Math.ceil(fecthedDocuments.length / 3),
+          Math.ceil((2 * fecthedDocuments.length) / 3)
+        )
+        .map((file, index) => (
+          <a
+            key={`second-${index}`}
+            className="supporting"
+            onClick={() =>
+              window.open(
+                `https://hybrid.sicsglobal.com/transocean_api/assets/template_pdf/${file?.pdfPath}`,
+                "_blank"
+              )
+            }
+          >
+            <li className="supporting">{file?.templateName}</li>
+          </a>
+        ))}
+    </ul>
+    <ul className="thirdsection">
+      {fecthedDocuments
+        .slice(Math.ceil((2 * fecthedDocuments.length) / 3))
+        .map((file, index) => (
+          <a
+            key={`third-${index}`}
+            className="supporting"
+            onClick={() =>
+              window.open(
+                `https://hybrid.sicsglobal.com/transocean_api/assets/template_pdf/${file?.pdfPath}`,
+                "_blank"
+              )
+            }
+          >
+            <li className="supporting">{file?.templateName}</li>
+          </a>
+        ))}
+    </ul>
+  </>
+)}
                     </div>
                   </div>
                 </div>
@@ -590,7 +603,7 @@ const SendInvoice = ({
                         <div className="rectangle-invoice">
                           <div className="invoice">Invoice PDF</div>
                           <div className="Attach">
-                            <i className="bi bi-file-earmark-fill"></i>
+                            <i className="bi bi-file-earmark-fill filearmark"></i>
                           </div>
                         </div>
                       </div>
