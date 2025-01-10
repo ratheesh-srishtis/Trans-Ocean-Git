@@ -72,6 +72,10 @@
 .statuss{
     height: 38px;
 }
+.statusscustomer{
+    height: 38px;
+   width: 156px;
+}
 .temp-btn{
     width:100%;
     height:31px;
