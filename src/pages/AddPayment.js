@@ -5,6 +5,7 @@ import{getAllQuotationIds,savePayment} from "../services/apiService";
 import Multiselect from "multiselect-react-dropdown";
 import PopUp from "./PopUp";
 import "../css/payment.css";
+
 const AddCustomerPayment = ({ open,onClose,customerId,vendorId,ListCustomer,Balance}) => {
   const[QuotationList,setQuotationList] = useState([]);
   const [errors, setErrors] = useState({});
@@ -44,10 +45,12 @@ useEffect(()=>{
  
  const customStyles = {
   multiselectContainer: {
-    width: "700px",
+  
     // Optional: Style for the container if needed
   },
+  
   option: {
+    width: "200px",
     fontSize: "0.7rem", // Set font size for dropdown options
     padding: "5px 10px", // Optional: Add padding for better spacing
     cursor: "pointer", // Ensure options look clickable
@@ -177,19 +180,19 @@ const fetchPayments = async()=>{
                               <form onSubmit={handleSubmit}>
                                 <div className="row">
                                   <div className="col mb-3 align-items-start">
-                                    <div className="">
+                                    <div className="payment-page">
                                       <label for="exampleFormControlInput1" className="form-label">
                                         {" "}
                                        Quotation Number:
                                       </label>
-
+                                     <div className="payment-page">
                                        <Multiselect
                                                     options={options}
                                                     displayValue="pdaIds" // Display the serviceName in the dropdown
                                                     showCheckbox
                                                     onSelect={handleSelect} // Triggered when an item is selected
                                                     onRemove={handleRemove} // Triggered when an item is removed
-                                                    className="custom-multiselect" // Apply custom class
+                                                    className="" // Apply custom class
                                                     style={{
                                                      
                                                       ...customStyles,
@@ -199,22 +202,8 @@ const fetchPayments = async()=>{
                                                       },
                                                     }}
                                                   />
-                                     
-                                      {/*<select
-                                  name="pdaIds"
-                                  className="form-select vesselbox"
-                                  aria-label="Default select example"
-                                  onChange={handleChange}
-                                  value={formData.pdaIds}
-                                  multiple
-                                >
-                                  <option value="">Choose Quotation </option>
-                                  {QuotationList.map((invoice) => (
-                                    <option key={invoice._id} value={invoice._id}>
-                                     {invoice.pdaNumber}{invoice.invoiceId ? ` - ${invoice.invoiceId}` : ''}
-                                    </option>
-                                  ))}
-                                </select>*/}
+                                    </div>
+                                    
                                 {errors.pdaIds && (
                     <span className="invalid">{errors.pdaIds}</span>
                    )}
@@ -350,9 +339,7 @@ const fetchPayments = async()=>{
                                   </div>
                                   
                                 </div>
-                                <div className="row">
 
-                                </div>
                     
                                 <div className="btnuser">
                                   <button className="btn btna submit-button btnfsize">

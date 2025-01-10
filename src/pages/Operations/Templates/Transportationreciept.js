@@ -11,7 +11,10 @@ import {
   Button,
 } from "@mui/material";
 import DatePicker from "react-datepicker";
-import { generateTemplatePDF } from "../../../services/apiService";
+import {
+  generateTemplatePDF,
+  getPdaTemplateDataAPI,
+} from "../../../services/apiService";
 import { format, parse } from "date-fns";
 import PopUp from "../../PopUp";
 import moment from "moment";
@@ -27,11 +30,13 @@ const Transportationreciept = ({
   selectedChargesType,
   selectedService,
   services,
+  pdaResponse,
 }) => {
   const [date, setDate] = useState(null);
   const [dateError, setDateError] = useState(null);
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false); // Loader state
 
   const [formData, setFormData] = useState({
     jobTitle: "",
@@ -184,6 +189,45 @@ const Transportationreciept = ({
     setDate(date);
     setDateError(false);
   };
+  const getPdaTemplateData = async () => {
+    setIsLoading(true);
+    try {
+      let userData = {
+        pdaId: pdaResponse?._id,
+        templateId: selectedTemplate,
+      };
+      const response = await getPdaTemplateDataAPI(userData);
+
+      if (response?.templateData) {
+        const templateData = response.templateData;
+        console.log(templateData, "templateData");
+        setDate(templateData?.date);
+        setFormData({
+          jobTitle: templateData?.jobTitle,
+          refNo: templateData?.refNo,
+          agent: templateData?.agent,
+          transporter: templateData?.transporter,
+          items: templateData.items.map((item) => ({
+            seaName: item.seaName || "",
+            date: item.date || "",
+            from: item.from || "",
+            to: item.to || "",
+          })),
+        });
+      }
+
+      console.log("getPdaTemplateData:", response);
+
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch invoices:", error);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getPdaTemplateData();
+  }, []);
 
   return (
     <>

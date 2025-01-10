@@ -12,7 +12,10 @@ import {
   Grid,
   Button,
 } from "@mui/material";
-import { generateTemplatePDF } from "../../../services/apiService";
+import {
+  generateTemplatePDF,
+  getPdaTemplateDataAPI,
+} from "../../../services/apiService";
 import moment from "moment";
 import { parse, format } from "date-fns";
 import PopUp from "../../PopUp";
@@ -24,8 +27,11 @@ const LoadingReport = ({
   charge,
   selectedTemplateName,
   selectedTemplate,
+  pdaResponse,
 }) => {
   console.log(templates, "templates");
+  const [isLoading, setIsLoading] = useState(false); // Loader state
+
   const [esopdate, setEsopdate] = useState(null);
   const handleEsopChange = (date) => {};
   const [openPopUp, setOpenPopUp] = useState(false);
@@ -198,6 +204,120 @@ const LoadingReport = ({
   useEffect(() => {
     console.log(formState, "formState");
   }, [formState]);
+
+  const getPdaTemplateData = async () => {
+    setIsLoading(true);
+    try {
+      let userData = {
+        pdaId: pdaResponse?._id,
+        templateId: selectedTemplate,
+      };
+      const response = await getPdaTemplateDataAPI(userData);
+
+      if (response?.templateData) {
+        const templateData = response.templateData;
+
+        setEta(
+          templateData?.bunkersOnDepartureETA
+            ? moment
+                .utc(templateData?.bunkersOnDepartureETA)
+                .format("YYYY-MM-DD HH:mm")
+            : ""
+        );
+
+        setGeneralRemarks(templateData?.generalRemarks);
+        setShipperRemarks(templateData?.shipperRemarks);
+        setMasterRemarks(templateData?.masterRemarks);
+
+        // Update formData with respective fields
+
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          draftSurveyCommenced: templateData?.draftSurveyCommenced
+            ? moment
+                .utc(templateData?.draftSurveyCommenced)
+                .format("YYYY-MM-DD HH:mm")
+            : "",
+          dtaftSurveyCompleted: templateData?.dtaftSurveyCompleted
+            ? moment
+                .utc(templateData?.dtaftSurveyCompleted)
+                .format("YYYY-MM-DD HH:mm")
+            : "",
+          commencedLoading: templateData?.commencedLoading
+            ? moment
+                .utc(templateData?.commencedLoading)
+                .format("YYYY-MM-DD HH:mm")
+            : "",
+          loadingCompleted: templateData?.loadingCompleted
+            ? moment
+                .utc(templateData?.loadingCompleted)
+                .format("YYYY-MM-DD HH:mm")
+            : "",
+          finalDraftSurveyCommenced: templateData?.finalDraftSurveyCommenced
+            ? moment
+                .utc(templateData?.finalDraftSurveyCommenced)
+                .format("YYYY-MM-DD HH:mm")
+            : "",
+          finalDraftSurveyCompleted: templateData?.finalDraftSurveyCompleted
+            ? moment
+                .utc(templateData?.finalDraftSurveyCompleted)
+                .format("YYYY-MM-DD HH:mm")
+            : "",
+          documentsOnboard: templateData?.documentsOnboard
+            ? moment
+                .utc(templateData?.documentsOnboard)
+                .format("YYYY-MM-DD HH:mm")
+            : "",
+          pilotOnBoard: templateData?.pilotOnBoard
+            ? moment.utc(templateData?.pilotOnBoard).format("YYYY-MM-DD HH:mm")
+            : "",
+          vesselUnmoored: templateData?.vesselUnmoored
+            ? moment
+                .utc(templateData?.vesselUnmoored)
+                .format("YYYY-MM-DD HH:mm")
+            : "",
+          pilotAway: templateData?.pilotAway
+            ? moment.utc(templateData?.pilotAway).format("YYYY-MM-DD HH:mm")
+            : "",
+          cosp: templateData?.cosp
+            ? moment.utc(templateData?.cosp).format("YYYY-MM-DD HH:mm")
+            : "",
+        }));
+
+        // Update formState with the respective fields
+        setFormState((prevFormState) => ({
+          ...prevFormState,
+          draftOnArrivalFWD: templateData?.draftOnArrivalFWD || "",
+          draftOnArrivalAFT: templateData?.draftOnArrivalAFT || "",
+          bunkersOnArrivalFO: templateData?.bunkersOnArrivalFO || "",
+          bunkersOnArrivalDO: templateData?.bunkersOnArrivalDO || "",
+          bunkersOnArrivalAFT: templateData?.bunkersOnArrivalAFT || "",
+          draftOnDepartureFWD: templateData?.draftOnDepartureFWD || "",
+          draftOnDepartureAFT: templateData?.draftOnDepartureAFT || "",
+          bunkersOnDepartureFO: templateData?.bunkersOnDepartureFO || "",
+          bunkersOnDepartureDO: templateData?.bunkersOnDepartureDO || "",
+          bunkersOnDepartureAFT: templateData?.bunkersOnDepartureAFT || "",
+          bunkersOnDepartureNextPort:
+            templateData?.bunkersOnDepartureNextPort || "",
+          bunkersOnDepartureETA: templateData?.bunkersOnDepartureETA
+            ? moment
+                .utc(templateData?.bunkersOnDepartureETA)
+                .format("YYYY-MM-DD HH:mm")
+            : "",
+        }));
+      }
+
+      console.log("getPdaTemplateData:", response);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch invoices:", error);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getPdaTemplateData();
+  }, []);
 
   return (
     <>
