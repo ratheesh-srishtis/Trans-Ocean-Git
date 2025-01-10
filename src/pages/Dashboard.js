@@ -117,35 +117,52 @@ const Dashboard = () => {
                 </button>
               </div>
               <div className="row">
-                <div className="col-3">
+                <div className="col-4">
                   <div className="dashboard_cards received-quot">
                     <img className="img-size" src={img_2} />
                     <h3 className="card_count">{counts?.receivedQuotation}</h3>
                     <h5 className="card_title">Received Quotation</h5>
                   </div>
                 </div>
-                <div className="col-3">
+                <div className="col-4">
                   <div className="dashboard_cards pending-quot">
                     <img className="img-size" src={img_3} />
                     <h3 className="card_count">{counts?.approvedQuotation}</h3>
                     <h5 className="card_title">Approved Quotation</h5>
                   </div>
                 </div>
-                <div className="col-3">
+                <div className="col-4">
                   <div className="dashboard_cards approved-quot">
                     <img className="img-size" src={img_4} />
                     <h3 className="card_count"> {counts?.opsQuotation} </h3>
                     <h5 className="card_title">Quotation to OPS</h5>
                   </div>
                 </div>
-                <div className="col-3">
+               </div>
+<div className="row mt-3">
+<div className="col-4">
                   <div className="dashboard_cards ops">
                     <img className="img-size" src={img_1} />
                     <h3 className="card_count"> {counts?.closedQuotation} </h3>
                     <h5 className="card_title">Closed Quotations</h5>
                   </div>
                 </div>
-              </div>
+                <div className="col-4">
+                  <div className="dashboard_cards ops">
+                    <img className="img-size" src={img_1} />
+                    <h3 className="card_count"> {counts?.closedQuotation} </h3>
+                    <h5 className="card_title">Closed Quotations</h5>
+                  </div>
+                </div>
+                <div className="col-4">
+                  <div className="dashboard_cards ops">
+                    <img className="img-size" src={img_1} />
+                    <h3 className="card_count"> {counts?.closedQuotation} </h3>
+                    <h5 className="card_title">Closed Quotations</h5>
+                  </div>
+                </div>
+</div>
+
             </div>
           </div>
         </>

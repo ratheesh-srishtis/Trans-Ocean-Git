@@ -149,7 +149,7 @@ const VendorPayments = () => {
           </label>
           <div className="vessel-select">
             <select
-              className="form-select vesselbox statuss" name="vendors" value={selectedVendorid || ''} onChange={handleChange}>
+              className="form-select vesselbox statusscustomer" name="vendors" value={selectedVendorid || ''} onChange={handleChange}>
                {vendorList.map((vendor)=>(
                   <option key= {vendor._id} value={vendor._id}>{vendor.vendorName} {""}</option>
                  ))}
@@ -172,7 +172,7 @@ const VendorPayments = () => {
         </div>
         <div className="">
           {/*<i className="bi bi-funnel-fill filtericon"></i>*/}
-          <input type="date" name="search-voucher-date" class="sortpayment" placeholder="Select Date"></input>
+          <input type="date" name="search-voucher-date" class="sortpayment form-select vesselbox statusspayment" placeholder="Select Date"></input>
        
         </div>
         <div className=" d-flex filterpayment">

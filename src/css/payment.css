@@ -38,21 +38,28 @@
 .totalinvocie{
     font-weight: bold;
     margin-left: 10px;
+    font-size: 13px;
 }
 .amountpayment{
     font-weight: bold;
-    margin-left: 5px;
+    margin-left: 13px;
     color: rgb(109, 109, 109);
     margin-right: 20px;
+    font-size: 13px;
 }
 .paymeamount{
     display: flex;
     align-items: center;
     margin-bottom: 10px;
+    margin-top:10px ;
 
 }
 .paymentbtn{
     margin-left: 15px;
+}
+.statusspayment{
+    height:38px;
+    width:156px;
 }
 
 .payment-page .searchWrapper { 
