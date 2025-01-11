@@ -15,6 +15,54 @@ const arablogo = require("../assets/images/image 13.png");
 const rectangle = require("../assets/images/4.jpg");
 const rectanglesub = require("../assets/images/5.jpg");
 const ViewVoucher = ({ open, onClose, getvoucher }) => {
+const[voucher,setVoucherNumber]=useState("");
+const[through,setThrough]=useState("");
+const[amount,setAmount]=useState("");
+const[particulars,setParticulars]=useState("");
+const[accountof,setAccountof]=useState("");
+const[dateofPay,setDateofPay]=useState("");
+useEffect(() => {
+    if (getvoucher) {
+        setVoucherNumber(getvoucher.voucher);
+        setThrough(getvoucher.through); 
+        setAmount(getvoucher.amount); 
+        setParticulars(getvoucher.voucherParticulers); 
+        setAccountof(getvoucher.accountof);  
+        setDateofPay(getvoucher.dateofPay);
+      
+    } 
+  }, [getvoucher]);
+const numberToWords = (num) => {
+    const singleDigits = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+    const twoDigits = ['', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+    const tensMultiple = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+    const thousands = ['Thousand', 'Million', 'Billion', 'Trillion'];
+  
+    if (num === 0) return singleDigits[0];
+  
+    let word = '';
+    if (Math.floor(num / 1000) > 0) {
+      word += singleDigits[Math.floor(num / 1000)] + ' Thousand ';
+      num %= 1000;
+    }
+    if (Math.floor(num / 100) > 0) {
+      word += singleDigits[Math.floor(num / 100)] + ' Hundred ';
+      num %= 100;
+    }
+    if (num > 0) {
+      if (num < 20) {
+        word += (num < 10) ? singleDigits[num] : twoDigits[num % 10];
+      } else {
+        word += tensMultiple[Math.floor(num / 10)];
+        if ((num % 10) > 0) {
+          word += ' ' + singleDigits[num % 10];
+        }
+      }
+    }
+    return word.trim();
+  };
+  
+  
 
   return (
     <>
@@ -60,14 +108,14 @@ const ViewVoucher = ({ open, onClose, getvoucher }) => {
     </table>
     <div className="voucherpadding">
         <div className="headvoucher">
-            VOUCHER
+            Petty
         </div>
         <div className="voucherdateandnumber">
             <div>
-                No:973
+                No:{voucher}
             </div>
             <div>
-                Date:09/01/2025
+                Date:{dateofPay}
             </div>
         </div>
         <table>
@@ -95,15 +143,15 @@ const ViewVoucher = ({ open, onClose, getvoucher }) => {
                         Account:
                     </td>
                     <td className="voucherpartfour">
-
+                     
                     </td>
                 </tr>
                 <tr>
                     <td className="voucherprinting">
-                        PRINTING & STATIONERY
+                    {particulars}
                     </td>
                     <td className="voucheramountrate">
-                        261.025
+                        {amount}
                     </td>
                 </tr>
                 <tr>
@@ -148,7 +196,7 @@ const ViewVoucher = ({ open, onClose, getvoucher }) => {
                 </tr>
                 <tr>
                     <td className="voucherprinting">
-                        ATHIL PETTY_JUNE 30
+                       {through}
                     </td>
                     <td className="voucherpartfour">
                           
@@ -164,7 +212,7 @@ const ViewVoucher = ({ open, onClose, getvoucher }) => {
                 </tr>
                 <tr>
                     <td className="voucherprinting">
-                        CASH PAID FOR TONERS
+                       {accountof}
                     </td>
                     <td className="voucherpartfour">
                         
@@ -180,10 +228,10 @@ const ViewVoucher = ({ open, onClose, getvoucher }) => {
                 </tr>
                 <tr>
                     <td className="voucherprinting">
-                        Omani Riyal Two Hundred fourty one and eighty baisa only
+                    {numberToWords(amount)} Only
                     </td>
                     <td className="voucheramountrate">
-                       OMR 241.080
+                       OMR {amount}
                     </td>
                 </tr>
             </tbody>

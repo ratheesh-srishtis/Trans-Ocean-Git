@@ -1,16 +1,49 @@
 // ResponsiveDialog.js
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
-import{getAllQuotationIds,savePayment} from "../services/apiService";
+import{getAllQuotationIds,savePayment,editPayment} from "../services/apiService";
 import Multiselect from "multiselect-react-dropdown";
 import PopUp from "./PopUp";
 import "../css/payment.css";
 
-const AddCustomerPayment = ({ open,onClose,customerId,vendorId,ListCustomer,Balance}) => {
+const AddCustomerPayment = ({ open,onClose,customerId,vendorId,ListCustomer,Balance,editMode,paymentvalues}) => {
   const[QuotationList,setQuotationList] = useState([]);
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
   const [openPopUp, setOpenPopUp] = useState(false);
+    useEffect(() => {
+      if (editMode && paymentvalues) {
+        const quotArr =  Array.isArray(paymentvalues.pdaIds) ? paymentvalues.pdaIds.filter(quot => quot._id).map(quot => quot._id): '';
+       const selectedValues = Array.isArray(paymentvalues.pdaIds) 
+        ? paymentvalues.pdaIds.filter(pda => pda._id).map(pda => ({
+            pdaIds: pda.pdaNumber ? `${pda.pdaNumber}${pda.invoiceId ? ` - ${pda.invoiceId}` : ""}` : "",
+            value: pda._id
+          }))
+        : [];
+       
+        setFormData({
+          pdaIds:quotArr,
+          prevSelectedOptions:selectedValues,
+          balance: Balance,
+          currency:paymentvalues.currency,
+          amount:paymentvalues.amount,
+          modeofPayment:paymentvalues.modeofPayment,
+          bank:paymentvalues.bank,
+          paymentDate:paymentvalues.dateofpay,
+          paymentId: paymentvalues._id,
+        });
+      } else {
+        setFormData({
+          pdaIds: [],
+          balance: "",
+          currency: "",
+          amount: "",
+          modeofPayment: "",
+          bank:"",
+          paymentDate:"",
+        });
+      }
+    }, [editMode, paymentvalues]);
   const [formData, setFormData] = useState({
       pdaIds: [],
       balance: "",
@@ -92,7 +125,7 @@ const handleRemove = (selectedList) => {
   
    const validateForm=()=>{
    const newErrors={};
-   if (formData.pdaIds.length === 0) newErrors.pdaIds = "Invoice is required";
+   if (formData.pdaIds.length === 0) newErrors.pdaIds = "Quotation Number is required";
    if(formData.balance && (!/^\d*\.?\d+$/.test(formData.balance) || parseFloat(formData.balance) <= 0)) newErrors.balance = "Balance is required";
    if(!formData.currency) newErrors.currency = "Currency is required";
    if(!formData.amount) newErrors.amount = "Amount is required";
@@ -116,8 +149,12 @@ const handleSubmit =async(event)=>{
       formData.vendorId="";
       formData.customerId = customerId;
     }
-   
-   const response =await savePayment(formData);
+    
+    let response;
+    if (editMode)
+    response = await editPayment(formData);
+    else
+   response =await savePayment(formData);
     if(response.status === true){
         setOpenPopUp(true);
         setMessage(response.message);
@@ -130,7 +167,12 @@ const handleSubmit =async(event)=>{
           bank:"",
           paymentDate:"",
         });
-        ListCustomer();
+        let payload="";
+        if(customerId)
+        payload={customerId:customerId};
+      else if(vendorId)
+        payload={vendorId:vendorId};
+        ListCustomer(payload);
         onClose();
     }else{
       setMessage(response.message);
@@ -148,7 +190,12 @@ const handleSubmit =async(event)=>{
 }
 const fetchPayments = async()=>{
   setOpenPopUp(false);
-  ListCustomer();
+  let payloads="";
+  if(customerId)
+  payloads={customerId:customerId};
+  else if(vendorId)
+  payloads={customerId:customerId};
+  ListCustomer(payloads);
   onClose();
 }
   return (
@@ -171,7 +218,7 @@ const fetchPayments = async()=>{
              maxWidth="lg"
            >
             <div className="d-flex justify-content-between " onClick={onClose}>
-                      <DialogTitle>Add Payment</DialogTitle>
+                      <DialogTitle>{editMode ? "Edit Payment" : "Add payment"}</DialogTitle>
                       <div className="closeicon">
                         <i className="bi bi-x-lg "></i>
                       </div>
@@ -188,6 +235,7 @@ const fetchPayments = async()=>{
                                      <div className="payment-page">
                                        <Multiselect
                                                     options={options}
+                                                    selectedValues={formData.prevSelectedOptions}
                                                     displayValue="pdaIds" // Display the serviceName in the dropdown
                                                     showCheckbox
                                                     onSelect={handleSelect} // Triggered when an item is selected

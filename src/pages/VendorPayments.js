@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
-import { getAllVendors,getVendorPayments,getAllQuotationIds} from "../services/apiService";
-import { Box, Typography } from "@mui/material";
+import { getAllVendors,getVendorPayments,getAllQuotationIds,deletePayment} from "../services/apiService";
+import { Box, Typography,IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import Addpayment from './AddPayment';
+import Swal from "sweetalert2";
 import "../css/payment.css";
+import PopUp from "../pages/PopUp";
 const VendorPayments = () => {
   const Group = require("../assets/images/payments.png");
   const[QuotationList,setQuotationList] = useState([]);
@@ -14,9 +18,18 @@ const VendorPayments = () => {
   const [paidAmount, setPaidAmount] = useState(0); 
   const [balanceAmount, setBalanceAmount] = useState(0);
   const[open,setOpen]=useState(false);
-   const[vendorpayment,setVendorpayment]=useState([]);
-   const location = useLocation(); 
-    const { vendorId} = location.state || {};
+  const[vendorpayment,setVendorpayment]=useState([]);
+  const [period, setPeriod] = useState("");
+  const [inputFilterDate, setFilterDate] = useState("");
+  const[FilterName,setFilterName]=useState("");
+  const[FilterValue,setFilterValue]=useState("");
+  const[inputpdaId,setPdaId]=useState("");
+  const [selectedRow, setSelectedRow] = useState(null);
+  const [editMode, setEditMode] = useState(false);
+  const [message, setMessage] = useState("");
+  const [openPopUp, setOpenPopUp] = useState(false);
+  const location = useLocation(); 
+  const { vendorId} = location.state || {};
   //const { customerId,totalInvoiceAmount,paidAmount } = location.state || {};
   //const balanceAmount = totalInvoiceAmount - paidAmount;
   const fecthQuotations = async()=>{
@@ -52,20 +65,18 @@ const VendorPayments = () => {
     fecthQuotations();
     if(vendorId)
       setSelectedVendorid(vendorId);
-    fetchVendorpayments();
+    let payload ={vendorId:vendorId};
+    fetchVendorpayments(payload);
   },[vendorId]);
-  useEffect(() => { 
+  /*useEffect(() => { 
     if (selectedVendorid) { 
-      fetchVendorpayments(); 
+      let payload ={vendorId:selectedVendorid};
+      fetchVendorpayments(payload);
+     
     } 
-   }, [selectedVendorid]);
-  const fetchVendorpayments =async()=>{
-    let payload ="";
-    if(selectedVendorid)
-    payload = {vendorId:selectedVendorid};
-    else
-    payload = {vendorId:vendorId};
- 
+   }, [selectedVendorid]);*/
+  const fetchVendorpayments =async(payload)=>{
+   
     try{
       const Listpayments = await getVendorPayments(payload);
       setVendorpayment(Listpayments?.payments||[]); 
@@ -81,8 +92,8 @@ const VendorPayments = () => {
   
     }
 
-    const handleListVendor = (newUsers) => {
-      fetchVendorpayments();
+    const handleListVendor = (payload) => {
+      fetchVendorpayments(payload);
       setOpen(false);
     };
 
@@ -97,10 +108,11 @@ const VendorPayments = () => {
       setBalanceAmount(totalInvoiceAmount - paidAmount);
       setSelectedVendorid(e.target.value);
     }*/
-      fetchVendorpayments();
+      
       setSelectedVendorid("");
     setSelectedVendorid(e.target.value); 
-    
+    let paylaod = {vendorId: e.target.value,paymentDate:inputFilterDate,filter:FilterName,[FilterName]:FilterValue};
+    fetchVendorpayments(paylaod);
   };
   const OpenDialog =()=>{
     handClickOpen();
@@ -111,6 +123,91 @@ const VendorPayments = () => {
   const handleClose=()=>{
     setOpen(false);
   }
+  const months = [
+    { value: "01", label: "January" },
+    { value: "02", label: "February" },
+    { value: "03", label: "March" },
+    { value: "04", label: "April" },
+    { value: "05", label: "May" },
+    { value: "06", label: "June" },
+    { value: "07", label: "July" },
+    { value: "08", label: "August" },
+    { value: "09", label: "September" },
+    { value: "10", label: "October" },
+    { value: "11", label: "November" },
+    { value: "12", label: "December" }
+  ];
+
+  const years = [
+    2025, 2026, 2027, 2028, 2029, 2030
+  ];
+
+  const handleTimeperiod =async(e)=>{
+    let payload="";
+    const SelectBxname  = e.target.name;
+    if(SelectBxname === "paymentDate"){
+      setPeriod("");
+      setFilterDate(e.target.value);
+      payload = {vendorId:selectedVendorid,paymentDate:e.target.value,pdaId:inputpdaId};
+    }
+    else if(SelectBxname === "pdaId"){
+      setPdaId(e.target.value);
+      payload ={vendorId: selectedVendorid,paymentDate:inputFilterDate,pdaId:e.target.value,filter:FilterName,[FilterName]:FilterValue};
+    }
+    else {
+      setFilterDate("");
+      setFilterName(SelectBxname);
+      setFilterValue(e.target.value);
+      payload = {vendorId:selectedVendorid,paymentDate:"",pdaId:inputpdaId,filter:SelectBxname,[SelectBxname]:e.target.value};
+    }
+
+    fetchVendorpayments(payload);
+   
+  
+    
+  };
+  
+  let payloadParams ="";
+   if(FilterName === "")
+    payloadParams ={vendorId: selectedVendorid,paymentDate:inputFilterDate,pdaId:inputpdaId,filter:""};
+   else 
+    payloadParams ={vendorId: selectedVendorid,paymentDate:inputFilterDate,pdaId:inputpdaId,filter:FilterName,[FilterName]:FilterValue}
+        const handleDelete = async (item) => {
+          
+          Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, delete it!",
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+              if (item?._id) {
+                try {
+                  let payload = {
+                    paymentId: item?._id,
+                  };
+                  const response = await deletePayment(payload);
+                  
+                  setMessage(response.message);
+                  setOpenPopUp(true);
+                  fetchVendorpayments(payloadParams);
+                } catch (error) {
+                  Swal.fire("Error deleting payments");
+                  fetchVendorpayments(payloadParams);
+                }
+              }
+            }
+          });
+        };
+        const handleEdit = (row) => {
+          setSelectedRow(row);
+          setEditMode(true);
+          OpenDialog();
+        };
+
   const NoRowsOverlay = () => (
     <Box
       sx={{
@@ -134,9 +231,27 @@ const VendorPayments = () => {
     { field: "modeofPayment", headerName: "Mode of Payment", flex: 2 },
     { field: "dateofpay", headerName: "Payment Date", flex: 2 },
     { field: "bank", headerName: "Bank", flex: 2 },
-
+    {
+      field: "actions",
+      headerName: "Action",
+      flex: 0,
+      renderCell: (params) => (
+        <>
+          <IconButton color="primary" onClick={() => handleEdit(params.row)}>
+            <EditIcon sx={{ fontSize: "19px" }} />
+          </IconButton>
+          <IconButton
+            color="secondary"
+            onClick={() => handleDelete(params.row)}
+          >
+            <DeleteIcon sx={{ fontSize: "19px" }} />
+          </IconButton>
+        </>
+      ),
+    }
   ];
   return (
+    <>
     <div >
       <div className=" mt-3 d-flex">
       <div className=" d-flex paymentbycus">
@@ -172,8 +287,24 @@ const VendorPayments = () => {
         </div>
         <div className="">
           {/*<i className="bi bi-funnel-fill filtericon"></i>*/}
-          <input type="date" name="search-voucher-date" class="sortpayment form-select vesselbox statusspayment" placeholder="Select Date"></input>
+         <input type="date" name="search-voucher-date" class="sortpayment form-select vesselbox statusspayment" placeholder="Select Date" onChange={handleTimeperiod} value={inputFilterDate}></input>
        
+        </div>
+        <div className=" sortpayment ">
+          <i className="bi bi-funnel-fill filtericon"></i>
+          <select 
+              name="pdaId"
+                      className="form-select form-select-sm filter"
+                      aria-label="Small select example"
+                      onChange={handleTimeperiod}
+                        >
+                                  <option value="">Choose Quotation </option>
+                                  {QuotationList.map((invoice) => (
+                                    <option key={invoice._id} value={invoice._id}>
+                                     {invoice.pdaNumber}{invoice.invoiceId ? ` - ${invoice.invoiceId}` : ''}
+                                    </option>
+                                  ))}
+                                </select>
         </div>
         <div className=" d-flex filterpayment">
           <label
@@ -184,17 +315,47 @@ const VendorPayments = () => {
             Filter By:
           </label>
           <div className="vessel-select">
-            <select
-              name="status"
-              className="form-select vesselbox statuss"
+          <select 
+        name="status"
+        className="form-select vesselbox statuss"
+        onChange={(e) => setPeriod(e.target.value)}
+        value={period}
+      >
+        <option value="">Select Period</option>
+        <option value="month">Monthly</option>
+        <option value="year">Yearly</option>
+      </select>
 
-            >
-              <option value={1}>Monthly </option>
-              <option value={2}>Yearly </option>
-
-            </select>
           </div>
         </div>
+
+        <div className=" d-flex filterpayment">
+        {period === "month" && (
+        <select
+          name="month"
+          className="form-select vesselbox monthlist"
+          onChange={handleTimeperiod}
+        >
+          <option value="">Select Month</option>
+          {months.map((month, index) => (
+            <option key={index} value={month.value}>{month.label}</option>
+          ))}
+        </select>
+      )}
+
+      {period === "year" && (
+        <select
+          name="year"
+          className="form-select vesselbox yearlist"
+          onChange={handleTimeperiod}
+        >
+          <option value="">Select Year</option>
+          {years.map((year, index) => (
+            <option key={index} value={year}>{year}</option>
+          ))}
+        </select>
+      )}
+          </div>
       </div>
       <div className="charge">
         <div className="rectangle"></div>
@@ -204,7 +365,7 @@ const VendorPayments = () => {
       </div>
 
      
-      <Addpayment open={open} onClose={handleClose} customerId="" vendorId={selectedVendorid}  ListCustomer={handleListVendor} Balance={balanceAmount}/>
+      <Addpayment open={open} onClose={handleClose} customerId="" vendorId={selectedVendorid}  ListCustomer={handleListVendor} Balance={balanceAmount}  editMode={editMode}  paymentvalues={selectedRow}/>
       
      
      <div className="paymeamount">
@@ -310,10 +471,16 @@ const VendorPayments = () => {
         </div>
       )}
 
+
+
     </div>
 
 
+    {openPopUp && (
+  <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
+)}
 
+</>
 
 
 
