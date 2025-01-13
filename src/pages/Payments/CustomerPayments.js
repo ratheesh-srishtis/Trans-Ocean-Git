@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
-import { getAllCustomers,getPayments,getAllQuotationIds,deletePayment} from "../services/apiService";
+import { getAllCustomers,getPayments,getAllQuotationIds,deletePayment} from "../../services/apiService";
 import { Box, Typography,IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Addpayment from './AddPayment';
 import Swal from "sweetalert2";
-import "../css/payment.css";
-import PopUp from "../pages/PopUp";
+import "../../css/payment.css";
+import PopUp from "../PopUp";
 const CustomerPayments = () => {
-  const Group = require("../assets/images/payments.png");
+  const Group = require("../../assets/images/payments.png");
   const[QuotationList,setQuotationList] = useState([]);
   const [customerList,setCustomerList]=useState([]);
   const [selectedCustomerid,setSelectedCustomerid]=useState("");
@@ -60,8 +60,12 @@ const CustomerPayments = () => {
       setBalanceAmount(totalInvoiceAmount - paidAmount);
     }
   }, [location.state]);*/
+  const loginResponse = JSON.parse(localStorage.getItem("loginResponse"));
+  const currentroleType = loginResponse.data?.userRole?.roleType;
+  
+  
   useEffect(()=>{
-    fetchCustomerList();
+   fetchCustomerList();
     fecthQuotations();
     if(customerId)
       setSelectedCustomerid(customerId);
@@ -93,6 +97,7 @@ const CustomerPayments = () => {
     }
 
     const handleListCustomer = (payload) => {
+      setEditMode(false);
       fetchCustomerpayments(payload);
       setOpen(false);
     };
@@ -240,12 +245,14 @@ const CustomerPayments = () => {
           <IconButton color="primary" onClick={() => handleEdit(params.row)}>
             <EditIcon sx={{ fontSize: "19px" }} />
           </IconButton>
+          {currentroleType === 'admin' && (
           <IconButton
             color="secondary"
             onClick={() => handleDelete(params.row)}
           >
             <DeleteIcon sx={{ fontSize: "19px" }} />
           </IconButton>
+    )}
         </>
       ),
     }

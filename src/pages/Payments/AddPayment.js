@@ -1,10 +1,10 @@
 // ResponsiveDialog.js
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
-import{getAllQuotationIds,savePayment,editPayment} from "../services/apiService";
+import{getAllQuotationIds,savePayment,editPayment} from "../../services/apiService";
 import Multiselect from "multiselect-react-dropdown";
-import PopUp from "./PopUp";
-import "../css/payment.css";
+import PopUp from ".././PopUp";
+import "../../css/payment.css";
 
 const AddCustomerPayment = ({ open,onClose,customerId,vendorId,ListCustomer,Balance,editMode,paymentvalues}) => {
   const[QuotationList,setQuotationList] = useState([]);
@@ -126,7 +126,7 @@ const handleRemove = (selectedList) => {
    const validateForm=()=>{
    const newErrors={};
    if (formData.pdaIds.length === 0) newErrors.pdaIds = "Quotation Number is required";
-   if(formData.balance && (!/^\d*\.?\d+$/.test(formData.balance) || parseFloat(formData.balance) <= 0)) newErrors.balance = "Balance is required";
+   //if(formData.balance && (!/^\d*\.?\d+$/.test(formData.balance))) newErrors.balance = "Balance is required";
    if(!formData.currency) newErrors.currency = "Currency is required";
    if(!formData.amount) newErrors.amount = "Amount is required";
    else if (!/^\d*\.?\d+$/.test(formData.amount) || parseFloat(formData.amount) <= 0) { newErrors.amount = "Amount must be numbers"; }
@@ -273,7 +273,7 @@ const fetchPayments = async()=>{
                                         value={Balance}
                                         readOnly
                                       ></input>
-                                     {errors.balance &&( <span className="invalid">{errors.balance}</span>)}
+                                     {/*{errors.balance &&( <span className="invalid">{errors.balance}</span>)}*/}
                                     </div>
                                   </div>
                                 </div>

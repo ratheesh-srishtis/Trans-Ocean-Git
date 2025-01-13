@@ -20,12 +20,8 @@ import {
   Paper,
 } from "@mui/material";
 import { AttachFile, Delete, Visibility } from "@mui/icons-material";
-
-import {
-  sendInvoiceApi,
-  getInvoiceDocumentsAPI,
-  uploadDocuments,
-} from "../services/apiService";
+import Remarks from "./Remarks";
+import { changeInvoiceStatus } from "../services/apiService";
 import PopUp from "./PopUp";
 const transwave = require("../assets/images/EPDA-MV-TBN-SALALAH-CARGO-(3)-1.jpg");
 const Group = require("../assets/images/TRANSocean-LOGO.png");
@@ -34,12 +30,74 @@ const InvoicePage = ({
   open,
   onClose,
   services,
-
   selectedPdaData,
+  pdaResponse,
 }) => {
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false); // Loader state
+  const [remarksOpen, setRemarksOpen] = useState(false);
+
+  const handleRemarksOpen = () => {
+    setRemarksOpen(true);
+  };
+
+  const handleRemarksClose = () => {
+    setRemarksOpen(false);
+  };
+
+  const handleRemarksSubmit = async (remark) => {
+    console.log(remark, "handleRemarksSubmit");
+    let pdaPayload = {
+      pdaId: pdaResponse?._id,
+      status: 2,
+      rejectedRemark: remark,
+    };
+    try {
+      const response = await changeInvoiceStatus(pdaPayload);
+      console.log(response, "login_response");
+      if (response?.status == true) {
+        setMessage("Invoice has been Rejected by Finance Manager");
+        setOpenPopUp(true);
+        setRemarksOpen(false);
+      } else {
+        setMessage("Invoice failed. Please try again");
+        setOpenPopUp(true);
+        setRemarksOpen(false);
+      }
+    } catch (error) {
+      setMessage("Invoice failed. Please try again");
+      setOpenPopUp(true);
+      setRemarksOpen(false);
+    } finally {
+    }
+  };
+  const acceptInvoice = async (remark) => {
+    console.log(remark, "handleRemarksSubmit");
+    let pdaPayload = {
+      pdaId: pdaResponse?._id,
+      status: 3,
+    };
+    try {
+      const response = await changeInvoiceStatus(pdaPayload);
+      console.log(response, "login_response");
+      if (response?.status == true) {
+        setMessage("Invoice accepted successfully");
+        setOpenPopUp(true);
+        setRemarksOpen(false);
+      } else {
+        setMessage("Invoice failed. Please try again");
+        setOpenPopUp(true);
+        setRemarksOpen(false);
+      }
+    } catch (error) {
+      setMessage("Invoice failed. Please try again");
+      setOpenPopUp(true);
+      setRemarksOpen(false);
+    } finally {
+    }
+  };
+
   return (
     <>
       <Dialog
@@ -604,108 +662,74 @@ const InvoicePage = ({
               </tr>
             </thead>
             <tbody>
-
               <tr>
                 <td className="tdstyl">EOSP</td>
                 <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">
-                  11:56 AM
-                </td>
-
+                <td className="tdstyl">11:56 AM</td>
               </tr>
               <tr>
                 <td className="tdstyl">Dropped The Anchor</td>
                 <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">
-                  11:56 AM
-                </td>
-
+                <td className="tdstyl">11:56 AM</td>
               </tr>
               <tr>
                 <td className="tdstyl">Vessel Inward Submitted</td>
                 <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">
-                  11:56 AM
-                </td>
-
+                <td className="tdstyl">11:56 AM</td>
               </tr>
               <tr>
                 <td className="tdstyl">Inward Customs Approved</td>
                 <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">
-                  11:56 AM
-                </td>
-
+                <td className="tdstyl">11:56 AM</td>
               </tr>
               <tr>
                 <td className="tdstyl">Submitted for Port Clearence</td>
                 <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">
-                  11:56 AM
-                </td>
-
+                <td className="tdstyl">11:56 AM</td>
               </tr>
               <tr>
                 <td className="tdstyl">Port Controlled Approved</td>
                 <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">
-                  11:56 AM
-                </td>
-
+                <td className="tdstyl">11:56 AM</td>
               </tr>
               <tr>
                 <td className="tdstyl">Immigration Approved</td>
                 <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">
-                  11:56 AM
-                </td>
-
+                <td className="tdstyl">11:56 AM</td>
               </tr>
               <tr>
                 <td className="tdstyl">Coast guard Approved</td>
                 <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">
-                  11:56 AM
-                </td>
-
+                <td className="tdstyl">11:56 AM</td>
               </tr>
               <tr>
                 <td className="tdstyl">Customs Approved</td>
                 <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">
-                  11:56 AM
-                </td>
+                <td className="tdstyl">11:56 AM</td>
               </tr>
               <tr>
                 <td className="tdstyl">Port Clearence Received</td>
                 <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">
-                  11:56 AM
-                </td>
-
+                <td className="tdstyl">11:56 AM</td>
               </tr>
               <tr>
                 <td className="tdstyl">Port Clearence sent to Master</td>
                 <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">
-                  11:56 AM
-                </td>
-
+                <td className="tdstyl">11:56 AM</td>
               </tr>
               <tr>
                 <td className="tdstyl">COSP</td>
                 <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">
-                  11:56 AM
-                </td>
-
+                <td className="tdstyl">11:56 AM</td>
               </tr>
             </tbody>
           </table>
           <div className="d-flex justify-content-center mt-4">
             <button
               className="btn btna submit-button"
-
+              onClick={() => {
+                acceptInvoice();
+              }}
             >
               Accept
 
@@ -713,24 +737,24 @@ const InvoicePage = ({
 
             <button
               className="btn btna generate-button"
-
+              onClick={() => {
+                handleRemarksOpen();
+              }}
             >
               Reject
             </button>
-
           </div>
-
-
-
-
-
-
         </DialogContent>
       </Dialog>
       <Loader isLoading={isLoading} />
       {openPopUp && (
         <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
       )}{" "}
+      <Remarks
+        open={remarksOpen}
+        onClose={handleRemarksClose}
+        onRemarksSubmit={handleRemarksSubmit}
+      />
     </>
   );
 };

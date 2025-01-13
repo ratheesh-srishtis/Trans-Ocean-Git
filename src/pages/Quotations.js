@@ -545,7 +545,7 @@ const Quotations = ({
               onClick={() => {
                 SendInvoiceOpen();
               }}
-              disabled={!selectedRowId || selectedPdaData?.pdaStatus != 7}
+              disabled={!selectedRowId || selectedPdaData?.invoiceStatus != 3}
             >
               Send Invoice
             </button>
@@ -576,6 +576,7 @@ const Quotations = ({
         open={invoiceDialogOpen}
         onClose={closeInvoicePage}
         selectedPdaData={selectedPdaData}
+        pdaResponse={pdaResponse}
       />
       <InvoicePdf
         open={generateInvoiceOpen}

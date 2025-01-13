@@ -1,19 +1,17 @@
 // ResponsiveDialog.js
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
-import PopUp from "./PopUp";
-import "../css/viewvoucher.css";
-
-const mail = require("../assets/images/mail.png");
-const location = require("../assets/images/location.png");
-const phone = require("../assets/images/call.png");
-const fax = require("../assets/images/fax-free-4_svgrepo.com.png");
-const landline = require("../assets/images/landline-f_svgrepo.com.png");
-const web = require("../assets/images/web.png");
-const logo = require("../assets/images/TRANSocean-LOGO.png");
-const arablogo = require("../assets/images/image 13.png");
-const rectangle = require("../assets/images/4.jpg");
-const rectanglesub = require("../assets/images/5.jpg");
+import "../../css/viewvoucher.css";
+const mail = require("../../assets/images/mail.png");
+const location = require("../../assets/images/location.png");
+const phone = require("../../assets/images/call.png");
+const fax = require("../../assets/images/fax-free-4_svgrepo.com.png");
+const landline = require("../../assets/images/landline-f_svgrepo.com.png");
+const web = require("../../assets/images/web.png");
+const logo = require("../../assets/images/TRANSocean-LOGO.png");
+const arablogo = require("../../assets/images/image 13.png");
+const rectangle = require("../../assets/images/4.jpg");
+const rectanglesub = require("../../assets/images/5.jpg");
 const ViewVoucher = ({ open, onClose, getvoucher }) => {
 const[voucher,setVoucherNumber]=useState("");
 const[through,setThrough]=useState("");
