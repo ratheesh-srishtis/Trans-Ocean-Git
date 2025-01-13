@@ -69,11 +69,532 @@ const InvoicePage = ({
           </div>
         </div>
         <DialogContent>
-          <div className=" statement">
+        <div className=" statement">
             <h3>INVOICE GENERATION</h3>
           </div>
 
+          <table className="tabmain">
+            <thead>
+              <tr>
+                <th className="tabhead">Sl No:</th>
+                <th className="tabhead">Charge Type</th>
+                <th className="tabhead">Price</th>
+                <th className="tabhead">Quantity</th>
+                <th className="tabhead">Total</th>
+                <th className="tabhead">Documents</th>
+                <th className="tabhead">Attachments</th>
+              </tr>
+            </thead>
+            <tbody>
 
+              <tr>
+                <td className="tdstylwidt">1</td>
+                <td className="tdstyl"> Marine Charges</td>
+                <td className="tdstyl"> $20</td>
+                <td className="tdstyl">PerDay </td>
+                <td className="tdstyl">100.000</td>
+                <td className="tdstyl">
+                  <div className="templateouterinvoice">
+
+                    <div className="d-flex justify-content-between align-items-center ">
+                      <div className="tempgenerated ">
+                        sssss
+                      </div>
+                      <div className="d-flex">
+                        <div
+                          className="icondowninvoice"
+
+                        >
+                          <i className="bi bi-eye invoiceeyee"></i>
+                        </div>
+                        <div
+                          className="iconpdfinvoice"
+
+                        >
+                          <i className="bi bi-trash invoicetrash"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="d-flex justify-content-between align-items-center ">
+                      <div className="tempgenerated ">
+                        sssss
+                      </div>
+                      <div className="d-flex">
+                        <div
+                          className="icondowninvoice"
+
+                        >
+                          <i className="bi bi-eye invoiceeyee"></i>
+                        </div>
+                        <div
+                          className="iconpdfinvoice"
+
+                        >
+                          <i className="bi bi-trash invoicetrash"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="d-flex justify-content-between align-items-center ">
+                      <div className="tempgenerated ">
+                        sssss
+                      </div>
+                      <div className="d-flex">
+                        <div
+                          className="icondowninvoice"
+
+                        >
+                          <i className="bi bi-eye invoiceeyee"></i>
+                        </div>
+                        <div
+                          className="iconpdfinvoice"
+
+                        >
+                          <i className="bi bi-trash invoicetrash"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td className="tdstyl">
+                  <div className="templateouterinvoice">
+
+                    <div className="d-flex justify-content-between align-items-center ">
+                      <div className="tempgenerated ">
+                        sssss
+                      </div>
+                      <div className="d-flex">
+                        <div
+                          className="icondowninvoice"
+
+                        >
+                          <i className="bi bi-eye invoiceeyee"></i>
+                        </div>
+                        <div
+                          className="iconpdfinvoice"
+
+                        >
+                          <i className="bi bi-trash invoicetrash"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="d-flex justify-content-between align-items-center ">
+                      <div className="tempgenerated ">
+                        sssss
+                      </div>
+                      <div className="d-flex">
+                        <div
+                          className="icondowninvoice"
+
+                        >
+                          <i className="bi bi-eye invoiceeyee"></i>
+                        </div>
+                        <div
+                          className="iconpdfinvoice"
+
+                        >
+                          <i className="bi bi-trash invoicetrash"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="d-flex justify-content-between align-items-center ">
+                      <div className="tempgenerated ">
+                        sssss
+                      </div>
+                      <div className="d-flex">
+                        <div
+                          className="icondowninvoice"
+
+                        >
+                          <i className="bi bi-eye invoiceeyee"></i>
+                        </div>
+                        <div
+                          className="iconpdfinvoice"
+
+                        >
+                          <i className="bi bi-trash invoicetrash"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td className="tdstylwidt">2</td>
+                <td className="tdstyl">Otherport Charges</td>
+                <td className="tdstyl"> $20</td>
+                <td className="tdstyl">2Tugs* 2Hours </td>
+                <td className="tdstyl">60.000</td>
+                <td className="tdstyl">
+                  <div className="templateouterinvoice">
+
+                    <div className="d-flex justify-content-between align-items-center ">
+                      <div className="tempgenerated ">
+                        sssss
+                      </div>
+                      <div className="d-flex">
+                        <div
+                          className="icondowninvoice"
+
+                        >
+                          <i className="bi bi-eye invoiceeyee"></i>
+                        </div>
+                        <div
+                          className="iconpdfinvoice"
+
+                        >
+                          <i className="bi bi-trash invoicetrash"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="d-flex justify-content-between align-items-center ">
+                      <div className="tempgenerated ">
+                        sssss
+                      </div>
+                      <div className="d-flex">
+                        <div
+                          className="icondowninvoice"
+
+                        >
+                          <i className="bi bi-eye invoiceeyee"></i>
+                        </div>
+                        <div
+                          className="iconpdfinvoice"
+
+                        >
+                          <i className="bi bi-trash invoicetrash"></i>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </td>
+                <td className="tdstyl">
+                  <div className="templateouterinvoice">
+
+                    <div className="d-flex justify-content-between align-items-center ">
+                      <div className="tempgenerated ">
+                        sssss
+                      </div>
+                      <div className="d-flex">
+                        <div
+                          className="icondowninvoice"
+
+                        >
+                          <i className="bi bi-eye invoiceeyee"></i>
+                        </div>
+                        <div
+                          className="iconpdfinvoice"
+
+                        >
+                          <i className="bi bi-trash invoicetrash"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="d-flex justify-content-between align-items-center ">
+                      <div className="tempgenerated ">
+                        sssss
+                      </div>
+                      <div className="d-flex">
+                        <div
+                          className="icondowninvoice"
+
+                        >
+                          <i className="bi bi-eye invoiceeyee"></i>
+                        </div>
+                        <div
+                          className="iconpdfinvoice"
+
+                        >
+                          <i className="bi bi-trash invoicetrash"></i>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td className="tdstylwidt">3</td>
+                <td className="tdstyl"> Arabian Maritime & Navigation Services</td>
+                <td className="tdstyl"> $20</td>
+                <td className="tdstyl">2*move </td>
+                <td className="tdstyl">60.000</td>
+                <td className="tdstyl">
+                  <div className="templateouterinvoice">
+
+                    <div className="d-flex justify-content-between align-items-center ">
+                      <div className="tempgenerated ">
+                        sssss
+                      </div>
+                      <div className="d-flex">
+                        <div
+                          className="icondowninvoice"
+
+                        >
+                          <i className="bi bi-eye invoiceeyee"></i>
+                        </div>
+                        <div
+                          className="iconpdfinvoice"
+
+                        >
+                          <i className="bi bi-trash invoicetrash"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="d-flex justify-content-between align-items-center ">
+                      <div className="tempgenerated ">
+                        sssss
+                      </div>
+                      <div className="d-flex">
+                        <div
+                          className="icondowninvoice"
+
+                        >
+                          <i className="bi bi-eye invoiceeyee"></i>
+                        </div>
+                        <div
+                          className="iconpdfinvoice"
+
+                        >
+                          <i className="bi bi-trash invoicetrash"></i>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </td>
+                <td className="tdstyl">
+                  <div className="templateouterinvoice">
+
+                    <div className="d-flex justify-content-between align-items-center ">
+                      <div className="tempgenerated ">
+                        sssss
+                      </div>
+                      <div className="d-flex">
+                        <div
+                          className="icondowninvoice"
+
+                        >
+                          <i className="bi bi-eye invoiceeyee"></i>
+                        </div>
+                        <div
+                          className="iconpdfinvoice"
+
+                        >
+                          <i className="bi bi-trash invoicetrash"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="d-flex justify-content-between align-items-center ">
+                      <div className="tempgenerated ">
+                        sssss
+                      </div>
+                      <div className="d-flex">
+                        <div
+                          className="icondowninvoice"
+
+                        >
+                          <i className="bi bi-eye invoiceeyee"></i>
+                        </div>
+                        <div
+                          className="iconpdfinvoice"
+
+                        >
+                          <i className="bi bi-trash invoicetrash"></i>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td className="tdstylwidt">4</td>
+                <td className="tdstyl"> Husbandry services</td>
+                <td className="tdstyl"> $20</td>
+                <td className="tdstyl">2*move </td>
+                <td className="tdstyl">60.000</td>
+                <td className="tdstyl">
+                  <div className="templateouterinvoice">
+
+                    <div className="d-flex justify-content-between align-items-center ">
+                      <div className="tempgenerated ">
+                        sssss
+                      </div>
+                      <div className="d-flex">
+                        <div
+                          className="icondowninvoice"
+
+                        >
+                          <i className="bi bi-eye invoiceeyee"></i>
+                        </div>
+                        <div
+                          className="iconpdfinvoice"
+
+                        >
+                          <i className="bi bi-trash invoicetrash"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="d-flex justify-content-between align-items-center ">
+                      <div className="tempgenerated ">
+                        sssss
+                      </div>
+                      <div className="d-flex">
+                        <div
+                          className="icondowninvoice"
+
+                        >
+                          <i className="bi bi-eye invoiceeyee"></i>
+                        </div>
+                        <div
+                          className="iconpdfinvoice"
+
+                        >
+                          <i className="bi bi-trash invoicetrash"></i>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </td>
+                <td className="tdstyl">
+                  <div className="templateouterinvoice">
+
+                    <div className="d-flex justify-content-between align-items-center ">
+                      <div className="tempgenerated ">
+                        sssss
+                      </div>
+                      <div className="d-flex">
+                        <div
+                          className="icondowninvoice"
+
+                        >
+                          <i className="bi bi-eye invoiceeyee"></i>
+                        </div>
+                        <div
+                          className="iconpdfinvoice"
+
+                        >
+                          <i className="bi bi-trash invoicetrash"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="d-flex justify-content-between align-items-center ">
+                      <div className="tempgenerated ">
+                        sssss
+                      </div>
+                      <div className="d-flex">
+                        <div
+                          className="icondowninvoice"
+
+                        >
+                          <i className="bi bi-eye invoiceeyee"></i>
+                        </div>
+                        <div
+                          className="iconpdfinvoice"
+
+                        >
+                          <i className="bi bi-trash invoicetrash"></i>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td className="tdstylwidt">5</td>
+                <td className="tdstyl"> OtherCharges</td>
+                <td className="tdstyl"> $20</td>
+                <td className="tdstyl">2*move </td>
+                <td className="tdstyl">60.000</td>
+                <td className="tdstyl">
+                  <div className="templateouterinvoice">
+
+                    <div className="d-flex justify-content-between align-items-center ">
+                      <div className="tempgenerated ">
+                        sssss
+                      </div>
+                      <div className="d-flex">
+                        <div
+                          className="icondowninvoice"
+
+                        >
+                          <i className="bi bi-eye invoiceeyee"></i>
+                        </div>
+                        <div
+                          className="iconpdfinvoice"
+
+                        >
+                          <i className="bi bi-trash invoicetrash"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="d-flex justify-content-between align-items-center ">
+                      <div className="tempgenerated ">
+                        sssss
+                      </div>
+                      <div className="d-flex">
+                        <div
+                          className="icondowninvoice"
+
+                        >
+                          <i className="bi bi-eye invoiceeyee"></i>
+                        </div>
+                        <div
+                          className="iconpdfinvoice"
+
+                        >
+                          <i className="bi bi-trash invoicetrash"></i>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </td>
+                <td className="tdstyl">
+                  <div className="templateouterinvoice">
+
+                    <div className="d-flex justify-content-between align-items-center ">
+                      <div className="tempgenerated ">
+                        sssss
+                      </div>
+                      <div className="d-flex">
+                        <div
+                          className="icondowninvoice"
+
+                        >
+                          <i className="bi bi-eye invoiceeyee"></i>
+                        </div>
+                        <div
+                          className="iconpdfinvoice"
+
+                        >
+                          <i className="bi bi-trash invoicetrash"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="d-flex justify-content-between align-items-center ">
+                      <div className="tempgenerated ">
+                        sssss
+                      </div>
+                      <div className="d-flex">
+                        <div
+                          className="icondowninvoice"
+
+                        >
+                          <i className="bi bi-eye invoiceeyee"></i>
+                        </div>
+
+                      </div>
+                    </div>
+
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
           <table className="tabmain">
             <thead>
               <tr>
@@ -184,12 +705,15 @@ const InvoicePage = ({
           <div className="d-flex justify-content-center mt-4">
             <button
               className="btn btna submit-button"
+
             >
               Accept
+
             </button>
 
             <button
               className="btn btna generate-button"
+
             >
               Reject
             </button>
