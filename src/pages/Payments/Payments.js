@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import { getAllCustomers,getAllVendors } from "../services/apiService";
-import "../css/payment.css";
+import { getAllCustomers,getAllVendors } from "../../services/apiService";
+import "../../css/payment.css";
 const Payments = () => {
-  const Group = require("../assets/images/payments.png");
+  const Group = require("../../assets/images/payments.png");
   const [currentDate, setCurrentDate] = useState('');
   const [CustomerList, setCustomerList] = useState([]);
   const [VendorList, setVendorList] = useState([]);
