@@ -418,7 +418,7 @@ const FinalReport = ({
                       }
                       showTimeSelect
                       timeFormat="HH:mm aa"
-                      timeIntervals={15}
+                      timeIntervals={1}
                       className="form-control date-input"
                       id="eta-picker"
                       autoComplete="off"

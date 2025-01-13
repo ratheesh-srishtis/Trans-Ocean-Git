@@ -26,8 +26,9 @@ import { AttachFile, Delete, Visibility } from "@mui/icons-material";
 const Remarks = ({ open, onClose, onRemarksSubmit }) => {
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
+  const [remarks, setRemarks] = useState("");
   const handleSubmit = async () => {
-    onRemarksSubmit();
+    onRemarksSubmit(remarks);
   };
 
   return (
@@ -62,6 +63,10 @@ const Remarks = ({ open, onClose, onRemarksSubmit }) => {
                       className="form-control"
                       id="exampleFormControlInput1"
                       placeholder="Remarks"
+                      value={remarks}
+                      onChange={(e) => {
+                        setRemarks(e.target.value);
+                      }}
                     ></textarea>
                   </div>
                 </div>

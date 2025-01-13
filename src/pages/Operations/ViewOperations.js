@@ -201,6 +201,7 @@ const ViewOperations = ({
               customers={customers}
               ports={ports}
               isAction={false}
+              from={"view-operation"}
             />
           </div>
         </div>

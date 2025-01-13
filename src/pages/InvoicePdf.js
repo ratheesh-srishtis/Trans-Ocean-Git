@@ -23,7 +23,6 @@ import moment from "moment";
 
 import PopUp from "./PopUp";
 
-
 const InvoicePdf = ({
   open,
   onClose,
@@ -40,6 +39,7 @@ const InvoicePdf = ({
   const Group = require("../assets/images/TRANSocean-LOGO.png");
   console.log(services, "services");
   console.log(pdaResponse, "pdaResponse_dialog");
+  console.log(customers, "customers_invoicepdf");
 
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
@@ -348,23 +348,31 @@ const InvoicePdf = ({
             <thead class=".tablebody">
               <tr>
                 <th colspan="5" class="totba">
-                  TO TBA
+                  To :{" "}
+                  {pdaDetails?.customerId
+                    ? getItemName(pdaDetails?.customerId, "customer")
+                    : ""}
                 </th>
 
-                <th class="codefda">FDA CODE : JUL/23/407</th>
+                <th class="codefda">FDA CODE : {pdaDetails?.invoiceId}</th>
 
                 <th class="tabl">
                   <table class="column">
                     <tr>
                       <th class=" dateinvoice">
                         <div>Date :</div>
-                        <div>31-07-2024</div>
+                        <div>
+                          {" "}
+                          {new Date(pdaDetails?.createdAt).toLocaleDateString(
+                            "en-GB"
+                          )}
+                        </div>
                       </th>
                     </tr>
                     <tr>
                       <th class=" ref">
                         <div>Ref :</div>
-                        <div>TOMS/OM/23/0741</div>
+                        <div>{pdaDetails?.jobId}</div>
                       </th>
                     </tr>
                   </table>
@@ -381,19 +389,27 @@ const InvoicePdf = ({
 
                 <th class="location">LOCATION</th>
                 <th rowspan="2" class="stilefive">
-                  VESSEL ARRIVED : 11/07/2023
+                  VESSEL ARRIVED :{" "}
+                  {moment.utc(pdaDetails?.ETA).format("DD-MM-YYYY HH:mm")}
                 </th>
                 <th rowspan="2" class="stilefive">
-                  VESSEL SAILED : 11/07/2023
+                  VESSEL SAILED :{" "}
+                  {moment.utc(pdaDetails?.ETD).format("DD-MM-YYYY HH:mm")}
                 </th>
               </tr>
               <tr>
                 <th colspan="3" class="stilefive">
-                  {" "}
-                  VESSEL 1
+                  {pdaDetails?.vesselId
+                    ? getItemName(pdaDetails?.vesselId, "vessel")
+                    : ""}
                 </th>
 
-                <th class="stilefive">SOHAR ANCHORAGE</th>
+                <th class="stilefive">
+                  {" "}
+                  {pdaDetails?.portId
+                    ? getItemName(pdaDetails?.portId, "port")
+                    : ""}
+                </th>
               </tr>
             </thead>
           </table>

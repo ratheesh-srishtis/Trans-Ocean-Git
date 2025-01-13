@@ -182,6 +182,7 @@ const ViewQuotation = ({
               services={services}
               customers={customers}
               ports={ports}
+              from={"view-quotation"}
             />
           </div>
         </div>
