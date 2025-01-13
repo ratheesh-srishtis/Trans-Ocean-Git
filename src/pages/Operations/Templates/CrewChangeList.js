@@ -355,7 +355,7 @@ const CrewChangeList = ({
                         }
                         showTimeSelect
                         timeFormat="HH:mm aa"
-                        timeIntervals={15}
+                        timeIntervals={1}
                         className="form-control date-input"
                         placeholderText=""
                         autoComplete="off"
@@ -487,7 +487,7 @@ const CrewChangeList = ({
                         }
                         showTimeSelect
                         timeFormat="HH:mm aa"
-                        timeIntervals={15}
+                        timeIntervals={1}
                         className="form-control date-input"
                         placeholderText=""
                         autoComplete="off"

@@ -308,10 +308,12 @@ const CreatePDA = ({
     setRemarksOpen(false);
   };
 
-  const handleRemarksSubmit = async () => {
+  const handleRemarksSubmit = async (remark) => {
+    console.log(remark, "handleRemarksSubmit");
     let pdaPayload = {
       pdaId: pdaResponse?._id,
       status: "4",
+      rejectedRemark: remark,
     };
     try {
       const response = await changeQuotationStatus(pdaPayload);
@@ -1099,7 +1101,7 @@ const CreatePDA = ({
                     onChange={handleEtaChange}
                     showTimeSelect
                     timeFormat="HH:mm aa"
-                    timeIntervals={15}
+                    timeIntervals={1}
                     className="form-control date-input-small"
                     id="eta-picker"
                     placeholderText="Select ETA"
@@ -1118,7 +1120,7 @@ const CreatePDA = ({
                   onChange={handleEtdChange}
                   showTimeSelect
                   timeFormat="HH:mm aa"
-                  timeIntervals={15}
+                  timeIntervals={1}
                   className="form-control  date-input-small"
                   id="etd-picker"
                   placeholderText="Select ETD"
@@ -1237,6 +1239,7 @@ const CreatePDA = ({
                   onEdit={handleEdit}
                   pdaResponse={pdaResponse}
                   isAction={true}
+                  from={"create-pda"}
                 />
               </div>
             </div>

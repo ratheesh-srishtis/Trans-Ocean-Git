@@ -1045,7 +1045,6 @@ const ResponsiveDialog = ({
                                 value={customerTotalUSD}
                                 onChange={handleInputChange}
                                 onWheel={handleWheel}
-                                disabled
                               />
                             </div>
                             {customerTotalUSDError && (
@@ -1198,7 +1197,6 @@ const ResponsiveDialog = ({
                                 value={vendorTotalUSD}
                                 onChange={handleInputChange}
                                 onWheel={handleWheel}
-                                disabled
                               />
                             </div>
                             {vendorTotalUSDError && (

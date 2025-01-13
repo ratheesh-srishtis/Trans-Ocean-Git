@@ -43,6 +43,7 @@ const ChargesTable = ({
   onSubmit,
   vendors,
   isAction,
+  from,
 }) => {
   const [charges, setCharges] = useState([]);
   const [subCharges, setSubCharges] = useState([]);
@@ -280,10 +281,15 @@ const ChargesTable = ({
                   <th className="tableheadcolor">Charge Type</th>
                   <th className="tableheadcolor">Sub Charge Type</th>
                   {/* <th>Quantity</th> */}
-                  <th className="tableheadcolor">Amount (OMR)</th>
-                  <th className="tableheadcolor">VAT Amount</th>
-                  <th className="tableheadcolor">Total OMR</th>
-                  <th className="tableheadcolor">Total USD</th>
+                  {from != "view-operation" && (
+                    <>
+                      <th className="tableheadcolor">Amount (OMR)</th>
+                      <th className="tableheadcolor">VAT Amount</th>
+                      <th className="tableheadcolor">Total OMR</th>
+                      <th className="tableheadcolor">Total USD</th>
+                    </>
+                  )}
+
                   {isAction == true && (
                     <>
                       <th className="tableheadcolor">Actions</th>{" "}
@@ -313,15 +319,21 @@ const ChargesTable = ({
                           : ""}
                       </td>
                       {/* <td>{charge.quantity}</td> */}
-                      <td>{charge.customerOMR.toFixed(3)}</td>
-                      <td>{charge.customerVAT.toFixed(3)}</td>
-                      <td>
-                        {(
-                          parseFloat(charge.customerOMR) +
-                          parseFloat(charge.customerVAT)
-                        ).toFixed(3)}
-                      </td>
-                      <td>{charge.customerTotalUSD.toFixed(2)}</td>
+
+                      {from != "view-operation" && (
+                        <>
+                          <td>{charge.customerOMR.toFixed(3)}</td>
+                          <td>{charge.customerVAT.toFixed(3)}</td>
+                          <td>
+                            {(
+                              parseFloat(charge.customerOMR) +
+                              parseFloat(charge.customerVAT)
+                            ).toFixed(3)}
+                          </td>
+                          <td>{charge.customerTotalUSD.toFixed(2)}</td>
+                        </>
+                      )}
+
                       {isAction == true && (
                         <>
                           <td>
@@ -362,28 +374,33 @@ const ChargesTable = ({
                   </tfoot>
                 </>
               )} */}
-              {chargesArray?.length > 0 && (
+
+              {from != "view-operation" && (
                 <>
-                  <tfoot>
-                    <tr className="bold-row">
-                      <td colSpan={4}>Total Cost</td>
-                      {/* Use formatted totals */}
-                      <td>{formattedTotals.customerOMR}</td>
-                      <td>{formattedTotals.customerVAT}</td>
-                      <td>
-                        {(
-                          parseFloat(formattedTotals.customerOMR) +
-                          parseFloat(formattedTotals.customerVAT)
-                        ).toFixed(3)}
-                      </td>
-                      <td>{formattedTotals.customerTotalUSD}</td>
-                      {isAction == true && (
-                        <>
-                          <td></td> {/* Empty cell for footer */}
-                        </>
-                      )}
-                    </tr>
-                  </tfoot>
+                  {chargesArray?.length > 0 && (
+                    <>
+                      <tfoot>
+                        <tr className="bold-row">
+                          <td colSpan={4}>Total Cost</td>
+                          {/* Use formatted totals */}
+                          <td>{formattedTotals.customerOMR}</td>
+                          <td>{formattedTotals.customerVAT}</td>
+                          <td>
+                            {(
+                              parseFloat(formattedTotals.customerOMR) +
+                              parseFloat(formattedTotals.customerVAT)
+                            ).toFixed(3)}
+                          </td>
+                          <td>{formattedTotals.customerTotalUSD}</td>
+                          {isAction == true && (
+                            <>
+                              <td></td> {/* Empty cell for footer */}
+                            </>
+                          )}
+                        </tr>
+                      </tfoot>
+                    </>
+                  )}
                 </>
               )}
             </table>
@@ -399,10 +416,16 @@ const ChargesTable = ({
                   <th className="tableheadcolor">Charge Type</th>
                   <th className="tableheadcolor">Sub Charge Type</th>
                   {/* <th>Quantity</th> */}
-                  <th className="tableheadcolor">Amount (OMR)</th>
-                  <th className="tableheadcolor">VAT Amount</th>
-                  <th className="tableheadcolor">Total OMR</th>
-                  <th className="tableheadcolor">Total USD</th>
+
+                  {from != "view-operation" && (
+                    <>
+                      <th className="tableheadcolor">Amount (OMR)</th>
+                      <th className="tableheadcolor">VAT Amount</th>
+                      <th className="tableheadcolor">Total OMR</th>
+                      <th className="tableheadcolor">Total USD</th>
+                    </>
+                  )}
+
                   {isAction == true && (
                     <>
                       <th className="tableheadcolor">Actions</th>{" "}
@@ -432,15 +455,20 @@ const ChargesTable = ({
                           : ""}
                       </td>
                       {/* <td>{charge.quantity}</td> */}
-                      <td>{charge.vendorOMR.toFixed(3)}</td>
-                      <td>{charge.vendorVAT.toFixed(3)}</td>
-                      <td>
-                        {(
-                          parseFloat(charge.vendorOMR) +
-                          parseFloat(charge.vendorVAT)
-                        ).toFixed(3)}
-                      </td>
-                      <td>{charge.vendorTotalUSD.toFixed(2)}</td>
+
+                      {from != "view-operation" && (
+                        <>
+                          <td>{charge.vendorOMR.toFixed(3)}</td>
+                          <td>{charge.vendorVAT.toFixed(3)}</td>
+                          <td>
+                            {(
+                              parseFloat(charge.vendorOMR) +
+                              parseFloat(charge.vendorVAT)
+                            ).toFixed(3)}
+                          </td>
+                          <td>{charge.vendorTotalUSD.toFixed(2)}</td>
+                        </>
+                      )}
 
                       {isAction == true && (
                         <>
@@ -482,29 +510,34 @@ const ChargesTable = ({
                   </tfoot>
                 </>
               )} */}
-              {chargesArray?.length > 0 && (
+
+              {from != "view-operation" && (
                 <>
-                  <tfoot>
-                    <tr className="bold-row">
-                      <td colSpan={4}>Total Cost</td>
-                      {/* Use formatted totals */}
-                      {/* <td>{formattedVendorTotals.quantity}</td> */}
-                      <td>{formattedVendorTotals.vendorOMR}</td>
-                      <td>{formattedVendorTotals.vendorVAT}</td>
-                      <td>
-                        {(
-                          parseFloat(formattedVendorTotals.vendorOMR) +
-                          parseFloat(formattedVendorTotals.vendorVAT)
-                        ).toFixed(3)}
-                      </td>
-                      <td>{formattedVendorTotals.vendorTotalUSD}</td>
-                      {isAction == true && (
-                        <>
-                          <td></td> {/* Empty cell for footer */}
-                        </>
-                      )}
-                    </tr>
-                  </tfoot>
+                  {chargesArray?.length > 0 && (
+                    <>
+                      <tfoot>
+                        <tr className="bold-row">
+                          <td colSpan={4}>Total Cost</td>
+                          {/* Use formatted totals */}
+                          {/* <td>{formattedVendorTotals.quantity}</td> */}
+                          <td>{formattedVendorTotals.vendorOMR}</td>
+                          <td>{formattedVendorTotals.vendorVAT}</td>
+                          <td>
+                            {(
+                              parseFloat(formattedVendorTotals.vendorOMR) +
+                              parseFloat(formattedVendorTotals.vendorVAT)
+                            ).toFixed(3)}
+                          </td>
+                          <td>{formattedVendorTotals.vendorTotalUSD}</td>
+                          {isAction == true && (
+                            <>
+                              <td></td> {/* Empty cell for footer */}
+                            </>
+                          )}
+                        </tr>
+                      </tfoot>
+                    </>
+                  )}
                 </>
               )}
             </table>
