@@ -1,8 +1,8 @@
 // ResponsiveDialog.js
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
-import{saveVoucher,editVoucher} from "../services/apiService";
-import PopUp from "./PopUp";
+import{saveVoucher,editVoucher} from "../../services/apiService";
+import PopUp from ".././PopUp";
 
 const AddVoucher = ({ open,onClose,vendorId,ListVouchers,editMode,prevVouchers}) => {
    useEffect(() => {
@@ -92,7 +92,9 @@ const handleSubmit =async(event)=>{
 }
 const fetchVouchers = async()=>{
   setOpenPopUp(false);
-  ListVouchers();
+  let payload ={vendorId:vendorId};
+  ListVouchers(payload);
+ 
   onClose();
 }
 const handleChange = (e) =>{
