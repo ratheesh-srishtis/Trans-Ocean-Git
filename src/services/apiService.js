@@ -141,6 +141,15 @@ export const changeQuotationStatus = async (userData) => {
     throw error;
   }
 };
+export const changeInvoiceStatus = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/changeInvoiceStatus", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
 
 export const editChargeQuotation = async (userData) => {
   try {

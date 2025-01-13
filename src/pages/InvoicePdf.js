@@ -43,6 +43,7 @@ const InvoicePdf = ({
 
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
+  const [vatinNumber, setVatinNumber] = useState("");
   const [pdfData, setPdfData] = useState(null);
   const [isLoading, setIsLoading] = useState(false); // Loader state
   const [pdaDetails, setPdaDetails] = useState(null);
@@ -75,6 +76,8 @@ const InvoicePdf = ({
     try {
       const pdaDetails = await getPdaDetails(data);
       console.log(pdaDetails, "pdaDetails");
+      setVatinNumber(pdaDetails?.vat);
+
       setPdaDetails(pdaDetails?.pda);
       setpdaServices(pdaDetails?.pdaServices);
     } catch (error) {
@@ -339,7 +342,7 @@ const InvoicePdf = ({
               <tr>
                 <th class="taxinvoice ">
                   <span class="tax">TAX INVOICE</span>
-                  <span class="vatin">VATIN OM1100059900</span>
+                  <span class="vatin">VATIN {vatinNumber}</span>
                 </th>
               </tr>
             </thead>
