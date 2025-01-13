@@ -996,3 +996,45 @@ export const saveVoucher = async (vouchers) => {
     console.log("Error in vouchers", error);
   }
 };
+//Delete payments
+
+export const deletePayment = async (payments) => {
+  try {
+    const response = await axiosInstance.post("/deletePayment", payments);
+    return response.data;
+  } catch (error) {
+    console.log("Error in deletePayment", error);
+  }
+};
+
+// Edit payment
+
+export const editPayment = async (payments) => {
+  try {
+    const response = await axiosInstance.post("/editPayment", payments);
+    return response.data;
+  } catch (error) {
+    console.log("Error in editPayment", error);
+  }
+};
+
+// Delete Voucher
+
+export const deleteVoucher = async (payments) => {
+  try {
+    const response = await axiosInstance.post("/deleteVoucher", payments);
+    return response.data;
+  } catch (error) {
+    console.log("Error in editPayment", error);
+  }
+};
+
+// edit voucher
+export const editVoucher = async (voucher) => {
+  try {
+    const response = await axiosInstance.post("/editVoucher", voucher);
+    return response.data;
+  } catch (error) {
+    console.log("Error in edit vocuhers", error);
+  }
+};

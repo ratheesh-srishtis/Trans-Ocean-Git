@@ -1,28 +1,41 @@
 // ResponsiveDialog.js
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
-import{saveVoucher} from "../services/apiService";
+import{saveVoucher,editVoucher} from "../services/apiService";
 import PopUp from "./PopUp";
 
-const AddVoucher = ({ open,onClose,vendorId,ListVouchers}) => {
+const AddVoucher = ({ open,onClose,vendorId,ListVouchers,editMode,prevVouchers}) => {
+   useEffect(() => {
+        if (editMode && prevVouchers) {
+        
+          setFormData({
+            amount: prevVouchers.amount,
+            voucherNumber:prevVouchers.voucherNumber,
+            through:prevVouchers.through,
+            voucherParticulers:prevVouchers.voucherParticulers,
+            voucherAccount:prevVouchers.voucherAccount,
+            paymentDate:prevVouchers.dateofPay,
+            pettyId: prevVouchers._id,
+          });
+        } else {
+          setFormData({
+            amount: "",
+            voucherNumber: "",
+            through: "",
+            voucherParticulers: "",
+            voucherAccount:"",
+            paymentDate:"",
+          });
+        }
+      }, [editMode, prevVouchers]);
  const [formData, setFormData] = useState({
       amount: "",
-      voucherNumber: "",
-      through: "",
-      voucherParticulers: "",
-      voucherAccount: "",
-      paymentDate:"",
-     
-    });
-  const handleChange = (e) =>{
-   const {name,value} = e.target;
-    setFormData((prevData)=>({
-      ...prevData,
-      [name]:value,
-     }))
-
-  }
-  
+       voucherNumber: "",
+       through: "",
+       voucherParticulers: "",
+       voucherAccount:"",
+       paymentDate:"",
+     });
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
   const [openPopUp, setOpenPopUp] = useState(false);
@@ -44,8 +57,11 @@ const handleSubmit =async(event)=>{
   if (!validateForm()) return;
   try{
     formData.vendorId=vendorId;
- 
-   const response =await saveVoucher(formData);
+    let response;
+     if (editMode)
+     response = await editVoucher(formData);
+     else
+    response =await saveVoucher(formData);
     if(response.status === true){
         setOpenPopUp(true);
         setMessage(response.message);
@@ -57,7 +73,8 @@ const handleSubmit =async(event)=>{
           voucherAccount: "",
           paymentDate:"",
         });
-        ListVouchers();
+        let payload ={vendorId:vendorId};
+        ListVouchers(payload);
         onClose();
     }else{
       setMessage(response.message);
@@ -78,6 +95,13 @@ const fetchVouchers = async()=>{
   ListVouchers();
   onClose();
 }
+const handleChange = (e) =>{
+  const {name,value} = e.target;
+   setFormData((prevData)=>({
+     ...prevData,
+     [name]:value,
+    }))
+ }
   return (
     <>
       <Dialog
@@ -98,7 +122,7 @@ const fetchVouchers = async()=>{
              maxWidth="lg"
            >
             <div className="d-flex justify-content-between " onClick={onClose}>
-                      <DialogTitle>Add Petty</DialogTitle>
+                       <DialogTitle>{editMode ? "Edit Petty" : "Add Petty"}</DialogTitle>
                       <div className="closeicon">
                         <i className="bi bi-x-lg "></i>
                       </div>
