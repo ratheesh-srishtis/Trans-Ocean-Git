@@ -797,17 +797,16 @@ const EditOperation = ({
                 >
                   Completed
                 </button>
+                <button
+                  className="btn btna submit-button btnfsize"
+                  onClick={() => {
+                    submitJobs();
+                  }}
+                >
+                  Save
+                </button>
               </>
             )}
-
-            <button
-              className="btn btna submit-button btnfsize"
-              onClick={() => {
-                submitJobs();
-              }}
-            >
-              Save
-            </button>
           </div>
         </div>
       </div>

@@ -2082,17 +2082,21 @@ const ResponsiveDialog = ({
                   </div>
                 </div>
               </div>
-              <div className="savechangesfooter text-center">
-                <button
-                  type="button"
-                  className="btn add-button"
-                  onClick={() => {
-                    editCharges(editIndex);
-                  }}
-                >
-                  Save changes
-                </button>
-              </div>
+              {pdaResponse?.pdaStatus != 7 && (
+                <>
+                  <div className="savechangesfooter text-center">
+                    <button
+                      type="button"
+                      className="btn add-button"
+                      onClick={() => {
+                        editCharges(editIndex);
+                      }}
+                    >
+                      Save changes
+                    </button>
+                  </div>
+                </>
+              )}
             </>
           )}
         </DialogContent>

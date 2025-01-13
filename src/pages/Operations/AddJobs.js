@@ -920,16 +920,19 @@ const AddJobs = ({
                 >
                   Close
                 </button>
-
-                <button
-                  type="button"
-                  className="btn  generate-buttona "
-                  onClick={() => {
-                    editCharges();
-                  }}
-                >
-                  Submit
-                </button>
+                {pdaResponse?.pdaStatus != 7 && (
+                  <>
+                    <button
+                      type="button"
+                      className="btn  generate-buttona "
+                      onClick={() => {
+                        editCharges();
+                      }}
+                    >
+                      Submit
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </DialogContent>

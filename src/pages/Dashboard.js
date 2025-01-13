@@ -128,14 +128,17 @@ const Dashboard = () => {
                 <div className="col-4">
                   <div className="dashboard_cards pending-quot">
                     <img className="img-size" src={img_3} />
-                    <h3 className="card_count">{counts?.approvedQuotation}</h3>
+                    <h3 className="card_count">{counts?.submittedQuotation}</h3>
                     <h5 className="card_title">Submitted Quotations</h5>
                   </div>
                 </div>
                 <div className="col-4">
                   <div className="dashboard_cards approved-quot">
                     <img className="img-size" src={img_4} />
-                    <h3 className="card_count"> {counts?.opsQuotation} </h3>
+                    <h3 className="card_count">
+                      {" "}
+                      {counts?.approvedQuotation}{" "}
+                    </h3>
                     <h5 className="card_title">Approval of Jobs to OPS</h5>
                   </div>
                 </div>
@@ -144,21 +147,27 @@ const Dashboard = () => {
                 <div className="col-4">
                   <div className="dashboard_cards ops">
                     <img className="img-size" src={img_1} />
-                    <h3 className="card_count"> {counts?.closedQuotation} </h3>
+                    <h3 className="card_count">
+                      {" "}
+                      {counts?.processedQuotation}{" "}
+                    </h3>
                     <h5 className="card_title">Job in Process</h5>
                   </div>
                 </div>
                 <div className="col-4">
                   <div className="dashboard_cards ops">
                     <img className="img-size" src={img_1} />
-                    <h3 className="card_count"> {counts?.closedQuotation} </h3>
+                    <h3 className="card_count">
+                      {" "}
+                      {counts?.completedQuotation}{" "}
+                    </h3>
                     <h5 className="card_title"> Job Completed</h5>
                   </div>
                 </div>
                 <div className="col-4">
                   <div className="dashboard_cards ops">
                     <img className="img-size" src={img_1} />
-                    <h3 className="card_count"> {counts?.closedQuotation} </h3>
+                    <h3 className="card_count"> {counts?.invoiceSubmitted} </h3>
                     <h5 className="card_title">Final Invoice Status</h5>
                   </div>
                 </div>
