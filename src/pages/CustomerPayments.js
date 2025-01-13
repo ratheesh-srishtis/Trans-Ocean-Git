@@ -254,7 +254,7 @@ const CustomerPayments = () => {
   return (
     <>
     <div >
-      <div className=" mt-3 d-flex">
+      <div className=" mt-3 mb-3 d-flex">
       <div className=" d-flex paymentbycus">
           <label
             for="exampleFormControlInput1"
@@ -276,7 +276,7 @@ const CustomerPayments = () => {
         <div className="cusbydate">
           <label
             for="inputPassword"
-            className=" col-form-label text-nowrap"
+            className=" form-label col-form-label text-nowrap"
           >
             Payment Date:
           </label>

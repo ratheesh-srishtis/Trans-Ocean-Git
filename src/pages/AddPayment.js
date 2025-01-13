@@ -232,7 +232,7 @@ const fetchPayments = async()=>{
                                         {" "}
                                        Quotation Number:
                                       </label>
-                                     <div className="payment-page">
+                                     <div className="payment-page ">
                                        <Multiselect
                                                     options={options}
                                                     selectedValues={formData.prevSelectedOptions}
