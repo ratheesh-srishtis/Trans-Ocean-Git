@@ -18,7 +18,15 @@ import SendInvoice from "./SendInvoice";
 import InvoicePdf from "./InvoicePdf";
 import InvoicePage from "./InvoicePage";
 
-const Quotations = ({ loginResponse }) => {
+const Quotations = ({
+  loginResponse,
+  services,
+  customers,
+  cargos,
+  ports,
+  vendors,
+  vessels,
+}) => {
   const navigate = useNavigate();
   console.log(loginResponse, "loginResponse_quoatations_page");
   const [selectedRows, setSelectedRows] = useState([]);
@@ -537,7 +545,7 @@ const Quotations = ({ loginResponse }) => {
               onClick={() => {
                 SendInvoiceOpen();
               }}
-              disabled={!selectedRowId || selectedPdaData?.pdaStatus != 7}
+              disabled={!selectedRowId || selectedPdaData?.invoiceStatus != 3}
             >
               Send Invoice
             </button>
@@ -568,12 +576,19 @@ const Quotations = ({ loginResponse }) => {
         open={invoiceDialogOpen}
         onClose={closeInvoicePage}
         selectedPdaData={selectedPdaData}
+        pdaResponse={pdaResponse}
       />
       <InvoicePdf
         open={generateInvoiceOpen}
         onClose={generateInvoiceCloseClick}
         selectedPdaData={selectedPdaData}
         pdaResponse={pdaResponse}
+        services={services}
+        customers={customers}
+        cargos={cargos}
+        ports={ports}
+        vendors={vendors}
+        vessels={vessels}
       />
     </>
   );

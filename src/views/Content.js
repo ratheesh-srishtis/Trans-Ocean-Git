@@ -102,7 +102,20 @@ const Content = () => {
       <Route path="/dashboard" element={<Dashboard />} />
       <Route
         path="/quotations"
-        element={<Quotations loginResponse={loginResponse} />}
+        element={
+          <Quotations
+            loginResponse={loginResponse}
+            vessels={vessels}
+            ports={ports}
+            cargos={cargos}
+            vesselTypes={vesselTypes}
+            services={services}
+            customers={customers}
+            employees={employees}
+            templates={templates}
+            vendors={vendors}
+          />
+        }
       />
       <Route path="/payments" element={<Payments />} />
       <Route path="/customerpayment" element={<CustomerPayments />} />

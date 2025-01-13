@@ -372,7 +372,7 @@ const LoadingReport = ({
                         onChange={(date) => handleDateChange(row.id, date)}
                         showTimeSelect
                         timeFormat="HH:mm aa"
-                        timeIntervals={15}
+                        timeIntervals={1}
                         className="form-control date-input"
                         placeholderText="Select Date & Time"
                         autoComplete="off"
@@ -561,7 +561,7 @@ const LoadingReport = ({
                     onChange={handleEtaChange}
                     showTimeSelect
                     timeFormat="HH:mm aa"
-                    timeIntervals={15}
+                    timeIntervals={1}
                     className="form-control date-input"
                     id="eta-picker"
                     placeholderText=""
