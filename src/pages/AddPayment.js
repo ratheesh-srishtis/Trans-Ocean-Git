@@ -185,7 +185,7 @@ const fetchPayments = async()=>{
                                         {" "}
                                        Quotation Number:
                                       </label>
-                                     <div className="payment-page">
+                                     <div className="payment-page ">
                                        <Multiselect
                                                     options={options}
                                                     displayValue="pdaIds" // Display the serviceName in the dropdown
@@ -218,7 +218,7 @@ const fetchPayments = async()=>{
                                       <input
                                         name="balance"
                                         type="text"
-                                        className="form-control vessel-voyage"
+                                        className="form-control vessel-voyage balancedue"
                                         id="balance"
                                         placeholder=""
                                         onChange={handleChange}

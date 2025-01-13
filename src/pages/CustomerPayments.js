@@ -139,7 +139,7 @@ const CustomerPayments = () => {
   ];
   return (
     <div >
-      <div className=" mt-3 d-flex">
+      <div className=" mt-3 mb-3 d-flex">
       <div className=" d-flex paymentbycus">
           <label
             for="exampleFormControlInput1"
@@ -158,10 +158,10 @@ const CustomerPayments = () => {
              </select>
           </div>
         </div>
-        <div className="pdadate">
+        <div className="cusbydate">
           <label
             for="inputPassword"
-            className=" col-form-label text-nowrap"
+            className=" form-label col-form-label text-nowrap"
           >
             Payment Date:
           </label>
@@ -173,10 +173,10 @@ const CustomerPayments = () => {
         </div>
         <div className="">
           {/*<i className="bi bi-funnel-fill filtericon"></i>*/}
-          <input type="date" name="search-voucher-date" class="sortpayment form-select vesselbox statusspayment" placeholder="Select Date"></input>
+          <input type="date" name="search-voucher-date" class="datebycustomerpayment form-select vesselbox statusspayment" placeholder="Select Date"></input>
        
         </div>
-        <div className=" sortpayment ">
+        <div className="voucherbypayment">
           <i className="bi bi-funnel-fill filtericon"></i>
           <select 
               name="quotations"
@@ -194,7 +194,7 @@ const CustomerPayments = () => {
         <div className=" d-flex filterpayment">
           <label
             for="exampleFormControlInput1"
-            className="form-label filterbypayment "
+            className="form-label filterbycustpayment "
           >
             {" "}
             Filter By:
@@ -202,7 +202,7 @@ const CustomerPayments = () => {
           <div className="vessel-select">
             <select
               name="status"
-              className="form-select vesselbox statuss"
+              className="form-select vesselbox statussbycustomer"
 
             >
               <option value={1}>Monthly </option>
@@ -211,6 +211,18 @@ const CustomerPayments = () => {
             </select>
           </div>
         </div>
+        <div>
+                  <select
+                    className="form-select jobporrt mmonth"
+                    aria-label="Select Month"
+                  >
+                    
+                    <option value >January </option>
+                    <option value >February </option>
+                   
+                  </select>
+                </div>
+
       </div>
       <div className="charge">
         <div className="rectangle"></div>

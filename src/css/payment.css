@@ -13,7 +13,7 @@
 }
 .filterpayment{
     align-items: center;
-    margin-left: 25px;
+    margin-left: 10px;
     
 }
 .filterbypayment{
@@ -58,12 +58,12 @@
     margin-left: 15px;
 }
 .statusspayment{
-    height:38px;
+    height:34px;
     width:156px;
 }
 
 .payment-page .searchWrapper { 
-    width: 300px;
+    width: 356px;
     font-size: smaller;
  }
  
@@ -72,4 +72,43 @@
     justify-content: end;
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.datebycustomerpayment{
+    position: relative;
+    border: 1px solid #80808041;
+    width: 158px;
+    max-width: 100%;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    margin-left:0px;
+   
+}
+.cusbydate {
+    align-items: center;
+    display: flex;
+    font-size: 14px;
+    margin-left: 7px;
+}
+.voucherbypayment{
+    position: relative;
+    border: 1px solid #80808041;
+    width: 188px;
+    max-width: 100%;
+    border-radius: 5px;
+    display: flex;
+    height:34px;
+    align-items: center;
+    margin-left: 10px;
+   
+}
+.filterbycustpayment{
+    margin-right: 5px;
+}
+.payment-page{
+    height:10px;
+}
+.balancedue{
+    height:36px;
 }

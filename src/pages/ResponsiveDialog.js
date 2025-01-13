@@ -1788,7 +1788,7 @@ const ResponsiveDialog = ({
                   )}
                 </div>
               </div>
-              <div className="row">
+              <div className="row mt-4">
                 <div className="col-6 ">
                   <div className="marinetable">
                     <div className="tablehead">Customer Charges</div>
