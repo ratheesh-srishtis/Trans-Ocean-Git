@@ -266,7 +266,7 @@ const fetchPayments = async()=>{
                                       <input
                                         name="balance"
                                         type="text"
-                                        className="form-control vessel-voyage"
+                                        className="form-control vessel-voyage balancedue"
                                         id="balance"
                                         placeholder=""
                                         onChange={handleChange}

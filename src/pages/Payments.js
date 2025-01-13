@@ -128,7 +128,7 @@ const Payments = () => {
           <div className="col-6">
           <div className="mb-3">
                   <label for="exampleFormControlInput1" className="form-label customerpayment">
-                    Petty Payment:
+                    Petty Cash:
                   </label>
                   <div className="vessel-select">
                     <select

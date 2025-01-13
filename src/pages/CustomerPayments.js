@@ -273,7 +273,7 @@ const CustomerPayments = () => {
              </select>
           </div>
         </div>
-        <div className="pdadate">
+        <div className="cusbydate">
           <label
             for="inputPassword"
             className=" col-form-label text-nowrap"
@@ -288,10 +288,10 @@ const CustomerPayments = () => {
         </div>
         <div className="">
           {/*<i className="bi bi-funnel-fill filtericon"></i>*/}
-          <input type="date" name="paymentDate" class="sortpayment form-select vesselbox statusspayment" placeholder="Select Date" onChange={handleTimeperiod} value={inputFilterDate}></input>
+          <input type="date" name="paymentDate" class="datebycustomerpayment form-select vesselbox statusspayment" placeholder="Select Date" onChange={handleTimeperiod} value={inputFilterDate}></input>
        
         </div>
-        <div className=" sortpayment ">
+        <div className="voucherbypayment">
           <i className="bi bi-funnel-fill filtericon"></i>
           <select 
               name="pdaId"
@@ -310,7 +310,7 @@ const CustomerPayments = () => {
         <div className=" d-flex filterpayment">
           <label
             for="exampleFormControlInput1"
-            className="form-label filterbypayment "
+            className="form-label filterbycustpayment "
           >
             {" "}
             Filter By:
@@ -318,7 +318,7 @@ const CustomerPayments = () => {
           <div className="vessel-select">
           <select 
         name="status"
-        className="form-select vesselbox statuss"
+        className="form-select vesselbox statussbycustomer"
         onChange={(e) => setPeriod(e.target.value)}
         value={period}
       >
@@ -330,11 +330,11 @@ const CustomerPayments = () => {
           </div>
         </div>
 
-        <div className=" d-flex filterpayment">
+        <div>
         {period === "month" && (
         <select
           name="month"
-          className="form-select vesselbox monthlist"
+          className="form-select jobporrt mmonth" aria-label="Select Month"
           onChange={handleTimeperiod}
         >
           <option value="">Select Month</option>
@@ -347,7 +347,7 @@ const CustomerPayments = () => {
       {period === "year" && (
         <select
           name="year"
-          className="form-select vesselbox yearlist"
+          className="form-select jobporrt mmonth" aria-label="Select Year"
           onChange={handleTimeperiod}
         >
           <option value="">Select Year</option>
