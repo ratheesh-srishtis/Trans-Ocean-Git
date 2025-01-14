@@ -280,10 +280,10 @@ const VendorPayments = () => {
              </select>
           </div>
         </div>
-        <div className="pdadate">
+        <div className="cusbydate">
           <label
             for="inputPassword"
-            className=" col-form-label text-nowrap"
+            className=" col-form-label text-nowrap paymedatepaymentpage"
           >
             Payment Date:
           </label>
@@ -295,10 +295,10 @@ const VendorPayments = () => {
         </div>
         <div className="">
           {/*<i className="bi bi-funnel-fill filtericon"></i>*/}
-         <input type="date" name="search-voucher-date" class="sortpayment form-select vesselbox statusspayment" placeholder="Select Date" onChange={handleTimeperiod} value={inputFilterDate}></input>
+         <input type="date" name="search-voucher-date" class="datebycustomerpayment form-control vesselbox statusspayment" placeholder="Select Date" onChange={handleTimeperiod} value={inputFilterDate}></input>
        
         </div>
-        <div className=" sortpayment ">
+        <div className=" voucherbypayment ">
           <i className="bi bi-funnel-fill filtericon"></i>
           <select 
               name="pdaId"
