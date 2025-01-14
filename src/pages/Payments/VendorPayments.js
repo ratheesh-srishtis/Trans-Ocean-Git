@@ -261,7 +261,7 @@ const VendorPayments = () => {
   return (
     <>
     <div >
-      <div className=" mt-3 d-flex">
+      <div className=" mt-3 mb-3 d-flex">
       <div className=" d-flex paymentbycus">
           <label
             for="exampleFormControlInput1"
@@ -325,7 +325,7 @@ const VendorPayments = () => {
           <div className="vessel-select">
           <select 
         name="status"
-        className="form-select vesselbox statuss"
+        className="form-select vesselbox statussbycustomer"
         onChange={(e) => setPeriod(e.target.value)}
         value={period}
       >
@@ -341,7 +341,7 @@ const VendorPayments = () => {
         {period === "month" && (
         <select
           name="month"
-          className="form-select vesselbox monthlist"
+          className="form-select jobporrt mmonth monthcustomerpay"
           onChange={handleTimeperiod}
         >
           <option value="">Select Month</option>
@@ -354,7 +354,7 @@ const VendorPayments = () => {
       {period === "year" && (
         <select
           name="year"
-          className="form-select vesselbox yearlist"
+          className="form-select jobporrt mmonth monthcustomerpay"
           onChange={handleTimeperiod}
         >
           <option value="">Select Year</option>
