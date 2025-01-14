@@ -21,8 +21,10 @@ import {
 } from "@mui/material";
 import { AttachFile, Delete, Visibility } from "@mui/icons-material";
 import Remarks from "./Remarks";
-import { changeInvoiceStatus } from "../services/apiService";
+import { changeInvoiceStatus, getServiceReport } from "../services/apiService";
 import PopUp from "./PopUp";
+import moment from "moment";
+
 const transwave = require("../assets/images/EPDA-MV-TBN-SALALAH-CARGO-(3)-1.jpg");
 const Group = require("../assets/images/TRANSocean-LOGO.png");
 
@@ -37,6 +39,31 @@ const InvoicePage = ({
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false); // Loader state
   const [remarksOpen, setRemarksOpen] = useState(false);
+  const [serviceReports, setServiceReports] = useState([]);
+
+  const serviceReportGet = async (id) => {
+    let data = {
+      pdaId: id,
+    };
+    try {
+      const serviceReportResponse = await getServiceReport(data);
+      console.log("serviceReportGet", serviceReportResponse);
+      setServiceReports(serviceReportResponse?.report);
+    } catch (error) {
+      console.error("Failed to fetch quotations:", error);
+    }
+  };
+
+  useEffect(() => {
+    console.log(pdaResponse, "pdaResponse");
+    if (pdaResponse?._id) {
+      serviceReportGet(pdaResponse?._id);
+    }
+  }, [pdaResponse]);
+
+  useEffect(() => {
+    console.log(serviceReports, "serviceReports");
+  }, [serviceReports]);
 
   const handleRemarksOpen = () => {
     setRemarksOpen(true);
@@ -127,7 +154,7 @@ const InvoicePage = ({
           </div>
         </div>
         <DialogContent>
-        <div className=" statement">
+          <div className=" statement">
             <h3>INVOICE GENERATION</h3>
           </div>
 
@@ -144,7 +171,6 @@ const InvoicePage = ({
               </tr>
             </thead>
             <tbody>
-
               <tr>
                 <td className="tdstylwidt">1</td>
                 <td className="tdstyl"> Marine Charges</td>
@@ -153,60 +179,35 @@ const InvoicePage = ({
                 <td className="tdstyl">100.000</td>
                 <td className="tdstyl">
                   <div className="templateouterinvoice">
-
                     <div className="d-flex justify-content-between align-items-center ">
-                      <div className="tempgenerated ">
-                        sssss
-                      </div>
+                      <div className="tempgenerated ">sssss</div>
                       <div className="d-flex">
-                        <div
-                          className="icondowninvoice"
-
-                        >
+                        <div className="icondowninvoice">
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
+                        <div className="iconpdfinvoice">
                           <i className="bi bi-trash invoicetrash"></i>
                         </div>
                       </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-center ">
-                      <div className="tempgenerated ">
-                        sssss
-                      </div>
+                      <div className="tempgenerated ">sssss</div>
                       <div className="d-flex">
-                        <div
-                          className="icondowninvoice"
-
-                        >
+                        <div className="icondowninvoice">
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
+                        <div className="iconpdfinvoice">
                           <i className="bi bi-trash invoicetrash"></i>
                         </div>
                       </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-center ">
-                      <div className="tempgenerated ">
-                        sssss
-                      </div>
+                      <div className="tempgenerated ">sssss</div>
                       <div className="d-flex">
-                        <div
-                          className="icondowninvoice"
-
-                        >
+                        <div className="icondowninvoice">
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
+                        <div className="iconpdfinvoice">
                           <i className="bi bi-trash invoicetrash"></i>
                         </div>
                       </div>
@@ -215,60 +216,35 @@ const InvoicePage = ({
                 </td>
                 <td className="tdstyl">
                   <div className="templateouterinvoice">
-
                     <div className="d-flex justify-content-between align-items-center ">
-                      <div className="tempgenerated ">
-                        sssss
-                      </div>
+                      <div className="tempgenerated ">sssss</div>
                       <div className="d-flex">
-                        <div
-                          className="icondowninvoice"
-
-                        >
+                        <div className="icondowninvoice">
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
+                        <div className="iconpdfinvoice">
                           <i className="bi bi-trash invoicetrash"></i>
                         </div>
                       </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-center ">
-                      <div className="tempgenerated ">
-                        sssss
-                      </div>
+                      <div className="tempgenerated ">sssss</div>
                       <div className="d-flex">
-                        <div
-                          className="icondowninvoice"
-
-                        >
+                        <div className="icondowninvoice">
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
+                        <div className="iconpdfinvoice">
                           <i className="bi bi-trash invoicetrash"></i>
                         </div>
                       </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-center ">
-                      <div className="tempgenerated ">
-                        sssss
-                      </div>
+                      <div className="tempgenerated ">sssss</div>
                       <div className="d-flex">
-                        <div
-                          className="icondowninvoice"
-
-                        >
+                        <div className="icondowninvoice">
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
+                        <div className="iconpdfinvoice">
                           <i className="bi bi-trash invoicetrash"></i>
                         </div>
                       </div>
@@ -284,185 +260,116 @@ const InvoicePage = ({
                 <td className="tdstyl">60.000</td>
                 <td className="tdstyl">
                   <div className="templateouterinvoice">
-
                     <div className="d-flex justify-content-between align-items-center ">
-                      <div className="tempgenerated ">
-                        sssss
-                      </div>
+                      <div className="tempgenerated ">sssss</div>
                       <div className="d-flex">
-                        <div
-                          className="icondowninvoice"
-
-                        >
+                        <div className="icondowninvoice">
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
+                        <div className="iconpdfinvoice">
                           <i className="bi bi-trash invoicetrash"></i>
                         </div>
                       </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-center ">
-                      <div className="tempgenerated ">
-                        sssss
-                      </div>
+                      <div className="tempgenerated ">sssss</div>
                       <div className="d-flex">
-                        <div
-                          className="icondowninvoice"
-
-                        >
+                        <div className="icondowninvoice">
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
+                        <div className="iconpdfinvoice">
                           <i className="bi bi-trash invoicetrash"></i>
                         </div>
                       </div>
                     </div>
-
                   </div>
                 </td>
                 <td className="tdstyl">
                   <div className="templateouterinvoice">
-
                     <div className="d-flex justify-content-between align-items-center ">
-                      <div className="tempgenerated ">
-                        sssss
-                      </div>
+                      <div className="tempgenerated ">sssss</div>
                       <div className="d-flex">
-                        <div
-                          className="icondowninvoice"
-
-                        >
+                        <div className="icondowninvoice">
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
+                        <div className="iconpdfinvoice">
                           <i className="bi bi-trash invoicetrash"></i>
                         </div>
                       </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-center ">
-                      <div className="tempgenerated ">
-                        sssss
-                      </div>
+                      <div className="tempgenerated ">sssss</div>
                       <div className="d-flex">
-                        <div
-                          className="icondowninvoice"
-
-                        >
+                        <div className="icondowninvoice">
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
+                        <div className="iconpdfinvoice">
                           <i className="bi bi-trash invoicetrash"></i>
                         </div>
                       </div>
                     </div>
-
                   </div>
                 </td>
               </tr>
               <tr>
                 <td className="tdstylwidt">3</td>
-                <td className="tdstyl"> Arabian Maritime & Navigation Services</td>
+                <td className="tdstyl">
+                  {" "}
+                  Arabian Maritime & Navigation Services
+                </td>
                 <td className="tdstyl"> $20</td>
                 <td className="tdstyl">2*move </td>
                 <td className="tdstyl">60.000</td>
                 <td className="tdstyl">
                   <div className="templateouterinvoice">
-
                     <div className="d-flex justify-content-between align-items-center ">
-                      <div className="tempgenerated ">
-                        sssss
-                      </div>
+                      <div className="tempgenerated ">sssss</div>
                       <div className="d-flex">
-                        <div
-                          className="icondowninvoice"
-
-                        >
+                        <div className="icondowninvoice">
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
+                        <div className="iconpdfinvoice">
                           <i className="bi bi-trash invoicetrash"></i>
                         </div>
                       </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-center ">
-                      <div className="tempgenerated ">
-                        sssss
-                      </div>
+                      <div className="tempgenerated ">sssss</div>
                       <div className="d-flex">
-                        <div
-                          className="icondowninvoice"
-
-                        >
+                        <div className="icondowninvoice">
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
+                        <div className="iconpdfinvoice">
                           <i className="bi bi-trash invoicetrash"></i>
                         </div>
                       </div>
                     </div>
-
                   </div>
                 </td>
                 <td className="tdstyl">
                   <div className="templateouterinvoice">
-
                     <div className="d-flex justify-content-between align-items-center ">
-                      <div className="tempgenerated ">
-                        sssss
-                      </div>
+                      <div className="tempgenerated ">sssss</div>
                       <div className="d-flex">
-                        <div
-                          className="icondowninvoice"
-
-                        >
+                        <div className="icondowninvoice">
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
+                        <div className="iconpdfinvoice">
                           <i className="bi bi-trash invoicetrash"></i>
                         </div>
                       </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-center ">
-                      <div className="tempgenerated ">
-                        sssss
-                      </div>
+                      <div className="tempgenerated ">sssss</div>
                       <div className="d-flex">
-                        <div
-                          className="icondowninvoice"
-
-                        >
+                        <div className="icondowninvoice">
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
+                        <div className="iconpdfinvoice">
                           <i className="bi bi-trash invoicetrash"></i>
                         </div>
                       </div>
                     </div>
-
                   </div>
                 </td>
               </tr>
@@ -474,90 +381,54 @@ const InvoicePage = ({
                 <td className="tdstyl">60.000</td>
                 <td className="tdstyl">
                   <div className="templateouterinvoice">
-
                     <div className="d-flex justify-content-between align-items-center ">
-                      <div className="tempgenerated ">
-                        sssss
-                      </div>
+                      <div className="tempgenerated ">sssss</div>
                       <div className="d-flex">
-                        <div
-                          className="icondowninvoice"
-
-                        >
+                        <div className="icondowninvoice">
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
+                        <div className="iconpdfinvoice">
                           <i className="bi bi-trash invoicetrash"></i>
                         </div>
                       </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-center ">
-                      <div className="tempgenerated ">
-                        sssss
-                      </div>
+                      <div className="tempgenerated ">sssss</div>
                       <div className="d-flex">
-                        <div
-                          className="icondowninvoice"
-
-                        >
+                        <div className="icondowninvoice">
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
+                        <div className="iconpdfinvoice">
                           <i className="bi bi-trash invoicetrash"></i>
                         </div>
                       </div>
                     </div>
-
                   </div>
                 </td>
                 <td className="tdstyl">
                   <div className="templateouterinvoice">
-
                     <div className="d-flex justify-content-between align-items-center ">
-                      <div className="tempgenerated ">
-                        sssss
-                      </div>
+                      <div className="tempgenerated ">sssss</div>
                       <div className="d-flex">
-                        <div
-                          className="icondowninvoice"
-
-                        >
+                        <div className="icondowninvoice">
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
+                        <div className="iconpdfinvoice">
                           <i className="bi bi-trash invoicetrash"></i>
                         </div>
                       </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-center ">
-                      <div className="tempgenerated ">
-                        sssss
-                      </div>
+                      <div className="tempgenerated ">sssss</div>
                       <div className="d-flex">
-                        <div
-                          className="icondowninvoice"
-
-                        >
+                        <div className="icondowninvoice">
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
+                        <div className="iconpdfinvoice">
                           <i className="bi bi-trash invoicetrash"></i>
                         </div>
                       </div>
                     </div>
-
                   </div>
                 </td>
               </tr>
@@ -569,161 +440,91 @@ const InvoicePage = ({
                 <td className="tdstyl">60.000</td>
                 <td className="tdstyl">
                   <div className="templateouterinvoice">
-
                     <div className="d-flex justify-content-between align-items-center ">
-                      <div className="tempgenerated ">
-                        sssss
-                      </div>
+                      <div className="tempgenerated ">sssss</div>
                       <div className="d-flex">
-                        <div
-                          className="icondowninvoice"
-
-                        >
+                        <div className="icondowninvoice">
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
+                        <div className="iconpdfinvoice">
                           <i className="bi bi-trash invoicetrash"></i>
                         </div>
                       </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-center ">
-                      <div className="tempgenerated ">
-                        sssss
-                      </div>
+                      <div className="tempgenerated ">sssss</div>
                       <div className="d-flex">
-                        <div
-                          className="icondowninvoice"
-
-                        >
+                        <div className="icondowninvoice">
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
+                        <div className="iconpdfinvoice">
                           <i className="bi bi-trash invoicetrash"></i>
                         </div>
                       </div>
                     </div>
-
                   </div>
                 </td>
                 <td className="tdstyl">
                   <div className="templateouterinvoice">
-
                     <div className="d-flex justify-content-between align-items-center ">
-                      <div className="tempgenerated ">
-                        sssss
-                      </div>
+                      <div className="tempgenerated ">sssss</div>
                       <div className="d-flex">
-                        <div
-                          className="icondowninvoice"
-
-                        >
+                        <div className="icondowninvoice">
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
+                        <div className="iconpdfinvoice">
                           <i className="bi bi-trash invoicetrash"></i>
                         </div>
                       </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-center ">
-                      <div className="tempgenerated ">
-                        sssss
-                      </div>
+                      <div className="tempgenerated ">sssss</div>
                       <div className="d-flex">
-                        <div
-                          className="icondowninvoice"
-
-                        >
+                        <div className="icondowninvoice">
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-
                       </div>
                     </div>
-
                   </div>
                 </td>
               </tr>
             </tbody>
           </table>
-          <table className="tabmain">
-            <thead>
-              <tr>
-                <th className="tabhead">Description</th>
-                <th className="tabhead">Date</th>
-                <th className="tabhead">Time</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className="tdstyl">EOSP</td>
-                <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">11:56 AM</td>
-              </tr>
-              <tr>
-                <td className="tdstyl">Dropped The Anchor</td>
-                <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">11:56 AM</td>
-              </tr>
-              <tr>
-                <td className="tdstyl">Vessel Inward Submitted</td>
-                <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">11:56 AM</td>
-              </tr>
-              <tr>
-                <td className="tdstyl">Inward Customs Approved</td>
-                <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">11:56 AM</td>
-              </tr>
-              <tr>
-                <td className="tdstyl">Submitted for Port Clearence</td>
-                <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">11:56 AM</td>
-              </tr>
-              <tr>
-                <td className="tdstyl">Port Controlled Approved</td>
-                <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">11:56 AM</td>
-              </tr>
-              <tr>
-                <td className="tdstyl">Immigration Approved</td>
-                <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">11:56 AM</td>
-              </tr>
-              <tr>
-                <td className="tdstyl">Coast guard Approved</td>
-                <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">11:56 AM</td>
-              </tr>
-              <tr>
-                <td className="tdstyl">Customs Approved</td>
-                <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">11:56 AM</td>
-              </tr>
-              <tr>
-                <td className="tdstyl">Port Clearence Received</td>
-                <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">11:56 AM</td>
-              </tr>
-              <tr>
-                <td className="tdstyl">Port Clearence sent to Master</td>
-                <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">11:56 AM</td>
-              </tr>
-              <tr>
-                <td className="tdstyl">COSP</td>
-                <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">11:56 AM</td>
-              </tr>
-            </tbody>
-          </table>
+
+          {serviceReports?.length > 0 && (
+            <>
+              <table className="portofcallstyl mt-3">
+                <thead>
+                  <tr>
+                    <th className="PortofCallCountry">SL NO.</th>
+                    <th className="PortofCallCountry">DESCRIPTION</th>
+                    <th className="PortofCallCountry">DATE & TIME </th>
+                    <th className="PortofCallCountry">SERVICE ACTIVTIES</th>
+                    <th className="jobrefn">QUANTITY</th>
+                    <th className="PortofCallCountry">REMARKS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {serviceReports?.length > 0 &&
+                    serviceReports.map((report, index) => (
+                      <tr key={index}>
+                        <td className="pocstyl">{index + 1}</td>
+                        <td className="pocstyl">{report?.description}</td>
+                        <td className="pocstyl">
+                          {moment
+                            .utc(report?.serviceDate, "DD-MM-YYYY HH:mm")
+                            .format("DD-MM-YYYY HH:mm A")}
+                        </td>
+                        <td className="pocstyl">{report?.serviceActivity}</td>
+                        <td className="pocstyl">{report?.quantity}</td>
+                        <td className="pocstyl">{report?.remark}</td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </>
+          )}
+
           <div className="d-flex justify-content-center mt-4">
             <button
               className="btn btna submit-button"
@@ -732,7 +533,6 @@ const InvoicePage = ({
               }}
             >
               Accept
-
             </button>
 
             <button

@@ -193,6 +193,7 @@ const FinalReportDialog = ({ open, onClose, pdaId, ports }) => {
               <table className="portofcallstyl mt-3">
                 <thead>
                   <tr>
+                    <th className="PortofCallCountry">SL NO.</th>
                     <th className="PortofCallCountry">DESCRIPTION</th>
                     <th className="PortofCallCountry">DATE & TIME </th>
                     <th className="PortofCallCountry">SERVICE ACTIVTIES</th>
@@ -204,6 +205,7 @@ const FinalReportDialog = ({ open, onClose, pdaId, ports }) => {
                   {serviceReports?.length > 0 &&
                     serviceReports.map((report, index) => (
                       <tr key={index}>
+                        <td className="pocstyl">{index + 1}</td>
                         <td className="pocstyl">{report?.description}</td>
                         <td className="pocstyl">
                           {moment

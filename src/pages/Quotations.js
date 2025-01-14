@@ -38,6 +38,10 @@ const Quotations = ({
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
   const [selectedTab, setSelectedTab] = useState("all");
+
+  const acceptedIcon = require("../assets/images/accepted.png");
+  const rejectedIcon = require("../assets/images/rejected.png");
+
   const fetchQuotations = async (type) => {
     setSelectedTab(type);
 
@@ -159,7 +163,32 @@ const Quotations = ({
     { field: "port", headerName: "Port Name", flex: 2 },
     { field: "cargo", headerName: "Cargoes", flex: 2 },
     { field: "preparedBy", headerName: "Prepared By", flex: 1 },
-    { field: "status", headerName: "Status", flex: 2 },
+    {
+      field: "status",
+      headerName: "Status",
+      flex: 2,
+      renderCell: (params) => (
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <span>{params.value}</span>
+          {params.value === "Rejected By Finance Manager" && (
+            <img
+              src={rejectedIcon}
+              alt="Rejected Icon"
+              style={{ cursor: "pointer", width: "25px", height: "30px" }}
+              onClick={() => handleIconClick(params.row)} // Pass the row data
+            />
+          )}
+          {params.row.invoiceStatus === 3 && (
+            <img
+              src={acceptedIcon} // Replace with the path or variable for this icon
+              alt="Invoice Icon"
+              style={{ cursor: "pointer", width: "25px", height: "30px" }}
+              onClick={() => handleIconClick(params.row)} // Pass the row data
+            />
+          )}
+        </div>
+      ),
+    },
     {
       field: "actions",
       headerName: "Action",
@@ -183,6 +212,11 @@ const Quotations = ({
       ),
     },
   ];
+
+  const handleIconClick = (rowData) => {
+    console.log("Icon clicked for row:", rowData);
+    // Add your logic here
+  };
 
   const handleEdit = (row) => {
     console.log("Edit row", row);
@@ -448,11 +482,7 @@ const Quotations = ({
         </div>
       </div>
 
-      <div className=" tablequo">
-        <div className="quotation-outer-div">
-          <div>
-            <DataGrid
-              // rows={
+      {/*  rows={
               //   filteredQuotations.length > 0
               //     ? filteredQuotations.map((item) => ({
               //         id: item._id,
@@ -465,7 +495,12 @@ const Quotations = ({
               //         ...item,
               //       }))
               //     : []
-              // }
+              // } */}
+
+      <div className=" tablequo">
+        <div className="quotation-outer-div">
+          <div>
+            <DataGrid
               rows={rows}
               columns={columns}
               getRowId={(row) => row.id} // Use id field for unique row identification
