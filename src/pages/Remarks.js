@@ -23,7 +23,13 @@ import {
   Paper,
 } from "@mui/material";
 import { AttachFile, Delete, Visibility } from "@mui/icons-material";
-const Remarks = ({ open, onClose, onRemarksSubmit }) => {
+const Remarks = ({
+  open,
+  onClose,
+  onRemarksSubmit,
+  isReadOnly,
+  remarksMessage,
+}) => {
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
   const [remarks, setRemarks] = useState("");
@@ -46,7 +52,7 @@ const Remarks = ({ open, onClose, onRemarksSubmit }) => {
         maxWidth="sm"
       >
         <div className="d-flex justify-content-between">
-          <DialogTitle>Remarks</DialogTitle>
+          <DialogTitle>{isReadOnly ? "Message" : "Remarks"}</DialogTitle>
           <div className="closeicon" onClick={onClose}>
             <i className="bi bi-x-lg "></i>
           </div>
@@ -58,16 +64,32 @@ const Remarks = ({ open, onClose, onRemarksSubmit }) => {
               <div className="col">
                 <div className="mb-3">
                   <div className="col">
-                    <textarea
-                      rows="5"
-                      className="form-control"
-                      id="exampleFormControlInput1"
-                      placeholder="Remarks"
-                      value={remarks}
-                      onChange={(e) => {
-                        setRemarks(e.target.value);
-                      }}
-                    ></textarea>
+                    {isReadOnly && (
+                      <>
+                        <textarea
+                          rows="5"
+                          className="form-control read-only-textarea"
+                          id="exampleFormControlInput1"
+                          placeholder="Remarks"
+                          value={remarksMessage}
+                          readOnly
+                        ></textarea>
+                      </>
+                    )}
+                    {!isReadOnly && (
+                      <>
+                        <textarea
+                          rows="5"
+                          className="form-control"
+                          id="exampleFormControlInput1"
+                          placeholder="Remarks"
+                          value={remarks}
+                          onChange={(e) => {
+                            setRemarks(e.target.value);
+                          }}
+                        ></textarea>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>

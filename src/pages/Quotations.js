@@ -17,7 +17,7 @@ import PopUp from "./PopUp";
 import SendInvoice from "./SendInvoice";
 import InvoicePdf from "./InvoicePdf";
 import InvoicePage from "./InvoicePage";
-
+import Remarks from "./Remarks";
 const Quotations = ({
   loginResponse,
   services,
@@ -38,9 +38,11 @@ const Quotations = ({
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
   const [selectedTab, setSelectedTab] = useState("all");
+  const [remarksOpen, setRemarksOpen] = useState(false);
 
   const acceptedIcon = require("../assets/images/accepted.png");
   const rejectedIcon = require("../assets/images/rejected.png");
+  const messageIcon = require("../assets/images/chat_icon.png");
 
   const fetchQuotations = async (type) => {
     setSelectedTab(type);
@@ -170,19 +172,27 @@ const Quotations = ({
       renderCell: (params) => (
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
           <span>{params.value}</span>
-          {params.value === "Rejected By Finance Manager" && (
+          {params.row.invoiceStatus == 2 && (
             <img
               src={rejectedIcon}
               alt="Rejected Icon"
-              style={{ cursor: "pointer", width: "25px", height: "30px" }}
+              style={{ cursor: "default", width: "25px", height: "30px" }}
               onClick={() => handleIconClick(params.row)} // Pass the row data
+            />
+          )}
+          {params.row.rejectedRemark && (
+            <img
+              src={messageIcon}
+              alt="Rejected Icon"
+              style={{ cursor: "pointer", width: "25px", height: "30px" }}
+              onClick={() => handleRemarkClick(params.row)} // Pass the row data
             />
           )}
           {params.row.invoiceStatus === 3 && (
             <img
               src={acceptedIcon} // Replace with the path or variable for this icon
               alt="Invoice Icon"
-              style={{ cursor: "pointer", width: "25px", height: "30px" }}
+              style={{ cursor: "default", width: "25px", height: "30px" }}
               onClick={() => handleIconClick(params.row)} // Pass the row data
             />
           )}
@@ -212,10 +222,28 @@ const Quotations = ({
       ),
     },
   ];
-
-  const handleIconClick = (rowData) => {
+  const [remarksMessage, setRemarksMessage] = useState("");
+  const handleRemarkClick = (rowData) => {
     console.log("Icon clicked for row:", rowData);
     // Add your logic here
+    handleRemarksOpen();
+    setRemarksMessage(rowData?.rejectedRemark);
+  };
+  const handleIconClick = (rowData) => {
+    console.log("Icon clicked for row:", rowData);
+  };
+
+  const handleRemarksOpen = () => {
+    setRemarksOpen(true);
+  };
+
+  const handleRemarksClose = () => {
+    setRemarksOpen(false);
+  };
+
+  const handleRemarksSubmit = async (remark) => {
+    console.log(remark, "handleRemarksSubmit");
+    setRemarksOpen(false);
   };
 
   const handleEdit = (row) => {
@@ -624,6 +652,13 @@ const Quotations = ({
         ports={ports}
         vendors={vendors}
         vessels={vessels}
+      />
+      <Remarks
+        open={remarksOpen}
+        onClose={handleRemarksClose}
+        onRemarksSubmit={handleRemarksSubmit}
+        isReadOnly={true}
+        remarksMessage={remarksMessage}
       />
     </>
   );

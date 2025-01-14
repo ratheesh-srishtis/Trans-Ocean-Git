@@ -1407,6 +1407,7 @@ const CreatePDA = ({
         open={remarksOpen}
         onClose={handleRemarksClose}
         onRemarksSubmit={handleRemarksSubmit}
+        isReadOnly={false}
       />
       <PdaDialog
         open={generatePDAOpen}
