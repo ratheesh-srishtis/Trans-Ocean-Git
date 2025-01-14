@@ -295,7 +295,7 @@ const CustomerPayments = () => {
         </div>
         <div className="">
           {/*<i className="bi bi-funnel-fill filtericon"></i>*/}
-          <input type="date" name="paymentDate" class="datebycustomerpayment form-select vesselbox statusspayment" placeholder="Select Date" onChange={handleTimeperiod} value={inputFilterDate}></input>
+          <input type="date" name="paymentDate" class="datebycustomerpayment form-control vesselbox statusspayment" placeholder="Select Date" onChange={handleTimeperiod} value={inputFilterDate}></input>
        
         </div>
         <div className="voucherbypayment">
@@ -341,7 +341,7 @@ const CustomerPayments = () => {
         {period === "month" && (
         <select
           name="month"
-          className="form-select jobporrt mmonth" aria-label="Select Month"
+          className="form-select jobporrt mmonth monthcustomerpay" aria-label="Select Month"
           onChange={handleTimeperiod}
         >
           <option value="">Select Month</option>
@@ -354,7 +354,7 @@ const CustomerPayments = () => {
       {period === "year" && (
         <select
           name="year"
-          className="form-select jobporrt mmonth" aria-label="Select Year"
+          className="form-select jobporrt mmonth monthcustomerpay" aria-label="Select Year"
           onChange={handleTimeperiod}
         >
           <option value="">Select Year</option>

@@ -146,12 +146,12 @@ const InvoicePage = ({
             <tbody>
 
               <tr>
-                <td className="tdstylwidt">1</td>
-                <td className="tdstyl"> Marine Charges</td>
-                <td className="tdstyl"> $20</td>
-                <td className="tdstyl">PerDay </td>
-                <td className="tdstyl">100.000</td>
-                <td className="tdstyl">
+                <td className="tdstylwidtinvoice">1</td>
+                <td className="tdstylinvoice"> Marine Charges</td>
+                <td className="tdstylinvoice"> $20</td>
+                <td className="tdstylinvoice">PerDay </td>
+                <td className="tdstylinvoice">100.000</td>
+                <td className="tdstylinvoice">
                   <div className="templateouterinvoice">
 
                     <div className="d-flex justify-content-between align-items-center ">
@@ -165,12 +165,7 @@ const InvoicePage = ({
                         >
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
-                          <i className="bi bi-trash invoicetrash"></i>
-                        </div>
+                        
                       </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-center ">
@@ -184,12 +179,7 @@ const InvoicePage = ({
                         >
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
-                          <i className="bi bi-trash invoicetrash"></i>
-                        </div>
+                       
                       </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-center ">
@@ -203,17 +193,12 @@ const InvoicePage = ({
                         >
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
-                          <i className="bi bi-trash invoicetrash"></i>
-                        </div>
+                       
                       </div>
                     </div>
                   </div>
                 </td>
-                <td className="tdstyl">
+                <td className="tdstylinvoice">
                   <div className="templateouterinvoice">
 
                     <div className="d-flex justify-content-between align-items-center ">
@@ -227,12 +212,7 @@ const InvoicePage = ({
                         >
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
-                          <i className="bi bi-trash invoicetrash"></i>
-                        </div>
+                        
                       </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-center ">
@@ -246,12 +226,7 @@ const InvoicePage = ({
                         >
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
-                          <i className="bi bi-trash invoicetrash"></i>
-                        </div>
+                        
                       </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-center ">
@@ -265,24 +240,19 @@ const InvoicePage = ({
                         >
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
-                          <i className="bi bi-trash invoicetrash"></i>
-                        </div>
+                        
                       </div>
                     </div>
                   </div>
                 </td>
               </tr>
               <tr>
-                <td className="tdstylwidt">2</td>
-                <td className="tdstyl">Otherport Charges</td>
-                <td className="tdstyl"> $20</td>
-                <td className="tdstyl">2Tugs* 2Hours </td>
-                <td className="tdstyl">60.000</td>
-                <td className="tdstyl">
+                <td className="tdstylwidtinvoice">2</td>
+                <td className="tdstylinvoice">Otherport Charges</td>
+                <td className="tdstylinvoice"> $20</td>
+                <td className="tdstylinvoice">2Tugs* 2Hours </td>
+                <td className="tdstylinvoice">60.000</td>
+                <td className="tdstylinvoice">
                   <div className="templateouterinvoice">
 
                     <div className="d-flex justify-content-between align-items-center ">
@@ -296,12 +266,7 @@ const InvoicePage = ({
                         >
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
-                          <i className="bi bi-trash invoicetrash"></i>
-                        </div>
+                       
                       </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-center ">
@@ -315,18 +280,13 @@ const InvoicePage = ({
                         >
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
-                          <i className="bi bi-trash invoicetrash"></i>
-                        </div>
+                        
                       </div>
                     </div>
 
                   </div>
                 </td>
-                <td className="tdstyl">
+                <td className="tdstylinvoice">
                   <div className="templateouterinvoice">
 
                     <div className="d-flex justify-content-between align-items-center ">
@@ -340,12 +300,7 @@ const InvoicePage = ({
                         >
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
-                          <i className="bi bi-trash invoicetrash"></i>
-                        </div>
+                       
                       </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-center ">
@@ -359,12 +314,7 @@ const InvoicePage = ({
                         >
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
-                          <i className="bi bi-trash invoicetrash"></i>
-                        </div>
+                        
                       </div>
                     </div>
 
@@ -372,12 +322,12 @@ const InvoicePage = ({
                 </td>
               </tr>
               <tr>
-                <td className="tdstylwidt">3</td>
-                <td className="tdstyl"> Arabian Maritime & Navigation Services</td>
-                <td className="tdstyl"> $20</td>
-                <td className="tdstyl">2*move </td>
-                <td className="tdstyl">60.000</td>
-                <td className="tdstyl">
+                <td className="tdstylwidtinvoice">3</td>
+                <td className="tdstylinvoice"> Arabian Maritime & Navigation Services</td>
+                <td className="tdstylinvoice"> $20</td>
+                <td className="tdstylinvoice">2*move </td>
+                <td className="tdstylinvoice">60.000</td>
+                <td className="tdstylinvoice">
                   <div className="templateouterinvoice">
 
                     <div className="d-flex justify-content-between align-items-center ">
@@ -391,12 +341,7 @@ const InvoicePage = ({
                         >
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
-                          <i className="bi bi-trash invoicetrash"></i>
-                        </div>
+                        
                       </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-center ">
@@ -410,18 +355,13 @@ const InvoicePage = ({
                         >
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
-                          <i className="bi bi-trash invoicetrash"></i>
-                        </div>
+                        
                       </div>
                     </div>
 
                   </div>
                 </td>
-                <td className="tdstyl">
+                <td className="tdstylinvoice">
                   <div className="templateouterinvoice">
 
                     <div className="d-flex justify-content-between align-items-center ">
@@ -435,12 +375,7 @@ const InvoicePage = ({
                         >
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
-                          <i className="bi bi-trash invoicetrash"></i>
-                        </div>
+                        
                       </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-center ">
@@ -454,12 +389,7 @@ const InvoicePage = ({
                         >
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
-                          <i className="bi bi-trash invoicetrash"></i>
-                        </div>
+                        
                       </div>
                     </div>
 
@@ -467,12 +397,12 @@ const InvoicePage = ({
                 </td>
               </tr>
               <tr>
-                <td className="tdstylwidt">4</td>
-                <td className="tdstyl"> Husbandry services</td>
-                <td className="tdstyl"> $20</td>
-                <td className="tdstyl">2*move </td>
-                <td className="tdstyl">60.000</td>
-                <td className="tdstyl">
+                <td className="tdstylwidtinvoice">4</td>
+                <td className="tdstylinvoice"> Husbandry services</td>
+                <td className="tdstylinvoice"> $20</td>
+                <td className="tdstylinvoice">2*move </td>
+                <td className="tdstylinvoice">60.000</td>
+                <td className="tdstylinvoice">
                   <div className="templateouterinvoice">
 
                     <div className="d-flex justify-content-between align-items-center ">
@@ -486,12 +416,7 @@ const InvoicePage = ({
                         >
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
-                          <i className="bi bi-trash invoicetrash"></i>
-                        </div>
+                        
                       </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-center ">
@@ -505,18 +430,13 @@ const InvoicePage = ({
                         >
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
-                          <i className="bi bi-trash invoicetrash"></i>
-                        </div>
+                        
                       </div>
                     </div>
 
                   </div>
                 </td>
-                <td className="tdstyl">
+                <td className="tdstylinvoice">
                   <div className="templateouterinvoice">
 
                     <div className="d-flex justify-content-between align-items-center ">
@@ -530,12 +450,7 @@ const InvoicePage = ({
                         >
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
-                          <i className="bi bi-trash invoicetrash"></i>
-                        </div>
+                        
                       </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-center ">
@@ -549,12 +464,7 @@ const InvoicePage = ({
                         >
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
-                          <i className="bi bi-trash invoicetrash"></i>
-                        </div>
+                       
                       </div>
                     </div>
 
@@ -562,12 +472,12 @@ const InvoicePage = ({
                 </td>
               </tr>
               <tr>
-                <td className="tdstylwidt">5</td>
-                <td className="tdstyl"> OtherCharges</td>
-                <td className="tdstyl"> $20</td>
-                <td className="tdstyl">2*move </td>
-                <td className="tdstyl">60.000</td>
-                <td className="tdstyl">
+                <td className="tdstylwidtinvoice">5</td>
+                <td className="tdstylinvoice"> OtherCharges</td>
+                <td className="tdstylinvoice"> $20</td>
+                <td className="tdstylinvoice">2*move </td>
+                <td className="tdstylinvoice">60.000</td>
+                <td className="tdstylinvoice">
                   <div className="templateouterinvoice">
 
                     <div className="d-flex justify-content-between align-items-center ">
@@ -581,12 +491,7 @@ const InvoicePage = ({
                         >
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
-                          <i className="bi bi-trash invoicetrash"></i>
-                        </div>
+                        
                       </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-center ">
@@ -600,18 +505,13 @@ const InvoicePage = ({
                         >
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
-                          <i className="bi bi-trash invoicetrash"></i>
-                        </div>
+                        
                       </div>
                     </div>
 
                   </div>
                 </td>
-                <td className="tdstyl">
+                <td className="tdstylinvoice">
                   <div className="templateouterinvoice">
 
                     <div className="d-flex justify-content-between align-items-center ">
@@ -625,12 +525,7 @@ const InvoicePage = ({
                         >
                           <i className="bi bi-eye invoiceeyee"></i>
                         </div>
-                        <div
-                          className="iconpdfinvoice"
-
-                        >
-                          <i className="bi bi-trash invoicetrash"></i>
-                        </div>
+                       
                       </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-center ">
@@ -663,64 +558,64 @@ const InvoicePage = ({
             </thead>
             <tbody>
               <tr>
-                <td className="tdstyl">EOSP</td>
-                <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">11:56 AM</td>
+                <td className="tdstylinvoice">EOSP</td>
+                <td className="tdstylinvoice"> 01/02/2025</td>
+                <td className="tdstylinvoice">11:56 AM</td>
               </tr>
               <tr>
-                <td className="tdstyl">Dropped The Anchor</td>
-                <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">11:56 AM</td>
+                <td className="tdstylinvoice">Dropped The Anchor</td>
+                <td className="tdstylinvoice"> 01/02/2025</td>
+                <td className="tdstylinvoice">11:56 AM</td>
               </tr>
               <tr>
-                <td className="tdstyl">Vessel Inward Submitted</td>
-                <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">11:56 AM</td>
+                <td className="tdstylinvoice">Vessel Inward Submitted</td>
+                <td className="tdstylinvoice"> 01/02/2025</td>
+                <td className="tdstylinvoice">11:56 AM</td>
               </tr>
               <tr>
-                <td className="tdstyl">Inward Customs Approved</td>
-                <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">11:56 AM</td>
+                <td className="tdstylinvoice">Inward Customs Approved</td>
+                <td className="tdstylinvoice"> 01/02/2025</td>
+                <td className="tdstylinvoice">11:56 AM</td>
               </tr>
               <tr>
-                <td className="tdstyl">Submitted for Port Clearence</td>
-                <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">11:56 AM</td>
+                <td className="tdstylinvoice">Submitted for Port Clearence</td>
+                <td className="tdstylinvoice"> 01/02/2025</td>
+                <td className="tdstylinvoice">11:56 AM</td>
               </tr>
               <tr>
-                <td className="tdstyl">Port Controlled Approved</td>
-                <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">11:56 AM</td>
+                <td className="tdstylinvoice">Port Controlled Approved</td>
+                <td className="tdstylinvoice"> 01/02/2025</td>
+                <td className="tdstylinvoice">11:56 AM</td>
               </tr>
               <tr>
-                <td className="tdstyl">Immigration Approved</td>
-                <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">11:56 AM</td>
+                <td className="tdstylinvoice">Immigration Approved</td>
+                <td className="tdstylinvoice"> 01/02/2025</td>
+                <td className="tdstylinvoice">11:56 AM</td>
               </tr>
               <tr>
-                <td className="tdstyl">Coast guard Approved</td>
-                <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">11:56 AM</td>
+                <td className="tdstylinvoice">Coast guard Approved</td>
+                <td className="tdstylinvoice"> 01/02/2025</td>
+                <td className="tdstylinvoice">11:56 AM</td>
               </tr>
               <tr>
-                <td className="tdstyl">Customs Approved</td>
-                <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">11:56 AM</td>
+                <td className="tdstylinvoice">Customs Approved</td>
+                <td className="tdstylinvoice"> 01/02/2025</td>
+                <td className="tdstylinvoice">11:56 AM</td>
               </tr>
               <tr>
-                <td className="tdstyl">Port Clearence Received</td>
-                <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">11:56 AM</td>
+                <td className="tdstylinvoice">Port Clearence Received</td>
+                <td className="tdstylinvoice"> 01/02/2025</td>
+                <td className="tdstylinvoice">11:56 AM</td>
               </tr>
               <tr>
-                <td className="tdstyl">Port Clearence sent to Master</td>
-                <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">11:56 AM</td>
+                <td className="tdstylinvoice">Port Clearence sent to Master</td>
+                <td className="tdstylinvoice"> 01/02/2025</td>
+                <td className="tdstylinvoice">11:56 AM</td>
               </tr>
               <tr>
-                <td className="tdstyl">COSP</td>
-                <td className="tdstyl"> 01/02/2025</td>
-                <td className="tdstyl">11:56 AM</td>
+                <td className="tdstylinvoice">COSP</td>
+                <td className="tdstylinvoice"> 01/02/2025</td>
+                <td className="tdstylinvoice">11:56 AM</td>
               </tr>
             </tbody>
           </table>
