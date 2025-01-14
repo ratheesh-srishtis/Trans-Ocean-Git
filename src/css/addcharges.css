@@ -12,7 +12,7 @@
   margin-bottom: 15px;
 }
 
-.headnamevendor{
+.headnamevendor {
   font-size: 16px;
   font-weight: bold;
   font-style: italic;
@@ -107,7 +107,7 @@
   font-size: 17px;
   margin-bottom: 30px;
 }
-.qty{
+.qty {
   /* margin: 250px; */
 }
 
@@ -214,10 +214,10 @@
 
 .left-spc {
   padding-left: 10px;
-  padding-right:2px;
+  padding-right: 2px;
 }
 
-.quantitypadding{
+.quantitypadding {
   margin-right: 0px;
   padding-right: 0px;
 }
@@ -226,4 +226,8 @@
 }
 .bold-row td {
   font-weight: bolder;
+}
+
+.read-only-textarea {
+  cursor: default !important;
 }
