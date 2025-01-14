@@ -43,10 +43,14 @@ const App = () => {
     fetchPdaValues();
   }, []);
 
+  // <Router basename="/project/transocean">
+  // https://transocean.srishtis.com/
+  // "homepage": "https://hybrid.sicsglobal.com/project/transocean/",
+
   return (
     <>
       <ErrorBoundary>
-        <Router basename="/project/transocean">
+        <Router basename="/">
           <AuthProvider>
             <Routes>
               <Route path="/login" element={<Login />} />

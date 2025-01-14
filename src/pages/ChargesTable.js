@@ -345,10 +345,14 @@ const ChargesTable = ({
                             >
                               {" "}
                             </i>
-                            <i
-                              className="bi bi-trash deleteicon"
-                              onClick={() => handleDelete(charge, index)}
-                            ></i>
+                            {pdaResponse?.pdaStatus != 7 && (
+                              <>
+                                <i
+                                  className="bi bi-trash deleteicon"
+                                  onClick={() => handleDelete(charge, index)}
+                                ></i>
+                              </>
+                            )}
                           </td>
                         </>
                       )}
@@ -481,10 +485,14 @@ const ChargesTable = ({
                             >
                               {" "}
                             </i>
-                            <i
-                              className="bi bi-trash deleteicon"
-                              onClick={() => handleDelete(charge, index)}
-                            ></i>
+                            {pdaResponse?.pdaStatus != 7 && (
+                              <>
+                                <i
+                                  className="bi bi-trash deleteicon"
+                                  onClick={() => handleDelete(charge, index)}
+                                ></i>
+                              </>
+                            )}
                           </td>
                         </>
                       )}

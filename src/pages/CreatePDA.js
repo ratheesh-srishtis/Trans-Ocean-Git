@@ -526,7 +526,7 @@ const CreatePDA = ({
   }, []);
 
   useEffect(() => {
-    console.log(pdaResponse, "pdaResponse");
+    console.log(pdaResponse, "pdaResponse_createPDA");
   }, [pdaResponse]);
 
   useEffect(() => {
@@ -1176,17 +1176,21 @@ const CreatePDA = ({
                   onChange={handleInputChange}
                 />
               </div>
-              <div className="col-2">
-                <button
-                  type="button"
-                  className="btn addcharge-button text-center"
-                  onClick={() => {
-                    openDialog();
-                  }}
-                >
-                  Add charge
-                </button>
-              </div>
+              {pdaResponse?.pdaStatus != 7 && (
+                <>
+                  <div className="col-2">
+                    <button
+                      type="button"
+                      className="btn addcharge-button text-center"
+                      onClick={() => {
+                        openDialog();
+                      }}
+                    >
+                      Add charge
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
 
@@ -1289,56 +1293,62 @@ const CreatePDA = ({
                     )} */}
                   </div>
 
-                  <div className="right d-flex">
-                    {pdaResponse?.pdaStatus >= 3 && isApproved == true && (
-                      <>
+                  {pdaResponse?.pdaStatus != 7 && (
+                    <>
+                      <div className="right d-flex">
+                        {pdaResponse?.pdaStatus >= 3 && isApproved == true && (
+                          <>
+                            <button
+                              className="btn btna submit-button"
+                              onClick={() => {
+                                sendQuotation();
+                              }}
+                            >
+                              Send Quotation
+                            </button>
+                          </>
+                        )}
+
                         <button
                           className="btn btna submit-button"
                           onClick={() => {
-                            sendQuotation();
+                            const newStatus =
+                              !pdaResponse || pdaResponse?.pdaStatus === 1
+                                ? 2
+                                : 0;
+                            submitPda(newStatus);
                           }}
                         >
-                          Send Quotation
+                          Submit
                         </button>
-                      </>
-                    )}
-
-                    <button
-                      className="btn btna submit-button"
-                      onClick={() => {
-                        const newStatus =
-                          !pdaResponse || pdaResponse?.pdaStatus === 1 ? 2 : 0;
-                        submitPda(newStatus);
-                      }}
-                    >
-                      Submit
-                    </button>
-                    {(pdaResponse?.pdaStatus == 2 ||
-                      pdaResponse?.pdaStatus == 4) && (
-                      <>
-                        <button
-                          className="btn btna generate-button"
-                          onClick={() => {
-                            updateQuotation("3");
-                          }}
-                        >
-                          Approve
-                        </button>
-                      </>
-                    )}
-                    {pdaResponse?.pdaStatus == 2 && (
-                      <>
-                        <button
-                          className="btn btna generate-button"
-                          onClick={() => {
-                            updateQuotation("4");
-                          }}
-                        >
-                          Reject
-                        </button>
-                      </>
-                    )}
-                  </div>
+                        {(pdaResponse?.pdaStatus == 2 ||
+                          pdaResponse?.pdaStatus == 4) && (
+                          <>
+                            <button
+                              className="btn btna generate-button"
+                              onClick={() => {
+                                updateQuotation("3");
+                              }}
+                            >
+                              Approve
+                            </button>
+                          </>
+                        )}
+                        {pdaResponse?.pdaStatus == 2 && (
+                          <>
+                            <button
+                              className="btn btna generate-button"
+                              onClick={() => {
+                                updateQuotation("4");
+                              }}
+                            >
+                              Reject
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    </>
+                  )}
                 </div>
               </React.Fragment>
             </>
