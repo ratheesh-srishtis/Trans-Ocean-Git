@@ -24,3 +24,10 @@
 .invoicetrash{
     font-size: 12px;
 }
+.tdstylinvoice{
+    border-bottom: 1px solid #ddd; padding: 8px; text-align: left;
+    border-left: 1px solid #ddd;
+}
+.tdstylwidtinvoice{
+    border-bottom: 1px solid #ddd; padding: 8px; text-align: left; width:90px; border-left: 1px solid #ddd;
+}
