@@ -245,7 +245,7 @@ import PopUp from "../PopUp";
           </label>
           <div className="vessel-select">
             <select
-              className="form-select vesselbox statuss" name="vendors" value={selectedVendorid || ''} onChange={handleChange}>
+              className="form-select vesselbox statusscustomer" name="vendors" value={selectedVendorid || ''} onChange={handleChange}>
                {vendorList.map((vendor)=>(
                   <option key= {vendor._id} value={vendor._id}>{vendor.vendorName} {""}</option>
                  ))}
@@ -253,10 +253,10 @@ import PopUp from "../PopUp";
              </select>
           </div>
         </div>
-        <div className="pdadate">
+        <div className="cusbydate">
           <label
             for="inputPassword"
-            className=" col-form-label text-nowrap"
+            className=" col-form-label text-nowrap paymedatepaymentpage"
           >
             Payment Date:
           </label>
@@ -268,7 +268,7 @@ import PopUp from "../PopUp";
         </div>
         <div className="">
           {/*<i className="bi bi-funnel-fill filtericon"></i>*/}
-         <input type="date" name="search-voucher-date" class="sortpayment form-select vesselbox statusspayment" placeholder="Select Date" onChange={handleTimeperiod} value={inputFilterDate}></input>
+         <input type="date" name="search-voucher-date" class="datebycustomerpayment form-control vesselbox statusspayment" placeholder="Select Date" onChange={handleTimeperiod} value={inputFilterDate}></input>
        
         </div>
         <div className=" d-flex filterpayment">
@@ -282,7 +282,7 @@ import PopUp from "../PopUp";
           <div className="vessel-select">
           <select 
         name="status"
-        className="form-select vesselbox statuss"
+        className="form-select vesselbox statussbycustomer"
         onChange={(e) => setPeriod(e.target.value)}
         value={period}
       >
@@ -298,7 +298,7 @@ import PopUp from "../PopUp";
         {period === "month" && (
         <select
           name="month"
-          className="form-select vesselbox monthlist"
+          className="form-select jobporrt mmonth monthcustomerpay"
           onChange={handleTimeperiod}
         >
           <option value="">Select Month</option>
@@ -311,7 +311,7 @@ import PopUp from "../PopUp";
       {period === "year" && (
         <select
           name="year"
-          className="form-select vesselbox yearlist"
+          className="form-select vesselbox yearlist mmonth monthcustomerpay"
           onChange={handleTimeperiod}
         >
           <option value="">Select Year</option>

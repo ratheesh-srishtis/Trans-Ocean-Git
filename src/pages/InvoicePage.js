@@ -402,12 +402,12 @@ const InvoicePage = ({
               <table className="portofcallstyl mt-3">
                 <thead>
                   <tr>
-                    <th className="PortofCallCountry">SL NO.</th>
-                    <th className="PortofCallCountry">DESCRIPTION</th>
-                    <th className="PortofCallCountry">DATE & TIME </th>
-                    <th className="PortofCallCountry">SERVICE ACTIVTIES</th>
-                    <th className="jobrefn">QUANTITY</th>
-                    <th className="PortofCallCountry">REMARKS</th>
+                    <th className="PortofCallCountry">Sl No.</th>
+                    <th className="PortofCallCountry">Description</th>
+                    <th className="PortofCallCountry">Date & Time </th>
+                    <th className="PortofCallCountry">Service Activities</th>
+                    <th className="jobrefn">Quantity</th>
+                    <th className="PortofCallCountry">Remarks</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -431,7 +431,7 @@ const InvoicePage = ({
             </>
           )}
 
-          <div className="ml-2">
+          <div className="ml-2 mt-3">
             {uploadedFiles && uploadedFiles?.length > 0 && (
               <>
                 <div className="templatelink">Uploaded Files:</div>
