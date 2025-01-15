@@ -176,7 +176,7 @@ const Quotations = ({
             <img
               src={rejectedIcon}
               alt="Rejected Icon"
-              style={{ cursor: "default", width: "25px", height: "30px" }}
+              style={{ cursor: "default", width: "13px", height: "16px" }}
               onClick={() => handleIconClick(params.row)} // Pass the row data
             />
           )}
@@ -184,7 +184,7 @@ const Quotations = ({
             <img
               src={messageIcon}
               alt="Rejected Icon"
-              style={{ cursor: "pointer", width: "25px", height: "30px" }}
+              style={{ cursor: "pointer", width: "13px", height: "16px" }}
               onClick={() => handleRemarkClick(params.row)} // Pass the row data
             />
           )}
@@ -192,7 +192,7 @@ const Quotations = ({
             <img
               src={acceptedIcon} // Replace with the path or variable for this icon
               alt="Invoice Icon"
-              style={{ cursor: "default", width: "25px", height: "30px" }}
+              style={{ cursor: "default", width: "13px", height: "16px" }}
               onClick={() => handleIconClick(params.row)} // Pass the row data
             />
           )}
