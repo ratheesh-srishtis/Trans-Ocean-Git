@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "../css/settings.css";
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import {
   getAllPermissions,
@@ -8,6 +9,7 @@ import {
 import PopUp from "../pages/PopUp";
 const AddRole = ({ open, onAddRole, onClose, editMode, roleSet }) => {
   const [PermissionList, setPermissionList] = useState([]);
+  const [FunctioanlityPermissionList, setFunctioanlityPermissionList] = useState([]);
   const [formData, setFormData] = useState({
     role: "",
     designation: "",
@@ -42,6 +44,7 @@ const AddRole = ({ open, onAddRole, onClose, editMode, roleSet }) => {
     try {
       const listallpermisssions = await getAllPermissions();
       setPermissionList(listallpermisssions?.permissions || []);
+      setFunctioanlityPermissionList(listallpermisssions?.functionalityPermissions || []);
     } catch (error) {
       console.error("Failed to fetch permissions", error);
     }
@@ -186,31 +189,69 @@ const AddRole = ({ open, onAddRole, onClose, editMode, roleSet }) => {
                 )}
               </div>
             </div>
-            <div className="choosepermi">Choose Permissions</div>
-            <div className="permissionlist gap-5">
+<div className="d-flex addrolepermissions">
+              {/* choosesidebarpermissions */}
               <div>
-                {PermissionList.map((perm) => (
-                  <div key={perm._id}>
-                    <input
-                      type="checkbox"
-                      className="checkboxrole"
-                      name="permissions[]"
-                      checked={formData.permissions.includes(perm._id)}
-                      value={perm._id}
-                      onChange={handleCheckboxChange(perm._id)}
-                    />
-                    <label for="" className="permissionfont">
-                      {" "}
-                      {perm.permission.toUpperCase()}
-                    </label>
-                  </div>
-                ))}
+              <div className="choosepermi">Choose Sidebar Permissions
 
-                {errors.permissions && (
-                  <span className="invalid">{errors.permissions}</span>
-                )}
+              </div>
+              <div className="permissionlist gap-5">
+                <div>
+                  {PermissionList.map((perm) => (
+                    <div key={perm._id}>
+                      <input
+                        type="checkbox"
+                        className="checkboxrole"
+                        name="permissions[]"
+                        checked={formData.permissions.includes(perm._id)}
+                        value={perm._id}
+                        onChange={handleCheckboxChange(perm._id)}
+                      />
+                      <label for="" className="permissionfont">
+                        {" "}
+                        {perm.permission.toUpperCase()}
+                      </label>
+                    </div>
+                  ))}
+
+                  {errors.permissions && (
+                    <span className="invalid">{errors.permissions}</span>
+                  )}
+                </div>
               </div>
             </div>
+            {/* choosefunctionalitypermissions */}
+            <div className="funpermission">
+              <div className="choosepermi">
+                Choose Functionality Permissions
+
+              </div>
+              <div className="permissionlist gap-5">
+                <div>
+                  {FunctioanlityPermissionList.map((permf) => (
+                    <div key={permf._id}>
+                      <input
+                        type="checkbox"
+                        className="checkboxrole"
+                        name="permissions[]"
+                        checked={formData.permissions.includes(permf._id)}
+                        value={permf._id}
+                        onChange={handleCheckboxChange(permf._id)}
+                      />
+                      <label for="" className="permissionfont">
+                        {" "}
+                        {permf.permission.toUpperCase()}
+                      </label>
+                    </div>
+                  ))}
+
+                  {errors.permissions && (
+                    <span className="invalid">{errors.permissions}</span>
+                  )}
+                </div>
+              </div>
+            </div>
+</div>
             <div className="btnrole">
               <button type="submit" className="btn btna submit-button btnfsize">
                 Submit

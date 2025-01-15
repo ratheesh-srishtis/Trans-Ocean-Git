@@ -428,7 +428,7 @@ const InvoicePage = ({
             </>
           )}
 
-          <div className="ml-2">
+          <div className="ml-2 mt-3">
             {uploadedFiles && uploadedFiles?.length > 0 && (
               <>
                 <div className="templatelink">Uploaded Files:</div>
