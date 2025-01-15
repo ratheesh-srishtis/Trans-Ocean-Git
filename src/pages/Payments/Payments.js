@@ -14,7 +14,11 @@ const Payments = () => {
       voucher:"",
      
     });
-    
+  const loginResponse = JSON.parse(localStorage.getItem("loginResponse"));
+  const currentroleType = loginResponse.data?.userRole?.roleType;
+  const permissions = loginResponse.permission;
+  console.log(permissions,"####");
+  
   const fetchCustomerList = async () => {
     try {
       let payload = {sortByName:true};
@@ -80,28 +84,38 @@ const Payments = () => {
             <div className="row ">
               <div className="col-6">
                 <div className="mb-3">
-                  <label for="exampleFormControlInput1" className="form-label customerpayment">
-                    Customer Payment:
-                  </label>
-                  <div className="vessel-select">
-                    <select
-                      name="customers" id="customers" onChange={handleChange}
-                      value={formData.customers}
-                      className="form-select vesselbox vboxholder paymentcustomer"
-                    >
-                      <option value="">Choose Customer Name</option>
-                      {CustomerList.map((customer) => (
-                        <option key={customer._id} value={customer._id}>
-                          {customer.customerName}{" "}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                {(currentroleType !== 'finance' || (currentroleType === 'finance' && permissions.includes('receivables'))) && (
+  <>
+    <label for="exampleFormControlInput1" className="form-label customerpayment">
+      Customer Payment:
+    </label>
+    <div className="vessel-select">
+      <select
+        name="customers"
+        id="customers"
+        onChange={handleChange}
+        value={formData.customers}
+        className="form-select vesselbox vboxholder paymentcustomer"
+      >
+        <option value="">Choose Customer Name</option>
+        {CustomerList.map((customer) => (
+          <option key={customer._id} value={customer._id}>
+            {customer.customerName}
+          </option>
+        ))}
+      </select>
+    </div>
+  </>
+)}
+
+                 
                 </div>
               </div>
               <div className="col-6">
                 <div className="mb-3">
-                  <label for="exampleFormControlInput1" className="form-label customerpayment">
+                {(currentroleType !== 'finance' || (currentroleType === 'finance' && permissions.includes('payables'))) && (
+                   <>
+                    <label for="exampleFormControlInput1" className="form-label customerpayment">
                     Vendor Payment:
                   </label>
                   <div className="vessel-select">
@@ -118,6 +132,9 @@ const Payments = () => {
                       ))}
                     </select>
                   </div>
+                   </>
+                )}
+                 
                 </div>
               </div>
             </div>
@@ -127,7 +144,9 @@ const Payments = () => {
           <div className="row ">
           <div className="col-6">
           <div className="mb-3">
-                  <label for="exampleFormControlInput1" className="form-label customerpayment">
+          {(currentroleType !== 'finance' || (currentroleType === 'finance' && permissions.includes('petty cash report'))) && (
+            <>
+            <label for="exampleFormControlInput1" className="form-label customerpayment">
                     Petty Cash:
                   </label>
                   <div className="vessel-select">
@@ -144,6 +163,9 @@ const Payments = () => {
                       ))}
                     </select>
                     </div>
+            </>
+          )}
+                  
                   </div>
                   </div>
             </div>
