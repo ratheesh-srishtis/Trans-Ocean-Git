@@ -53,7 +53,9 @@ const EditOperation = ({
   const [selectedPort, setSelectedPort] = useState(null);
   const [selectedCargo, setSelectedCargo] = useState(null);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [selectedEmployeeError, setSelectedEmployeeError] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(null);
+  const [selectedStatusError, setSelectedStatusError] = useState(null);
   const [assignedTo, setAssignedTo] = useState(null);
   const [remarks, setRemarks] = useState(null);
   const [pdaResponse, setPdaResponse] = useState(null);
@@ -214,9 +216,12 @@ const EditOperation = ({
           employees.find((employee) => employee._id === value)
         );
         setAssignedToError(false);
+        setSelectedEmployeeError(false);
+
         break;
       case "status":
         setSelectedStatus(value);
+        setSelectedStatusError(false);
         break;
       case "anchorageLocation":
         setSelectedAnchorageLocation(
@@ -312,10 +317,17 @@ const EditOperation = ({
     if (!selectedEmployee && selectedStatus == 6) {
       setAssignedToError(true);
     }
+    if (!selectedEmployee) {
+      setSelectedEmployeeError(true);
+    }
+    if (!selectedStatus) {
+      setSelectedStatusError(true);
+    }
     if (
       selectedVessel &&
       selectedPort &&
-      (selectedStatus !== "6" || selectedEmployee)
+      selectedEmployee &&
+      selectedStatus !== "6"
     ) {
       let pdaPayload = {
         pdaId: editData?._id,
@@ -400,26 +412,47 @@ const EditOperation = ({
     pdaResponse,
   ]);
 
+  const openFinalReport = async () => {
+    if (!selectedStatus) {
+      setSelectedStatusError(true);
+    }
+    if (!selectedEmployee) {
+      setSelectedEmployeeError(true);
+    }
+    if (selectedStatus == 6 && selectedEmployee) {
+      navigate("/final-report", { state: { editData } });
+    }
+  };
+
   const updateQuotation = async () => {
-    let pdaPayload = {
-      pdaId: editData?._id,
-      status: 7,
-    };
-    try {
-      const response = await changeQuotationStatus(pdaPayload);
-      console.log(response, "login_response");
-      if (response?.status == true) {
-        setMessage("Job has been successfully completed");
-        setOpenPopUp(true);
-        fetchPdaDetails(editData?._id);
-      } else {
+    if (!selectedStatus) {
+      setSelectedStatusError(true);
+    }
+    if (!selectedEmployee) {
+      setSelectedEmployeeError(true);
+    }
+
+    if (selectedStatus == 6 && selectedEmployee) {
+      let pdaPayload = {
+        pdaId: editData?._id,
+        status: 7,
+      };
+      try {
+        const response = await changeQuotationStatus(pdaPayload);
+        console.log(response, "login_response");
+        if (response?.status == true) {
+          setMessage("Job has been successfully completed");
+          setOpenPopUp(true);
+          fetchPdaDetails(editData?._id);
+        } else {
+          setMessage("Job updation failed. Please try again");
+          setOpenPopUp(true);
+        }
+      } catch (error) {
         setMessage("Job updation failed. Please try again");
         setOpenPopUp(true);
+      } finally {
       }
-    } catch (error) {
-      setMessage("Job updation failed. Please try again");
-      setOpenPopUp(true);
-    } finally {
     }
   };
 
@@ -588,12 +621,7 @@ const EditOperation = ({
             </div>
             <div className="col">
               <label for="exampleFormControlInput1" className="form-label">
-                Ops By :
-                {selectedStatus == 6 && (
-                  <>
-                    <span className="required"> * </span>
-                  </>
-                )}{" "}
+                Ops By :<span className="required"> * </span>
               </label>
               <select
                 name="employee"
@@ -609,7 +637,7 @@ const EditOperation = ({
                   </option>
                 ))}
               </select>
-              {assignedToError && (
+              {selectedEmployeeError && (
                 <>
                   <div className="invalid">Please select assigned to</div>
                 </>
@@ -633,6 +661,11 @@ const EditOperation = ({
                   </option>
                   <option value={6}>In Progress </option>
                 </select>
+                {selectedStatusError && (
+                  <>
+                    <div className="invalid">Please select status</div>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -782,7 +815,7 @@ const EditOperation = ({
             <button
               className="btn btna submit-button btnfsize"
               onClick={() => {
-                navigate("/final-report", { state: { editData } });
+                openFinalReport();
               }}
             >
               Final Report

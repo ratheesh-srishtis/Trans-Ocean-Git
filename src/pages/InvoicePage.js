@@ -43,6 +43,7 @@ const InvoicePage = ({
   ports,
   customers,
   vendors,
+  onSubmit,
 }) => {
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
@@ -100,6 +101,7 @@ const InvoicePage = ({
         setMessage("Invoice has been Rejected by Finance Manager");
         setOpenPopUp(true);
         setRemarksOpen(false);
+        onSubmit(pdaResponse?._id);
       } else {
         setMessage("Invoice failed. Please try again");
         setOpenPopUp(true);
@@ -125,6 +127,7 @@ const InvoicePage = ({
         setMessage("Invoice accepted successfully");
         setOpenPopUp(true);
         setRemarksOpen(false);
+        onSubmit(pdaResponse?._id);
       } else {
         setMessage("Invoice failed. Please try again");
         setOpenPopUp(true);

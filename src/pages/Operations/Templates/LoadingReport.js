@@ -16,6 +16,7 @@ import {
   generateTemplatePDF,
   getPdaTemplateDataAPI,
 } from "../../../services/apiService";
+import Loader from "../../Loader";
 import moment from "moment";
 import { parse, format } from "date-fns";
 import PopUp from "../../PopUp";
@@ -182,19 +183,27 @@ const LoadingReport = ({
       masterRemarks: formState.masterRemarks,
     };
     // Proceed with the API call
+    setIsLoading(true);
+
     try {
       const response = await generateTemplatePDF(templateBpdy);
       console.log(response, "login_response");
       if (response?.status === true) {
+        setIsLoading(false);
+
         setMessage("Template saved successfully!");
         setOpenPopUp(true);
         onSubmit(response);
       } else {
+        setIsLoading(false);
+
         setMessage("PDA failed. Please try again.");
         setOpenPopUp(true);
         onSubmit(response);
       }
     } catch (error) {
+      setIsLoading(false);
+
       setMessage("PDA failed. Please try again.");
       setOpenPopUp(true);
       onSubmit(error);
@@ -206,7 +215,6 @@ const LoadingReport = ({
   }, [formState]);
 
   const getPdaTemplateData = async () => {
-    setIsLoading(true);
     try {
       let userData = {
         pdaId: pdaResponse?._id,
@@ -308,10 +316,8 @@ const LoadingReport = ({
       }
 
       console.log("getPdaTemplateData:", response);
-      setIsLoading(false);
     } catch (error) {
       console.error("Failed to fetch invoices:", error);
-      setIsLoading(false);
     }
   };
 
@@ -652,6 +658,7 @@ const LoadingReport = ({
       {openPopUp && (
         <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
       )}{" "}
+      <Loader isLoading={isLoading} />
     </>
   );
 };

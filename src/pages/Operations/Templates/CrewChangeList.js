@@ -18,6 +18,7 @@ import PopUp from "../../PopUp";
 import moment from "moment";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Loader from "../../Loader";
 const CrewChangeList = ({
   open,
   onClose,
@@ -158,19 +159,26 @@ const CrewChangeList = ({
       templateId: selectedTemplate,
     };
     console.log(templateBpdy, "crew_change_payload");
+    setIsLoading(true);
     try {
       const response = await generateTemplatePDF(templateBpdy);
       console.log(response, "login_response");
       if (response?.status === true) {
+        setIsLoading(false);
+
         setMessage("Template saved successfully!");
         setOpenPopUp(true);
         onSubmit(response);
       } else {
+        setIsLoading(false);
+
         setMessage("PDA failed. Please try again.");
         setOpenPopUp(true);
         onSubmit(response);
       }
     } catch (error) {
+      setIsLoading(false);
+
       setMessage("PDA failed. Please try again.");
       setOpenPopUp(true);
       onSubmit(error);
@@ -251,7 +259,6 @@ const CrewChangeList = ({
   };
 
   const getPdaTemplateData = async () => {
-    setIsLoading(true);
     try {
       let userData = {
         pdaId: pdaResponse?._id,
@@ -285,13 +292,9 @@ const CrewChangeList = ({
           })),
         });
       }
-
       console.log("getPdaTemplateData:", response);
-
-      setIsLoading(false);
     } catch (error) {
       console.error("Failed to fetch invoices:", error);
-      setIsLoading(false);
     }
   };
 
@@ -617,6 +620,7 @@ const CrewChangeList = ({
       {openPopUp && (
         <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
       )}{" "}
+      <Loader isLoading={isLoading} />
     </>
   );
 };

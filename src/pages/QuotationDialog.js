@@ -22,6 +22,7 @@ import {
   ListItemSecondaryAction,
   Paper,
 } from "@mui/material";
+import Loader from "./Loader";
 import { AttachFile, Delete, Visibility } from "@mui/icons-material";
 const QuotationDialog = ({
   open,
@@ -45,6 +46,7 @@ const QuotationDialog = ({
 }) => {
   console.log(services, "services");
   console.log(pdaResponse, "pdaResponse_dialog");
+  const [isLoading, setIsLoading] = useState(false); // Loader state
 
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
@@ -160,11 +162,13 @@ const QuotationDialog = ({
     formDataToSend.append("bcc", formData.bcc);
     formDataToSend.append("emailbody", formData.emailbody);
     formDataToSend.append("pdaId", pdaResponse?._id);
-
+    setIsLoading(true);
     try {
       const response = await sendQuotationAPI(formDataToSend);
       console.log(response, "sendQuotationAPI_response");
       if (response?.status === true) {
+        setIsLoading(false);
+
         setMessage("Quotation sent successfully");
         setFormData({
           to: "",
@@ -179,10 +183,14 @@ const QuotationDialog = ({
 
         setOpenPopUp(true);
       } else {
+        setIsLoading(false);
+
         setMessage("Send quotation failed. please try again");
         setOpenPopUp(true);
       }
     } catch (error) {
+      setIsLoading(false);
+
       setMessage("Send quotation failed. please try again");
       setOpenPopUp(true);
     } finally {
@@ -195,6 +203,10 @@ const QuotationDialog = ({
     const fileURL = URL.createObjectURL(file);
     window.open(fileURL, "_blank");
   };
+
+  useEffect(() => {
+    console.log(formData, "formData_quotation");
+  }, [formData]);
 
   return (
     <>
@@ -477,6 +489,7 @@ const QuotationDialog = ({
       {openPopUp && (
         <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
       )}{" "}
+      <Loader isLoading={isLoading} />
     </>
   );
 };

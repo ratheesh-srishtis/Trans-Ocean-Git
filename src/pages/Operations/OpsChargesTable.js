@@ -80,6 +80,11 @@ const OpsChargesTable = ({
 
   const handleClose = () => {
     setOpen(false);
+    // setSelectedCharge(null); // Clear the selected charge
+    // onSubmit();
+  };
+  const handleSubmit = () => {
+    setOpen(false);
     setSelectedCharge(null); // Clear the selected charge
     onSubmit();
   };
@@ -171,21 +176,16 @@ const OpsChargesTable = ({
               <th className="tableheadcolor">Charge Type</th>
               <th className="tableheadcolor">Sub Charge Type</th>
               <th className="tableheadcolor">Vendor Name</th>
-              <th className="tableheadcolor">Remarks</th>
+              {/* <th className="tableheadcolor">Remarks</th> */}
+              <th className="tableheadcolor">Actions</th>
             </tr>
           </thead>
           <tbody>
             {chargesArray?.length > 0 &&
               chargesArray.map((charge, index) => (
                 <tr key={index} onClick={() => handleRowClick(charge)}>
-                  <td
-                    onClick={() => {
-                      openDialog(charge);
-                    }}
-                    className="addjob-click"
-                  >
-                    {index + 1}
-                  </td>
+                  {/* className="addjob-click" */}
+                  <td>{index + 1}</td>
                   <td>{getServiceName(charge.serviceId)}</td>
                   <td>{getChargeName(charge.serviceId, charge.chargeId)}</td>
                   <td>
@@ -196,7 +196,18 @@ const OpsChargesTable = ({
                       <>{getVendorName(charge.vendorId)}</>
                     )}
                   </td>
-                  <td className="subsub">{charge.remark}</td>
+                  {/* <td className="subsub">{charge.remark}</td> */}
+
+                  <td>
+                    <i
+                      className="bi bi-pencil-square editicon"
+                      onClick={() => {
+                        openDialog(charge);
+                      }}
+                    >
+                      {" "}
+                    </i>
+                  </td>
                 </tr>
               ))}
           </tbody>
@@ -206,6 +217,7 @@ const OpsChargesTable = ({
       <AddJobs
         open={open}
         onClose={handleClose}
+        onSubmit={handleSubmit}
         templates={templates}
         charge={selectedCharge}
         services={services}

@@ -18,7 +18,7 @@ import {
 import { format, parse } from "date-fns";
 import PopUp from "../../PopUp";
 import moment from "moment";
-
+import Loader from "../../Loader";
 const Transportationreciept = ({
   open,
   onClose,
@@ -159,15 +159,20 @@ const Transportationreciept = ({
           transporter: formData.transporter,
           items: formData.items,
         };
+        setIsLoading(true);
 
         try {
           const response = await generateTemplatePDF(payload);
           console.log(response, "login_response");
           if (response?.status === true) {
+            setIsLoading(false);
+
             setMessage("Template saved successfully!");
             setOpenPopUp(true);
             onSubmit(response);
           } else {
+            setIsLoading(false);
+
             setMessage("PDA failed. Please try again.");
             setOpenPopUp(true);
             onSubmit(response);
@@ -190,7 +195,6 @@ const Transportationreciept = ({
     setDateError(false);
   };
   const getPdaTemplateData = async () => {
-    setIsLoading(true);
     try {
       let userData = {
         pdaId: pdaResponse?._id,
@@ -217,11 +221,8 @@ const Transportationreciept = ({
       }
 
       console.log("getPdaTemplateData:", response);
-
-      setIsLoading(false);
     } catch (error) {
       console.error("Failed to fetch invoices:", error);
-      setIsLoading(false);
     }
   };
 
@@ -446,6 +447,7 @@ const Transportationreciept = ({
       {openPopUp && (
         <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
       )}
+      <Loader isLoading={isLoading} />
     </>
   );
 };

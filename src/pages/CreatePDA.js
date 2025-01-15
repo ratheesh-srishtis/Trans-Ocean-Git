@@ -399,8 +399,9 @@ const CreatePDA = ({
         LOA: Number(formData?.LOA),
         GRT: Number(formData?.GRT),
         NRT: Number(formData?.NRT),
-        ETA: moment(eta).format("YYYY-MM-DD HH:mm "),
-        ETD: moment(etd).format("YYYY-MM-DD HH:mm "),
+        ETA: eta ? moment(eta).format("YYYY-MM-DD HH:mm") : "",
+        ETD: etd ? moment(etd).format("YYYY-MM-DD HH:mm") : "",
+
         pdaStatus: isCustomerApproved ? 5 : status,
         charges: finalChargesArray,
         anchorageLocation: selectedAnchorageLocation?._id,
@@ -695,14 +696,31 @@ const CreatePDA = ({
     }
 
     const moment = require("moment");
-    const date = moment.utc(response?.pda?.ETA);
-    console.log(response?.pda?.ETA, "response?.pda?.ETA");
-    console.log(date.format("YYYY-MM-DD HH:mm"), "Checkdate");
-    setEta(date.format("YYYY-MM-DD HH:mm"));
 
-    const etd_date = moment.utc(response?.pda?.ETD);
-    console.log(etd_date.format("YYYY-MM-DD HH:mm"), "Checkdate");
-    setEtd(etd_date.format("YYYY-MM-DD HH:mm"));
+    if (response?.pda?.ETA) {
+      const date = moment.utc(response.pda.ETA);
+      setEta(date.isValid() ? date.format("YYYY-MM-DD HH:mm") : "");
+    } else {
+      setEta(""); // Set to empty string if ETA is null
+    }
+
+    // Parse ETD
+    if (response?.pda?.ETD) {
+      const etdDate = moment.utc(response.pda.ETD);
+      setEtd(etdDate.isValid() ? etdDate.format("YYYY-MM-DD HH:mm") : "");
+    } else {
+      setEtd(""); // Set to empty string if ETD is null
+    }
+
+    // const moment = require("moment");
+    // const date = moment.utc(response?.pda?.ETA);
+    // console.log(response?.pda?.ETA, "response?.pda?.ETA");
+    // console.log(date.format("YYYY-MM-DD HH:mm"), "Checkdate");
+    // setEta(date.format("YYYY-MM-DD HH:mm"));
+
+    // const etd_date = moment.utc(response?.pda?.ETD);
+    // console.log(etd_date.format("YYYY-MM-DD HH:mm"), "Checkdate");
+    // setEtd(etd_date.format("YYYY-MM-DD HH:mm"));
 
     setStatus(response?.pda?.pdaStatus);
     setFinalChargesArray(response?.pdaServices);
@@ -1116,7 +1134,8 @@ const CreatePDA = ({
 
                 <DatePicker
                   dateFormat="dd/MM/yyyy HH:mm aa"
-                  selected={etd && new Date(etd)} // Inline date conversion for prefilled value
+                  // selected={etd && new Date(etd)} // Inline date conversion for prefilled value
+                  selected={etd ? new Date(etd) : null} // Inline date conversion for prefilled value
                   onChange={handleEtdChange}
                   showTimeSelect
                   timeFormat="HH:mm aa"

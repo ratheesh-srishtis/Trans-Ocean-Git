@@ -18,7 +18,7 @@ import {
 import PopUp from "../../PopUp";
 import { format } from "date-fns";
 import moment from "moment";
-
+import Loader from "../../Loader";
 const OKTBReport = ({
   open,
   onClose,
@@ -177,19 +177,27 @@ const OKTBReport = ({
     };
 
     // Proceed with the API call
+    setIsLoading(true);
+
     try {
       const response = await generateTemplatePDF(templateBody);
       console.log(response, "login_response");
       if (response?.status === true) {
+        setIsLoading(false);
+
         setMessage("Template saved successfully!");
         setOpenPopUp(true);
         onSubmit(response);
       } else {
+        setIsLoading(false);
+
         setMessage("PDA failed. Please try again.");
         setOpenPopUp(true);
         onSubmit(response);
       }
     } catch (error) {
+      setIsLoading(false);
+
       setMessage("PDA failed. Please try again.");
       setOpenPopUp(true);
       onSubmit(error);
@@ -197,7 +205,6 @@ const OKTBReport = ({
   };
 
   const getPdaTemplateData = async () => {
-    setIsLoading(true);
     try {
       let userData = {
         pdaId: pdaResponse?._id,
@@ -228,10 +235,8 @@ const OKTBReport = ({
       }
 
       console.log("getPdaTemplateData:", response);
-      setIsLoading(false);
     } catch (error) {
       console.error("Failed to fetch invoices:", error);
-      setIsLoading(false);
     }
   };
 
@@ -490,6 +495,7 @@ const OKTBReport = ({
       {openPopUp && (
         <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
       )}
+      <Loader isLoading={isLoading} />
     </>
   );
 };

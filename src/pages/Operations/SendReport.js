@@ -1,7 +1,8 @@
 // ResponsiveDialog.js
 import React, { useState, useEffect } from "react";
-import "../../css/sendreport.css";
-
+import "../../css/sendquotation.css";
+import { sendServiceReport } from "../../services/apiService";
+import PopUp from "../PopUp";
 import {
   Dialog,
   DialogTitle,
@@ -18,27 +19,33 @@ import {
   ListItemSecondaryAction,
   Paper,
 } from "@mui/material";
-
-import {
-  getCharges,
-  getSubcharges,
-  uploadDocuments,
-  sendServiceReport,
-} from "../../services/apiService";
+import Loader from "../Loader";
 import { AttachFile, Delete, Visibility } from "@mui/icons-material";
-
-import PopUp from "../PopUp";
 const SendReport = ({
   open,
   onClose,
-  templates,
-  charge,
+  onSubmit,
+  selectedVessel,
+  selectedPort,
+  selectedCargo,
+  selectedVesselType,
+  selectedCustomer,
+  eta,
+  etd,
+  status,
   services,
-  ports,
   customers,
+  ports,
+  isEditcharge,
+  editCharge,
+  editIndex,
+  pdaResponse,
   pdaId,
-  vendors,
 }) => {
+  console.log(services, "services");
+  console.log(pdaResponse, "pdaResponse_dialog");
+  const [isLoading, setIsLoading] = useState(false); // Loader state
+
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -100,6 +107,10 @@ const SendReport = ({
     setSelectedFileIndex(index);
   };
 
+  useEffect(() => {
+    console.log(formData, "formData");
+  }, [formData]);
+
   const handleMenuClose = () => {
     setAnchorEl(null);
     setSelectedFileIndex(null);
@@ -152,12 +163,13 @@ const SendReport = ({
     formDataToSend.append("bcc", formData.bcc);
     formDataToSend.append("emailbody", formData.emailbody);
     formDataToSend.append("pdaId", pdaId);
-
+    setIsLoading(true);
     try {
       const response = await sendServiceReport(formDataToSend);
       console.log(response, "sendServiceReport_response");
       if (response?.status === true) {
-        setMessage("Report sent successfully");
+        setIsLoading(false);
+        setMessage("Service report sent successfully");
         setFormData({
           to: "",
           subject: "",
@@ -170,11 +182,15 @@ const SendReport = ({
 
         setOpenPopUp(true);
       } else {
-        setMessage("Send report failed. please try again");
+        setIsLoading(false);
+
+        setMessage("Service report failed. please try again");
         setOpenPopUp(true);
       }
     } catch (error) {
-      setMessage("Send report failed. please try again");
+      setIsLoading(false);
+
+      setMessage("Service report failed. please try again");
       setOpenPopUp(true);
     } finally {
       onClose();
@@ -189,44 +205,39 @@ const SendReport = ({
 
   return (
     <>
-      <div>
-        <Dialog
-          sx={{
-            width: 800,
-            margin: "auto",
-            borderRadius: 2,
-          }}
-          open={open}
-          onClose={(event, reason) => {
-            if (reason === "backdropClick") {
-              // Prevent dialog from closing when clicking outside
-              return;
-            }
-            onClose(); // Allow dialog to close for other reasons
-          }}
-          fullWidth
-          maxWidth="lg"
-        >
-          <div className="d-flex justify-content-between " onClick={onClose}>
-            <DialogTitle></DialogTitle>
-            <div className="closeicon">
-              <i className="bi bi-x-lg "></i>
-            </div>
+      <Dialog
+        open={open}
+        onClose={(event, reason) => {
+          if (reason === "backdropClick") {
+            // Prevent dialog from closing when clicking outside
+            return;
+          }
+          onClose(); // Allow dialog to close for other reasons
+        }}
+        fullWidth
+        maxWidth="md"
+      >
+        <div className="d-flex justify-content-between">
+          <DialogTitle></DialogTitle>
+          <div className="closeicon" onClick={onClose}>
+            <i className="bi bi-x-lg "></i>
           </div>
-          <DialogContent>
-            <div className="Anchoragecall">
-              <div className="toaddress ">
-                <div className="row align-items-start">
-                  <div className="col">
-                    <div className="mb-3">
-                      <div className="col">
-                        <label
-                          for="exampleFormControlInput1"
-                          className="form-label"
-                        >
-                          To Address:
-                        </label>
-                        {/* <input
+        </div>
+
+        <DialogContent>
+          <div className="Anchoragecall">
+            <div className="toaddress ">
+              <div className="row align-items-start">
+                <div className="col">
+                  <div className="mb-3">
+                    <div className="col">
+                      <label
+                        for="exampleFormControlInput1"
+                        className="form-label"
+                      >
+                        To Address:
+                      </label>
+                      {/* <input
                         type="email"
                         className="form-control vessel-voyage"
                         id="exampleFormControlInput1"
@@ -238,254 +249,242 @@ const SendReport = ({
                         }}
                       /> */}
 
-                        <input
-                          type="email"
-                          className={`form-control vessel-voyage ${
-                            emailError ? "is-invalid" : ""
-                          }`}
-                          id="exampleFormControlInput1"
-                          placeholder="Enter recipient's email"
-                          value={formData.to}
-                          onChange={(e) => {
-                            setFormData({ ...formData, to: e.target.value });
-                            setToError(false); // Clear "to" error on change
-                            setEmailError(false); // Clear email error on change
-                          }}
-                        />
+                      <input
+                        type="email"
+                        className={`form-control vessel-voyage ${
+                          emailError ? "is-invalid" : ""
+                        }`}
+                        id="exampleFormControlInput1"
+                        placeholder="Enter recipient's email"
+                        value={formData.to}
+                        onChange={(e) => {
+                          setFormData({ ...formData, to: e.target.value });
+                          setToError(false); // Clear "to" error on change
+                          setEmailError(false); // Clear email error on change
+                        }}
+                      />
 
-                        {/* {toError && (
+                      {/* {toError && (
                         <>
                           <div className="invalid">Please enter to address</div>
                         </>
                       )} */}
-                        {(toError || emailError) && (
-                          <>
-                            <div className="invalid">
-                              Please enter a valid email address.
-                            </div>
-                          </>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col">
-                    <div className="mb-3">
-                      <div className="col">
-                        <label
-                          for="exampleFormControlInput1"
-                          className="form-label"
-                        >
-                          Cc:
-                        </label>
-                        <input
-                          type="email"
-                          className="form-control vessel-voyage"
-                          id="exampleFormControlInput1"
-                          placeholder=""
-                          value={formData.cc}
-                          onChange={(e) =>
-                            setFormData({ ...formData, cc: e.target.value })
-                          }
-                        />
-                      </div>
+                      {(toError || emailError) && (
+                        <>
+                          <div className="invalid">
+                            Please enter a valid email address.
+                          </div>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="ccbcc ">
-                <div className="row align-items-start">
-                  <div className="col">
-                    <div className="mb-3">
-                      <div className="col">
-                        <label
-                          for="exampleFormControlInput1"
-                          className="form-label"
-                        >
-                          Bcc:
-                        </label>
-                        <input
-                          type="email"
-                          className="form-control vessel-voyage"
-                          id="exampleFormControlInput1"
-                          placeholder=""
-                          value={formData.bcc}
-                          onChange={(e) =>
-                            setFormData({ ...formData, bcc: e.target.value })
-                          }
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col">
-                    <div className="mb-3">
-                      <div className="col">
-                        <label
-                          for="exampleFormControlInput1"
-                          className="form-label"
-                        >
-                          Subject:
-                        </label>
-                        <input
-                          type="email"
-                          className="form-control vessel-voyage"
-                          id="exampleFormControlInput1"
-                          placeholder=""
-                          value={formData.subject}
-                          onChange={(e) => {
-                            setFormData({
-                              ...formData,
-                              subject: e.target.value,
-                            });
-                            setSubjectError(false);
-                          }}
-                        />
-                        {subjectError && (
-                          <>
-                            <div className="invalid">Please enter subject</div>
-                          </>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="row ">
                 <div className="col">
                   <div className="mb-3">
                     <div className="col">
                       <label
                         for="exampleFormControlInput1"
-                        className="form-label formlabelcolor"
+                        className="form-label"
                       >
-                        Email Body:
+                        Cc:
                       </label>
-                      <textarea
-                        rows="3"
-                        className="form-control formlabelcolor"
+                      <input
+                        type="email"
+                        className="form-control vessel-voyage"
                         id="exampleFormControlInput1"
-                        value={formData.emailbody}
-                        onChange={(e) => {
-                          setFormData({
-                            ...formData,
-                            emailbody: e.target.value,
-                          });
-                          setEmailBodyError(false);
-                        }}
                         placeholder=""
-                      ></textarea>
-                      {emailBodyError && (
+                        value={formData.cc}
+                        onChange={(e) =>
+                          setFormData({ ...formData, cc: e.target.value })
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="ccbcc ">
+              <div className="row align-items-start">
+                <div className="col">
+                  <div className="mb-3">
+                    <div className="col">
+                      <label
+                        for="exampleFormControlInput1"
+                        className="form-label"
+                      >
+                        Bcc:
+                      </label>
+                      <input
+                        type="email"
+                        className="form-control vessel-voyage"
+                        id="exampleFormControlInput1"
+                        placeholder=""
+                        value={formData.bcc}
+                        onChange={(e) =>
+                          setFormData({ ...formData, bcc: e.target.value })
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="col">
+                  <div className="mb-3">
+                    <div className="col">
+                      <label
+                        for="exampleFormControlInput1"
+                        className="form-label"
+                      >
+                        Subject:
+                      </label>
+                      <input
+                        type="email"
+                        className="form-control vessel-voyage"
+                        id="exampleFormControlInput1"
+                        placeholder=""
+                        value={formData.subject}
+                        onChange={(e) => {
+                          setFormData({ ...formData, subject: e.target.value });
+                          setSubjectError(false);
+                        }}
+                      />
+                      {subjectError && (
                         <>
-                          <div className="invalid">Please enter emailbody</div>
+                          <div className="invalid">Please enter subject</div>
                         </>
                       )}
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="row">
+            </div>
+
+            <div className="row ">
+              <div className="col">
                 <div className="mb-3">
                   <div className="col">
                     <label
                       for="exampleFormControlInput1"
-                      className="form-label"
+                      className="form-label formlabelcolor"
                     >
-                      Attachments:
+                      Email Body:
                     </label>
-                    <div className="rectangle-quotation">
-                      <div className="invoice">Quotation PDF</div>
-                      <div className="Attach">
-                        <i className="bi bi-filetype-pdf"></i>
-                      </div>
+                    <textarea
+                      rows="3"
+                      className="form-control formlabelcolor"
+                      id="exampleFormControlInput1"
+                      value={formData.emailbody}
+                      onChange={(e) => {
+                        setFormData({ ...formData, emailbody: e.target.value });
+                        setEmailBodyError(false);
+                      }}
+                      placeholder=""
+                    ></textarea>
+                    {emailBodyError && (
+                      <>
+                        <div className="invalid">Please enter emailbody</div>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="mb-3">
+                <div className="col">
+                  <label for="exampleFormControlInput1" className="form-label">
+                    Attachments:
+                  </label>
+                  <div className="rectangle-quotation">
+                    <div className="invoice">Quotation PDF</div>
+                    <div className="Attach">
+                      <i className="bi bi-filetype-pdf"></i>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="row">
-                <div className="mb-3">
-                  <div className="col">
-                    <div style={{ marginTop: 16 }}>
-                      <input
-                        type="file"
-                        multiple
-                        onChange={(e) => {
-                          handleFileUpload(e); // Call your upload handler
-                          e.target.value = ""; // Reset the file input value to hide uploaded file names
-                        }}
-                        style={{ display: "none" }}
-                        id="file-upload"
-                      />
-                      <label htmlFor="file-upload">
-                        <Button
-                          variant="outlined"
-                          component="span"
-                          startIcon={<AttachFile />}
+            </div>
+            <div className="row">
+              <div className="mb-3">
+                <div className="col">
+                  <div style={{ marginTop: 16 }}>
+                    <input
+                      type="file"
+                      multiple
+                      onChange={handleFileUpload}
+                      style={{ display: "none" }}
+                      id="file-upload"
+                    />
+                    <label htmlFor="file-upload">
+                      <Button
+                        variant="outlined"
+                        component="span"
+                        startIcon={<AttachFile />}
+                      >
+                        Upload Attachments
+                      </Button>
+                    </label>
+                    {formData?.files?.length > 0 && (
+                      <>
+                        <Paper
+                          elevation={1}
+                          style={{ marginTop: 16, padding: 8 }}
                         >
-                          Upload Attachments
-                        </Button>
-                      </label>
-                      {formData?.files?.length > 0 && (
-                        <>
-                          <Paper
-                            elevation={1}
-                            style={{ marginTop: 16, padding: 8 }}
-                          >
-                            <List>
-                              {formData.files.map((file, index) => (
-                                <ListItem key={index}>
-                                  <ListItemText primary={file.name} />
-                                  <ListItemSecondaryAction>
-                                    {/* <IconButton
+                          <List>
+                            {formData.files.map((file, index) => (
+                              <ListItem key={index}>
+                                <ListItemText primary={file.name} />
+                                <ListItemSecondaryAction>
+                                  {/* <IconButton
                                     edge="end"
                                     onClick={() => handleViewFile(file)}
                                   >
                                     <Visibility />
                                   </IconButton> */}
-                                    <IconButton
-                                      edge="end"
+                                  <IconButton
+                                    edge="end"
+                                    onClick={() => {
+                                      setFormData((prevFormData) => ({
+                                        ...prevFormData,
+                                        files: prevFormData.files.filter(
+                                          (_, i) => i !== index
+                                        ),
+                                      }));
+                                    }}
+                                  >
+                                    <Delete
                                       onClick={() => {
-                                        setFormData((prevFormData) => ({
-                                          ...prevFormData,
-                                          files: prevFormData.files.filter(
-                                            (_, i) => i !== index
-                                          ),
-                                        }));
+                                        handleFileDelete();
                                       }}
-                                    >
-                                      <Delete
-                                        onClick={() => {
-                                          handleFileDelete();
-                                        }}
-                                      />
-                                    </IconButton>
-                                  </ListItemSecondaryAction>
-                                </ListItem>
-                              ))}
-                            </List>
-                          </Paper>
-                        </>
-                      )}
-                    </div>
+                                    />
+                                  </IconButton>
+                                </ListItemSecondaryAction>
+                              </ListItem>
+                            ))}
+                          </List>
+                        </Paper>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
-
-              <div className="firstfooter d-flex justify-content-end">
-                <button
-                  type="button"
-                  className="btn add-button"
-                  onClick={handleSubmit}
-                >
-                  OK
-                </button>
-              </div>
             </div>
-          </DialogContent>
-        </Dialog>
-      </div>
+
+            <div className="firstfooter d-flex justify-content-end">
+              <button
+                type="button"
+                className="btn add-button"
+                onClick={handleSubmit}
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
       {openPopUp && (
         <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
       )}{" "}
+      <Loader isLoading={isLoading} />
     </>
   );
 };

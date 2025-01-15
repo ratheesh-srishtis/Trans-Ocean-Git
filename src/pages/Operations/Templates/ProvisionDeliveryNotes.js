@@ -20,7 +20,7 @@ import {
 import { da } from "date-fns/locale";
 import PopUp from "../../PopUp";
 import moment from "moment";
-
+import Loader from "../../Loader";
 const ProvisionDeliveryNotes = ({
   open,
   onClose,
@@ -102,6 +102,7 @@ const ProvisionDeliveryNotes = ({
       setMessage("Please select a date");
       setOpenPopUp(true);
     }
+
     if (date) {
       if (validateItems()) {
         // Submit form logic here
@@ -113,20 +114,27 @@ const ProvisionDeliveryNotes = ({
           refNo: formData.refNo,
           items: formData.items,
         };
+        setIsLoading(true);
 
         try {
           const response = await generateTemplatePDF(payload);
           console.log(response, "login_response");
           if (response?.status === true) {
+            setIsLoading(false);
+
             setMessage("Template saved successfully!");
             setOpenPopUp(true);
             onSubmit(response);
           } else {
+            setIsLoading(false);
+
             setMessage("PDA failed. Please try again.");
             setOpenPopUp(true);
             onSubmit(response);
           }
         } catch (error) {
+          setIsLoading(false);
+
           setMessage("PDA failed. Please try again.");
           setOpenPopUp(true);
           onSubmit(error);
@@ -149,7 +157,6 @@ const ProvisionDeliveryNotes = ({
   }, [date]);
 
   const getPdaTemplateData = async () => {
-    setIsLoading(true);
     try {
       let userData = {
         pdaId: pdaResponse?._id,
@@ -180,11 +187,8 @@ const ProvisionDeliveryNotes = ({
       }
 
       console.log("getPdaTemplateData:", response);
-
-      setIsLoading(false);
     } catch (error) {
       console.error("Failed to fetch invoices:", error);
-      setIsLoading(false);
     }
   };
 
@@ -359,6 +363,7 @@ const ProvisionDeliveryNotes = ({
       {openPopUp && (
         <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
       )}
+      <Loader isLoading={isLoading} />
     </>
   );
 };

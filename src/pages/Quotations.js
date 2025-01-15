@@ -169,35 +169,35 @@ const Quotations = ({
       field: "status",
       headerName: "Status",
       flex: 2,
-      renderCell: (params) => (
-        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <span>{params.value}</span>
-          {params.row.invoiceStatus == 2 && (
-            <img
-              src={rejectedIcon}
-              alt="Rejected Icon"
-              style={{ cursor: "default", width: "25px", height: "30px" }}
-              onClick={() => handleIconClick(params.row)} // Pass the row data
-            />
-          )}
-          {params.row.rejectedRemark && (
-            <img
-              src={messageIcon}
-              alt="Rejected Icon"
-              style={{ cursor: "pointer", width: "25px", height: "30px" }}
-              onClick={() => handleRemarkClick(params.row)} // Pass the row data
-            />
-          )}
-          {params.row.invoiceStatus === 3 && (
-            <img
-              src={acceptedIcon} // Replace with the path or variable for this icon
-              alt="Invoice Icon"
-              style={{ cursor: "default", width: "25px", height: "30px" }}
-              onClick={() => handleIconClick(params.row)} // Pass the row data
-            />
-          )}
-        </div>
-      ),
+      // renderCell: (params) => (
+      //   <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+      //     <span>{params.value}</span>
+      //     {params.row.invoiceStatus == 2 && (
+      //       <img
+      //         src={rejectedIcon}
+      //         alt="Rejected Icon"
+      //         style={{ cursor: "default", width: "25px", height: "30px" }}
+      //         onClick={() => handleIconClick(params.row)} // Pass the row data
+      //       />
+      //     )}
+      //     {params.row.rejectedRemark && (
+      //       <img
+      //         src={messageIcon}
+      //         alt="Rejected Icon"
+      //         style={{ cursor: "pointer", width: "25px", height: "30px" }}
+      //         onClick={() => handleRemarkClick(params.row)} // Pass the row data
+      //       />
+      //     )}
+      //     {params.row.invoiceStatus === 3 && (
+      //       <img
+      //         src={acceptedIcon} // Replace with the path or variable for this icon
+      //         alt="Invoice Icon"
+      //         style={{ cursor: "default", width: "25px", height: "30px" }}
+      //         onClick={() => handleIconClick(params.row)} // Pass the row data
+      //       />
+      //     )}
+      //   </div>
+      // ),
     },
     {
       field: "actions",
@@ -393,6 +393,11 @@ const Quotations = ({
   const closeInvoicePage = () => {
     setInvoiceDialogOpen(false);
   };
+  const invoiceSubmit = (data) => {
+    console.log(data, "datainvoiceSubmit");
+    setInvoiceDialogOpen(false);
+    fetchPdaDetails(data);
+  };
 
   const rows = filteredQuotations.map((item) => ({
     id: item._id,
@@ -583,7 +588,7 @@ const Quotations = ({
           </div>
         </div>
 
-        <div className="buttons-wrapper">
+        {/* <div className="buttons-wrapper">
           <div className="left mt-4">
             <button
               className="btn btna generate-button"
@@ -615,7 +620,7 @@ const Quotations = ({
           </div>
 
           <div className="right d-flex"></div>
-        </div>
+        </div> */}
 
         {filteredQuotations?.length == 0 && (
           <>
@@ -638,6 +643,7 @@ const Quotations = ({
       <InvoicePage
         open={invoiceDialogOpen}
         onClose={closeInvoicePage}
+        onSubmit={invoiceSubmit}
         selectedPdaData={selectedPdaData}
         pdaResponse={pdaResponse}
       />

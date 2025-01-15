@@ -26,6 +26,7 @@ import {
 import PopUp from "../PopUp";
 import ProvisionDeliveryNotes from "./Templates/ProvisionDeliveryNotes";
 import Transportationreciept from "./Templates/Transportationreciept";
+import Loader from "../Loader";
 const AddJobs = ({
   open,
   onClose,
@@ -36,6 +37,7 @@ const AddJobs = ({
   customers,
   pdaResponse,
   vendors,
+  onSubmit,
 }) => {
   console.log(templates, "templates");
   console.log(pdaResponse, "pdaResponse");
@@ -400,7 +402,7 @@ const AddJobs = ({
         setMessage("Charge updated successfully");
         setOpenPopUp(true);
         console.log("Fetched Charges:", response);
-        onClose();
+        onSubmit();
       } catch (error) {
         console.error("Error fetching charges:", error);
         setMessage("Failed to update charges");
@@ -1011,6 +1013,7 @@ const AddJobs = ({
       {openPopUp && (
         <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
       )}{" "}
+      <Loader isLoading={isLoading} />
     </>
   );
 };

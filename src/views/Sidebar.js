@@ -63,7 +63,7 @@ const Sidebar = () => {
         navigate("/jobs"); // Replace with your actual route
         break;
       case "payments":
-        navigate("/payments"); // Replace with your actual route
+        // navigate("/payments");
         break;
       case "soa":
         navigate("/soa"); // Replace with your actual route

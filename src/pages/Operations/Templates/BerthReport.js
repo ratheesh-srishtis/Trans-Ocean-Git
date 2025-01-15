@@ -18,6 +18,7 @@ import {
 } from "../../../services/apiService";
 import moment from "moment";
 import PopUp from "../../PopUp";
+import Loader from "../../Loader";
 const BerthReport = ({
   open,
   onClose,
@@ -29,6 +30,7 @@ const BerthReport = ({
   pdaResponse,
 }) => {
   console.log(templates, "templates");
+
   const [openPopUp, setOpenPopUp] = useState(false);
   const [message, setMessage] = useState("");
   const [formData, setFormData] = useState({
@@ -179,17 +181,23 @@ const BerthReport = ({
       masterRemarks: formState.masterRemarks,
     };
     // Proceed with the API call
+    setIsLoading(true);
     try {
       const response = await generateTemplatePDF(templateBpdy);
       console.log(response, "login_response");
       if (response?.status === true) {
+        setIsLoading(false);
         onSubmit(response);
       } else {
+        setIsLoading(false);
+
         setMessage("PDA failed. Please try again.");
         setOpenPopUp(true);
         onSubmit(response);
       }
     } catch (error) {
+      setIsLoading(false);
+
       setMessage("PDA failed. Please try again.");
       setOpenPopUp(true);
       onSubmit(error);
@@ -201,17 +209,17 @@ const BerthReport = ({
   }, [formState]);
 
   const getPdaTemplateData = async () => {
-    setIsLoading(true);
+    // setIsLoading(true);
     try {
       let userData = {
         pdaId: pdaResponse?._id,
         templateId: selectedTemplate,
       };
       const response = await getPdaTemplateDataAPI(userData);
-
       if (response?.templateData) {
-        const templateData = response.templateData;
+        setIsLoading(false);
 
+        const templateData = response.templateData;
         setEta(
           templateData?.bunkersOnDepartureETA
             ? moment
@@ -219,7 +227,6 @@ const BerthReport = ({
                 .format("YYYY-MM-DD HH:mm")
             : ""
         );
-
         setGeneralRemarks(templateData?.generalRemarks);
         setShipperRemarks(templateData?.shipperRemarks);
         setMasterRemarks(templateData?.masterRemarks);
@@ -291,10 +298,10 @@ const BerthReport = ({
       }
 
       console.log("getPdaTemplateData:", response);
-      setIsLoading(false);
+      // setIsLoading(false);
     } catch (error) {
       console.error("Failed to fetch invoices:", error);
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
 
@@ -636,6 +643,7 @@ const BerthReport = ({
       {openPopUp && (
         <PopUp message={message} closePopup={() => setOpenPopUp(false)} />
       )}{" "}
+      <Loader isLoading={isLoading} />
     </>
   );
 };
