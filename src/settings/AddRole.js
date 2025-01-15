@@ -8,6 +8,7 @@ import {
 import PopUp from "../pages/PopUp";
 const AddRole = ({ open, onAddRole, onClose, editMode, roleSet }) => {
   const [PermissionList, setPermissionList] = useState([]);
+  const [FunctioanlityPermissionList, setFunctioanlityPermissionList] = useState([]);
   const [formData, setFormData] = useState({
     role: "",
     designation: "",
@@ -42,6 +43,7 @@ const AddRole = ({ open, onAddRole, onClose, editMode, roleSet }) => {
     try {
       const listallpermisssions = await getAllPermissions();
       setPermissionList(listallpermisssions?.permissions || []);
+      setFunctioanlityPermissionList(listallpermisssions?.functionalityPermissions || []);
     } catch (error) {
       console.error("Failed to fetch permissions", error);
     }
@@ -186,7 +188,7 @@ const AddRole = ({ open, onAddRole, onClose, editMode, roleSet }) => {
                 )}
               </div>
             </div>
-            <div className="choosepermi">Choose Permissions</div>
+            <div className="choosepermi">Choose Sidebar Permissions</div>
             <div className="permissionlist gap-5">
               <div>
                 {PermissionList.map((perm) => (
@@ -202,6 +204,31 @@ const AddRole = ({ open, onAddRole, onClose, editMode, roleSet }) => {
                     <label for="" className="permissionfont">
                       {" "}
                       {perm.permission.toUpperCase()}
+                    </label>
+                  </div>
+                ))}
+
+                {errors.permissions && (
+                  <span className="invalid">{errors.permissions}</span>
+                )}
+              </div>
+            </div>
+            <div className="choosepermi">Choose Functionality Permissions</div>
+            <div className="permissionlist gap-5">
+              <div>
+                {FunctioanlityPermissionList.map((permf) => (
+                  <div key={permf._id}>
+                    <input
+                      type="checkbox"
+                      className="checkboxrole"
+                      name="permissions[]"
+                      checked={formData.permissions.includes(permf._id)}
+                      value={permf._id}
+                      onChange={handleCheckboxChange(permf._id)}
+                    />
+                    <label for="" className="permissionfont">
+                      {" "}
+                      {permf.permission.toUpperCase()}
                     </label>
                   </div>
                 ))}
