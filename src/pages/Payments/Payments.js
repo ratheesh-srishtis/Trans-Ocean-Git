@@ -17,7 +17,7 @@ const Payments = () => {
   const loginResponse = JSON.parse(localStorage.getItem("loginResponse"));
   const currentroleType = loginResponse.data?.userRole?.roleType;
   const permissions = loginResponse.permission;
-  console.log(permissions,"####");
+  
   
   const fetchCustomerList = async () => {
     try {
@@ -84,7 +84,7 @@ const Payments = () => {
             <div className="row ">
               <div className="col-6">
                 <div className="mb-3">
-                {(currentroleType !== 'finance' || (currentroleType === 'finance' && permissions.includes('receivables'))) && (
+                {permissions.includes('receivables') && (
   <>
     <label for="exampleFormControlInput1" className="form-label customerpayment">
       Customer Payment:
@@ -113,7 +113,7 @@ const Payments = () => {
               </div>
               <div className="col-6">
                 <div className="mb-3">
-                {(currentroleType !== 'finance' || (currentroleType === 'finance' && permissions.includes('payables'))) && (
+                {permissions.includes('payables') && (
                    <>
                     <label for="exampleFormControlInput1" className="form-label customerpayment">
                     Vendor Payment:
@@ -144,7 +144,7 @@ const Payments = () => {
           <div className="row ">
           <div className="col-6">
           <div className="mb-3">
-          {(currentroleType !== 'finance' || (currentroleType === 'finance' && permissions.includes('petty cash report'))) && (
+          {permissions.includes('petty') && (
             <>
             <label for="exampleFormControlInput1" className="form-label customerpayment">
                     Petty Cash:

@@ -221,7 +221,7 @@ const AddRole = ({ open, onAddRole, onClose, editMode, roleSet }) => {
                     <input
                       type="checkbox"
                       className="checkboxrole"
-                      name="permissions[]"
+                      name="functionpermissions[]"
                       checked={formData.permissions.includes(permf._id)}
                       value={permf._id}
                       onChange={handleCheckboxChange(permf._id)}
@@ -233,9 +233,7 @@ const AddRole = ({ open, onAddRole, onClose, editMode, roleSet }) => {
                   </div>
                 ))}
 
-                {errors.permissions && (
-                  <span className="invalid">{errors.permissions}</span>
-                )}
+               
               </div>
             </div>
             <div className="btnrole">
