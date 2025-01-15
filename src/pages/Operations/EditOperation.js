@@ -221,7 +221,6 @@ const EditOperation = ({
         break;
       case "status":
         setSelectedStatus(value);
-        setSelectedStatusError(false);
         break;
       case "anchorageLocation":
         setSelectedAnchorageLocation(
@@ -320,14 +319,12 @@ const EditOperation = ({
     if (!selectedEmployee) {
       setSelectedEmployeeError(true);
     }
-    if (!selectedStatus) {
-      setSelectedStatusError(true);
-    }
+
     if (
       selectedVessel &&
       selectedPort &&
-      selectedEmployee &&
-      selectedStatus !== "6"
+      selectedEmployee
+      // selectedStatus !== "6"
     ) {
       let pdaPayload = {
         pdaId: editData?._id,
@@ -413,9 +410,9 @@ const EditOperation = ({
   ]);
 
   const openFinalReport = async () => {
-    if (!selectedStatus) {
-      setSelectedStatusError(true);
-    }
+    // if (!selectedStatus) {
+    //   setSelectedStatusError(true);
+    // }
     if (!selectedEmployee) {
       setSelectedEmployeeError(true);
     }
@@ -425,34 +422,33 @@ const EditOperation = ({
   };
 
   const updateQuotation = async () => {
-    if (!selectedStatus) {
-      setSelectedStatusError(true);
-    }
+    // if (!selectedStatus) {
+    //   setSelectedStatusError(true);
+    // }
     if (!selectedEmployee) {
       setSelectedEmployeeError(true);
+      return;
     }
 
-    if (selectedStatus == 6 && selectedEmployee) {
-      let pdaPayload = {
-        pdaId: editData?._id,
-        status: 7,
-      };
-      try {
-        const response = await changeQuotationStatus(pdaPayload);
-        console.log(response, "login_response");
-        if (response?.status == true) {
-          setMessage("Job has been successfully completed");
-          setOpenPopUp(true);
-          fetchPdaDetails(editData?._id);
-        } else {
-          setMessage("Job updation failed. Please try again");
-          setOpenPopUp(true);
-        }
-      } catch (error) {
+    let pdaPayload = {
+      pdaId: editData?._id,
+      status: 7,
+    };
+    try {
+      const response = await changeQuotationStatus(pdaPayload);
+      console.log(response, "login_response");
+      if (response?.status == true) {
+        setMessage("Job has been successfully completed");
+        setOpenPopUp(true);
+        fetchPdaDetails(editData?._id);
+      } else {
         setMessage("Job updation failed. Please try again");
         setOpenPopUp(true);
-      } finally {
       }
+    } catch (error) {
+      setMessage("Job updation failed. Please try again");
+      setOpenPopUp(true);
+    } finally {
     }
   };
 
@@ -661,11 +657,11 @@ const EditOperation = ({
                   </option>
                   <option value={6}>In Progress </option>
                 </select>
-                {selectedStatusError && (
+                {/* {selectedStatusError && (
                   <>
                     <div className="invalid">Please select status</div>
                   </>
-                )}
+                )} */}
               </div>
             </div>
           </div>
