@@ -249,6 +249,7 @@ const AddRole = ({ open, onAddRole, onClose, editMode, roleSet }) => {
                     <span className="invalid">{errors.permissions}</span>
                   )}
                 </div>
+
               </div>
             </div>
 </div>
